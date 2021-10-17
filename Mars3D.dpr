@@ -39,7 +39,7 @@
 {$I Doom32.inc}
 {$D Doom to Delphi Total Conversion}
 
-program Doom32;
+program Mars3D;
 
 {$R *.RES}
 
