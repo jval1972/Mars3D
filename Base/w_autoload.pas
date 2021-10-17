@@ -1,9 +1,11 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiDoom: A modified and improved DOOM engine for Windows
-//  based on original Linux Doom as published by "id Software"
+//  Mars3D: A source port of the game "Mars3D" based on DelphiDoom
+//
+//  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2018 by Retro Fans of Mars3D
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,10 +26,10 @@
 //  Autoload pak files from AUTOLOAD entries inside wads
 //
 //------------------------------------------------------------------------------
-//  Site  : http://sourceforge.net/projects/delphidoom/
+//  Site  : https://sourceforge.net/projects/mars3d/
 //------------------------------------------------------------------------------
 
-{$I Doom32.inc}
+{$I Mars3D.inc}
 
 unit w_autoload;
 
