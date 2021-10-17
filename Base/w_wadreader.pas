@@ -107,6 +107,12 @@ begin
 end;
 
 procedure TWadReader.OpenWadFile(const aname: string);
+var
+  madbuf: packed array[0..19] of byte;
+  ismad: boolean;
+  smad: string;
+  pb: PByteArray;
+  i: integer;
 begin
   if aname = '' then
     Exit;
@@ -116,12 +122,52 @@ begin
   Clear;
   fs := TFile.Create(aname, fOpenReadOnly);
 
-  fs.Read(h, SizeOf(wadinfo_t));
+  ismad := false;
+
+  fs.Read(madbuf, SizeOf(madbuf));
+  smad := '';
+  for i := 0 to Length(MAD1) - 1 do
+    smad := smad + Char(madbuf[i]);
+  if smad = MAD1 then
+  begin
+    ismad := true;
+    fs.Seek(8, sFromBeginning);
+  end
+  else
+  begin
+    smad := '';
+    for i := 0 to Length(MAD2) - 1 do
+      smad := smad + Char(madbuf[i]);
+    if smad = MAD2 then
+    begin
+      ismad := true;
+      fs.Seek(20, sFromBeginning);
+    end;
+  end;
+
+  if not ismad then
+  begin
+    fs.Seek(0, sFromBeginning);
+    fs.Read(h, SizeOf(wadinfo_t));
+  end
+  else
+  begin
+    h.identification := IWAD;
+    fs.Read(h.numlumps, SizeOf(integer));
+    fs.Read(h.infotableofs, SizeOf(integer));
+  end;
+
   if (h.numlumps > 0) and (h.infotableofs < fs.Size) and ((h.identification = IWAD) or (h.identification = PWAD)) then
   begin
     fs.Seek(h.infotableofs, sFromBeginning);
     la := malloc(h.numlumps * SizeOf(filelump_t));
     fs.Read(la^, h.numlumps * SizeOf(filelump_t));
+    if ismad then
+    begin
+      pb := PByteArray(la);
+      for i := 0 to h.numlumps * SizeOf(filelump_t) - 1 do
+        pb[i] := pb[i] - 48;
+    end;
     ffilename := aname;
   end
   else

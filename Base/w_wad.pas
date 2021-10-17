@@ -212,6 +212,9 @@ const
                 (Ord('A') shl 16) or
                 (Ord('D') shl 24));
 
+  MAD1 = 'CD&MMM';
+  MAD2 = 'WORLD&ART&DIRECTORY';
+
 implementation
 
 uses
@@ -377,6 +380,10 @@ var
 function W_AddFile(var filename: string): TDStream;
 var
   header: wadinfo_t;
+  madbuf: packed array[0..19] of byte;
+  ismad: boolean;
+  smad: string;
+  pb: PByteArray;
   lump_p: Plumpinfo_t;
   i: integer;
   j: integer;
@@ -437,7 +444,34 @@ begin
     handle.Seek(0, sFromBeginning);
   end;
 
-  if not iswad and (ext <> '.WAD') and (ext <> '.SWD') {$IFDEF OPENGL} and (ext <> '.GWA'){$ENDIF} then
+  ismad := false;
+  if (ext = '.MAD') or (ext = '.WAD') then
+  begin
+    handle.Read(madbuf, SizeOf(madbuf));
+    smad := '';
+    for i := 0 to Length(MAD1) - 1 do
+      smad := smad + Char(madbuf[i]);
+    if smad = MAD1 then
+    begin
+      ismad := true;
+      handle.Seek(8, sFromBeginning);
+    end
+    else
+    begin
+      smad := '';
+      for i := 0 to Length(MAD2) - 1 do
+        smad := smad + Char(madbuf[i]);
+      if smad = MAD2 then
+      begin
+        ismad := true;
+        handle.Seek(20, sFromBeginning);
+      end;
+    end;
+  end;
+  if not ismad then
+    handle.Seek(0, sFromBeginning);
+
+  if not (ismad or iswad) and (ext <> '.MAD') and (ext <> '.WAD') and (ext <> '.OUT') and (ext <> '.SWD') {$IFDEF OPENGL} and (ext <> '.GWA'){$ENDIF} then
   begin
     // single lump file
     len := 0;
@@ -450,19 +484,34 @@ begin
   end
   else
   begin
-    // WAD file
-    handle.Read(header, SizeOf(header));
-    if header.identification <> IWAD then
-      // Homebrew levels?
-      if header.identification <> PWAD then
-        // DelphiDoom system ?
-        if header.identification <> DWAD then
-          I_Error('W_AddFile(): Wad file %s doesn''t have IWAD, PWAD or DWAD id'#13#10, [filename]);
+    // WAD/MAD file
+    if ismad then
+    begin
+      handle.Read(header.numlumps, SizeOf(integer));
+      handle.Read(header.infotableofs, SizeOf(integer));
+    end
+    else
+    begin
+      handle.Read(header, SizeOf(header));
+      if header.identification <> IWAD then
+        // Homebrew levels?
+        if header.identification <> PWAD then
+          // DelphiDoom system ?
+          if header.identification <> DWAD then
+            I_Error('W_AddFile(): Wad file %s doesn''t have IWAD, PWAD or DWAD id'#13#10, [filename]);
+    end;
 
     len := header.numlumps * SizeOf(filelump_t);
     fileinfo := malloc(len);
     handle.Seek(header.infotableofs, sFromBeginning);
     handle.Read(fileinfo^, len);
+    // JVAL - Decode MAD file 
+    if ismad then
+    begin
+      pb := PByteArray(fileinfo);
+      for i := 0 to len - 1 do
+        pb[i] := pb[i] - 48;
+    end;
     numlumps := numlumps + header.numlumps;
     printf(' adding %s (%d lump' + decide(header.numlumps = 1, '', 's') + ')'#13#10, [filename, header.numlumps]);
   end;
