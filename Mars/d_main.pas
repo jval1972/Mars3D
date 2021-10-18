@@ -225,23 +225,10 @@ end;
 // D_ProcessEvents
 // Send all the events of the given timestamp down the responder chain
 //
-var
-  map01_lump: integer = -2;
-
 procedure D_ProcessEvents;
 var
   ev: Pevent_t;
 begin
-// IF STORE DEMO, DO NOT ACCEPT INPUT
-  if gamemode = commercial then
-  begin
-  // JVAL: Optimize checking for MAP01 lump
-    if map01_lump = -2 then
-      map01_lump := W_CheckNumForName('MAP01');
-    if map01_lump = -1 then
-      exit;
-  end;
-
   if I_GameFinished then
     exit;
 
