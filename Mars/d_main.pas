@@ -46,11 +46,7 @@ uses
   doomdef;
 
 const
-{$IFNDEF FPC}
-  AppTitle = 'Delphi Doom';
-{$ELSE}
-  AppTitle = 'Free Pascal Doom';
-{$ENDIF}
+  AppTitle = 'Mars3D';
 
 procedure D_ProcessEvents;
 procedure D_DoAdvanceDemo;
