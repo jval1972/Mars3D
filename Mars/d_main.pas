@@ -1451,13 +1451,7 @@ var
   i: integer;
   wad: string;
 begin
-  case gamemission of
-    doom2: gamedirectorystring := 'DOOM2,DOOM.DOOM2,DOOM1,DOOM';
-    pack_tnt: gamedirectorystring := 'DOOM2-TNT,DOOM.DOOM2.TNT,TNT,DOOM2,DOOM1,DOOM';
-    pack_plutonia: gamedirectorystring := 'DOOM2-PLUT,DOOM.DOOM2.PLUTONIA,PLUTONIA,DOOM2,DOOM1,DOOM';
-  else
-    gamedirectorystring := 'TEXTURES,DOOM1,DOOM';
-  end;
+  gamedirectorystring := 'MARS3D,MARS';
   for i := wadfiles.Count - 1 downto 0 do
   begin
     wad := strupper(fname(wadfiles[i]));
