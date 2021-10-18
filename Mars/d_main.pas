@@ -1006,7 +1006,7 @@ begin
 end;
 
 const
-  SYSWAD = 'Doom32.swd';
+  SYSWAD = 'Mars3D.pk3';
 
 procedure D_AddSystemWAD;
 var
@@ -1014,7 +1014,7 @@ var
 begin
   ddsyswad := D_FileInDoomPath(SYSWAD);
   if fexists(ddsyswad) then
-    D_AddFile(ddsyswad)
+    PAK_AddFile(ddsyswad)
   else
     I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [SYSWAD]);
 end;
