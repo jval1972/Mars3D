@@ -640,7 +640,7 @@ type
 
 const
   MAXANIMS = 32;
-  NUMFIXEDANIMDEFS = 22;
+  NUMFIXEDANIMDEFS = 2;
 
 //
 // P_InitPicAnims
@@ -656,33 +656,8 @@ const
 //  the WAD file.
 //
   fixedanimdefs: array[0..NUMFIXEDANIMDEFS] of animdef_t = (
-    (istexture: false; endname: 'NUKAGE3';  startname: 'NUKAGE1';  speed: 8),
-    (istexture: false; endname: 'FWATER4';  startname: 'FWATER1';  speed: 8),
-    (istexture: false; endname: 'SWATER4';  startname: 'SWATER1';  speed: 8),
-    (istexture: false; endname: 'LAVA4';    startname: 'LAVA1';    speed: 8),
-    (istexture: false; endname: 'BLOOD3';   startname: 'BLOOD1';   speed: 8),
-
-    // DOOM II flat animations.
-    (istexture: false; endname: 'RROCK08';  startname: 'RROCK05';  speed: 8),
-    (istexture: false; endname: 'SLIME04';  startname: 'SLIME01';  speed: 8),
-    (istexture: false; endname: 'SLIME08';  startname: 'SLIME05';  speed: 8),
-    (istexture: false; endname: 'SLIME12';  startname: 'SLIME09';  speed: 8),
-
-    (istexture: true;  endname: 'BLODGR4';  startname: 'BLODGR1';  speed: 8),
-    (istexture: true;  endname: 'SLADRIP3'; startname: 'SLADRIP1'; speed: 8),
-
-    (istexture: true;  endname: 'BLODRIP4'; startname: 'BLODRIP1'; speed: 8),
-    (istexture: true;  endname: 'FIREWALL'; startname: 'FIREWALA'; speed: 8),
-    (istexture: true;  endname: 'GSTFONT3'; startname: 'GSTFONT1'; speed: 8),
-    (istexture: true;  endname: 'FIRELAVA'; startname: 'FIRELAV3'; speed: 8),
-    (istexture: true;  endname: 'FIREMAG3'; startname: 'FIREMAG1'; speed: 8),
-    (istexture: true;  endname: 'FIREBLU2'; startname: 'FIREBLU1'; speed: 8),
-    (istexture: true;  endname: 'ROCKRED3'; startname: 'ROCKRED1'; speed: 8),
-
-    (istexture: true;  endname: 'BFALL4';   startname: 'BFALL1';   speed: 8),
-    (istexture: true;  endname: 'SFALL4';   startname: 'SFALL1';   speed: 8),
-    (istexture: true;  endname: 'WFALL4';   startname: 'WFALL1';   speed: 8),
-    (istexture: true;  endname: 'DBRAIN4';  startname: 'DBRAIN1';  speed: 8),
+    (istexture: false; endname: 'BLOOD8';   startname: 'BLOOD1';   speed: 4),
+    (istexture: false; endname: 'NUKAGE8';  startname: 'NUKAGE1';  speed: 4),
 
     (istexture: false; endname: '';         startname: '';         speed: 0)
   );
