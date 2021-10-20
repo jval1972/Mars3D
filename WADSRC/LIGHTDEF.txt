@@ -27,3 +27,18 @@ object MT_BLUE_KEYCARD
 {
     frame ICR2 { light BLUEKEYCARD_LIGHT }
 }
+
+// Gold keycard
+pulselight GOLDKEYCARD_LIGHT
+{
+    color 0.92 0.75 0.28 
+    size 32
+    secondarySize 40
+    interval 2.0
+}
+
+
+object MT_GOLD_KEYCARD
+{
+    frame ICR3 { light GOLDKEYCARD_LIGHT }
+}
