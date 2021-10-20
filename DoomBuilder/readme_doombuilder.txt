@@ -1,8 +1,4 @@
-Configuration files for DoomBuilder 2.
--DelphiDoom.cfg
--DelphiHeretic.cfg
--DelphiHexen.cfg
--DelphiStrife.cfg
+Configuration file for DoomBuilder 2.
 
 Copy the files to "Doom Builder 2\Configurations" folder.
 
