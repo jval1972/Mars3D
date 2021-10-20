@@ -58,3 +58,34 @@ ACTOR MT_BLUE_KEYCARD 6
     }
   }
 }
+
+
+///////////////////////////////
+// MT_GOLD_KEYCARD
+///////////////////////////////
+ACTOR MT_GOLD_KEYCARD 13
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  +MF_NOTDMATCH
+  +MF_EX_YELLOWLIGHT
+  States
+  {
+    Spawn:
+    {
+      ICR3 A 4
+      ICR3 B 4
+      ICR3 C 4
+      ICR3 D 4 BRIGHT
+      ICR3 E 4
+      ICR3 F 4
+      ICR3 G 4
+      ICR3 H 4 BRIGHT
+      Loop
+    }
+  }
+}
