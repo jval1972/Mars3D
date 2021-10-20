@@ -1,0 +1,14 @@
+// Red keycard
+pulselight REDKEYCARD_LIGHT
+{
+    color 0.6 0.0 0.0 
+    size 32
+    secondarySize 40
+    interval 2.0
+}
+
+
+object MT_RED_KEYCARD
+{
+    frame ICR1 { light REDKEYCARD_LIGHT }
+}
