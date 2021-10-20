@@ -365,12 +365,16 @@ end;
 //
 // P_TouchSpecialThing
 //
+var
+  bonus_snd: integer = -1;
+
 procedure P_TouchSpecialThing(special: Pmobj_t; toucher: Pmobj_t);
 var
   player: Pplayer_t;
   i: integer;
   delta: fixed_t;
   sound: integer;
+  s_spr: string;
 // JVAL: To display correct message about the number of cells taken
   oldshells: integer;
   pickedshells: integer;
@@ -383,13 +387,49 @@ begin
   // out of reach
     exit;
 
-  sound := Ord(sfx_itemup);
+  if bonus_snd < 0 then
+    bonus_snd := S_GetSoundNumForName('ITEMUP');
+
+  sound := bonus_snd;
   player := toucher.player;
 
   // Dead thing touching.
   // Can happen with a sliding player corpse.
   if toucher.health <= 0 then
     exit;
+
+  s_spr :=
+        Chr(sprnames[special.sprite] and $FF) +
+        Chr((sprnames[special.sprite] shr 8) and $FF) +
+        Chr((sprnames[special.sprite] shr 16) and $FF) +
+        Chr((sprnames[special.sprite] shr 24) and $FF);
+
+  if s_spr = 'ICR1' then // Red keycard
+  begin
+    if not player.cards[Ord(it_redcard)] then
+      player._message := GOTREDCARD;
+    P_GiveCard(player, it_redcard);
+    if netgame then
+      exit;
+  end
+  else if s_spr = 'ICR2' then // Blue keycard
+  begin
+    if not player.cards[Ord(it_bluecard)] then
+      player._message := GOTBLUECARD;
+    P_GiveCard(player, it_bluecard);
+    if netgame then
+      exit;
+  end
+  else if s_spr = 'ICR3' then // Gold keycard
+  begin
+    if not player.cards[Ord(it_yellowcard)] then
+      player._message := GOTYELWCARD;
+    P_GiveCard(player, it_yellowcard);
+    if netgame then
+      exit;
+  end
+  else
+  begin
 
   // Identify by sprite.
   case special.sprite of
@@ -749,13 +789,15 @@ begin
   else
     I_Error('P_TouchSpecialThing(): Unknown gettable thing');
   end;
+  end;
 
   if special.flags and MF_COUNTITEM <> 0 then
     player.itemcount := player.itemcount + 1;
   P_RemoveMobj(special);
   player.bonuscount := player.bonuscount + BONUSADD;
   if player = @players[consoleplayer] then
-    S_StartSound(nil, sound);
+    if sound >= 0 then
+      S_StartSound(nil, sound);
 end;
 
 //
