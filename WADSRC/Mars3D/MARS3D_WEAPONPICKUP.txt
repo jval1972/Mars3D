@@ -1,0 +1,193 @@
+///////////////////////////////
+// MT_GUN
+///////////////////////////////
+ACTOR MT_GUN 15
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      LITC A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_SHOCKGUN
+///////////////////////////////
+ACTOR MT_SHOCKGUN 41
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      ELEC A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_NERVEGUN
+///////////////////////////////
+ACTOR MT_NERVEGUN 42
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      FUZC A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_GRENADES
+///////////////////////////////
+ACTOR MT_GRENADES 2002
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      BOB2 A 4
+      BOB2 B 4
+      BOB2 C 4
+      BOB2 D 4
+      BOB2 E 4
+      Loop
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_FLAMEGUN
+///////////////////////////////
+ACTOR MT_FLAMEGUN 2003
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      FLAC A 4
+      Loop
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_BOOMERANGDISK
+///////////////////////////////
+ACTOR MT_BOOMERANGDISK 2004
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      CDCC A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_MISSILELAUNCHER
+///////////////////////////////
+ACTOR MT_MISSILELAUNCHER 2005
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      MISC A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_TRACKINGMISSILELAUNCHER
+///////////////////////////////
+ACTOR MT_TRACKINGMISSILELAUNCHER 2006
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      DEVC A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_FREEZEGUN
+///////////////////////////////
+ACTOR MT_FREEZEGUN 2006
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      FREC A -1
+    }
+  }
+}
