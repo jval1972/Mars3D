@@ -27,3 +27,34 @@ ACTOR MT_RED_KEYCARD 5
     }
   }
 }
+
+
+///////////////////////////////
+// MT_BLUE_KEYCARD
+///////////////////////////////
+ACTOR MT_BLUE_KEYCARD 6
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  +MF_NOTDMATCH
+  +MF_EX_BLUELIGHT
+  States
+  {
+    Spawn:
+    {
+      ICR2 A 4
+      ICR2 B 4
+      ICR2 C 4
+      ICR2 D 4 BRIGHT
+      ICR2 E 4
+      ICR2 F 4
+      ICR2 G 4
+      ICR2 H 4 BRIGHT
+      Loop
+    }
+  }
+}
