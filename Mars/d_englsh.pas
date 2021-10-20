@@ -134,9 +134,9 @@ var
   GOTMEDIKIT: string = 'Picked up a medikit.';
   GOTSUPER: string = 'Supercharge!';
 
-  GOTBLUECARD: string = 'Picked up a blue keycard.';
-  GOTYELWCARD: string = 'Picked up a yellow keycard.';
-  GOTREDCARD: string = 'Picked up a red keycard.';
+  GOTBLUECARD: string = 'Blue keycard.';
+  GOTYELWCARD: string = 'Gold keycard.';
+  GOTREDCARD: string = 'Red keycard.';
   GOTBLUESKUL: string = 'Picked up a blue skull key.';
   GOTYELWSKUL: string = 'Picked up a yellow skull key.';
   GOTREDSKULL: string = 'Picked up a red skull key.';
