@@ -1,0 +1,29 @@
+///////////////////////////////
+// MT_RED_KEYCARD
+///////////////////////////////
+ACTOR MT_RED_KEYCARD 5
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  +MF_NOTDMATCH
+  +MF_EX_REDLIGHT
+  States
+  {
+    Spawn:
+    {
+      ICR1 A 4
+      ICR1 B 4
+      ICR1 C 4
+      ICR1 D 4 BRIGHT
+      ICR1 E 4
+      ICR1 F 4
+      ICR1 G 4
+      ICR1 H 4 BRIGHT
+      Loop
+    }
+  }
+}
