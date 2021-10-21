@@ -551,7 +551,7 @@ begin
       exit;
     player._message := GOTHEALTH25;
   end
-  else if s_spr = 'HSP3' then // MT_HEALTH200 (Medkit potion)
+  else if s_spr = 'HSP3' then // MT_HEALTH200 (Tianshan Ganoderma)
   begin
     if not P_GiveBody(player, p_tianshanganoderma) then
       exit;
