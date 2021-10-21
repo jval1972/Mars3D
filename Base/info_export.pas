@@ -183,8 +183,8 @@ begin
   for i := 0 to DEHNUMACTIONS - 1 do
     if @deh_actions[i].action.acp1 = @action.acp1 then
     begin
-      Result := '@A_' + capitalizedstring(deh_actions[i].name);
-      if Result = '@A_Null' then
+      Result := '@A_' + deh_actions[i].originalname;
+      if Result = '@A_NULL' then
         Result := 'nil';
       Exit;
     end;

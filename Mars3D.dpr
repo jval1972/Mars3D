@@ -391,7 +391,8 @@ uses
   i_xmmusic in 'Base\i_xmmusic.pas',
   i_modmusic in 'Base\i_modmusic.pas',
   s_externalmusic in 'Base\s_externalmusic.pas',
-  info_export in 'Base\info_export.pas';
+  info_export in 'Base\info_export.pas',
+  mars_info in 'Mars\mars_info.pas';
 
 var
   Saved8087CW: Word;
