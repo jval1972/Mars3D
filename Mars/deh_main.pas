@@ -2052,7 +2052,7 @@ begin
   state_tokens.Add('DURATION 2');       // 9 //.tics2
 
   deh_actions[0].action.acp1 := nil;
-  deh_actions[0].name := 'NULL';
+  deh_actions[0].originalname := 'NULL';
   {$IFDEF DLL}deh_actions[0].decl := '';{$ENDIF}
   deh_actions[1].action.acp1 := @A_Light0;
   deh_actions[1].originalname := 'Light0';
@@ -3105,7 +3105,7 @@ begin
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin
-    deh_actions[i].name := strupper(deh_actions[i].name);
+    deh_actions[i].name := strupper(deh_actions[i].originalname);
     DEH_AddActionToHash(deh_actions[i].name, i);
   end;
 
