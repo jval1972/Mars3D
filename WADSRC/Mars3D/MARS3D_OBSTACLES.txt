@@ -1,0 +1,123 @@
+///////////////////////////////
+// MT_VEGETATION1
+///////////////////////////////
+ACTOR MT_VEGETATION1 30
+{
+  Health 1000
+  Width 20
+  Height 54
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  States
+  {
+    Spawn:
+    {
+      COL1 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_VEGETATION2
+///////////////////////////////
+ACTOR MT_VEGETATION2 31
+{
+  Health 1000
+  Width 20
+  Height 54
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  States
+  {
+    Spawn:
+    {
+      COL2 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_POTTREE
+///////////////////////////////
+ACTOR MT_POTTREE 48
+{
+  Health 1000
+  Width 20
+  Height 72
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  States
+  {
+    Spawn:
+    {
+      ELE12 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_TREE1
+///////////////////////////////
+ACTOR MT_TREE1 2028
+{
+  Health 1000
+  Width 20
+  Height 72
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  States
+  {
+    Spawn:
+    {
+      COLU2 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_BARREL
+///////////////////////////////
+ACTOR "MT_BARREL" 2035
+{
+  Health 10
+  Width 10
+  Height 34
+  Mass 100
+  Reactiontime 8
+  Deathsound "BARLEXP"
+  +MF_SOLID
+  +MF_SHOOTABLE
+  +MF_NOBLOOD
+  States
+  {
+    Spawn:
+    {
+      BAR1 A 6
+      BAR1 B 6
+      Loop
+    }
+    Death:
+    {
+      BAR1 C 5 BRIGHT
+      BAR1 D 5 SCREAM BRIGHT
+      BAR1 E 5 FADEOUT20 BRIGHT
+      BAR1 R 5 EXPLODE BRIGHT
+      BAR1 G 5 FADEOUT20 BRIGHT
+      BAR1 H 5 BRIGHT
+      BAR1 I 5 BRIGHT
+      BAR1 J 5 BRIGHT
+      BAR1 K 5 BRIGHT
+      Stop
+    }
+  }
+}
+
+
