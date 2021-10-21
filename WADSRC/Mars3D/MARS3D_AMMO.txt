@@ -1,0 +1,90 @@
+///////////////////////////////
+// MT_BULLETS
+///////////////////////////////
+ACTOR MT_BULLETS 2007
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      GUN1 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_TRACKINGMISSILES
+///////////////////////////////
+ACTOR MT_TRACKINGMISSILES 2008
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      MIS1 A 4
+      MIS1 B 4
+      MIS1 C 4
+      Loop
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_BOXOFBULLETS
+///////////////////////////////
+ACTOR MT_BOXOFBULLETS 2048
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      GUN2 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_GRENADES
+///////////////////////////////
+ACTOR MT_GRENADES 2049
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      BOB1 A 4
+      BOB1 B 4
+      BOB1 C 4
+      BOB1 D 4
+      BOB1 E 4
+      Loop
+    }
+  }
+}
