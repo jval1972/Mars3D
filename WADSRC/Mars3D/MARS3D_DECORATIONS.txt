@@ -1,0 +1,58 @@
+///////////////////////////////
+// MT_DESTROYEDBARREL1
+///////////////////////////////
+ACTOR MT_DESTROYEDBARREL1 32
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  States
+  {
+    Spawn:
+    {
+      COL3 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_DESTROYEDBARREL2
+///////////////////////////////
+ACTOR MT_DESTROYEDBARREL2 33
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  States
+  {
+    Spawn:
+    {
+      COL4 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_DESTROYEDBARREL3
+///////////////////////////////
+ACTOR MT_DESTROYEDBARREL3 37
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  States
+  {
+    Spawn:
+    {
+      COL7 A -1
+    }
+  }
+}
