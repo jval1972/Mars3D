@@ -1,0 +1,120 @@
+///////////////////////////////
+// MT_QUESTIONMARK1
+///////////////////////////////
+ACTOR MT_QUESTIONMARK1 2061
+{
+  Health 1000
+  Width 24
+  Height 24
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  +MF_NOGRAVITY
+  +MF_FLOAT
+  +MF_EX_FLOATBOB
+  States
+  {
+    Spawn:
+    {
+      AQ01 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_QUESTIONMARK2
+///////////////////////////////
+ACTOR MT_QUESTIONMARK2 2062
+{
+  Health 1000
+  Width 24
+  Height 24
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  +MF_NOGRAVITY
+  +MF_FLOAT
+  +MF_EX_FLOATBOB
+  States
+  {
+    Spawn:
+    {
+      AQ01 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_QUESTIONMARK3
+///////////////////////////////
+ACTOR MT_QUESTIONMARK2 2063
+{
+  Health 1000
+  Width 24
+  Height 24
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  +MF_NOGRAVITY
+  +MF_FLOAT
+  +MF_EX_FLOATBOB
+  States
+  {
+    Spawn:
+    {
+      AQ01 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_QUESTIONMARK4
+///////////////////////////////
+ACTOR MT_QUESTIONMARK2 2064
+{
+  Health 1000
+  Width 24
+  Height 24
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  +MF_NOGRAVITY
+  +MF_FLOAT
+  +MF_EX_FLOATBOB
+  States
+  {
+    Spawn:
+    {
+      AQ01 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_QUESTIONMARK5
+///////////////////////////////
+ACTOR MT_QUESTIONMARK2 2065
+{
+  Health 1000
+  Width 24
+  Height 24
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  +MF_NOGRAVITY
+  +MF_FLOAT
+  +MF_EX_FLOATBOB
+  States
+  {
+    Spawn:
+    {
+      AQ01 A -1
+    }
+  }
+}
+
+
