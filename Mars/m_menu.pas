@@ -1026,6 +1026,8 @@ type
     kb_weapon5,
     kb_weapon6,
     kb_weapon7,
+    kb_weapon8,
+    kb_weapon9,
     kb_end
   );
 
@@ -1037,7 +1039,7 @@ var
 
 type
   bindinginfo_t = record
-    text: string[25];
+    text: string[26];
     pkey: PInteger;
   end;
 
@@ -1059,14 +1061,16 @@ const
     (text: 'Look center'; pkey: @key_lookcenter),
     (text: 'Look left'; pkey: @key_lookleft),
     (text: 'Look right'; pkey: @key_lookright),
-    (text: 'Fists/Chainsaw'; pkey: @key_weapon0),
+    (text: 'Fist'; pkey: @key_weapon0),
     (text: 'Pistol'; pkey: @key_weapon1),
-    (text: 'Shotgun'; pkey: @key_weapon2),
-    (text: 'Chaingun'; pkey: @key_weapon3),
-    (text: 'Rocket launcher'; pkey: @key_weapon4),
-    (text: 'Plasma gun'; pkey: @key_weapon5),
-    (text: 'BFG 9000'; pkey: @key_weapon6),
-    (text: 'Chainsaw'; pkey: @key_weapon7)
+    (text: 'Shock gun'; pkey: @key_weapon2),
+    (text: 'Nerve gun'; pkey: @key_weapon3),
+    (text: 'Freeze gun'; pkey: @key_weapon4),
+    (text: 'Flame gun'; pkey: @key_weapon5),
+    (text: 'Grenade launcher'; pkey: @key_weapon6),
+    (text: 'Boomerang'; pkey: @key_weapon7),
+    (text: 'Missile launcher'; pkey: @key_weapon8),
+    (text: 'Tracking Missile launcher'; pkey: @key_weapon9)
   );
 
 var
@@ -1205,40 +1209,6 @@ end;
 
 procedure M_DrawBindings2;
 begin
-  case customgame of
-    cg_hacx:
-      begin
-        KeyBindingsInfo[Ord(kb_weapon0)].text := 'Kick/Hoig Reznator';
-        KeyBindingsInfo[Ord(kb_weapon1)].text := 'Pistol';
-        KeyBindingsInfo[Ord(kb_weapon2)].text := 'Tazer/Cryogun';
-        KeyBindingsInfo[Ord(kb_weapon3)].text := 'Uzi';
-        KeyBindingsInfo[Ord(kb_weapon4)].text := 'Photon ''zooka';
-        KeyBindingsInfo[Ord(kb_weapon5)].text := 'Stick';
-        KeyBindingsInfo[Ord(kb_weapon6)].text := 'Nuker';
-        KeyBindingsInfo[Ord(kb_weapon7)].text := 'Hoig Reznator';
-      end;
-    cg_chex, cg_chex2:
-      begin
-        KeyBindingsInfo[Ord(kb_weapon0)].text := 'Bootspoon/Super Bootspork';
-        KeyBindingsInfo[Ord(kb_weapon1)].text := 'Mini-zorcher';
-        KeyBindingsInfo[Ord(kb_weapon2)].text := 'Large zorcher';
-        KeyBindingsInfo[Ord(kb_weapon3)].text := 'Rapid zorcher';
-        KeyBindingsInfo[Ord(kb_weapon4)].text := 'Zorch propulsor';
-        KeyBindingsInfo[Ord(kb_weapon5)].text := 'Phasing zorcher';
-        KeyBindingsInfo[Ord(kb_weapon6)].text := 'LAZ Device';
-        KeyBindingsInfo[Ord(kb_weapon7)].text := 'Super Bootspork';
-      end;
-  else
-    KeyBindingsInfo[Ord(kb_weapon0)].text := 'Fists/Chainsaw';
-    KeyBindingsInfo[Ord(kb_weapon1)].text := 'Pistol';
-    KeyBindingsInfo[Ord(kb_weapon2)].text := 'Shotgun';
-    KeyBindingsInfo[Ord(kb_weapon3)].text := 'Chaingun'; 
-    KeyBindingsInfo[Ord(kb_weapon4)].text := 'Rocket launcher';
-    KeyBindingsInfo[Ord(kb_weapon5)].text := 'Plasma gun';
-    KeyBindingsInfo[Ord(kb_weapon6)].text := 'BFG 9000';
-    KeyBindingsInfo[Ord(kb_weapon7)].text := 'Chainsaw';
-  end;
-
   M_DrawBindings(KeyBindingsDef2, Ord(kb_weapon0), Ord(kb_end));
 end;
 
@@ -1721,14 +1691,16 @@ begin
     key_lookright := 198;
     key_lookleft := 200;
     key_lookforward := 13;
-    key_weapon0 := Ord('1');
-    key_weapon1 := Ord('2');
-    key_weapon2 := Ord('3');
-    key_weapon3 := Ord('4');
-    key_weapon4 := Ord('5');
-    key_weapon5 := Ord('6');
-    key_weapon6 := Ord('7');
-    key_weapon7 := Ord('8');
+    key_weapon0 := Ord('0');
+    key_weapon1 := Ord('1');
+    key_weapon2 := Ord('2');
+    key_weapon3 := Ord('3');
+    key_weapon4 := Ord('4');
+    key_weapon5 := Ord('5');
+    key_weapon6 := Ord('6');
+    key_weapon7 := Ord('7');
+    key_weapon8 := Ord('8');
+    key_weapon9 := Ord('9');
   end
   else if mode = 1 then
   begin
@@ -1749,14 +1721,16 @@ begin
     key_lookright := 198;
     key_lookleft := 200;
     key_lookforward := 13;
-    key_weapon0 := Ord('1');
-    key_weapon1 := Ord('2');
-    key_weapon2 := Ord('3');
-    key_weapon3 := Ord('4');
-    key_weapon4 := Ord('5');
-    key_weapon5 := Ord('6');
-    key_weapon6 := Ord('7');
-    key_weapon7 := Ord('8');
+    key_weapon0 := Ord('0');
+    key_weapon1 := Ord('1');
+    key_weapon2 := Ord('2');
+    key_weapon3 := Ord('3');
+    key_weapon4 := Ord('4');
+    key_weapon5 := Ord('5');
+    key_weapon6 := Ord('6');
+    key_weapon7 := Ord('7');
+    key_weapon8 := Ord('8');
+    key_weapon9 := Ord('9');
   end
   else if mode = 2 then
   begin
@@ -1777,14 +1751,16 @@ begin
     key_lookright := 198;
     key_lookleft := 200;
     key_lookforward := 13;
-    key_weapon0 := Ord('1');
-    key_weapon1 := Ord('2');
-    key_weapon2 := Ord('3');
-    key_weapon3 := Ord('4');
-    key_weapon4 := Ord('5');
-    key_weapon5 := Ord('6');
-    key_weapon6 := Ord('7');
-    key_weapon7 := Ord('8');
+    key_weapon0 := Ord('0');
+    key_weapon1 := Ord('1');
+    key_weapon2 := Ord('2');
+    key_weapon3 := Ord('3');
+    key_weapon4 := Ord('4');
+    key_weapon5 := Ord('5');
+    key_weapon6 := Ord('6');
+    key_weapon7 := Ord('7');
+    key_weapon8 := Ord('8');
+    key_weapon9 := Ord('9');
   end;
 end;
 
@@ -1807,14 +1783,16 @@ begin
      (key_lookright = 198) and
      (key_lookleft = 200) and
      (key_lookforward = 13) and
-     (key_weapon0 = Ord('1')) and
-     (key_weapon1 = Ord('2')) and
-     (key_weapon2 = Ord('3')) and
-     (key_weapon3 = Ord('4')) and
-     (key_weapon4 = Ord('5')) and
-     (key_weapon5 = Ord('6')) and
-     (key_weapon6 = Ord('7')) and
-     (key_weapon7 = Ord('8')) then
+     (key_weapon0 = Ord('0')) and
+     (key_weapon1 = Ord('1')) and
+     (key_weapon2 = Ord('2')) and
+     (key_weapon3 = Ord('3')) and
+     (key_weapon4 = Ord('4')) and
+     (key_weapon5 = Ord('5')) and
+     (key_weapon6 = Ord('6')) and
+     (key_weapon7 = Ord('7')) and
+     (key_weapon8 = Ord('8')) and
+     (key_weapon9 = Ord('9')) then
   begin
     result := 0;
     exit;
@@ -1837,14 +1815,16 @@ begin
      (key_lookright = 198) and
      (key_lookleft = 200) and
      (key_lookforward = 13) and
-     (key_weapon0 = Ord('1')) and
-     (key_weapon1 = Ord('2')) and
-     (key_weapon2 = Ord('3')) and
-     (key_weapon3 = Ord('4')) and
-     (key_weapon4 = Ord('5')) and
-     (key_weapon5 = Ord('6')) and
-     (key_weapon6 = Ord('7')) and
-     (key_weapon7 = Ord('8')) then
+     (key_weapon0 = Ord('0')) and
+     (key_weapon1 = Ord('1')) and
+     (key_weapon2 = Ord('2')) and
+     (key_weapon3 = Ord('3')) and
+     (key_weapon4 = Ord('4')) and
+     (key_weapon5 = Ord('5')) and
+     (key_weapon6 = Ord('6')) and
+     (key_weapon7 = Ord('7')) and
+     (key_weapon8 = Ord('8')) and
+     (key_weapon9 = Ord('9')) then
   begin
     result := 1;
     exit;
@@ -1867,14 +1847,16 @@ begin
      (key_lookright = 198) and
      (key_lookleft = 200) and
      (key_lookforward = 13) and
-     (key_weapon0 = Ord('1')) and
-     (key_weapon1 = Ord('2')) and
-     (key_weapon2 = Ord('3')) and
-     (key_weapon3 = Ord('4')) and
-     (key_weapon4 = Ord('5')) and
-     (key_weapon5 = Ord('6')) and
-     (key_weapon6 = Ord('7')) and
-     (key_weapon7 = Ord('8')) then
+     (key_weapon0 = Ord('0')) and
+     (key_weapon1 = Ord('1')) and
+     (key_weapon2 = Ord('2')) and
+     (key_weapon3 = Ord('3')) and
+     (key_weapon4 = Ord('4')) and
+     (key_weapon5 = Ord('5')) and
+     (key_weapon6 = Ord('6')) and
+     (key_weapon7 = Ord('7')) and
+     (key_weapon8 = Ord('8')) and
+     (key_weapon9 = Ord('9')) then
   begin
     result := 2;
     exit;

@@ -1491,14 +1491,16 @@ begin
     key_lookright := 198;
     key_lookleft := 200;
     key_lookforward := 13;
-    key_weapon0 := Ord('1');
-    key_weapon1 := Ord('2');
-    key_weapon2 := Ord('3');
-    key_weapon3 := Ord('4');
-    key_weapon4 := Ord('5');
-    key_weapon5 := Ord('6');
-    key_weapon6 := Ord('7');
-    key_weapon7 := Ord('8');
+    key_weapon0 := Ord('0');
+    key_weapon1 := Ord('1');
+    key_weapon2 := Ord('2');
+    key_weapon3 := Ord('3');
+    key_weapon4 := Ord('4');
+    key_weapon5 := Ord('5');
+    key_weapon6 := Ord('6');
+    key_weapon7 := Ord('7');
+    key_weapon8 := Ord('8');
+    key_weapon9 := Ord('9');
   end
   else if mode = 1 then
   begin
@@ -1519,14 +1521,16 @@ begin
     key_lookright := 198;
     key_lookleft := 200;
     key_lookforward := 13;
-    key_weapon0 := Ord('1');
-    key_weapon1 := Ord('2');
-    key_weapon2 := Ord('3');
-    key_weapon3 := Ord('4');
-    key_weapon4 := Ord('5');
-    key_weapon5 := Ord('6');
-    key_weapon6 := Ord('7');
-    key_weapon7 := Ord('8');
+    key_weapon0 := Ord('0');
+    key_weapon1 := Ord('1');
+    key_weapon2 := Ord('2');
+    key_weapon3 := Ord('3');
+    key_weapon4 := Ord('4');
+    key_weapon5 := Ord('5');
+    key_weapon6 := Ord('6');
+    key_weapon7 := Ord('7');
+    key_weapon8 := Ord('8');
+    key_weapon9 := Ord('9');
   end;
 end;
 

@@ -859,10 +859,8 @@ begin
   finally
     s.Free;
   end;
-  {$IFNDEF STRIFE}
   if confignotfound then
     G_SetKeyboardMode(1);
-  {$ENDIF}
   {$IFNDEF DEBUG}
   {$IFDEF OPENGL}
   gl_drawsky := true;
