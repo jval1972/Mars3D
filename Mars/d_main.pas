@@ -1079,7 +1079,7 @@ begin
   // French stuff.
   sprintf(doom2fwad, '%s\doom2f.wad', [doomwaddir]);
 
-  basedefault := {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
+  basedefault := 'Mars3D.ini';
 
   p := M_CheckParm('-mainwad');
   if p = 0 then
@@ -1097,41 +1097,6 @@ begin
     end
     else
       doomcwad := '';
-  end;
-
-  if M_CheckParm('-shdev') > 0 then
-  begin
-    gamemode := shareware;
-    devparm := true;
-    D_AddFile(DEVDATA + 'doom1.wad');
-    D_AddFile(DEVMAPS + 'data_se/texture1.lmp');
-    D_AddFile(DEVMAPS + 'data_se/pnames.lmp');
-    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
-    exit;
-  end;
-
-  if M_CheckParm('-regdev') > 0 then
-  begin
-    gamemode := registered;
-    devparm := true;
-    D_AddFile(DEVDATA + 'doom.wad');
-    D_AddFile(DEVMAPS + 'data_se/texture1.lmp');
-    D_AddFile(DEVMAPS + 'data_se/texture2.lmp');
-    D_AddFile(DEVMAPS + 'data_se/pnames.lmp');
-    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
-    exit;
-  end;
-
-  if M_CheckParm('-comdev') > 0 then
-  begin
-    gamemode := commercial;
-    devparm := true;
-    D_AddFile(DEVDATA + 'doom2.wad');
-
-    D_AddFile(DEVMAPS + 'cdata/texture1.lmp');
-    D_AddFile(DEVMAPS + 'cdata/pnames.lmp');
-    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
-    exit;
   end;
 
   for p := 1 to 2 do
@@ -1589,7 +1554,7 @@ begin
   if M_CheckParmCDROM then
   begin
     printf(D_CDROM);
-    basedefault := CD_WORKDIR + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
+    basedefault := CD_WORKDIR + 'Mars3D.ini';
   end;
 
   // turbo option

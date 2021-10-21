@@ -61,18 +61,7 @@ procedure M_CmdShowCmdline(const parm: string);
 function M_SaveFileName(const filename: string): string;
 
 const
-{$IFDEF DOOM}
-  CD_WORKDIR = 'c:\doomdata\';
-{$ENDIF}
-{$IFDEF HERETIC}
-  CD_WORKDIR = 'c:\heretic.cd\';
-{$ENDIF}
-{$IFDEF HEXEN}
-  CD_WORKDIR = 'c:\hexen.cd\';
-{$ENDIF}
-{$IFDEF STRIFE}
-  CD_WORKDIR = 'c:\strife.cd\';
-{$ENDIF}
+  CD_WORKDIR = 'c:\marsdata\';
 
 implementation
 

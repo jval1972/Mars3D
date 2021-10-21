@@ -71,18 +71,7 @@ var
   autoexecfile: string;
 
 const
-{$IFDEF DOOM}
-  DEFAUTOEXEC = 'Doom32.con';
-{$ENDIF}
-{$IFDEF HERETIC}
-  DEFAUTOEXEC = 'Heretic32.con';
-{$ENDIF}
-{$IFDEF HEXEN}
-  DEFAUTOEXEC = 'Hexen32.con';
-{$ENDIF}
-{$IFDEF STRIFE}
-  DEFAUTOEXEC = 'Strife32.con';
-{$ENDIF}
+  DEFAUTOEXEC = 'Mars3D.con';
 
 implementation
 
