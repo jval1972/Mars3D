@@ -1,4 +1,4 @@
-#INCLUDE "Mars3D\MARS3D_KEYS.txt"
-#INCLUDE "Mars3D\MARS3D_WEAPONPICKUP.txt"
-#INCLUDE "Mars3D\MARS3D_AMMO.txt"
-#INCLUDE "Mars3D\MARS3D_HEALTHBONUS.txt.txt"
+#include "Mars3D\MARS3D_KEYS.txt"
+#include "Mars3D\MARS3D_WEAPONPICKUP.txt"
+#include "Mars3D\MARS3D_AMMO.txt"
+#include "Mars3D\MARS3D_HEALTHBONUS.txt.txt"
