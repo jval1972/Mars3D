@@ -166,7 +166,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}199{$ELSE}201{$ENDIF};
+  NUMDEFAULTS = 203;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1207,7 +1207,7 @@ const
      location: @key_weapon0;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: Ord('1');
+     defaultivalue: Ord('0');
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1215,7 +1215,7 @@ const
      location: @key_weapon1;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: Ord('2');
+     defaultivalue: Ord('1');
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1223,7 +1223,7 @@ const
      location: @key_weapon2;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: Ord('3');
+     defaultivalue: Ord('2');
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1231,7 +1231,7 @@ const
      location: @key_weapon3;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: Ord('4');
+     defaultivalue: Ord('3');
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1239,7 +1239,7 @@ const
      location: @key_weapon4;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: Ord('5');
+     defaultivalue: Ord('4');
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1247,7 +1247,7 @@ const
      location: @key_weapon5;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: Ord('6');
+     defaultivalue: Ord('5');
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1255,7 +1255,7 @@ const
      location: @key_weapon6;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: Ord('7');
+     defaultivalue: Ord('6');
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1263,7 +1263,23 @@ const
      location: @key_weapon7;
      setable: DFS_NEVER;
      defaultsvalue: '';
+     defaultivalue: Ord('7');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon8';
+     location: @key_weapon8;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
      defaultivalue: Ord('8');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon9';
+     location: @key_weapon9;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('9');
      defaultbvalue: false;
      _type: tInteger),
 

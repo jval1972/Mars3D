@@ -218,15 +218,16 @@ type
 //  including a marker indicating
 //  user has not changed weapon.
   weapontype_t = (
-    wp_fist,
-    wp_pistol,
-    wp_shotgun,
-    wp_chaingun,
-    wp_missile,
-    wp_plasma,
-    wp_bfg,
-    wp_chainsaw,
-    wp_supershotgun,
+    wp_fist,            // Fist
+    wp_pistol,          // Pistol
+    wp_shockgun,        // Shock gun
+    wp_nervegun,        // Nerve gun
+    wp_freezegun,       // Freeze gun
+    wp_flamegun,        // Flame gun
+    wp_grenades,        // Grenade launcher
+    wp_boomerang,       // Boomerang gun
+    wp_missile,         // Missile launcher
+    wp_trackingmissile, // Tracking Missile launcher
     NUMWEAPONS,
     // No pending weapon change.
     wp_nochange
@@ -234,12 +235,17 @@ type
 
 // Ammunition types defined.
   ammotype_t = (
-    am_clip,  // Pistol / chaingun ammo.
-    am_shell, // Shotgun / double barreled shotgun.
-    am_cell,  // Plasma rifle, BFG.
-    am_misl,  // Missile launcher.
+    am_bullet,          // Pistol
+    am_shockgunammo,    // For shock gun
+    am_nervegunammo,    // For nerve gun
+    am_freezegunammo,   // For freeze gun
+    am_flamegunammo,    // For flame gun
+    am_grenades,        // For granade launcher
+    am_disk,            // For boomerang gun
+    am_misl,            // Missile launcher
+    am_trackingmisl,    // Tracking Missile launcher
     NUMAMMO,
-    am_noammo // Unlimited for chainsaw / fist.
+    am_noammo // Unlimited for fist.
   );
 
 // Power up artifacts.

@@ -71,28 +71,31 @@ var
     (ammo: am_noammo;            upstate: Ord(S_PUNCHUP);   downstate: Ord(S_PUNCHDOWN);
      readystate: Ord(S_PUNCH);   atkstate: Ord(S_PUNCH1);   flashstate: Ord(S_NULL)),
   // pistol
-    (ammo: am_clip;              upstate: Ord(S_PISTOLUP);  downstate: Ord(S_PISTOLDOWN);
+    (ammo: am_bullet;            upstate: Ord(S_PISTOLUP);  downstate: Ord(S_PISTOLDOWN);
      readystate: Ord(S_PISTOL);  atkstate: Ord(S_PISTOL1);  flashstate: Ord(S_PISTOLFLASH)),
-  // shotgun
-    (ammo: am_shell;             upstate: Ord(S_SGUNUP);    downstate: Ord(S_SGUNDOWN);
+  // shock gun
+    (ammo: am_shockgunammo;      upstate: Ord(S_SGUNUP);    downstate: Ord(S_SGUNDOWN);
      readystate: Ord(S_SGUN);    atkstate: Ord(S_SGUN1);    flashstate: Ord(S_SGUNFLASH1)),
-  // chaingun
-    (ammo: am_clip;              upstate: Ord(S_CHAINUP);   downstate: Ord(S_CHAINDOWN);
+  // nerve gun
+    (ammo: am_nervegunammo;      upstate: Ord(S_CHAINUP);   downstate: Ord(S_CHAINDOWN);
      readystate: Ord(S_CHAIN);   atkstate: Ord(S_CHAIN1);   flashstate: Ord(S_CHAINFLASH1)),
-  // missile launcher
-    (ammo: am_misl;              upstate: Ord(S_MISSILEUP); downstate: Ord(S_MISSILEDOWN);
+  // freeze gun
+    (ammo: am_freezegunammo;     upstate: Ord(S_MISSILEUP); downstate: Ord(S_MISSILEDOWN);
      readystate: Ord(S_MISSILE); atkstate: Ord(S_MISSILE1); flashstate: Ord(S_MISSILEFLASH1)),
-  // plasma rifle
-     (ammo: am_cell;             upstate: Ord(S_PLASMAUP);  downstate: Ord(S_PLASMADOWN);
+  // flame gun
+     (ammo: am_flamegunammo;     upstate: Ord(S_PLASMAUP);  downstate: Ord(S_PLASMADOWN);
       readystate: Ord(S_PLASMA); atkstate: Ord(S_PLASMA1);  flashstate: Ord(S_PLASMAFLASH1)),
-  // bfg 9000
-     (ammo: am_cell;             upstate: Ord(S_BFGUP);     downstate: Ord(S_BFGDOWN);
+  // granade launcher
+     (ammo: am_grenades;         upstate: Ord(S_BFGUP);     downstate: Ord(S_BFGDOWN);
       readystate: Ord(S_BFG);    atkstate: Ord(S_BFG1);     flashstate: Ord(S_BFGFLASH1)),
-  // chainsaw
-     (ammo: am_noammo;           upstate: Ord(S_SAWUP);     downstate: Ord(S_SAWDOWN);
+  // boomerang gun
+     (ammo: am_disk;             upstate: Ord(S_SAWUP);     downstate: Ord(S_SAWDOWN);
       readystate: Ord(S_SAW);    atkstate: Ord(S_SAW1);     flashstate: Ord(S_NULL)),
-  // super shotgun
-     (ammo: am_shell;            upstate: Ord(S_DSGUNUP);   downstate: Ord(S_DSGUNDOWN);
+  // missile launcher
+     (ammo: am_misl;             upstate: Ord(S_DSGUNUP);   downstate: Ord(S_DSGUNDOWN);
+      readystate: Ord(S_DSGUN);  atkstate: Ord(S_DSGUN1);   flashstate: Ord(S_DSGUNFLASH1)),
+  // tracking missile launcher
+     (ammo: am_trackingmisl;     upstate: Ord(S_DSGUNUP);   downstate: Ord(S_DSGUNDOWN);
       readystate: Ord(S_DSGUN);  atkstate: Ord(S_DSGUN1);   flashstate: Ord(S_DSGUNFLASH1))
   );
 

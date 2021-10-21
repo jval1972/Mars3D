@@ -58,8 +58,8 @@ procedure P_DamageMobj(target, inflictor, source: Pmobj_t; damage: integer);
 const
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-  maxammo: array[0..Ord(NUMAMMO) - 1] of integer = (200, 50, 300, 50);
-  clipammo: array[0..Ord(NUMAMMO) - 1] of integer = (10, 4, 20, 1);
+  maxammo: array[0..Ord(NUMAMMO) - 1] of integer = (300, 999, 999, 999, 999, 999, 999, 999, 999);
+  clipammo: array[0..Ord(NUMAMMO) - 1] of integer = (10, 15, 10, 25, 15, 5, 5, 5, 5);
 
 procedure P_CmdSuicide;
 
@@ -157,32 +157,64 @@ begin
   // so select a new weapon.
   // Preferences are not user selectable.
   case ammo of
-    am_clip:
+    am_bullet:
       begin
         if player.readyweapon = wp_fist then
-        begin
-          if player.weaponowned[Ord(wp_chaingun)] <> 0 then
-            player.pendingweapon := wp_chaingun
-          else
+          if player.weaponowned[Ord(wp_pistol)] <> 0 then
             player.pendingweapon := wp_pistol;
-        end;
       end;
-    am_shell:
+    am_shockgunammo:
       begin
         if (player.readyweapon = wp_fist) or
            (player.readyweapon = wp_pistol) then
         begin
-          if player.weaponowned[Ord(wp_shotgun)] <> 0 then
-            player.pendingweapon := wp_shotgun;
+          if player.weaponowned[Ord(wp_shockgun)] <> 0 then
+            player.pendingweapon := wp_shockgun;
         end;
       end;
-    am_cell:
+    am_nervegunammo:
       begin
         if (player.readyweapon = wp_fist) or
            (player.readyweapon = wp_pistol) then
         begin
-          if player.weaponowned[Ord(wp_plasma)] <> 0 then
-            player.pendingweapon := wp_plasma;
+          if player.weaponowned[Ord(wp_nervegun)] <> 0 then
+            player.pendingweapon := wp_nervegun;
+        end;
+      end;
+    am_freezegunammo:
+      begin
+        if (player.readyweapon = wp_fist) or
+           (player.readyweapon = wp_pistol) then
+        begin
+          if player.weaponowned[Ord(wp_freezegun)] <> 0 then
+            player.pendingweapon := wp_freezegun;
+        end;
+      end;
+    am_flamegunammo:
+      begin
+        if (player.readyweapon = wp_fist) or
+           (player.readyweapon = wp_pistol) then
+        begin
+          if player.weaponowned[Ord(wp_flamegun)] <> 0 then
+            player.pendingweapon := wp_flamegun;
+        end;
+      end;
+    am_grenades:
+      begin
+        if (player.readyweapon = wp_fist) or
+           (player.readyweapon = wp_pistol) then
+        begin
+          if player.weaponowned[Ord(wp_grenades)] <> 0 then
+            player.pendingweapon := wp_grenades;
+        end;
+      end;
+    am_disk:
+      begin
+        if (player.readyweapon = wp_fist) or
+           (player.readyweapon = wp_pistol) then
+        begin
+          if player.weaponowned[Ord(wp_boomerang)] <> 0 then
+            player.pendingweapon := wp_boomerang;
         end;
       end;
     am_misl:
@@ -191,6 +223,14 @@ begin
         begin
           if player.weaponowned[Ord(wp_missile)] <> 0 then
             player.pendingweapon := wp_missile;
+        end
+      end;
+    am_trackingmisl:
+      begin
+        if player.readyweapon = wp_fist then
+        begin
+          if player.weaponowned[Ord(wp_trackingmissile)] <> 0 then
+            player.pendingweapon := wp_trackingmissile;
         end
       end;
   end;
@@ -224,7 +264,7 @@ begin
     if deathmatch <> 0 then
       P_GiveAmmo(player, ammo, 5)
     else
-      P_GiveAmmo(player, ammo, 2);
+      P_GiveAmmo(player, ammo, 1);
     player.pendingweapon := weapon;
 
     if (player = @players[consoleplayer]) then
@@ -234,14 +274,7 @@ begin
   end;
 
   if ammo <> am_noammo then
-  begin
-  // give one clip with a dropped weapon,
-  // two clips with a found weapon
-    if dropped then
-      gaveammo := P_GiveAmmo(player, ammo, 1)
-    else
-      gaveammo := P_GiveAmmo(player, ammo, 2);
-  end
+    gaveammo := P_GiveAmmo(player, ammo, 1)
   else
     gaveammo := false;
 
@@ -427,6 +460,60 @@ begin
     P_GiveCard(player, it_yellowcard);
     if netgame then
       exit;
+  end
+  else if s_spr = 'LITC' then // Weapon #1 - Gun (+ 40 bullets)
+  begin
+    if not P_GiveAmmo(player, am_bullet, 4) then
+      exit;
+    player._message := GOTWEAPON1;
+  end
+  else if s_spr = 'ELEC' then // Weapon #2 - Shock Gun
+  begin
+    if not P_GiveWeapon(player, wp_shockgun, false) then
+      exit;
+    player._message := GOTWEAPON2;
+  end
+  else if s_spr = 'FUZC' then // Weapon #3 - Nerve gun
+  begin
+    if not P_GiveWeapon(player, wp_nervegun, false) then
+      exit;
+    player._message := GOTWEAPON3;
+  end
+  else if s_spr = 'FREC' then // Weapon #4 - Freeze gun
+  begin
+    if not P_GiveWeapon(player, wp_freezegun, false) then
+      exit;
+    player._message := GOTWEAPON4;
+  end
+  else if s_spr = 'FLAC' then // Weapon #5 - Flame gun
+  begin
+    if not P_GiveWeapon(player, wp_flamegun, false) then
+      exit;
+    player._message := GOTWEAPON5;
+  end
+  else if s_spr = 'BOB2' then // Weapon #6 - Grenades
+  begin
+    if not P_GiveWeapon(player, wp_grenades, false) then
+      exit;
+    player._message := GOTWEAPON6;
+  end
+  else if s_spr = 'CDCC' then // Weapon #7 - Boomerang
+  begin
+    if not P_GiveWeapon(player, wp_boomerang, false) then
+      exit;
+    player._message := GOTWEAPON7;
+  end
+  else if s_spr = 'MISC' then // Weapon #8 - Missile Launcher
+  begin
+    if not P_GiveWeapon(player, wp_missile, false) then
+      exit;
+    player._message := GOTWEAPON8;
+  end
+  else if s_spr = 'DEVC' then // Weapon #9 - Tracking Missile Launcher
+  begin
+    if not P_GiveWeapon(player, wp_trackingmissile, false) then
+      exit;
+    player._message := GOTWEAPON9;
   end
   else
   begin
@@ -634,7 +721,7 @@ begin
         if not oldsharewareversion then
           sound := Ord(sfx_getpow);
       end;
-
+           (*
   // ammo
     Ord(SPR_CLIP):
       begin
@@ -785,7 +872,7 @@ begin
         player._message := GOTSHOTGUN2;
         sound := Ord(sfx_wpnup);
       end;
-
+             *)
   else
     I_Error('P_TouchSpecialThing(): Unknown gettable thing');
   end;
@@ -1000,7 +1087,7 @@ begin
   // inflict thrust and push the victim out of reach,
   // thus kick away unless using the chainsaw.
   if (inflictor <> nil) and (target.flags and MF_NOCLIP = 0) and
-    ((source = nil) or (source.player = nil) or (Pplayer_t(source.player).readyweapon <> wp_chainsaw)) then
+    ((source = nil) or (source.player = nil)) then
   begin
     ang := R_PointToAngle2(inflictor.x, inflictor.y, target.x, target.y);
 

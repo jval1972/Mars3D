@@ -149,27 +149,15 @@ var
   GOTVISOR: string = 'Light Amplification Visor';
   GOTMSPHERE: string = 'MegaSphere!';
 
-  GOTCLIP: string = 'Picked up a clip.';
-  GOTCLIPBOX: string = 'Picked up a box of bullets.';
-  GOTROCKET: string = 'Picked up a rocket.';
-  GOTROCKBOX: string = 'Picked up a box of rockets.';
-  GOTCELL: string = 'Picked up an energy cell.';
-  GOTCELLBOX: string = 'Picked up an energy cell pack.';
-  GOTSHELLS: string = 'Picked up 4 shotgun shells.';
-// JVAL: 7/12/2007 Correctly display the amound of picked-up shells
-  GOTONESHELL: string = 'Picked up a shotgun shell.';
-  GOTMANYSHELLS: string = 'Picked up %d shotgun shells.';
-
-  GOTSHELLBOX: string = 'Picked up a box of shotgun shells.';
-  GOTBACKPACK: string = 'Picked up a backpack full of ammo!';
-
-  GOTBFG9000: string = 'You got the BFG9000!  Oh, yes.';
-  GOTCHAINGUN: string = 'You got the chaingun!';
-  GOTCHAINSAW: string = 'A chainsaw!  Find some meat!';
-  GOTLAUNCHER: string = 'You got the rocket launcher!';
-  GOTPLASMA: string = 'You got the plasma gun!';
-  GOTSHOTGUN: string = 'You got the shotgun!';
-  GOTSHOTGUN2: string = 'You got the super shotgun!';
+  GOTWEAPON1: string = 'Pistol';
+  GOTWEAPON2: string = 'Shock gun';
+  GOTWEAPON3: string = 'Nerve gun';
+  GOTWEAPON4: string = 'Freeze gun';
+  GOTWEAPON5: string = 'Flame gun';
+  GOTWEAPON6: string = 'Grenade launcher';
+  GOTWEAPON7: string = 'Boomerang gun';
+  GOTWEAPON8: string = 'Missile launcher';
+  GOTWEAPON9: string = 'Tracking Missile launcher';
 
   MSGSECRETSECTOR: string = 'You found a secret area.';
 
@@ -419,7 +407,6 @@ var
   STSTR_BEHOLD: string = 'inVuln, Str, Inviso, Rad, Allmap, or Lite-amp';
   STSTR_BEHOLDX: string = 'Power-up Toggled';
 
-  STSTR_CHOPPERS: string = '... doesn''t suck - GM';
   STSTR_CLEV: string = 'Changing Level...';
 
   STSTR_WLEV: string = 'Level specified not found';

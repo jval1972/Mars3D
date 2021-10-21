@@ -493,12 +493,6 @@ const
     Chr($1),  Chr($0),  Chr($0),  Chr($ff)
   ); // idmus
 
-  cheat_choppers_seq: array[0..10] of char = (
-    Chr($b2), Chr($26), Chr($e2), Chr($32), Chr($f6),
-    Chr($2a), Chr($2a), Chr($a6), Chr($6a), Chr($ea),
-    Chr($ff) // id...
-  );
-
   cheat_god_seq: array[0..5] of char = (
     Chr($b2), Chr($26), Chr($26), Chr($aa), Chr($26),
     Chr($ff)  // iddqd
@@ -594,7 +588,6 @@ var
 
   cheat_powerup: array[0..6] of cheatseq_t;
 
-  cheat_choppers: cheatseq_t;
   cheat_clev: cheatseq_t;
   cheat_mypos: cheatseq_t;
 
@@ -672,23 +665,11 @@ begin
   plyr.armorpoints := p_idfaarmor;
   plyr.armortype := p_idfaarmorclass;
 
-  if gamemode = shareware then
-  begin
-    for i := 0 to Ord(wp_missile) do
-      plyr.weaponowned[i] := 1;
+  for i := 0 to Ord(NUMWEAPONS) - 1 do
+    plyr.weaponowned[i] := 1;
 
-    for i := 0 to Ord(NUMAMMO) - 1 do
-      if i <> Ord(am_cell) then
-        plyr.ammo[i] := plyr.maxammo[i];
-  end
-  else
-  begin
-    for i := 0 to Ord(NUMWEAPONS) - 1 do
-      plyr.weaponowned[i] := 1;
-
-    for i := 0 to Ord(NUMAMMO) - 1 do
-      plyr.ammo[i] := plyr.maxammo[i];
-  end;
+  for i := 0 to Ord(NUMAMMO) - 1 do
+    plyr.ammo[i] := plyr.maxammo[i];
 
   plyr._message := STSTR_FAADDED;
 end;
@@ -703,23 +684,11 @@ begin
   plyr.armorpoints := p_idkfaarmor;
   plyr.armortype := p_idkfaarmorclass;
 
-  if gamemode = shareware then
-  begin
-    for i := 0 to Ord(wp_missile) - 1 do
-      plyr.weaponowned[i] := 1;
+  for i := 0 to Ord(NUMWEAPONS) - 1 do
+    plyr.weaponowned[i] := 1;
 
-    for i := 0 to Ord(NUMAMMO) - 1 do
-      if i <> Ord(am_cell) then
-        plyr.ammo[i] := plyr.maxammo[i];
-  end
-  else
-  begin
-    for i := 0 to Ord(NUMWEAPONS) - 1 do
-      plyr.weaponowned[i] := 1;
-
-    for i := 0 to Ord(NUMAMMO) - 1 do
-      plyr.ammo[i] := plyr.maxammo[i];
-  end;
+  for i := 0 to Ord(NUMAMMO) - 1 do
+    plyr.ammo[i] := plyr.maxammo[i];
 
   for i := 0 to Ord(NUMCARDS) - 1 do
     plyr.cards[i] := true;
@@ -948,13 +917,6 @@ begin
       if check_cheat(@cheat_powerup[6], Chr(ev.data1)) then
       begin
         plyr._message := STSTR_BEHOLD;
-      end
-      // 'choppers' invulnerability & chainsaw
-      else if check_cheat(@cheat_choppers, Chr(ev.data1)) then
-      begin
-        plyr.weaponowned[Ord(wp_chainsaw)] := 1;
-        plyr.powers[Ord(pw_invulnerability)] := INVULNTICS;
-        plyr._message := STSTR_CHOPPERS;
       end
       // 'mypos' for player position
       else if check_cheat(@cheat_mypos, Chr(ev.data1)) then
@@ -1923,8 +1885,6 @@ begin
   cheat_powerup[6].sequence := get_cheatseq_string(cheat_powerup_seq6);
   cheat_powerup[6].p := get_cheatseq_string(0);
 
-  cheat_choppers.sequence := get_cheatseq_string(cheat_choppers_seq);
-  cheat_choppers.p := get_cheatseq_string(0);
   cheat_clev.sequence := get_cheatseq_string(cheat_clev_seq);
   cheat_clev.p := get_cheatseq_string(0);
   cheat_mypos.sequence := get_cheatseq_string(cheat_mypos_seq);

@@ -133,14 +133,16 @@ var
   key_jump: integer;
 
 // JVAL 20191207 Key bindings for weapon change
-  key_weapon0: integer = Ord('1');
-  key_weapon1: integer = Ord('2');
-  key_weapon2: integer = Ord('3');
-  key_weapon3: integer = Ord('4');
-  key_weapon4: integer = Ord('5');
-  key_weapon5: integer = Ord('6');
-  key_weapon6: integer = Ord('7');
-  key_weapon7: integer = Ord('8');
+  key_weapon0: integer = Ord('0');
+  key_weapon1: integer = Ord('1');
+  key_weapon2: integer = Ord('2');
+  key_weapon3: integer = Ord('3');
+  key_weapon4: integer = Ord('4');
+  key_weapon5: integer = Ord('5');
+  key_weapon6: integer = Ord('6');
+  key_weapon7: integer = Ord('7');
+  key_weapon8: integer = Ord('8');
+  key_weapon9: integer = Ord('9');
 
   KEY_WEAPONS: array[0..Ord(NUMWEAPONS) - 1] of PInteger;
 
@@ -253,7 +255,7 @@ var
   cpars: array[0..31] of integer;
 
 var
-  p_initialbullets: integer = 50;
+  p_initialbullets: integer = 100;
   allowvanillademos: boolean = true;
   vanilla_demo_off: boolean = false;
 
@@ -1572,7 +1574,7 @@ begin
   p.pendingweapon := wp_pistol;
   p.weaponowned[Ord(wp_fist)] := 1;
   p.weaponowned[Ord(wp_pistol)] := 1;
-  p.ammo[Ord(am_clip)] := p_initialbullets;
+  p.ammo[Ord(am_bullet)] := p_initialbullets;
 
   for i := 0 to Ord(NUMAMMO) - 1 do
     p.maxammo[i] := maxammo[i];
@@ -3217,6 +3219,8 @@ initialization
   KEY_WEAPONS[5] := @key_weapon5;
   KEY_WEAPONS[6] := @key_weapon6;
   KEY_WEAPONS[7] := @key_weapon7;
+  KEY_WEAPONS[8] := @key_weapon8;
+  KEY_WEAPONS[9] := @key_weapon9;
 
 end.
 

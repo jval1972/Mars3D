@@ -770,32 +770,8 @@ begin
     //  (read: not in the middle of an attack).
     newweapon := weapontype_t(_SHR(cmd.buttons and BT_WEAPONMASK, BT_WEAPONSHIFT));
 
-    if (newweapon = wp_fist) and
-       (player.weaponowned[Ord(wp_chainsaw)] <> 0) and (not (
-       (player.readyweapon = wp_chainsaw) and (player.powers[Ord(pw_strength)] <> 0))) then
-    begin
-      newweapon := wp_chainsaw;
-      // JVAL: If readyweapon is already the chainsaw return to fist
-      // Only if we don't have old compatibility mode suspended
-      if not G_NeedsCompatibilityMode then
-        if player.readyweapon = wp_chainsaw then
-          newweapon := wp_fist;
-    end;
-
-    if (gamemode = commercial) and
-       (newweapon = wp_shotgun) and
-       (player.weaponowned[Ord(wp_supershotgun)] <> 0) and
-       (player.readyweapon <> wp_supershotgun) then
-      newweapon := wp_supershotgun;
-
-    if (player.weaponowned[Ord(newweapon)] <> 0) and
-       (newweapon <> player.readyweapon) then
-      // Do not go to plasma or BFG in shareware,
-      //  even if cheated.
-      if ((newweapon <> wp_plasma) and (newweapon <> wp_bfg)) or
-         (gamemode <> shareware) then
-        player.pendingweapon := newweapon;
-
+    if player.weaponowned[Ord(newweapon)] <> 0 then
+      player.pendingweapon := newweapon;
   end;
 
   // check for use

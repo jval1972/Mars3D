@@ -233,9 +233,6 @@ begin
   if player.pendingweapon = wp_nochange then
     player.pendingweapon := player.readyweapon;
 
-  if player.pendingweapon = wp_chainsaw then
-    S_StartSound(player.mo, Ord(sfx_sawup));
-
   newstate := statenum_t(weaponinfo[Ord(player.pendingweapon)].upstate);
 
   player.pendingweapon := wp_nochange;
@@ -252,21 +249,12 @@ end;
 function P_CheckAmmo(player: Pplayer_t): boolean;
 var
   ammo: ammotype_t;
-  count: integer;
 begin
   ammo := weaponinfo[Ord(player.readyweapon)].ammo;
 
-  // Minimal amount for one shot varies.
-  if player.readyweapon = wp_bfg then
-    count := p_bfgcells
-  else if player.readyweapon = wp_supershotgun then
-    count := 2 // Double barrel.
-  else
-    count := 1; // Regular.
-
   // Some do not need ammunition anyway.
   // Return if current ammunition sufficient.
-  if (ammo = am_noammo) or (player.ammo[Ord(ammo)] >= count) then
+  if (ammo = am_noammo) or (player.ammo[Ord(ammo)] > 0) then
   begin
     result := true;
     exit;
@@ -275,31 +263,33 @@ begin
   // Out of ammo, pick a weapon to change to.
   // Preferences are set here.
   repeat
-    if (player.weaponowned[Ord(wp_plasma)] <> 0) and
-       (player.ammo[Ord(am_cell)] <> 0) and
-      (gamemode <> shareware) then
-      player.pendingweapon := wp_plasma
-    else if (player.weaponowned[Ord(wp_supershotgun)] <> 0) and
-            (player.ammo[Ord(am_shell)] > 2) and
-            (gamemode = commercial) then
-      player.pendingweapon := wp_supershotgun
-    else if (player.weaponowned[Ord(wp_chaingun)] <> 0) and
-            (player.ammo[Ord(am_clip)] <> 0) then
-      player.pendingweapon := wp_chaingun
-    else if (player.weaponowned[Ord(wp_shotgun)] <> 0) and
-            (player.ammo[Ord(am_shell)] <> 0) then
-      player.pendingweapon := wp_shotgun
-    else if (player.ammo[Ord(am_clip)] <> 0) then
-      player.pendingweapon := wp_pistol
-    else if (player.weaponowned[Ord(wp_chainsaw)] <> 0) then
-      player.pendingweapon := wp_chainsaw
+    if (player.weaponowned[Ord(wp_trackingmissile)] <> 0) and
+       (player.ammo[Ord(am_trackingmisl)] > 0) then
+      player.pendingweapon := wp_trackingmissile
     else if (player.weaponowned[Ord(wp_missile)] <> 0) and
-            (player.ammo[Ord(am_misl)] <> 0) then
+            (player.ammo[Ord(am_misl)] > 0) then
       player.pendingweapon := wp_missile
-    else if (player.weaponowned[Ord(wp_bfg)] <> 0) and
-            (player.ammo[Ord(am_cell)] > p_bfgcells) and
-            (gamemode <> shareware) then
-      player.pendingweapon := wp_bfg
+    else if (player.weaponowned[Ord(wp_boomerang)] <> 0) and
+            (player.ammo[Ord(am_disk)] > 0) then
+      player.pendingweapon := wp_boomerang
+    else if (player.weaponowned[Ord(wp_grenades)] <> 0) and
+            (player.ammo[Ord(am_grenades)] > 0) then
+      player.pendingweapon := wp_grenades
+    else if (player.weaponowned[Ord(wp_flamegun)] <> 0) and
+            (player.ammo[Ord(am_flamegunammo)] > 0) then
+      player.pendingweapon := wp_flamegun
+    else if (player.weaponowned[Ord(wp_freezegun)] <> 0) and
+            (player.ammo[Ord(am_freezegunammo)] > 0) then
+      player.pendingweapon := wp_freezegun
+    else if (player.weaponowned[Ord(wp_nervegun)] <> 0) and
+            (player.ammo[Ord(am_nervegunammo)] > 0) then
+      player.pendingweapon := wp_nervegun
+    else if (player.weaponowned[Ord(wp_shockgun)] <> 0) and
+            (player.ammo[Ord(am_shockgunammo)] > 0) then
+      player.pendingweapon := wp_shockgun
+    else if (player.weaponowned[Ord(wp_pistol)] <> 0) and
+            (player.ammo[Ord(am_bullet)] > 0) then
+      player.pendingweapon := wp_pistol
     else
       // If everything fails.
       player.pendingweapon := wp_fist;
@@ -354,10 +344,6 @@ begin
      (player.mo.state = @states[Ord(S_PLAY_ATK2)]) then
     P_SetMobjState(player.mo, S_PLAY);
 
-  if (player.readyweapon = wp_chainsaw) and
-     (psp.state = @states[Ord(S_SAW)]) then
-    S_StartSound(player.mo, Ord(sfx_sawidl));
-
   // check for change
   //  if player is dead, put the weapon away
   if (player.pendingweapon <> wp_nochange) or (player.health = 0) then
@@ -373,8 +359,7 @@ begin
   //  the missile launcher and bfg do not auto fire
   if player.cmd.buttons and BT_ATTACK <> 0 then
   begin
-    if not player.attackdown or
-       ((player.readyweapon <> wp_missile) and (player.readyweapon <> wp_bfg)) then
+    if not player.attackdown then
     begin
       player.attackdown := true;
       P_FireWeapon(player);
