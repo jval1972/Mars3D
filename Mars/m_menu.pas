@@ -1070,7 +1070,7 @@ const
     (text: 'Grenade launcher'; pkey: @key_weapon6),
     (text: 'Boomerang'; pkey: @key_weapon7),
     (text: 'Missile launcher'; pkey: @key_weapon8),
-    (text: 'Tracking Missile launcher'; pkey: @key_weapon9)
+    (text: 'Tracking missile launcher'; pkey: @key_weapon9)
   );
 
 var
