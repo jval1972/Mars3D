@@ -1,0 +1,61 @@
+///////////////////////////////
+// MT_HEALTH15
+///////////////////////////////
+ACTOR MT_HEALTH15 2012
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      HSP1 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_HEALTH25
+///////////////////////////////
+ACTOR MT_HEALTH25 2011
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      HSP2 A -1
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_HEALTH200
+///////////////////////////////
+ACTOR MT_HEALTH200 2018
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      HSP3 A -1
+    }
+  }
+}
