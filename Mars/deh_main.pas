@@ -3316,6 +3316,10 @@ begin
   DEH_AddString(@deh_strings, @GOTWEAPON8, 'GOTWEAPON8');
   DEH_AddString(@deh_strings, @GOTWEAPON9, 'GOTWEAPON9');
   DEH_AddString(@deh_strings, @MSGSECRETSECTOR, 'MSGSECRETSECTOR');
+  DEH_AddString(@deh_strings, @GOTBULLETS, 'GOTBULLETS');
+  DEH_AddString(@deh_strings, @GOTTRACKINGMISSILES, 'GOTTRACKINGMISSILES');
+  DEH_AddString(@deh_strings, @GOTBOXOFBULLETS, 'GOTBOXOFBULLETS');
+  DEH_AddString(@deh_strings, @GOTGRENADES, 'GOTGRENADES');
 
   DEH_AddString(@deh_strings, @DETAILULTRA, 'DETAILULTRA');
   DEH_AddString(@deh_strings, @DETAILHI, 'DETAILHI');

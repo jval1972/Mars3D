@@ -404,14 +404,9 @@ var
 procedure P_TouchSpecialThing(special: Pmobj_t; toucher: Pmobj_t);
 var
   player: Pplayer_t;
-  i: integer;
   delta: fixed_t;
   sound: integer;
   s_spr: string;
-// JVAL: To display correct message about the number of cells taken
-  oldshells: integer;
-  pickedshells: integer;
-  pmsg: string;
   oldhealth: integer;
 begin
   delta := special.z - toucher.z;
@@ -514,6 +509,30 @@ begin
     if not P_GiveWeapon(player, wp_trackingmissile, false) then
       exit;
     player._message := GOTWEAPON9;
+  end
+  else if s_spr = 'GUN1' then // Ammo bullets
+  begin
+    if not P_GiveAmmo(player, am_bullet, 1) then
+      exit;
+    player._message := GOTBULLETS;
+  end
+  else if s_spr = 'MIS1' then // Tracking missiles
+  begin
+    if not P_GiveAmmo(player, am_trackingmisl, 1) then
+      exit;
+    player._message := GOTTRACKINGMISSILES;
+  end
+  else if s_spr = 'GUN2' then // Box of bullets
+  begin
+    if not P_GiveAmmo(player, am_bullet, 3) then
+      exit;
+    player._message := GOTBOXOFBULLETS;
+  end
+  else if s_spr = 'BOB1' then // Grenades
+  begin
+    if not P_GiveAmmo(player, am_grenades, 1) then
+      exit;
+    player._message := GOTGRENADES;
   end
   else
   begin
@@ -721,88 +740,7 @@ begin
         if not oldsharewareversion then
           sound := Ord(sfx_getpow);
       end;
-           (*
-  // ammo
-    Ord(SPR_CLIP):
-      begin
-        if special.flags and MF_DROPPED <> 0 then
-        begin
-          if not P_GiveAmmo(player, am_clip, 0) then
-            exit;
-        end
-        else
-        begin
-          if not P_GiveAmmo(player, am_clip, 1) then
-            exit;
-        end;
-        player._message := GOTCLIP;
-      end;
-
-    Ord(SPR_AMMO):
-      begin
-        if not P_GiveAmmo(player, am_clip, 5) then
-          exit;
-        player._message := GOTCLIPBOX;
-      end;
-
-    Ord(SPR_ROCK):
-      begin
-        if not P_GiveAmmo(player, am_misl, 1) then
-          exit;
-        player._message := GOTROCKET;
-      end;
-
-    Ord(SPR_BROK):
-      begin
-        if not P_GiveAmmo(player, am_misl, 5) then
-          exit;
-        player._message := GOTROCKBOX;
-      end;
-
-    Ord(SPR_CELL):
-      begin
-        if not P_GiveAmmo(player, am_cell, 1) then
-          exit;
-        player._message := GOTCELL;
-      end;
-
-    Ord(SPR_CELP):
-      begin
-        if not P_GiveAmmo(player, am_cell, 5) then
-          exit;
-        player._message := GOTCELLBOX;
-      end;
-
-    Ord(SPR_SHEL):
-      begin
-      // JVAL: 7/12/2007 display exact number of picked-up shells.
-        oldshells := player.ammo[Ord(am_shell)];
-
-        if not P_GiveAmmo(player, am_shell, 1) then
-          exit;
-
-        pickedshells := player.ammo[Ord(am_shell)] - oldshells;
-        if pickedshells > 0 then
-        begin
-          case pickedshells of
-            4: player._message := GOTSHELLS;
-            1: player._message := GOTONESHELL;
-          else
-            begin
-              sprintf(pmsg, GOTMANYSHELLS, [pickedshells]);
-              player._message := pmsg;
-            end;
-          end;
-        end;
-      end;
-
-    Ord(SPR_SBOX):
-      begin
-        if not P_GiveAmmo(player, am_shell, 5) then
-          exit;
-        player._message := GOTSHELLBOX;
-      end;
-
+(*
     Ord(SPR_BPAK):
       begin
         if not player.backpack then
@@ -816,62 +754,6 @@ begin
         player._message := GOTBACKPACK;
       end;
 
-  // weapons
-    Ord(SPR_BFUG):
-      begin
-        if not P_GiveWeapon(player, wp_bfg, false) then
-          exit;
-        player._message := GOTBFG9000;
-        sound := Ord(sfx_wpnup);
-      end;
-
-    Ord(SPR_MGUN):
-      begin
-        if not P_GiveWeapon(player, wp_chaingun, special.flags and MF_DROPPED <> 0) then
-          exit;
-        player._message := GOTCHAINGUN;
-        sound := Ord(sfx_wpnup);
-      end;
-
-    Ord(SPR_CSAW):
-      begin
-        if not P_GiveWeapon(player, wp_chainsaw, false) then
-          exit;
-        player._message := GOTCHAINSAW;
-        sound := Ord(sfx_wpnup);
-      end;
-
-    Ord(SPR_LAUN):
-      begin
-        if not P_GiveWeapon(player, wp_missile, false) then
-          exit;
-        player._message := GOTLAUNCHER;
-        sound := Ord(sfx_wpnup);
-      end;
-
-    Ord(SPR_PLAS):
-      begin
-        if not P_GiveWeapon(player, wp_plasma, false) then
-          exit;
-        player._message := GOTPLASMA;
-        sound := Ord(sfx_wpnup);
-      end;
-
-    Ord(SPR_SHOT):
-      begin
-        if not P_GiveWeapon(player, wp_shotgun, special.flags and MF_DROPPED <> 0) then
-          exit;
-        player._message := GOTSHOTGUN;
-        sound := Ord(sfx_wpnup);
-      end;
-
-    Ord(SPR_SGN2):
-      begin
-        if not P_GiveWeapon(player, wp_supershotgun, special.flags and MF_DROPPED <> 0) then
-          exit;
-        player._message := GOTSHOTGUN2;
-        sound := Ord(sfx_wpnup);
-      end;
              *)
   else
     I_Error('P_TouchSpecialThing(): Unknown gettable thing');

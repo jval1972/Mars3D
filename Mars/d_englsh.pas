@@ -149,6 +149,7 @@ var
   GOTVISOR: string = 'Light Amplification Visor';
   GOTMSPHERE: string = 'MegaSphere!';
 
+  // Weapons
   GOTWEAPON1: string = 'Pistol';
   GOTWEAPON2: string = 'Shock gun';
   GOTWEAPON3: string = 'Nerve gun';
@@ -158,6 +159,12 @@ var
   GOTWEAPON7: string = 'Boomerang gun';
   GOTWEAPON8: string = 'Missile launcher';
   GOTWEAPON9: string = 'Tracking Missile launcher';
+
+  // Ammo
+  GOTBULLETS: string = 'Pistol Clip';
+  GOTTRACKINGMISSILES: string = 'Tracking Missiles';
+  GOTBOXOFBULLETS: string = 'Box of bullets';
+  GOTGRENADES: string = 'Grenades';
 
   MSGSECRETSECTOR: string = 'You found a secret area.';
 
