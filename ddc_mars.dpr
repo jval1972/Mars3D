@@ -394,7 +394,8 @@ uses
   scanf_c in 'C_LIB\scanf_c.pas',
   BTMemoryModule in 'Base\BTMemoryModule.pas',
   s_externalmusic in 'Base\s_externalmusic.pas',
-  info_export in 'Base\info_export.pas';
+  info_export in 'Base\info_export.pas',
+  mars_info in 'Mars\mars_info.pas';
 
 exports
   dd_compile_doom,
