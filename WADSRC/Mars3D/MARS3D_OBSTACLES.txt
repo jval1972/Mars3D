@@ -76,7 +76,7 @@ ACTOR MT_TREE1 2028
   {
     Spawn:
     {
-      COLU2 A -1
+      COLU A -1
     }
   }
 }
