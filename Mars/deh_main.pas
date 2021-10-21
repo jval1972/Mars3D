@@ -3287,11 +3287,7 @@ begin
 
   DEH_AddString(@deh_strings, @GOTARMOR, 'GOTARMOR');
   DEH_AddString(@deh_strings, @GOTMEGA, 'GOTMEGA');
-  DEH_AddString(@deh_strings, @GOTHTHBONUS, 'GOTHTHBONUS');
   DEH_AddString(@deh_strings, @GOTARMBONUS, 'GOTARMBONUS');
-  DEH_AddString(@deh_strings, @GOTSTIM, 'GOTSTIM');
-  DEH_AddString(@deh_strings, @GOTMEDINEED, 'GOTMEDINEED');
-  DEH_AddString(@deh_strings, @GOTMEDIKIT, 'GOTMEDIKIT');
   DEH_AddString(@deh_strings, @GOTSUPER, 'GOTSUPER');
   DEH_AddString(@deh_strings, @GOTBLUECARD, 'GOTBLUECARD');
   DEH_AddString(@deh_strings, @GOTYELWCARD, 'GOTYELWCARD');
@@ -3306,6 +3302,7 @@ begin
   DEH_AddString(@deh_strings, @GOTMAP, 'GOTMAP');
   DEH_AddString(@deh_strings, @GOTVISOR, 'GOTVISOR');
   DEH_AddString(@deh_strings, @GOTMSPHERE, 'GOTMSPHERE');
+
   DEH_AddString(@deh_strings, @GOTWEAPON1, 'GOTWEAPON1');
   DEH_AddString(@deh_strings, @GOTWEAPON2, 'GOTWEAPON2');
   DEH_AddString(@deh_strings, @GOTWEAPON3, 'GOTWEAPON3');
@@ -3315,6 +3312,11 @@ begin
   DEH_AddString(@deh_strings, @GOTWEAPON7, 'GOTWEAPON7');
   DEH_AddString(@deh_strings, @GOTWEAPON8, 'GOTWEAPON8');
   DEH_AddString(@deh_strings, @GOTWEAPON9, 'GOTWEAPON9');
+
+  DEH_AddString(@deh_strings, @GOTHEALTH15, 'GOTHEALTH15');
+  DEH_AddString(@deh_strings, @GOTHEALTH25, 'GOTHEALTH25');
+  DEH_AddString(@deh_strings, @GOTHEALTH200, 'GOTHEALTH200');
+
   DEH_AddString(@deh_strings, @MSGSECRETSECTOR, 'MSGSECRETSECTOR');
   DEH_AddString(@deh_strings, @GOTBULLETS, 'GOTBULLETS');
   DEH_AddString(@deh_strings, @GOTTRACKINGMISSILES, 'GOTTRACKINGMISSILES');

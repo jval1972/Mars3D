@@ -64,13 +64,19 @@ const
 procedure P_CmdSuicide;
 
 var
-  p_maxhealth: integer = 200;
+  p_maxhealth: integer = 999;
+
+  p_medikidpack: integer = 15;
+  p_medikidpotion: integer = 25;
+  p_tianshanganoderma: integer = 200;
+
   p_maxsoulsphere: integer = 200;
   p_soulspherehealth: integer = 100;
   p_megaspherehealth: integer = 200;
   p_medikithealth: integer = 25;
   p_stimpackhealth: integer = 10;
   p_bonushealth: integer = 1;
+
   p_maxarmor: integer = 200;
   p_greenarmorclass: integer = 1;
   p_bluearmorclass: integer = 2;
@@ -296,15 +302,15 @@ end;
 //
 function P_GiveBody(player: Pplayer_t; num: integer): boolean;
 begin
-  if player.health >= mobjinfo[Ord(MT_PLAYER)].spawnhealth then
+  if player.health >= p_maxhealth then
   begin
     result := false;
     exit;
   end;
 
   player.health := player.health + num;
-  if player.health > mobjinfo[Ord(MT_PLAYER)].spawnhealth then
-    player.health := mobjinfo[Ord(MT_PLAYER)].spawnhealth;
+  if player.health > p_maxhealth then
+    player.health := p_maxhealth;
   player.mo.health := player.health;
 
   result := true;
@@ -407,7 +413,6 @@ var
   delta: fixed_t;
   sound: integer;
   s_spr: string;
-  oldhealth: integer;
 begin
   delta := special.z - toucher.z;
 
@@ -534,6 +539,24 @@ begin
       exit;
     player._message := GOTGRENADES;
   end
+  else if s_spr = 'HSP1' then // MT_HEALTH15 (Medkit pack)
+  begin
+    if not P_GiveBody(player, p_medikidpack) then
+      exit;
+    player._message := GOTHEALTH15;
+  end
+  else if s_spr = 'HSP2' then // MT_HEALTH25 (Medkit potion)
+  begin
+    if not P_GiveBody(player, p_medikidpotion) then
+      exit;
+    player._message := GOTHEALTH25;
+  end
+  else if s_spr = 'HSP3' then // MT_HEALTH200 (Medkit potion)
+  begin
+    if not P_GiveBody(player, p_tianshanganoderma) then
+      exit;
+    player._message := GOTHEALTH200;
+  end
   else
   begin
 
@@ -555,15 +578,6 @@ begin
       end;
 
   // bonus items
-    Ord(SPR_BON1):
-      begin
-        player.health := player.health + p_bonushealth; // can go over 100%
-        if player.health > p_maxhealth then
-          player.health := p_maxhealth;
-        player.mo.health := player.health;
-        player._message := GOTHTHBONUS;
-      end;
-
     Ord(SPR_BON2):
       begin
         player.armorpoints := player.armorpoints + 1; // can go over 100%
@@ -651,37 +665,6 @@ begin
         P_GiveCard(player, it_redskull);
         if netgame then
           exit;
-      end;
-
-  // medikits, heals
-    Ord(SPR_STIM):
-      begin
-        if not P_GiveBody(player, p_stimpackhealth) then
-          exit;
-        player._message := GOTSTIM;
-      end;
-
-    Ord(SPR_MEDI):
-      begin
-        oldhealth := player.health;
-        if not P_GiveBody(player, p_medikithealth) then
-          exit;
-
-        // JVAL 20171210 Fix the https://doomwiki.org/wiki/Picked_up_a_medikit_that_you_REALLY_need! bug
-        if (G_PlayingEngineVersion >= VERSION204) and (player.mo <> nil) then
-        begin
-          if oldhealth < player.mo.info.spawnhealth div 4 then
-            player._message := GOTMEDINEED
-          else
-            player._message := GOTMEDIKIT;
-        end
-        else
-        begin
-          if player.health < p_medikithealth then
-            player._message := GOTMEDINEED
-          else
-            player._message := GOTMEDIKIT;
-        end;
       end;
 
   // power ups

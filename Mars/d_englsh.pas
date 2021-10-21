@@ -127,11 +127,7 @@ var
 var
   GOTARMOR: string = 'Picked up the armor.';
   GOTMEGA: string = 'Picked up the MegaArmor!';
-  GOTHTHBONUS: string = 'Picked up a health bonus.';
   GOTARMBONUS: string = 'Picked up an armor bonus.';
-  GOTSTIM: string = 'Picked up a stimpack.';
-  GOTMEDINEED: string = 'Picked up a medikit that you REALLY need!';
-  GOTMEDIKIT: string = 'Picked up a medikit.';
   GOTSUPER: string = 'Supercharge!';
 
   GOTBLUECARD: string = 'Blue keycard.';
@@ -165,6 +161,11 @@ var
   GOTTRACKINGMISSILES: string = 'Tracking Missiles';
   GOTBOXOFBULLETS: string = 'Box of bullets';
   GOTGRENADES: string = 'Grenades';
+
+  // Health
+  GOTHEALTH15: string = 'Got the Medkit pack';
+  GOTHEALTH25: string = 'Got the Medkit potion';
+  GOTHEALTH200: string = 'Got the Tianshan Ganoderma';
 
   MSGSECRETSECTOR: string = 'You found a secret area.';
 
