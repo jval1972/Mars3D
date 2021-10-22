@@ -87,7 +87,7 @@ ACTOR "MT_ROBOT_SHOT"
   Radius 14
   Height 14
   Speed 1310720
-  Damage 5
+  Damage 20
   Mass 100
   Reactiontime 8
   Seesound "GUN2SHT"
@@ -97,6 +97,7 @@ ACTOR "MT_ROBOT_SHOT"
   +MF_MISSILE
   +MF_EX_REDLIGHT
   +DEFAULTTRANSPARENT
+  +THRUSKY
   States
   {
     Spawn:
@@ -168,7 +169,7 @@ ACTOR MT_ROBOT 3004
     Missile:
     {
       MECH E 8 A_FaceTarget
-      MECH F 8 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 53, -11)
+      MECH F 8 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 40, 11)
       TNT1 A 0 A_Jump(100, -2)
       MECH E 8
       Goto See
