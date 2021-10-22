@@ -155,104 +155,6 @@ end;
 //
 // P_UnArchivePlayers
 //
-function P_UnArchiveOldPlayer205(pp: Pplayer_t): boolean;
-var
-  p1: player_t205;
-  p: Pplayer_t205;
-begin
-  p := @p1;
-  if savegameversion <= VERSION114 then
-  begin
-    memcpy(pointer(p), save_p, SizeOf(player_t114));
-    incp(pointer(save_p), SizeOf(player_t114));
-    p.attackerx := 0;
-    p.attackery := 0;
-    p.lastsoundstepx := 0;
-    p.lastsoundstepy := 0;
-    p.lastbreath := 0;
-    p.hardbreathtics := 0;
-    p.angletargetx := 0;
-    p.angletargety := 0;
-    p.angletargetticks := 0;
-    p.laddertics := 0;
-    p.viewbob := p.bob;
-    p.slopetics := 0; // JVAL: Slopes
-    p.oldviewz := p.viewz;
-    p.teleporttics := 0;
-    p.quaketics := 0;
-    p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
-    Pticcmd_t202(@p.cmd)^ := p.cmd202;
-    p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
-    result := true;
-  end
-  else if savegameversion <= VERSION118 then
-  begin
-    memcpy(pointer(p), save_p, SizeOf(player_t118));
-    incp(pointer(save_p), SizeOf(player_t118));
-    p.lastsoundstepx := 0;
-    p.lastsoundstepy := 0;
-    p.lastbreath := 0;
-    p.hardbreathtics := 0;
-    p.angletargetx := 0;
-    p.angletargety := 0;
-    p.angletargetticks := 0;
-    p.laddertics := 0;
-    p.viewbob := p.bob;
-    p.slopetics := 0; // JVAL: Slopes
-    p.oldviewz := p.viewz;
-    p.teleporttics := 0;
-    p.quaketics := 0;
-    p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
-    Pticcmd_t202(@p.cmd)^ := p.cmd202;
-    p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
-    result := true;
-  end
-  else if savegameversion <= VERSION121 then
-  begin
-    memcpy(pointer(p), save_p, SizeOf(player_t121));
-    incp(pointer(save_p), SizeOf(player_t121));
-    p.laddertics := 0;
-    p.viewbob := p.bob;
-    p.slopetics := 0; // JVAL: Slopes
-    p.oldviewz := p.viewz;
-    p.teleporttics := 0;
-    p.quaketics := 0;
-    p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
-    Pticcmd_t202(@p.cmd)^ := p.cmd202;
-    p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
-    result := true;
-  end
-  else if savegameversion <= VERSION122 then
-  begin
-    memcpy(pointer(p), save_p, SizeOf(player_t122));
-    incp(pointer(save_p), SizeOf(player_t122));
-    pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
-    Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
-    pp.cmd.lookupdown16 := pp.cmd.lookupdown * 256;
-    result := true;
-  end
-  else if savegameversion <= VERSION205 then
-  begin
-    memcpy(pointer(p), save_p, SizeOf(player_t205));
-    incp(pointer(save_p), SizeOf(player_t205));
-    result := true;
-  end
-  else
-  begin
-    result := false;
-    exit;
-  end;
-
-  memcpy(pointer(pp), pointer(p), SizeOf(player_t205));
-
-  if pp.quaketics > 0 then
-    pp.quakeintensity := FRACUNIT
-  else
-    pp.quakeintensity := 0;
-
-  pp.nextoof := 0;  // JVAL: version 206
-end;
-
 procedure P_UnArchivePlayers;
 var
   i: integer;
@@ -270,7 +172,7 @@ begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
     end
-    else if not P_UnArchiveOldPlayer205(@players[i]) then
+    else
       I_Error('P_UnArchivePlayers(): Unsupported saved game version: %d', [savegameversion]);
 
     // will be set when unarc thinker
