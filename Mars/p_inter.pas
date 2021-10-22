@@ -557,6 +557,18 @@ begin
       exit;
     player._message := GOTHEALTH200;
   end
+  else if s_spr = 'STAR' then // MT_ALLMAP
+  begin
+    if not P_GivePower(player, Ord(pw_allmap)) then
+      exit;
+    player._message := GOTMAP;
+  end
+  else if s_spr = 'FILY' then // MT_ALLMAP
+  begin
+    if not P_GivePower(player, Ord(pw_jetpack)) then
+      exit;
+    player._message := GOTJETPACK;
+  end
   else
   begin
 

@@ -3299,9 +3299,10 @@ begin
   DEH_AddString(@deh_strings, @GOTBERSERK, 'GOTBERSERK');
   DEH_AddString(@deh_strings, @GOTINVIS, 'GOTINVIS');
   DEH_AddString(@deh_strings, @GOTSUIT, 'GOTSUIT');
-  DEH_AddString(@deh_strings, @GOTMAP, 'GOTMAP');
+  DEH_AddString(@deh_strings, @GOTMAP, 'GOTMAP'); // **
   DEH_AddString(@deh_strings, @GOTVISOR, 'GOTVISOR');
   DEH_AddString(@deh_strings, @GOTMSPHERE, 'GOTMSPHERE');
+  DEH_AddString(@deh_strings, @GOTJETPACK, 'GOTJETPACK'); // **
 
   DEH_AddString(@deh_strings, @GOTWEAPON1, 'GOTWEAPON1');
   DEH_AddString(@deh_strings, @GOTWEAPON2, 'GOTWEAPON2');

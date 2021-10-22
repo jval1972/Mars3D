@@ -142,6 +142,7 @@ var
   GOTINVIS: string = 'Partial Invisibility';
   GOTSUIT: string = 'Radiation Shielding Suit';
   GOTMAP: string = 'Computer Area Map';
+  GOTJETPACK: string = 'Jet pack';
   GOTVISOR: string = 'Light Amplification Visor';
   GOTMSPHERE: string = 'MegaSphere!';
 
