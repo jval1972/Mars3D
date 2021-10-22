@@ -1088,7 +1088,7 @@ begin
     if players[consoleplayer].health > 0 then
     begin
       C_ExecuteCmd('closeconsole');
-      P_DamageMobj(players[consoleplayer].mo, nil, nil, 1000);
+      P_DamageMobj(players[consoleplayer].mo, nil, nil, 10000);
       players[consoleplayer]._message := 'You give up too easy';
     end
     else
