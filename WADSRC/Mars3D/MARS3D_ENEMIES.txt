@@ -1,0 +1,79 @@
+///////////////////////////////
+// MT_ENEMYSOLDIER
+///////////////////////////////
+ACTOR MT_ENEMYSOLDIER 7
+{
+  Health 20
+  Width 20
+  Height 56
+  Speed 8
+  Painchance 200
+  Mass 100
+  Reactiontime 8
+  Attacksound GUN1SHT
+  Painsound ARM1HURT
+  Deathsound MONSDTH
+  DropItem "MT_BULLETS"
+  +MF_SOLID
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  States
+  {
+    Spawn:
+    {
+      POSS A 10 A_Look
+      POSS B 10 A_Look
+      Loop
+    }
+    See:
+    {
+      POSS A 4 A_Chase
+      POSS A 4 A_Chase
+      POSS B 4 A_Chase
+      POSS B 4 A_Chase
+      POSS C 4 A_Chase
+      POSS C 4 A_Chase
+      POSS D 4 A_Chase
+      POSS D 4 A_Chase
+      Loop
+    }
+    Missile:
+    {
+      POSS E 10 A_FaceTarget
+      POSS F 8 A_PosAttack BRIGHT
+      POSS E 8
+      Goto See
+    }
+    Pain:
+    {
+      POSS G 3
+      POSS G 3 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      POSS H 5
+      POSS I 5 A_Scream
+      POSS J 5 A_Fall
+      POSS K -1
+    }
+    Xdeath:
+    {
+      POSS L 5
+      POSS M 5 A_Scream
+      POSS N 5 FALL
+      POSS O 5
+      POSS P 5
+      POSS Q -1
+    }
+    Raise:
+    {
+      POSS K 5
+      POSS J 5
+      POSS I 5
+      POSS H 5
+      Goto See
+    }
+  }
+}
+
