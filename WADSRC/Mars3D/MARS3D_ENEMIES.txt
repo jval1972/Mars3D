@@ -21,57 +21,57 @@ ACTOR MT_ENEMYSOLDIER 7
   {
     Spawn:
     {
-      POSS A 10 A_Look
-      POSS B 10 A_Look
+      ARM1 A 10 A_Look
+      ARM1 B 10 A_Look
       Loop
     }
     See:
     {
-      POSS A 4 A_Chase
-      POSS A 4 A_Chase
-      POSS B 4 A_Chase
-      POSS B 4 A_Chase
-      POSS C 4 A_Chase
-      POSS C 4 A_Chase
-      POSS D 4 A_Chase
-      POSS D 4 A_Chase
+      ARM1 A 4 A_Chase
+      ARM1 A 4 A_Chase
+      ARM1 B 4 A_Chase
+      ARM1 B 4 A_Chase
+      ARM1 C 4 A_Chase
+      ARM1 C 4 A_Chase
+      ARM1 D 4 A_Chase
+      ARM1 D 4 A_Chase
       Loop
     }
     Missile:
     {
-      POSS E 10 A_FaceTarget
-      POSS F 8 A_PosAttack BRIGHT
-      POSS E 8
+      ARM1 E 10 A_FaceTarget
+      ARM1 F 8 A_PosAttack BRIGHT
+      ARM1 E 8
       Goto See
     }
     Pain:
     {
-      POSS G 3
-      POSS G 3 A_Pain
+      ARM1 G 3
+      ARM1 G 3 A_Pain
       Goto See
     }
     Death:
     {
-      POSS H 5
-      POSS I 5 A_Scream
-      POSS J 5 A_Fall
-      POSS K -1
+      ARM1 H 5
+      ARM1 I 5 A_Scream
+      ARM1 J 5 A_Fall
+      ARM1 K -1
     }
     Xdeath:
     {
-      POSS L 5
-      POSS M 5 A_Scream
-      POSS N 5 FALL
-      POSS O 5
-      POSS P 5
-      POSS Q -1
+      ARM1 L 5
+      ARM1 M 5 A_Scream
+      ARM1 N 5 FALL
+      ARM1 O 5
+      ARM1 P 5
+      ARM1 Q -1
     }
     Raise:
     {
-      POSS K 5
-      POSS J 5
-      POSS I 5
-      POSS H 5
+      ARM1 K 5
+      ARM1 J 5
+      ARM1 I 5
+      ARM1 H 5
       Goto See
     }
   }
