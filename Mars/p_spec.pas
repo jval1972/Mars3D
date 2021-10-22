@@ -3033,12 +3033,12 @@ begin
   begin
     line := linespeciallist[i];
     case line.special of
-      48: inc(sides[line.sidenum[0]].textureoffset, FRACUNIT);
+     274: inc(sides[line.sidenum[0]].textureoffset, FRACUNIT);
     // JVAL
     // Added new line specials for scrolling
       85: dec(sides[line.sidenum[0]].textureoffset, FRACUNIT);
      273: inc(sides[line.sidenum[0]].rowoffset, FRACUNIT);  // Scroll Texture Up
-     274: dec(sides[line.sidenum[0]].rowoffset, FRACUNIT);  // Scroll Texture Down
+      48: dec(sides[line.sidenum[0]].rowoffset, FRACUNIT);  // Scroll Texture Down
      275: inc(sides[line.sidenum[0]].textureoffset, 2 * FRACUNIT);
      276: dec(sides[line.sidenum[0]].textureoffset, 2 * FRACUNIT);
      277: inc(sides[line.sidenum[0]].rowoffset, 2 * FRACUNIT);  // Scroll Texture Up (Fast)
