@@ -1642,6 +1642,7 @@ begin
 
     11,                // Exits
     52,
+    123,
     197,
     270,
     124,
@@ -2012,7 +2013,7 @@ begin
           line.special := 0;
       end;
 
-    52:
+    52, 123:
       begin
         // EXIT!
         G_ExitLevel;
