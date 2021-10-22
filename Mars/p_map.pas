@@ -2211,6 +2211,7 @@ var
   bombsource: Pmobj_t;
   bombspot: Pmobj_t;
   bombdamage: integer;
+  bombradius: integer;
 
 
 //
@@ -2370,12 +2371,13 @@ begin
       P_BlockThingsIterator(x, y, PIT_RadiusAttack);
 end;
 
-
 function PIT_RadiusAttackPlayer(thing: Pmobj_t): boolean;
 var
   dx: fixed_t;
   dy: fixed_t;
   dist: fixed_t;
+  cl: fixed_t;
+  damage: integer;
 begin
   if thing.player = nil then
   begin
@@ -2395,7 +2397,7 @@ begin
   if dist < 0 then
     dist := 0;
 
-  if dist >= bombdamage then
+  if dist >= bombradius then
   begin
     result := true; // out of range
     exit;
@@ -2404,7 +2406,16 @@ begin
   if P_CheckSight(thing, bombspot) then
   begin
     // must be in direct path
-    P_DamageMobj(thing, bombspot, bombsource, bombdamage - dist);
+    if bombradius = 0 then
+      P_DamageMobj(thing, bombspot, bombsource, bombdamage)
+    else
+    begin
+      cl := FixedDiv((bombradius - dist) * FRACUNIT, bombradius * FRACUNIT);
+      damage := FixedInt(FixedMul(bombdamage * FRACUNIT, cl));
+      if damage < 1 then
+        damage := 1;
+      P_DamageMobj(thing, bombspot, bombsource, damage);
+    end;
   end;
 
   result := true;
@@ -2439,6 +2450,7 @@ begin
   bombspot := spot;
   bombsource := source;
   bombdamage := damage;
+  bombradius := distance;
 
   for y := yl to yh do
     for x := xl to xh do
