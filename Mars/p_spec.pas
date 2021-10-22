@@ -2102,7 +2102,7 @@ begin
           line.special := 0;
       end;
 
-   121:
+   287:
       begin
         // Blazing PlatDownWaitUpStay
         if (EV_DoPlat(line, blazeDWUS, 0) <> 0) or oldcompatibility then
