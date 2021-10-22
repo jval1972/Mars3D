@@ -854,7 +854,7 @@ begin
           P_ChangeSwitchTexture(line, true);
       end;
 
-   123:
+   286:
       begin
         // Blazing PlatDownWaitUpStay
         if EV_DoPlat(line, blazeDWUS, 0) <> 0 then
