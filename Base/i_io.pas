@@ -120,18 +120,7 @@ begin
 end;
 
 const
-{$IFDEF DOOM}
-  basename = 'Doom';
-{$ENDIF}
-{$IFDEF HERETIC}
-  basename = 'Heretic';
-{$ENDIF}
-{$IFDEF HEXEN}
-  basename = 'Hexen';
-{$ENDIF}
-{$IFDEF STRIFE}
-  basename = 'Strife';
-{$ENDIF}
+  basename = 'Mars3D';
 
 procedure I_InitializeIO;
 var
