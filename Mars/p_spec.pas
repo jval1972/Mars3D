@@ -2925,11 +2925,6 @@ begin
         if player.health <= 10 then
           G_ExitLevel;
       end;
-
-    18:
-      begin
-      // JVAL : Don't draw floor (bridge)
-      end;
   end;
 
   if sector.special >= 32 then  // BOOM sector specials
@@ -3169,7 +3164,7 @@ begin
           inc(totalsecret);         // a generalized sector type
       end;
 
-    10:
+    18:
       begin
         // DOOR CLOSE IN 30 SECONDS
         P_SpawnDoorCloseIn30(sector);
@@ -3187,7 +3182,7 @@ begin
         P_SpawnStrobeFlash(sector, FASTDARK, 1);
       end;
 
-    14:
+    15:
       begin
         // DOOR RAISE IN 5 MINUTES
         P_SpawnDoorRaiseIn5Mins(sector, i);
