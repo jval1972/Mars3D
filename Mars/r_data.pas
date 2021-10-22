@@ -636,6 +636,7 @@ var
   patch: Ptexpatch_t;
   i: integer;
   j: integer;
+  k: integer;
   maptex: PIntegerArray;
   maptex1: PIntegerArray;
   maptex2: PIntegerArray;
@@ -739,7 +740,7 @@ begin
     maxoff3 := 0;
   end;
 
-  numtextures := numtextures1 + numtextures2 + numtextures3;
+  numtextures := numtextures1 + numtextures2 + numtextures3 + 1;
 
   textures := mallocz(numtextures * SizeOf(Ptexture_t));
   texturecolumnlump := mallocz(numtextures * SizeOf(PSmallIntArray));
@@ -752,16 +753,17 @@ begin
   texturecolumnheight := mallocz(numtextures * SizeOf(integer));
   texturecolumnheightfrac := mallocz(numtextures * SizeOf(integer));
 
-  for i := 0 to numtextures - 1 do
+  for i := 1 to numtextures - 1 do
   begin
-    if i = numtextures1 then
+    k := i - 1;
+    if k = numtextures1 then
     begin
       // Start looking in second texture file.
       maptex := maptex2;
       maxoff := maxoff2;
       directory := PIntegerArray(integer(maptex) + SizeOf(integer));
     end;
-    if i = numtextures1 + numtextures2 then
+    if k = numtextures1 + numtextures2 then
     begin
       // Start looking in third texture file.
       maptex := maptex3;
@@ -777,6 +779,7 @@ begin
     mtexture := Pmaptexture_t(integer(maptex) + offset);
 
     textures[i] := malloc(SizeOf(texture_t) + SizeOf(texpatch_t) * (mtexture.patchcount - 1));
+
     texture := textures[i];
 
     texture.width := mtexture.width;
@@ -826,6 +829,20 @@ begin
 
     incp(pointer(directory), SizeOf(integer));
   end;
+
+  textures[0] := malloc(SizeOf(texture_t) + SizeOf(texpatch_t) * (textures[1].patchcount - 1));
+  textures[0]^ := textures[1]^;
+  textures[0].name := stringtochar8('UNUSED-0');
+  texture := textures[0];
+  texturecolumnlump[0] := malloc(texture.width * SizeOf(texturecolumnlump[0][0]));
+  texturecolumnofs[0] := malloc(texture.width * SizeOf(texturecolumnofs[0][0]));
+
+  texturewidth[0] := texture.width;
+  textureheight[0] := texture.height * FRACUNIT;
+  texturecolumnheight[0] := texture.height;
+  if texturecolumnheight[0] < 128 then
+    texturecolumnheight[0] := 128;
+  texturecolumnheightfrac[0] := texturecolumnheight[0] * FRACUNIT;
 
   memfree(pointer(patchlookup), nummappatches * SizeOf(integer));
 
