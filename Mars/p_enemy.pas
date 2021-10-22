@@ -184,9 +184,6 @@ type
   );
 
 
-var
-  continueafterplayerdeath: boolean;
-
 implementation
 
 uses
@@ -854,13 +851,6 @@ var
   dist: fixed_t;
   initial: boolean;
 begin
-  if continueafterplayerdeath then
-    if not netgame and (players[0].health <= 0) then
-    begin
-      result := P_LookForMonsters(actor);
-      exit;
-    end;
-
   c := 0;
   stop := (actor.lastlook - 1) and 3;
 

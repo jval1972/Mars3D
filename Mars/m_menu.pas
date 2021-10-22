@@ -944,7 +944,6 @@ type
     cmp_majorbossdeathendsdoom1level,
     cmp_spawnrandommonsters,
     cmp_allowterrainsplashes,
-    cmp_continueafterplayerdeath,
     cmp_dogs,
     cmp_gldefs_as_lightdef,
     cmp_decorate_as_actordef,
@@ -5335,14 +5334,6 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @allowterrainsplashes;
   pmi.alphaKey := 't';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Monsters fight after player death';
-  pmi.cmd := 'continueafterplayerdeath';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @continueafterplayerdeath;
-  pmi.alphaKey := 'f';
 
   inc(pmi);
   pmi.status := 1;
