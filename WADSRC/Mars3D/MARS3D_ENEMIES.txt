@@ -79,7 +79,7 @@ ACTOR MT_ENEMYSOLDIER 7
 
 
 ///////////////////////////////
-// MT_ROBOT
+// MT_ROBOT_SHOT
 ///////////////////////////////
 ACTOR "MT_ROBOT_SHOT"
 {
@@ -115,12 +115,104 @@ ACTOR "MT_ROBOT_SHOT"
       TNT1 A 0 A_SetScale(RANDOMPICK(9,10,11)/10)
       TNT1 A 0 A_Jump(128, 2)
       TNT1 A 0 A_FlipSprite
-      TNT1 A 0 A_PlayerHurtExplode(RANDOMPICK(20,25,30), 20)
+      TNT1 A 0 A_PlayerHurtExplode(RANDOMPICK(4,5,6), 20)
       GUNS C RANDOMRANGE(3,6) BRIGHT A_GlowLight "RED"
       GUNS D RANDOMRANGE(3,6) BRIGHT A_FadeOut10
       GUNS E RANDOMRANGE(3,6) BRIGHT A_FadeOut10
       GUNS F RANDOMRANGE(3,6) BRIGHT A_FadeOut10
       Stop
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_ROBOT
+///////////////////////////////
+ACTOR MT_ROBOT 3004
+{
+  Health 30
+  Width 20
+  Height 56
+  Speed 8
+  Painchance 150
+  Mass 100
+  Reactiontime 8
+  SeeSound MECHAPP
+  Attacksound MECHATT
+  Painsound MECHHURT
+  Deathsound MECHDTH
+  DropItem "MT_HEALTH15"
+  +MF_SOLID
+  +MF_NOBLOOD
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  States
+  {
+    Spawn:
+    {
+      MECH A 10 A_Look
+      Loop
+    }
+    See:
+    {
+      MECH A 4 A_Chase
+      MECH A 4 A_Chase
+      MECH B 4 A_Chase
+      MECH B 4 A_Chase
+      MECH C 4 A_Chase
+      MECH C 4 A_Chase
+      MECH D 4 A_Chase
+      MECH D 4 A_Chase
+      Loop
+    }
+    Missile:
+    {
+      MECH E 8 A_FaceTarget
+      MECH F 8 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 40, 11)
+      TNT1 A 0 A_Jump(100, -2)
+      MECH E 8
+      Goto See
+    }
+    Pain:
+    {
+      MECH G 4
+      MECH G 4 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      MECH H 5
+      MECH I 5 A_Scream
+      MECH J 5 A_Fall
+      MECH K 5
+      MECH L 5
+      MECH M 5
+      MECH N 5
+      MECH O -1
+    }
+    Xdeath:
+    {
+      MECH P 5
+      MECH Q 5 A_PlaySound("MECXDTH")
+      MECH R 5 FALL
+      MECH S 5
+      MECH T 5
+      MECH U 5
+      MECH V 5
+      MECH W -1
+    }
+    Raise:
+    {
+      MECH O 5
+      MECH N 5
+      MECH M 5
+      MECH L 5
+      MECH K 5
+      MECH J 5
+      MECH I 5
+      MECH H 5
+      Goto See
     }
   }
 }
