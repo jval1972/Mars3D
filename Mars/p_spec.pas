@@ -2927,7 +2927,7 @@ begin
       end;
   end;
 
-  if sector.special >= 32 then  // BOOM sector specials
+  if sector.special >= 128 then  // BOOM sector specials
   begin
     case (sector.special and DAMAGE_MASK) shr DAMAGE_SHIFT of
       0: // no damage
@@ -2964,7 +2964,7 @@ begin
       inc(player.secretcount);
       player._message := MSGSECRETSECTOR;
       sector.special := sector.special and not SECRET_MASK;
-      if sector.special < 32 then // if all extended bits clear,
+      if sector.special < 128 then // if all extended bits clear,
         sector.special := 0;    // sector is not special anymore
     end;
 
@@ -3125,7 +3125,7 @@ begin
     if sector.special and SECRET_MASK <> 0 then //jff 3/15/98 count extended
       inc(totalsecret);                         // secret sectors too
 
-    case sector.special and 31 of
+    case sector.special and 127 of
      1:
       begin
         // FLICKERING LIGHTS
@@ -3160,7 +3160,7 @@ begin
      9:
       begin
         // SECRET SECTOR
-        if sector.special < 32 then //jff 3/14/98 bits don't count unless not
+        if sector.special < 128 then //jff 3/14/98 bits don't count unless not
           inc(totalsecret);         // a generalized sector type
       end;
 
