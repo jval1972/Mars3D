@@ -87,7 +87,7 @@ ACTOR "MT_ROBOT_SHOT"
   Radius 14
   Height 14
   Speed 1310720
-  Damage 20
+  Damage 5
   Mass 100
   Reactiontime 8
   Seesound "GUN2SHT"
@@ -97,7 +97,6 @@ ACTOR "MT_ROBOT_SHOT"
   +MF_MISSILE
   +MF_EX_REDLIGHT
   +DEFAULTTRANSPARENT
-  +THRUSKY
   States
   {
     Spawn:
