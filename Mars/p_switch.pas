@@ -642,7 +642,7 @@ begin
           P_ChangeSwitchTexture(line, false);
       end;
 
-    51:
+   270:
       begin
         // Secret EXIT
         P_ChangeSwitchTexture(line, false);
