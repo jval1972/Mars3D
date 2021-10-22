@@ -256,7 +256,7 @@ type
     pw_ironfeet,
     pw_allmap,
     pw_infrared,
-    pw_jetpack
+    pw_jetpack,
     NUMPOWERS
   );
   Ppowertype_t = ^powertype_t;
