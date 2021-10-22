@@ -1,0 +1,50 @@
+///////////////////////////////
+// MT_ALLMAP
+///////////////////////////////
+ACTOR MT_ALLMAP 2024
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      STAR A 4
+      STAR B 4
+      STAR C 4
+      Loop
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_JETPACK
+///////////////////////////////
+ACTOR MT_JETPACK 2045
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      FILY A 4
+      FILY B 4
+      FILY C 4
+      FILY D 4
+      FILY E 4
+      Loop
+    }
+  }
+}
+
+
