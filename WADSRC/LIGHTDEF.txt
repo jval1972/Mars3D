@@ -83,3 +83,46 @@ object MT_ENEMYSOLDIER
 {
     frame ARM1F { light L_ENEMYSOLDIER }
 }
+
+
+// MT_REDMECH_SHOT
+pointlight REDMECH_SHOT
+{
+    color 1.0 0.7 0.0
+    size 56
+}
+
+flickerlight REDMECH_SHOT_BF
+{
+    color 1.0 0.7 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight REDMECH_SHOT_CE
+{
+    color 1.0 0.7 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+flickerlight REDMECH_SHOT_D
+{
+    color 1.0 0.7 0.0
+    size 96
+    secondarySize 104
+    chance 0.3
+}
+
+object MT_REDMECH_SHOT
+{
+    frame FISSA { light REDMECH_SHOT }
+
+    frame FISSB { light REDMECH_SHOT_BF }
+    frame FISSC { light REDMECH_SHOT_CE }
+    frame FISSD { light REDMECH_SHOT_D  }
+    frame FISSE { light REDMECH_SHOT_CE }
+    frame FISSF { light REDMECH_SHOT_BF }
+}
