@@ -635,3 +635,49 @@ ACTOR MT_CEILINGDEFENDER 49
 }
 
 
+///////////////////////////////
+// MT_POISON_SHOT
+///////////////////////////////
+ACTOR "MT_POISON_SHOT"
+{
+  Health 1000
+  Radius 14
+  Height 14
+  Speed 1310720
+  Damage 5
+  Mass 100
+  Reactiontime 8
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  +MF_EX_GREENLIGHT
+  +DEFAULTTRANSPARENT
+  +MF3_EX_ABSOLUTEDAMAGE
+  States
+  {
+    Spawn:
+    {
+      POSN A 1 BRIGHT
+      POSN A 5 BRIGHT
+      POSN A 0 A_GlowLight "NONE"
+    SpawnLoop:
+      POSN B 5 BRIGHT
+      POSN A 5 BRIGHT
+      GoTo SpawnLoop
+    }
+    Death:
+    {
+      TNT1 A 0 A_SetScale(RANDOMPICK(9,10,11)/10)
+      TNT1 A 0 A_Jump(128, 2)
+      TNT1 A 0 A_FlipSprite
+      TNT1 A 0 A_PlayerHurtExplode(RANDOMPICK(4,5,6), 20)
+      POSN C RANDOMRANGE(3,6) BRIGHT A_GlowLight "GREEN"
+      POSN D RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      POSN E RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      Stop
+    }
+  }
+}
+
+
