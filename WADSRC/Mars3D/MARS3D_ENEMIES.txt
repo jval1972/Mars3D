@@ -557,3 +557,81 @@ ACTOR "MT_MANWITHMASK" 43
     }
   }
 }
+
+
+///////////////////////////////
+// MT_CEILINGDEFENDER
+///////////////////////////////
+ACTOR MT_CEILINGDEFENDER 49
+{
+  Health 80
+  Width 24
+  Height 24
+  Speed 0
+  Painchance 60
+  Mass 100
+  Reactiontime 8
+  ActiveSound DEF2ACT
+  SeeSound DEF2ACT
+  Attacksound DEF2ATT
+  Deathsound DEF2DTH
+  +MF_SOLID
+  +MF_NOBLOOD
+  +MF_SHOOTABLE
+  +MF_NOGRAVITY
+  +MF_COUNTKILL
+  +MF_SPAWNCEILING
+  +MF2_EX_DONTINFIGHTMONSTERS
+  +MF3_EX_NOGRAVITYDEATH
+  States
+  {
+    Spawn:
+    {
+      DEF2 A 10 A_Look
+      Loop
+    }
+    See:
+    {
+      DEF2 A 4 A_TurretChase
+      DEF2 A 4 A_TurretChase
+      Loop
+    }
+    Missile:
+    {
+      DEF2 B 3 A_FaceTarget
+      DEF2 C 3 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 3, -2)
+      TNT1 A 0 A_Jump(240, -2)
+      Goto See
+    }
+    Pain:
+    {
+      DEF2 D 4 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      DEF2 E 5
+      DEF2 F 5 A_Scream
+      DEF2 G 5
+      DEF2 H 5 A_NoBlocking
+      DEF2 I 5
+      DEF2 J 5
+      DEF2 K 5
+      DEF2 L -1
+    }
+    Raise:
+    {
+      DEF2 L 5
+      DEF2 K 5
+      DEF2 J 5
+      DEF2 I 5
+      DEF2 H 5
+      DEF2 G 5
+      DEF2 F 5
+      DEF2 E 5
+      Goto See
+    }
+  }
+}
+
+
