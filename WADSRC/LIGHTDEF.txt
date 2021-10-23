@@ -199,7 +199,7 @@ flickerlight REDMECH_B
     chance 0.3
 }
 
-flickerlight REDMECH_B
+flickerlight REDMECH_C
 {
     color 1.0 0.7 0.0
     size 96
