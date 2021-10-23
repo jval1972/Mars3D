@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 352;
+  DEHNUMACTIONS = 353;
 
 type
   deh_action_t = record
@@ -3110,6 +3110,9 @@ begin
   deh_actions[351].action.acp1 := @A_TurretChase;
   deh_actions[351].originalname := strupper('TurretChase');
   {$IFDEF DLL}deh_actions[351].decl := 'A_TurretChase()';{$ENDIF}
+  deh_actions[352].action.acp1 := @A_SetPainChance;
+  deh_actions[352].originalname := strupper('SetPainChance');
+  {$IFDEF DLL}deh_actions[352].decl := 'A_SetPainChance(value: integer)';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin
