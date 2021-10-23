@@ -228,7 +228,7 @@ actor MT_SMALLSPIDER 2050
   Health 15
   Radius 20
   Height 24
-  Speed 12
+  Speed 14
   PainChance 200
   Mass 30
   +MF_SOLID
@@ -273,8 +273,6 @@ actor MT_SMALLSPIDER 2050
       MOSA J 8
       MOSA K 8
       MOSA L 8
-      MOSA M 8
-    }
-      Stop
+      MOSA M -1
     }
 }
