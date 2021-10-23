@@ -681,3 +681,91 @@ ACTOR "MT_POISON_SHOT"
 }
 
 
+///////////////////////////////
+// MT_WATERFEAR
+///////////////////////////////
+ACTOR MT_WATERFEAR 3001
+{
+  Health 80
+  Width 20
+  Height 32
+  Speed 8
+  Painchance 150
+  Mass 150
+  Reactiontime 8
+  SeeSound LAKEACT
+  ActiveSound LAKEAPP
+  Attacksound LAKEATT
+  Painsound LAKEHURT
+  Deathsound LAKEDTH
+  +MF_SOLID
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  +MF2_EX_DONTINFIGHTMONSTERS
+  +MF2_EX_CANTLEAVEFLOORPIC
+  States
+  {
+    Spawn:
+    {
+      LAKE A 4 A_Look
+      LAKE A 4 A_Look
+      Loop
+    }
+    See:
+    {
+      LAKE B 4 A_Chase
+      LAKE B 4 A_Chase
+      LAKE C 4 A_Chase
+      LAKE C 4 A_Chase
+      LAKE D 4 A_Chase
+      LAKE D 4 A_Chase
+      Loop
+    }
+    Missile:
+    {
+      LAKE E 4 A_FaceTarget
+      LAKE F 4 A_FaceTarget
+      LAKE G 4 A_CustomMissile("MT_POISON_SHOT", 15, 0)
+      LAKE H 4 A_FaceTarget
+      LAKE I 4 A_FaceTarget
+      LAKE J 4 A_FaceTarget
+      LAKE K 4 A_FaceTarget
+      LAKE L 4 A_FaceTarget
+      TNT1 A 0 A_Jump(200, -8)
+      Goto See
+    }
+    Pain:
+    {
+      LAKE M 4
+      LAKE N 4 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      LAKE O 5
+      LAKE P 5 A_Scream
+      LAKE Q 5 A_Fall
+      LAKE R 5
+      Stop
+    }
+    XDeath:
+    {
+      LAKE S 5
+      LAKE T 5 A_Scream
+      LAKE U 5 A_Fall
+      LAKE V 5
+      LAKE W 5
+      LAKE X 5
+      LAKE Y 5
+      Stop
+    }
+    Raise:
+    {
+      LAKE R 5
+      LAKE Q 5
+      Goto See
+    }
+  }
+}
+
+
