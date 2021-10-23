@@ -323,7 +323,7 @@ ACTOR "MT_REDMECH_SHOT"
 
 
 ///////////////////////////////
-// MT_ROBOT
+// MT_REDMECH
 ///////////////////////////////
 ACTOR MT_REDMECH 16
 {
