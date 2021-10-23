@@ -126,3 +126,58 @@ object MT_REDMECH_SHOT
     frame FISSE { light REDMECH_SHOT_CE }
     frame FISSF { light REDMECH_SHOT_BF }
 }
+
+// MT_BARREL
+pulselight BARREL_A
+{
+    color 0.0 0.5 0.0
+    size 48
+    secondarySize 50
+    interval 0.5
+    offset 0 36 0
+}
+
+flickerlight BARREL_DJK
+{
+    color 1.0 0.7 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight BARREL_E
+{
+    color 1.0 0.7 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+flickerlight BARREL_FGH
+{
+    color 1.0 0.5 0.0
+    size 96
+    secondarySize 104
+    chance 0.3
+}
+
+flickerlight BARREL_I
+{
+    color 1.0 0.5 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+object MT_BARREL
+{
+    frame BAR1  { light BARREL_A  }
+
+    frame BEXPD { light BARREL_DJK }
+    frame BEXPE { light BARREL_E   }
+    frame BEXPF { light BARREL_FGH }
+    frame BEXPG { light BARREL_FGH }
+    frame BEXPH { light BARREL_FGH }
+    frame BEXPI { light BARREL_I   }
+    frame BEXPJ { light BARREL_DJK }
+}
