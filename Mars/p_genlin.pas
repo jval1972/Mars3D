@@ -42,7 +42,7 @@ uses
 //jff 3/14/98 add bits and shifts for generalized sector types
 
 const
-  DAMAGE_MASK    = $384;
+  DAMAGE_MASK    = 384;
   DAMAGE_SHIFT   = 7;
   SECRET_MASK    = $200;
   SECRET_SHIFT   = 9;
