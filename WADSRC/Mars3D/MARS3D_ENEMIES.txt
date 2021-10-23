@@ -218,3 +218,63 @@ ACTOR MT_ROBOT 3004
     }
   }
 }
+
+
+///////////////////////////////
+// MT_ROBOT
+///////////////////////////////
+actor MT_SMALLSPIDER 2050
+{
+  Health 15
+  Radius 20
+  Height 24
+  Speed 12
+  PainChance 200
+  Mass 30
+  +MF_SOLID
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  +MF2_EX_DONTINFIGHTMONSTERS
+  +MF2_EX_GREENBLOOD
+  PainSound "FISHHURT"
+  DeathSound "MOS1DTH"
+  MeleeSound "FISHATT"
+  MeleeDamage 5
+  States
+  {
+    Spawn:
+    {
+      MOSA A 5 A_Look
+      Loop
+    See:
+    {
+      MOSA A 3 
+      MOSA BCD 3 A_Chase
+      Loop
+    }
+    Melee:
+    {
+      MOSA E 8 A_FaceTarget
+      MOSA E 6 A_MeleeAttack
+      Goto See
+    }
+    Pain:
+    {
+      MOSA F 2 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      TNT1 A 0 A_Jump(128, 2)
+      TNT1 A 0 A_FlipSprite
+      MOSA G 8 A_ScreamAndUnblock
+      MOSA H 8
+      MOSA I 8
+      MOSA J 8
+      MOSA K 8
+      MOSA L 8
+      MOSA M 8
+    }
+      Stop
+    }
+}
