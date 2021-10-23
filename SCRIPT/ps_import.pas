@@ -908,16 +908,14 @@ begin
     Sender.AddConstant('DRANGE', uT_longword).Value.tu32 := DRANGE;
 
     // Generalized constants
-    Sender.AddConstant('DAMAGE_MASK', uT_integer).Value.ts32 := $60;
-    Sender.AddConstant('DAMAGE_SHIFT', uT_integer).Value.ts32 := 5;
-    Sender.AddConstant('SECRET_MASK', uT_integer).Value.ts32 := $80;
-    Sender.AddConstant('SECRET_SHIFT', uT_integer).Value.ts32 := 7;
-    Sender.AddConstant('FRICTION_MASK', uT_integer).Value.ts32 := $100;
-    Sender.AddConstant('FRICTION_SHIFT', uT_integer).Value.ts32 := 8;
-    Sender.AddConstant('PUSH_MASK', uT_integer).Value.ts32 := $200;
-    Sender.AddConstant('PUSH_SHIFT', uT_integer).Value.ts32 := 9;
-    Sender.AddConstant('FORCEFIELD_MASK', uT_integer).Value.ts32 := $400;
-    Sender.AddConstant('FORCEFIELD_SHIFT', uT_integer).Value.ts32 := 10;
+    Sender.AddConstant('DAMAGE_MASK', uT_integer).Value.ts32 := 384;
+    Sender.AddConstant('DAMAGE_SHIFT', uT_integer).Value.ts32 := 7;
+    Sender.AddConstant('SECRET_MASK', uT_integer).Value.ts32 := $200;
+    Sender.AddConstant('SECRET_SHIFT', uT_integer).Value.ts32 := 9;
+    Sender.AddConstant('FRICTION_MASK', uT_integer).Value.ts32 := $400;
+    Sender.AddConstant('FRICTION_SHIFT', uT_integer).Value.ts32 := 10;
+    Sender.AddConstant('PUSH_MASK', uT_integer).Value.ts32 := $800;
+    Sender.AddConstant('PUSH_SHIFT', uT_integer).Value.ts32 := 11;
 
     Sender.AddConstant('CGENFLOORBASE', uT_integer).Value.ts32 := $6000;
     Sender.AddConstant('CGENCEILINGBASE', uT_integer).Value.ts32 := $4000;
