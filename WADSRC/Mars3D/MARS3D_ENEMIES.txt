@@ -221,7 +221,7 @@ ACTOR MT_ROBOT 3004
 
 
 ///////////////////////////////
-// MT_ROBOT
+// MT_SMALLSPIDER
 ///////////////////////////////
 actor MT_SMALLSPIDER 2050
 {
