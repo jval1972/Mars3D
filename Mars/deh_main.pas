@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 351;
+  DEHNUMACTIONS = 352;
 
 type
   deh_action_t = record
@@ -3106,6 +3106,9 @@ begin
   deh_actions[350].action.acp1 := @A_PlayerHurtExplode;
   deh_actions[350].originalname := strupper('PlayerHurtExplode');
   {$IFDEF DLL}deh_actions[350].decl := 'A_PlayerHurtExplode(damage: integer, radius: integer)';{$ENDIF}
+  deh_actions[351].action.acp1 := @A_TurretChase;
+  deh_actions[351].originalname := strupper('TurretChase');
+  {$IFDEF DLL}deh_actions[351].decl := 'A_TurretChase()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin
