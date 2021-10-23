@@ -640,7 +640,7 @@ type
 
 const
   MAXANIMS = 32;
-  NUMFIXEDANIMDEFS = 2;
+  NUMFIXEDANIMDEFS = 3;
 
 //
 // P_InitPicAnims
@@ -658,6 +658,7 @@ const
   fixedanimdefs: array[0..NUMFIXEDANIMDEFS] of animdef_t = (
     (istexture: false; endname: 'BLOOD8';   startname: 'BLOOD1';   speed: 4),
     (istexture: false; endname: 'NUKAGE8';  startname: 'NUKAGE1';  speed: 4),
+    (istexture: true;  endname: 'GSTFONT3'; startname: 'GSTFONT1'; speed: 5),
 
     (istexture: false; endname: '';         startname: '';         speed: 0)
   );
