@@ -215,3 +215,44 @@ object MT_REDMECH
     frame MEC2K { light REDMECH_B }
     frame MEC2L { light REDMECH_A }
 }
+
+// MT_FLYINGROBOT
+flickerlight FLYINGROBOT_H
+{
+    color 1.0 0.7 0.0
+    size 48
+    secondarySize 56
+    chance 0.3
+}
+
+flickerlight FLYINGROBOT_I
+{
+    color 1.0 0.7 0.0
+    size 56
+    secondarySize 64
+    chance 0.3
+}
+
+flickerlight FLYINGROBOT_J
+{
+    color 1.0 0.7 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight FLYINGROBOT_K
+{
+    color 1.0 0.4 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+object MT_FLYINGROBOT
+{
+    frame HEADH { light FLYINGROBOT_H }
+    frame HEADI { light FLYINGROBOT_I }
+    frame HEADJ { light FLYINGROBOT_J }
+    frame HEADK { light FLYINGROBOT_K }
+}
