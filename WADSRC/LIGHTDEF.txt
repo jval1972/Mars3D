@@ -181,3 +181,37 @@ object MT_BARREL
     frame BAR1I { light BARREL_I   }
     frame BAR1J { light BARREL_DJK }
 }
+
+// MT_REDMECH
+flickerlight REDMECH_A
+{
+    color 1.0 0.7 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight REDMECH_B
+{
+    color 1.0 0.7 0.0
+    size 88
+    secondarySize 96
+    chance 0.3
+}
+
+flickerlight REDMECH_B
+{
+    color 1.0 0.7 0.0
+    size 96
+    secondarySize 104
+    chance 0.3
+}
+
+object MT_REDMECH
+{
+    frame MEC2H { light REDMECH_A }
+    frame MEC2I { light REDMECH_B }
+    frame MEC2J { light REDMECH_C }
+    frame MEC2K { light REDMECH_B }
+    frame MEC2L { light REDMECH_A }
+}
