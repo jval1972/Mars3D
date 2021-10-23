@@ -256,3 +256,47 @@ object MT_FLYINGROBOT
     frame HEADJ { light FLYINGROBOT_J }
     frame HEADK { light FLYINGROBOT_K }
 }
+
+
+// MT_CEILINGDEFENDER
+flickerlight CEILINGDEFENDER_F
+{
+    color 1.0 0.7 0.0
+    size 64
+    secondarySize 72
+    chance 0.5
+}
+
+flickerlight CEILINGDEFENDER_GH
+{
+    color 1.0 0.7 0.0
+    size 72
+    secondarySize 96
+    chance 0.5
+}
+
+flickerlight CEILINGDEFENDER_I
+{
+    color 1.0 0.5 0.0
+    size 72
+    secondarySize 80
+    chance 0.3
+}
+
+flickerlight CEILINGDEFENDER_JK
+{
+    color 1.0 0.3 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+object MT_CEILINGDEFENDER
+{
+    frame DEF2F { light CEILINGDEFENDER_F  }
+    frame DEF2G { light CEILINGDEFENDER_GH }
+    frame DEF2H { light CEILINGDEFENDER_GH }
+    frame DEF2I { light CEILINGDEFENDER_I  }
+    frame DEF2J { light CEILINGDEFENDER_JK }
+    frame DEF2K { light CEILINGDEFENDER_JK }
+}
