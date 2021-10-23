@@ -322,3 +322,81 @@ ACTOR "MT_REDMECH_SHOT"
 }
 
 
+///////////////////////////////
+// MT_ROBOT
+///////////////////////////////
+ACTOR MT_REDMECH 16
+{
+  Health 80
+  Width 20
+  Height 56
+  Speed 10
+  Painchance 120
+  Mass 150
+  Reactiontime 8
+  SeeSound MECHAPP
+  Attacksound MECHATT
+  Painsound MECHHURT
+  Deathsound MECXDTH
+  +MF_SOLID
+  +MF_NOBLOOD
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  +MF2_EX_DONTINFIGHTMONSTERS
+  States
+  {
+    Spawn:
+    {
+      MEC2 A 4 A_Look
+      MEC2 C 4 A_Look
+      Loop
+    }
+    See:
+    {
+      MEC2 B 4 A_Chase
+      MEC2 B 4 A_Chase
+      MEC2 C 4 A_Chase
+      MEC2 C 4 A_Chase
+      MEC2 D 4 A_Chase
+      MEC2 D 4 A_Chase
+      Loop
+    }
+    Missile:
+    {
+      MEC2 E 8 A_FaceTarget
+      MEC2 F 4 BRIGHT A_CustomMissile("MT_REDMECH_SHOT", 60, -22)
+      TNT1 A 0 A_Jump(200, -2)
+      MEC2 E 8
+      Goto See
+    }
+    Pain:
+    {
+      MEC2 G 4
+      MEC2 G 4 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      MEC2 H 5
+      MEC2 I 5 A_Scream
+      MEC2 J 5 A_Fall
+      MEC2 K 5
+      MEC2 L 5
+      MEC2 M 5
+      MEC2 N -1
+    }
+    Raise:
+    {
+      MEC2 N 5
+      MEC2 M 5
+      MEC2 L 5
+      MEC2 K 5
+      MEC2 J 5
+      MEC2 I 5
+      MEC2 H 5
+      Goto See
+    }
+  }
+}
+
+
