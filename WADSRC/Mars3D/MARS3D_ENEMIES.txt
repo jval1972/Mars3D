@@ -400,3 +400,89 @@ ACTOR MT_REDMECH 16
 }
 
 
+///////////////////////////////
+// MT_FLYINGROBOT
+///////////////////////////////
+ACTOR MT_FLYINGROBOT 20
+{
+  Health 80
+  Width 24
+  Height 24
+  Speed 8
+  Painchance 80
+  Mass 100
+  Reactiontime 8
+  SeeSound MECHAPP
+  Attacksound MECHATT
+  Painsound MECHHURT
+  Deathsound MECXDTH
+  +MF_SOLID
+  +MF_NOBLOOD
+  +MF_SHOOTABLE
+  +MF_NOGRAVITY
+  +MF_FLOAT
+  +MF_COUNTKILL
+  +MF_EX_SPAWNFLOAT
+  +MF2_EX_DONTINFIGHTMONSTERS
+  States
+  {
+    Spawn:
+    {
+      HEAD A 10 A_Look
+      Loop
+    }
+    See:
+    {
+      HEAD A 4 A_Chase
+      HEAD A 4 A_Chase
+      HEAD B 4 A_Chase
+      HEAD B 4 A_Chase
+      Loop
+    }
+    Missile:
+    {
+      HEAD C 4 A_FaceTarget
+      HEAD D 4 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 0, 0)
+      TNT1 A 0 A_Jump(200, -2)
+      HEAD C 4 A_FaceTarget
+      HEAD D 4 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 0, 0)
+      TNT1 A 0 A_Jump(200, -2)
+      HEAD E 4
+      Goto See
+    }
+    Pain:
+    {
+      HEAD F 4
+      HEAD F 4 A_Pain
+      HEAD F 4
+      Goto See
+    }
+    Death:
+    {
+      HEAD G 5
+      HEAD H 5 A_Scream
+      HEAD I 5
+      HEAD J 5 A_Fall
+      HEAD K 5
+      HEAD L 5
+      HEAD M 5
+      HEAD N 5
+      HEAD O 5
+      HEAD P -1
+    }
+    Raise:
+    {
+      HEAD P 5
+      HEAD O 5
+      HEAD N 5
+      HEAD M 5
+      HEAD L 5
+      HEAD K 5
+      HEAD J 5
+      HEAD I 5
+      HEAD H 5
+      HEAD G 5
+      Goto See
+    }
+  }
+}
