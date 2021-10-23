@@ -1,0 +1,18 @@
+///////////////////////////////
+// MT_UNKNOWN54
+///////////////////////////////
+ACTOR MT_UNKNOWN54 54
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  States
+  {
+    Spawn:
+    {
+      TNT1 A 1
+    }
+  }
+}
