@@ -486,3 +486,74 @@ ACTOR MT_FLYINGROBOT 20
     }
   }
 }
+
+
+///////////////////////////////
+// MT_MANWITHMASK
+///////////////////////////////
+ACTOR "MT_MANWITHMASK" 43
+{
+  Health 150
+  Width 30
+  Height 56
+  Speed 10
+  Painchance 120
+  Mass 200
+  Reactiontime 8
+  Deathsound MONSDTH
+  +MF_SOLID
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  +MF2_EX_DONTINFIGHTMONSTERS
+  States
+  {
+    Spawn:
+    {
+      SARG A 10 A_Look
+      SARG A 10 A_Look
+      Loop
+    }
+    See:
+    {
+      SARG B 2 A_Chase
+      SARG B 2 A_Chase
+      SARG C 2 A_Chase
+      SARG C 2 A_Chase
+      SARG D 2 A_Chase
+      SARG D 2 A_Chase
+      Loop
+    }
+    Melee:
+    {
+      SARG E 5 A_FaceTarget
+      SARG F 5 A_FaceTarget
+      SARG G 5 A_CustomMeleeAttack(5, "SRAGATT", "SRAGATT")
+      Goto See
+    }
+    Pain:
+    {
+      SARG H 2
+      SARG H 2 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      SARG I 8
+      SARG J 4 A_Scream
+      SARG K 4
+      SARG L 4 A_Fall
+      SARG M 4
+      SARG N -1
+    }
+    Raise:
+    {
+      SARG N 5
+      SARG M 5
+      SARG L 5
+      SARG K 5
+      SARG J 5
+      SARG I 5
+      Goto See
+    }
+  }
+}
