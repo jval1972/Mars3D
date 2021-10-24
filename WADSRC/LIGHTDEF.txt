@@ -324,7 +324,7 @@ flickerlight POISON_SHOT_D
     chance 0.4
 }
 
-flickerlight POISON_SHOT_EF
+flickerlight POISON_SHOT_E
 {
     color 0.0 0.9 0.0
     size 96
@@ -339,7 +339,6 @@ object MT_POISON_SHOT
     frame POSNB { light POISON_SHOT_AB }
     frame POSNC { light POISON_SHOT_C  }
     frame POSND { light POISON_SHOT_D  }
-    frame POSNE { light POISON_SHOT_EF }
-    frame POSNF { light POISON_SHOT_EF }
+    frame POSNE { light POISON_SHOT_E  }
 }
 
