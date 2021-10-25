@@ -370,12 +370,12 @@ begin
 
   for i := 0 to numsectors - 1 do
     case sectors[i].special of
-    74:
+    74: // Scroll & carry left
       begin
         P_AddScroller(sc_floor,  FIXED_SCROLL_FACTOR * FRACUNIT, 0, -1, i, 0);
         P_AddScroller(sc_carry, -FIXED_SCROLL_FACTOR * CARRYFACTOR, 0, -1, i, 0);
       end;
-    78:
+    78: // Scroll & carry right
       begin
         P_AddScroller(sc_floor, -FIXED_SCROLL_FACTOR * FRACUNIT, 0, -1, i, 0);
         P_AddScroller(sc_carry,  FIXED_SCROLL_FACTOR * CARRYFACTOR, 0, -1, i, 0);
