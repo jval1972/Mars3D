@@ -375,20 +375,40 @@ begin
         P_AddScroller(sc_floor, 0, FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
         P_AddScroller(sc_carry, 0, FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
       end;
-    74: // Scroll & carry left
+    73: // Scroll & carry up/right
+      begin
+        P_AddScroller(sc_floor, -FIXED_SCROLL_FACTOR * FRACUNIT, FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry,  FIXED_SCROLL_FACTOR * CARRYFACTOR, FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
+      end;
+    74: // Scroll & carry right
       begin
         P_AddScroller(sc_floor, -FIXED_SCROLL_FACTOR * FRACUNIT, 0, -1, i, 0);
         P_AddScroller(sc_carry,  FIXED_SCROLL_FACTOR * CARRYFACTOR, 0, -1, i, 0);
+      end;
+    75: // Scroll & carry right/down
+      begin
+        P_AddScroller(sc_floor, -FIXED_SCROLL_FACTOR * FRACUNIT, -FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry,  FIXED_SCROLL_FACTOR * CARRYFACTOR, -FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
       end;
     76: // Scroll & carry down
       begin
         P_AddScroller(sc_floor, 0, -FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
         P_AddScroller(sc_carry, 0, -FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
       end;
-    78: // Scroll & carry right
+    77: // Scroll & carry left/down
+      begin
+        P_AddScroller(sc_floor,  FIXED_SCROLL_FACTOR * FRACUNIT, -FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry, -FIXED_SCROLL_FACTOR * CARRYFACTOR, -FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
+      end;
+    78: // Scroll & carry left
       begin
         P_AddScroller(sc_floor,  FIXED_SCROLL_FACTOR * FRACUNIT, 0, -1, i, 0);
         P_AddScroller(sc_carry, -FIXED_SCROLL_FACTOR * CARRYFACTOR, 0, -1, i, 0);
+      end;
+    79: // Scroll & carry left/up
+      begin
+        P_AddScroller(sc_floor,  FIXED_SCROLL_FACTOR * FRACUNIT, FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry, -FIXED_SCROLL_FACTOR * CARRYFACTOR, FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
       end;
     end;
 end;
