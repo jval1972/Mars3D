@@ -6,6 +6,8 @@ unit xmi_lib;
 
 interface    
 
+procedure XMI_Init;
+procedure XMI_ShutDown;
 function XMI_OpenMusicFile(const fname: string): Boolean;
 function XMI_GetNumTracks: Integer;
 function XMI_ConvertTrack(const trNo: integer; const fname: string): Boolean;
@@ -19,6 +21,16 @@ uses
 
 var
   XMIfile: string = '';
+
+procedure XMI_Init;
+begin
+  XMICore := TXMICore.Create(nil);
+end;
+
+procedure XMI_ShutDown;
+begin
+  XMICore.Free;
+end;
 
 function XMI_OpenMusicFile(const fname: string): Boolean;
 begin
