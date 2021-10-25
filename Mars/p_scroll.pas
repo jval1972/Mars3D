@@ -262,8 +262,9 @@ const
 const
   CARRYFACTOR = 6144;
 
+// Scrolling factor for Mars3D special sectors  
 const
-  FIXED_SCROLL_FACTOR = 3;
+  FIXED_SCROLL_FACTOR = 4;
 
 // Initialize the scrollers
 procedure P_SpawnScrollers;
