@@ -410,6 +410,46 @@ begin
         P_AddScroller(sc_floor,  FIXED_SCROLL_FACTOR * FRACUNIT, FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
         P_AddScroller(sc_carry, -FIXED_SCROLL_FACTOR * CARRYFACTOR, FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
       end;
+    82: // Scroll & carry up (fast)
+      begin
+        P_AddScroller(sc_floor, 0, 2 * FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry, 0, 2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
+      end;
+    83: // Scroll & carry up/right (fast)
+      begin
+        P_AddScroller(sc_floor, -2 * FIXED_SCROLL_FACTOR * FRACUNIT, 2 * FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry,  2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, 2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
+      end;
+    84: // Scroll & carry right (fast)
+      begin
+        P_AddScroller(sc_floor, -2 * FIXED_SCROLL_FACTOR * FRACUNIT, 0, -1, i, 0);
+        P_AddScroller(sc_carry,  2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, 0, -1, i, 0);
+      end;
+    85: // Scroll & carry right/down (fast)
+      begin
+        P_AddScroller(sc_floor, -2 * FIXED_SCROLL_FACTOR * FRACUNIT, -2 * FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry,  2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, -2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
+      end;
+    86: // Scroll & carry down (fast)
+      begin
+        P_AddScroller(sc_floor, 0, -2 * FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry, 0, -2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
+      end;
+    87: // Scroll & carry left/down (fast)
+      begin
+        P_AddScroller(sc_floor,  2 * FIXED_SCROLL_FACTOR * FRACUNIT, -2 * FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry, -2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, -2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
+      end;
+    88: // Scroll & carry left (fast)
+      begin
+        P_AddScroller(sc_floor,  2 * FIXED_SCROLL_FACTOR * FRACUNIT, 0, -1, i, 0);
+        P_AddScroller(sc_carry, -2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, 0, -1, i, 0);
+      end;
+    89: // Scroll & carry left/up (fast)
+      begin
+        P_AddScroller(sc_floor,  2 * FIXED_SCROLL_FACTOR * FRACUNIT, 2 * FIXED_SCROLL_FACTOR * FRACUNIT, -1, i, 0);
+        P_AddScroller(sc_carry, -2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, 2 * FIXED_SCROLL_FACTOR * CARRYFACTOR, -1, i, 0);
+      end;
     end;
 end;
 
