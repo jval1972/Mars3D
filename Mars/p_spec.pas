@@ -2926,6 +2926,15 @@ begin
         if player.health <= 10 then
           G_ExitLevel;
       end;
+
+    80:
+      begin
+        // Eathquake!
+        if player.quaketics < 5 * FRACUNIT then
+          player.quaketics := 15 * FRACUNIT;
+        if player.quakeintensity < FRACUNIT then
+          player.quakeintensity := FRACUNIT;
+      end;
   end;
 
   if sector.special >= 128 then  // BOOM sector specials
