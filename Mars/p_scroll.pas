@@ -262,6 +262,9 @@ const
 const
   CARRYFACTOR = 6144;
 
+const
+  FIXED_SCROLL_FACTOR = 3;
+
 // Initialize the scrollers
 procedure P_SpawnScrollers;
 var
@@ -364,6 +367,19 @@ begin
 
   end;
 
+  for i := 0 to numsectors - 1 do
+    case sectors[i].special of
+    74:
+      begin
+        P_AddScroller(sc_floor,  FIXED_SCROLL_FACTOR * FRACUNIT, 0, -1, i, 0);
+        P_AddScroller(sc_carry, -FIXED_SCROLL_FACTOR * CARRYFACTOR, 0, -1, i, 0);
+      end;
+    78:
+      begin
+        P_AddScroller(sc_floor, -FIXED_SCROLL_FACTOR * FRACUNIT, 0, -1, i, 0);
+        P_AddScroller(sc_carry,  FIXED_SCROLL_FACTOR * CARRYFACTOR, 0, -1, i, 0);
+      end;
+    end;
 end;
 
 end.
