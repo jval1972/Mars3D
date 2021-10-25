@@ -392,7 +392,11 @@ uses
   i_modmusic in 'Base\i_modmusic.pas',
   s_externalmusic in 'Base\s_externalmusic.pas',
   info_export in 'Base\info_export.pas',
-  mars_info in 'Mars\mars_info.pas';
+  mars_info in 'Mars\mars_info.pas',
+  xmi_consts in 'XMILIB\xmi_consts.pas',
+  xmi_core in 'XMILIB\xmi_core.pas' {XMICore},
+  xmi_iff in 'XMILIB\xmi_iff.pas',
+  xmi_lib in 'XMILIB\xmi_lib.pas';
 
 var
   Saved8087CW: Word;
