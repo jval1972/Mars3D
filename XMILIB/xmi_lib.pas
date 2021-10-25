@@ -17,7 +17,8 @@ procedure XMI_StopPlayback;
 implementation
 
 uses
-  SysUtils, xmi_core;
+  d_delphi,
+  xmi_core;
 
 var
   XMIfile: string = '';
@@ -39,7 +40,7 @@ begin
     Result := False;
     Exit;
   end;
-  if not FileExists(fname) then
+  if not fexists(fname) then
   begin
     Result := False;
     Exit;
