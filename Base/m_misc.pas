@@ -464,7 +464,9 @@ begin
           else if pd._type = tBoolean then
             PBoolean(pd.location)^ := C_BoolEval(value, PBoolean(pd.location)^)
           else if pd._type = tString then
-            PString(pd.location)^ := value;
+            PString(pd.location)^ := value
+          else if pd._type = tString255 then
+            Pstring255(pd.location)^ := value;
         end
         else
         begin
@@ -553,7 +555,9 @@ begin
             printf('%s=OFF'#13#10, [name])
         end
         else if pd._type = tString then
-          printf('%s=%s'#13#10, [name, PString(pd.location)^]);
+          printf('%s=%s'#13#10, [name, PString(pd.location)^])
+        else if pd._type = tString255 then
+          printf('%s=%s'#13#10, [name, Pstring255(pd.location)^]);
         exit;
       end;
     end;
@@ -620,7 +624,9 @@ begin
         else if pd._type = tBoolean then
           printf('%s is boolean'#13#10, [name])
         else if pd._type = tString then
-          printf('%s is string'#13#10, [name]);
+          printf('%s is string'#13#10, [name])
+        else if pd._type = tString255 then
+          printf('%s is string[255]'#13#10, [name]);
         exit;
       end;
     end;
@@ -653,10 +659,12 @@ begin
     begin
       if pd._type = tInteger then
         s.Add(pd.name + '=' + itoa(PInteger(pd.location)^))
-      else if pd._type = tString then
-        s.Add(pd.name + '=' + PString(pd.location)^)
       else if pd._type = tBoolean then
         s.Add(pd.name + '=' + itoa(intval(PBoolean(pd.location)^)))
+      else if pd._type = tString255 then
+        s.Add(pd.name + '=' + Pstring255(pd.location)^)
+      else if pd._type = tString then
+        s.Add(pd.name + '=' + PString(pd.location)^)
       else if pd._type = tGroup then
       begin
         s.Add('');
@@ -736,6 +744,8 @@ begin
           PBoolean(defaults[i].location)^ := defaults[i].defaultbvalue
         else if defaults[i]._type = tString then
           PString(defaults[i].location)^ := defaults[i].defaultsvalue
+        else if defaults[i]._type = tString255 then
+          Pstring255(defaults[i].location)^ := defaults[i].defaultsvalue
         else
           exit; // Ouch!
         printf('Setting default value for %s'#13#10, [parm]);
@@ -748,6 +758,8 @@ begin
         else if defaults[i]._type = tBoolean then
           parm1 := yesnostrings[defaults[i].defaultbvalue]
         else if defaults[i]._type = tString then
+          parm1 := defaults[i].defaultsvalue
+        else if defaults[i]._type = tString255 then
           parm1 := defaults[i].defaultsvalue
         else
           exit; // Ouch!
@@ -777,7 +789,9 @@ begin
     else if defaults[i]._type = tBoolean then
       PBoolean(defaults[i].location)^ := defaults[i].defaultbvalue
     else if defaults[i]._type = tString then
-      PString(defaults[i].location)^ := defaults[i].defaultsvalue;
+      PString(defaults[i].location)^ := defaults[i].defaultsvalue
+    else if defaults[i]._type = tString255 then
+      Pstring255(defaults[i].location)^ := defaults[i].defaultsvalue;
 
   if M_CheckParm('-defaultvalues') > 0 then
     exit;
@@ -850,7 +864,9 @@ begin
             else if pd._type = tBoolean then
               PBoolean(pd.location)^ := atoi(s.Values[n]) <> 0
             else if pd._type = tString then
-              PString(pd.location)^ := s.Values[n];
+              PString(pd.location)^ := s.Values[n]
+            else if pd._type = tString255 then
+              Pstring255(pd.location)^ := s.Values[n];
           end;
         end;
       end;
