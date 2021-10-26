@@ -212,6 +212,12 @@ const
                 (Ord('A') shl 16) or
                 (Ord('D') shl 24));
 
+// Rtl only
+  IMAD = integer(Ord('I') or
+                (Ord('M') shl 8) or
+                (Ord('A') shl 16) or
+                (Ord('D') shl 24));
+
   MAD1 = 'CD&MMM';
   MAD2 = 'WORLD&ART&DIRECTORY';
 
