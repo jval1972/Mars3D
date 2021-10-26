@@ -956,3 +956,77 @@ ACTOR MT_CHEMICAL 3003
     }
   }
 }
+
+
+///////////////////////////////
+// MT_FISH
+///////////////////////////////
+ACTOR "MT_FISH" 3002
+{
+  Health 80
+  Width 24
+  Height 24
+  Speed 8
+  Painchance 120
+  Mass 40
+  Reactiontime 8
+  ActiveSound BUBBLE
+  PainSound FISHHURT
+  Deathsound FISHDTH
+  +MF_SOLID
+  +MF_NOGRAVITY
+  +MF_SHOOTABLE
+  +MF_FLOAT
+  +MF_COUNTKILL
+  +MF_EX_SPAWNFLOAT
+  +MF2_EX_DONTINFIGHTMONSTERS
+  +MF3_EX_NOGRAVITYDEATH
+  States
+  {
+    Spawn:
+    {
+      FISH A 10 A_Look
+      FISH A 10 A_Look
+      Loop
+    }
+    See:
+    {
+      FISH B 5 A_Chase
+      FISH C 5 A_Chase
+      FISH D 5 A_Chase
+      FISH C 5 A_Chase
+      Loop
+    }
+    Melee:
+    {
+      FISH E 5 A_FaceTarget
+      FISH F 5 A_CustomMeleeAttack(5, "FISHATT", "FISHATT")
+      FISH G 5 A_FaceTarget
+      Goto See
+    }
+    Pain:
+    {
+      FISH H 8 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      FISH I 5 A_SetPushable
+      FISH J 5 A_Scream
+      FISH K 5
+      FISH L 5 
+      FISH M 5
+      FISH N 350
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+      FISH NNNNNNNNNNNNNNNNNNNN 1 A_FadeOut(0.005)
+    }
+  }
+}
