@@ -263,10 +263,7 @@ begin
   if scaledviewwidth = SCREENWIDTH then
     exit;
 
-  if gamemode = commercial then
-    name := 'GRNROCK'   // DOOM II border patch.
-  else
-    name := 'FLOOR7_2'; // DOOM border patch.
+  name := 'FLORD-02'; // DOOM border patch.
 
 {$IFDEF OPENGL}
   gld_DrawBackground(name);
