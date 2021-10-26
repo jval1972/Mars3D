@@ -2929,7 +2929,7 @@ begin
 
     80:
       begin
-        // Eathquake!
+        // Earthquake!
         if player.quaketics < 5 * FRACUNIT then
           player.quaketics := 15 * FRACUNIT;
         if player.quakeintensity < FRACUNIT then
