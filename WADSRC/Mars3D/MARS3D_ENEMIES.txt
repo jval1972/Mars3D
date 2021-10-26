@@ -775,3 +775,82 @@ ACTOR MT_WATERFEAR 3001
 }
 
 
+///////////////////////////////
+// MT_ALIENDEAMON
+///////////////////////////////
+ACTOR "MT_ALIENDEAMON" 3005
+{
+  Health 100
+  Width 30
+  Height 56
+  Speed 8
+  Painchance 150
+  Mass 180
+  Reactiontime 10
+  ActiveSound MOUSAPP
+  PainSound MOUSHURT
+  Deathsound MOUSDTH
+  +MF_SOLID
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  +MF2_EX_DONTINFIGHTMONSTERS
+  States
+  {
+    Spawn:
+    {
+      MOUS A 10 A_Look
+      MOUS A 10 A_Look
+      Loop
+    }
+    See:
+    {
+      MOUS B 6 A_Chase
+      MOUS C 6 A_Chase
+      MOUS D 6 A_Chase
+      MOUS C 6 A_Chase
+      Loop
+    }
+    Melee:
+    {
+      MOUS E 5 A_FaceTarget
+      MOUS F 3 A_FaceTarget
+      MOUS G 5 A_CustomMeleeAttack(5, "MOUSATT", "MOUSATT")
+      MOUS F 3 A_FaceTarget
+      Goto See
+    }
+    Pain:
+    {
+      MOUS H 4 A_Pain
+      MOUS K 4
+      Goto See
+    }
+    Death:
+    {
+      MOUS M 5
+      MOUS N 5 A_Scream
+      MOUS O 5
+      MOUS P 5 A_Fall
+      MOUS Q -1
+    }
+    XDeath:
+    {
+      MOUS R 5
+      MOUS S 5 A_Scream
+      MOUS T 5
+      MOUS U 5
+      MOUS V 5 A_Fall
+      MOUS W 5
+      MOUS X 5
+      MOUS Y -1
+    }
+    Raise:
+    {
+      MOUS Q 5
+      MOUS P 5
+      MOUS O 5
+      MOUS N 5
+      MOUS M 5
+      Goto See
+    }
+  }
+}
