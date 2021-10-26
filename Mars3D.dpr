@@ -396,7 +396,8 @@ uses
   xmi_consts in 'XMILIB\xmi_consts.pas',
   xmi_core in 'XMILIB\xmi_core.pas' {XMICore},
   xmi_iff in 'XMILIB\xmi_iff.pas',
-  xmi_lib in 'XMILIB\xmi_lib.pas';
+  xmi_lib in 'XMILIB\xmi_lib.pas',
+  mars_files in 'Mars\mars_files.pas';
 
 var
   Saved8087CW: Word;
