@@ -59,12 +59,16 @@ type
     function NumEntries: integer;
     function FileSize: integer;
     property FileName: string read ffilename;
+    property Header: wadinfo_t read h;
   end;
+
+function W_WadFastCrc32(const aname: string): string;
 
 implementation
 
 uses
-  i_system;
+  i_system,
+  m_crc32;
 
 constructor TWadReader.Create;
 begin
@@ -152,12 +156,12 @@ begin
   end
   else
   begin
-    h.identification := IWAD;
+    h.identification := IMAD;
     fs.Read(h.numlumps, SizeOf(integer));
     fs.Read(h.infotableofs, SizeOf(integer));
   end;
 
-  if (h.numlumps > 0) and (h.infotableofs < fs.Size) and ((h.identification = IWAD) or (h.identification = PWAD)) then
+  if (h.numlumps > 0) and (h.infotableofs < fs.Size) and ((h.identification = IWAD) or (h.identification = PWAD) or (h.identification = IMAD)) then
   begin
     fs.Seek(h.infotableofs, sFromBeginning);
     la := malloc(h.numlumps * SizeOf(filelump_t));
@@ -269,6 +273,33 @@ begin
     Result := fs.Size
   else
     Result := 0;
+end;
+
+function W_WadFastCrc32(const aname: string): string;
+var
+  w: TWadReader;
+  m: TDMemoryStream;
+  i: integer;
+  h: wadinfo_t;
+  fl: filelump_t;
+begin
+  w := TWadReader.Create;
+  w.OpenWadFile(aname);
+
+  m := TDMemoryStream.Create;
+  h := w.Header;
+  m.Write(h, SizeOf(wadinfo_t));
+
+  for i := 0 to w.NumEntries - 1 do
+  begin
+    fl := w.EntryInfo(i)^;
+    m.Write(fl, SizeOf(filelump_t));
+  end;
+
+  Result := GetCRC32(m.Memory, m.Size);
+
+  w.Free;
+  m.Free;
 end;
 
 end.
