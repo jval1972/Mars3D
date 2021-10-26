@@ -479,6 +479,10 @@ procedure A_PlayerHurtExplode(actor: Pmobj_t);
 
 procedure A_SetPainChance(actor: Pmobj_t);
 
+procedure A_SetPushable(actor: Pmobj_t);
+
+procedure A_UnSetPushable(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -6108,6 +6112,16 @@ begin
     exit;
 
   actor.painchance := actor.state.params.IntVal[0];
+end;
+
+procedure A_SetPushable(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex or MF2_EX_PUSHABLE;
+end;
+
+procedure A_UnSetPushable(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_PUSHABLE;
 end;
 
 end.
