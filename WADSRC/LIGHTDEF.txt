@@ -342,3 +342,62 @@ object MT_POISON_SHOT
     frame POSNE { light POISON_SHOT_E  }
 }
 
+
+// MT_DEFENDER_SHOT
+pointlight DEFENDER_SHOT
+{
+    color 1.0 0.7 0.0
+    size 56
+}
+
+flickerlight DEFENDER_SHOT_X1
+{
+    color 1.0 0.7 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight DEFENDER_SHOT_X2
+{
+    color 0.5 0.1 0.0
+    size 96
+    secondarySize 104
+    chance 0.3
+}
+
+flickerlight DEFENDER_SHOT_X3
+{
+    color 0.4 0.0 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+flickerlight DEFENDER_SHOT_X4
+{
+    color 0.3 0.0 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+object MT_DEFENDER_SHOT
+{
+    frame DEVSA { light DEFENDER_SHOT    }
+    frame DEVSB { light DEFENDER_SHOT    }
+
+    frame DEVEA { light DEFENDER_SHOT_X1 }
+    frame DEVEB { light DEFENDER_SHOT_X1 }
+    frame DEVEC { light DEFENDER_SHOT_X1 }
+    frame DEVED { light DEFENDER_SHOT_X1 }
+
+    frame DEVEE { light DEFENDER_SHOT_X2 }
+    frame DEVEF { light DEFENDER_SHOT_X2 }
+
+    frame DEVEG { light DEFENDER_SHOT_X3 }
+    frame DEVEH { light DEFENDER_SHOT_X3 }
+
+    frame DEVEI { light DEFENDER_SHOT_X4 }
+    frame DEVEJ { light DEFENDER_SHOT_X4 }
+}
