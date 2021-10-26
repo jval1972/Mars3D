@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 -file G:\DelphiDoom_Release\Mars3D\DOSBOX\Mars3D\CD\INSTALL\mars.mad -iwad doomu_mars.wad
+RunParams=-nofullscreen -geom 1920x1080 -file doomu_mars.wad
 HostApplication=
 Launcher=
 UseLauncher=0

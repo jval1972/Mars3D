@@ -114,8 +114,9 @@ var
   additionalwadpaths: string = '';
 
 var
-  wads_autoload: string = '';
-  paks_autoload: string = '';
+  wads_autoload: string[255] = '';
+  paks_autoload: string[255] = '';
+  mars_mad_file: string[255] = '';
 
 function D_FileInDoomPath(const fn: string): string;
 
@@ -146,6 +147,7 @@ uses
 {$ENDIF}
   f_finale,
   m_argv,
+  m_crc32,
   m_misc,
   m_menu,
   mt_utils,
@@ -177,6 +179,7 @@ uses
   p_mobj,
   ps_main,
   psi_overlay,
+  mars_version,
   r_draw,
   r_main,
   r_hires,
@@ -193,6 +196,7 @@ uses
   v_video,
   w_autoload,
   w_wad,
+  w_wadreader,
   w_pak,
   z_zone;
 
@@ -825,7 +829,6 @@ begin
     try
       wadfiles.Add(fname);
       PAK_AddFile(fname);
-      D_CheckCustomWad(fname);
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
     // GL_xxxx lumps has lower priority from GWA files, that's for we
@@ -1016,8 +1019,62 @@ begin
   if fexists(ddsyswad) then
     PAK_AddFile(ddsyswad)
   else
-    I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [SYSWAD]);
+    I_Warning('D_AddSystemWAD(): System WAD "%s" not found.'#13#10, [SYSWAD]);
 end;
+
+const
+  MARS_DATA_FILE = 'MARS.MAD';
+  MARS_DEF_DATA_FILE = 'C:\MARS\MARS.MAD';
+
+// Add MARS.MAD
+procedure D_AddMarsMAD;
+var
+  marsmad: string;
+  tmpmad: string;
+  p: integer;
+begin
+  p := M_CheckParm('-imad');
+  if (p > 0) and (p < myargc) then
+    tmpmad := myargv[p + 1]
+  else
+  begin
+    tmpmad := MARS_DATA_FILE;
+    if mars_mad_file <> '' then
+      if fexists(mars_mad_file) then
+        tmpmad := mars_mad_file;
+  end;
+
+  marsmad := D_FileInDoomPath(tmpmad);
+
+  if not fexists(marsmad) then
+    if fexists(MARS_DEF_DATA_FILE) then
+      marsmad := MARS_DEF_DATA_FILE;
+
+  if not fexists(marsmad) then
+  begin
+    tmpmad := SUC_LocateMarsMadFile;
+    if tmpmad <> '' then
+      if fexists(tmpmad) then
+      begin
+        mars_mad_file := tmpmad;
+        marsmad := tmpmad;
+      end;
+  end;
+
+  if fexists(marsmad) then
+  begin
+    D_AddFile(marsmad);
+    mars_crc32 := strupper(W_WadFastCrc32(marsmad));
+  end
+  else
+  begin
+    if marsmad = '' then
+      I_Warning('D_AddMarsMad(): No data file found.'#13#10)
+    else
+      I_Warning('D_AddMarsMad(): Data file "%s" not found.'#13#10, [marsmad]);
+  end;
+end;
+
 
 var
   doomcwad: string = ''; // Custom main WAD
@@ -1029,171 +1086,10 @@ var
 // should be executed (notably loading PWAD's).
 //
 procedure IdentifyVersion;
-var
-  doom1wad: string;
-  doomwad: string;
-  doomuwad: string;
-  doom2wad: string;
-  doombfgwad: string;
-  doom2bfgwad: string;
-
-  doom2fwad: string;
-  plutoniawad: string;
-  tntwad: string;
-  doomwaddir: string;
-  p: integer;
 begin
-  if searchdoomwaddir then
-    doomwaddir := getenv('DOOMWADDIR')
-  else
-    doomwaddir := '';
-
-  if doomwaddir = '' then
-    doomwaddir := '.';
-
-  // Commercial.
-  sprintf(doom2wad, '%s\doom2.wad', [doomwaddir]);
-
-  // Retail.
-  sprintf(doomuwad, '%s\doomu.wad', [doomwaddir]);
-
-  // Registered.
-  sprintf(doomwad, '%s\doom.wad', [doomwaddir]);
-
-  // Shareware.
-  sprintf(doom1wad, '%s\doom1.wad', [doomwaddir]);
-
-  // plutonia pack
-  sprintf(plutoniawad, '%s\plutonia.wad', [doomwaddir]);
-
-  // tnt pack
-  sprintf(tntwad, '%s\tnt.wad', [doomwaddir]);
-
-
-  // Doom BFG
-  sprintf(doombfgwad, '%s\doombfg.wad', [doomwaddir]);
-
-  // Doom2 BFG
-  sprintf(doom2bfgwad, '%s\doom2bfg.wad', [doomwaddir]);
-
-  // French stuff.
-  sprintf(doom2fwad, '%s\doom2f.wad', [doomwaddir]);
-
-  basedefault := 'Mars3D.ini';
-
-  p := M_CheckParm('-mainwad');
-  if p = 0 then
-    p := M_CheckParm('-iwad');
-  if (p > 0) and (p < myargc - 1) then
-  begin
-    inc(p);
-    doomcwad := D_FileInDoomPath(myargv[p]);
-    if fexists(doomcwad) then
-    begin
-      printf(' External main wad in use: %s'#13#10, [doomcwad]);
-      gamemode := indetermined;
-      D_AddFile(doomcwad);
-      exit;
-    end
-    else
-      doomcwad := '';
-  end;
-
-  for p := 1 to 2 do
-  begin
-    if fexists(doom2bfgwad) then
-    begin
-      gamemode := commercial;
-      gamemission := doom2;
-      customgame := cg_bfg2;
-      D_AddFile(doom2bfgwad);
-      exit;
-    end;
-
-    if fexists(doom2fwad) then
-    begin
-      gamemode := commercial;
-      gamemission := doom2;
-      // C'est ridicule!
-      // Let's handle languages in config files, okay?
-      language := french;
-      printf('French version'#13#10);
-      D_AddFile(doom2fwad);
-      exit;
-    end;
-
-    if fexists(doom2wad) then
-    begin
-      gamemode := commercial;
-      gamemission := doom2;
-      D_AddFile(doom2wad);
-      exit;
-    end;
-
-    if fexists(plutoniawad) then
-    begin
-      gamemode := commercial;
-      gamemission := pack_plutonia;
-      D_AddFile(plutoniawad);
-      exit;
-    end;
-
-    if fexists(tntwad) then
-    begin
-      gamemode := commercial;
-      gamemission := pack_tnt;
-      D_AddFile(tntwad);
-      exit;
-    end;
-
-    if fexists(doombfgwad) then
-    begin
-      gamemode := retail;
-      gamemission := doom;
-      D_AddFile(doomuwad);
-      exit;
-    end;
-
-    if fexists(doomuwad) then
-    begin
-      gamemode := indetermined; // Will check if retail or register mode later
-      gamemission := doom;
-      D_AddFile(doomuwad);
-      exit;
-    end;
-
-    if fexists(doomwad) then
-    begin
-      gamemode := indetermined; // Will check if retail or register mode later
-      gamemission := doom;
-      D_AddFile(doomwad);
-      exit;
-    end;
-
-    if fexists(doom1wad) then
-    begin
-      gamemode := shareware;
-      gamemission := doom;
-      D_AddFile(doom1wad);
-      exit;
-    end;
-
-
-    if p = 1 then
-    begin
-      doom2wad := D_FileInDoomPath(doom2wad);
-      doomuwad := D_FileInDoomPath(doomuwad);
-      doomwad := D_FileInDoomPath(doomwad);
-      doom1wad := D_FileInDoomPath(doom1wad);
-      plutoniawad := D_FileInDoomPath(plutoniawad);
-      tntwad := D_FileInDoomPath(tntwad);
-      doom2fwad := D_FileInDoomPath(doom2fwad);
-    end;
-  end;
-
-  printf('Game mode indeterminate.'#13#10);
-  gamemode := indetermined;
-
+  gamemode := MARS_GameModeFromCrc32(mars_crc32);
+  marsversion := MARS_MadVersionFromCrc32(mars_crc32);
+  printf(MARS_VersionStringFromCrc32(mars_crc32) + #13#10);
 end;
 
 //
@@ -1450,10 +1346,11 @@ var
   j: integer;
   oldoutproc: TOutProc;
   mb_min: integer; // minimum zone size
-  episodes: integer;
+  episode: integer;
   err_shown: boolean;
   s1, s2: string;
   kparm: string;
+  stmp: string;
 begin
   SUC_Open;
   outproc := @SUC_Outproc;
@@ -1477,6 +1374,17 @@ begin
 
   FindResponseFile;
 
+  if M_CheckParmCDROM then
+  begin
+    printf(D_CDROM);
+    basedefault := CD_WORKDIR + 'RAD.ini';
+  end
+  else
+    basedefault := 'RAD.ini';
+
+  printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_LoadDefaults;              // load before initing other systems
+
   printf('I_InitializeIO: Initializing input/output streams.'#13#10);
   I_InitializeIO;
 
@@ -1486,6 +1394,8 @@ begin
   SUC_Progress(3);
 
   D_AddSystemWAD; // Add system wad first
+
+  D_AddMarsMAD; // Add MARS.MAD
 
   SUC_Progress(5);
 
@@ -1508,19 +1418,11 @@ begin
     deathmatch := 1;
 
   case gamemode of
-    retail:
-      begin
-        printf(
-           '                         ' +
-           'The Ultimate DOOM Startup v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-      end;
     shareware:
       begin
         printf(
            '                            ' +
-           'DOOM Shareware Startup v%d.%.*d' +
+           'Shareware v%d.%.*d' +
            '                           '#13#10,
             [VERSION div 100, 2, VERSION mod 100]);
       end;
@@ -1528,34 +1430,20 @@ begin
       begin
         printf(
            '                            ' +
-           'DOOM Registered Startup v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-      end;
-    commercial:
-      begin
-        printf(
-           '                         ' +
-           'DOOM 2: Hell on Earth v%d.%.*d' +
+           'Registered v%d.%.*d' +
            '                           '#13#10,
             [VERSION div 100, 2, VERSION mod 100]);
       end;
   else
       printf(
          '                         ' +
-         'Public DOOM - v%d.%.*d' +
+         'v%d.%.*d' +
          '                           '#13#10,
           [VERSION div 100, 2, VERSION mod 100]);
   end;
 
   if devparm then
     printf(D_DEVSTR);
-
-  if M_CheckParmCDROM then
-  begin
-    printf(D_CDROM);
-    basedefault := CD_WORKDIR + 'Mars3D.ini';
-  end;
 
   // turbo option
   p := M_CheckParm('-turbo');
@@ -1592,30 +1480,14 @@ begin
     myargv[p][5] := 'p';     // big hack, change to -warp
 
   // Map name handling.
-    case gamemode of
-      shareware,
-      retail,
-      registered:
-        begin
-          if p < myargc - 2 then
-          begin
-            sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
-              [myargv[p + 1][1], myargv[p + 2][1]]);
-            printf('Warping to Episode %s, Map %s.'#13#10,
-              [myargv[p + 1], myargv[p + 2]]);
-          end;
-        end;
-    else
-      begin
-        p := atoi(myargv[p + 1]);
-        if p < 10 then
-          sprintf(filename, '~' + DEVMAPS + 'cdata/map0%d.wad', [p])
-        else
-          sprintf (filename,'~' + DEVMAPS + 'cdata/map%d.wad', [p]);
-      end;
+    if p < myargc - 2 then
+    begin
+      sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
+        [myargv[p + 1][1], myargv[p + 2][1]]);
+      printf('Warping to Episode %s, Map %s.'#13#10,
+        [myargv[p + 1], myargv[p + 2]]);
+      D_AddFile(filename);
     end;
-
-    D_AddFile(filename);
   end;
 
   SUC_Progress(8);
@@ -1694,11 +1566,10 @@ begin
   if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
     printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
 
-  printf('M_LoadDefaults: Load system defaults.'#13#10);
-  M_LoadDefaults;              // load before initing other systems
-
-  D_WadsAutoLoad(wads_autoload);
-  D_PaksAutoload(paks_autoload);
+  stmp := wads_autoload;
+  D_WadsAutoLoad(stmp);
+  stmp := paks_autoload;
+  D_PaksAutoload(stmp);
 
   SUC_Progress(20);
 
@@ -2079,6 +1950,9 @@ begin
 
   printf('SC_Init: Initializing script engine.'#13#10);
   SC_Init;
+
+  SUC_Progress(42);
+
   // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
@@ -2155,91 +2029,27 @@ begin
 
   if gamemode = indetermined then
   begin
-    if W_CheckNumForName('e4m1') <> -1 then
+    if W_CheckNumForName('e3m1') <> -1 then
     begin
-      gamemission := doom;
-      gamemode := retail;
-      {$IFNDEF FPC}
-      SUC_SetGameMode('Ultimate Doom');
-      {$ENDIF}
-    end
-    else if W_CheckNumForName('e3m1') <> -1 then
-    begin
-      gamemission := doom;
       gamemode := registered;
-      {$IFNDEF FPC}
-      SUC_SetGameMode('Registered Doom');
-      {$ENDIF}
     end
     else if W_CheckNumForName('e1m1') <> -1 then
     begin
-      gamemission := doom;
       gamemode := shareware;
-      {$IFNDEF FPC}
-      SUC_SetGameMode('Shareware Doom');
-      {$ENDIF}
-    end
-    else if W_CheckNumForName('map01') <> -1 then
-    begin
-      gamemode := commercial;
-      if Pos('TNT.WAD', strupper(doomcwad)) > 0 then
-      begin
-        gamemission := pack_tnt;
-        {$IFNDEF FPC}
-        SUC_SetGameMode('TNT Evilution');
-        {$ENDIF}
-      end
-      else if Pos('PLUTONIA.WAD', strupper(doomcwad)) > 0 then
-      begin
-        gamemission := pack_plutonia;
-        {$IFNDEF FPC}
-        SUC_SetGameMode('The Plutonia Experiment');
-        {$ENDIF}
-      end
-      else
-      begin
-        gamemission := doom2;
-        {$IFNDEF FPC}
-        if customgame = cg_freedoom then
-          SUC_SetGameMode('FREEDOOM')
-        else
-          SUC_SetGameMode('DOOM2: Hell On Earth');
-        {$ENDIF}
-      end;
     end
     else
       I_Error('Game mode indetermined'#13#10);
+  end;
+
+  if marsversion = mvunknown then
+  begin
+    if gamemode = shareware then
+      SUC_SetGameMode('MARS Shareware')
+    else
+      SUC_SetGameMode('MARS Registered');
   end
   else
-  begin
-    {$IFNDEF FPC}
-    if customgame = cg_chex then
-      SUC_SetGameMode('Chex Quest')
-    else if customgame = cg_chex2 then
-       SUC_SetGameMode('Chex Quest 2')
-    else if customgame = cg_freedoom then
-       SUC_SetGameMode('FREEDOOM')
-    else if customgame = cg_bfg2 then
-       SUC_SetGameMode('DOOM2: BFG Edition')
-    else if customgame = cg_hacx then
-       SUC_SetGameMode('HACX')
-    else if (gamemission = doom) and (gamemode = retail) then
-      SUC_SetGameMode('Ultimate Doom')
-    else if (gamemission = doom) and (gamemode = registered) then
-      SUC_SetGameMode('Registered Doom')
-    else if (gamemission = doom) and (gamemode = shareware) then
-      SUC_SetGameMode('Shareware Doom')
-    else if gamemode = commercial then
-    begin
-      if gamemission = pack_tnt then
-        SUC_SetGameMode('TNT Evilution')
-      else if gamemission = pack_plutonia then
-        SUC_SetGameMode('The Plutonia Experiment')
-      else if gamemission = doom2 then
-        SUC_SetGameMode('DOOM2: Hell On Earth');
-    end;
-    {$ENDIF}
-  end;
+    SUC_SetGameMode(marsversioninfo[Ord(marsversion)].versionstring);
 
   SUC_Progress(59);
 
@@ -2249,22 +2059,11 @@ begin
   SUC_Progress(60);
 
   p := M_CheckParm('-warp');
-  if (p <> 0) and (p < myargc - 1) then
+  if (p <> 0) and (p < myargc - 2) then
   begin
-    if gamemode = commercial then
-    begin
-      startmap := atoi(myargv[p + 1]);
-      autostart := true;
-    end
-    else
-    begin
-      if p < myargc - 2 then
-      begin
-        startepisode := atoi(myargv[p + 1]);
-        startmap := atoi(myargv[p + 2]);
-        autostart := true;
-      end;
-    end;
+    startepisode := atoi(myargv[p + 1]);
+    startmap := atoi(myargv[p + 2]);
+    autostart := true;
   end;
 
   SUC_Progress(61);
@@ -2283,35 +2082,19 @@ begin
     end;
     // Check for fake IWAD with right name,
     // but w/o all the lumps of the registered version.
-    if not err_shown and (gamemode in [registered, retail]) then
+    if not err_shown and (gamemode = registered) then
     begin
       // These are the lumps that will be checked in IWAD,
       // if any one is not present, execution will be aborted.
       s_error := #13#10 + 'D_DoomMain(): This is not the registered version.';
-      episodes := 3;
-      if gamemode = retail then
-        inc(episodes);
-      for i := 2 to episodes do
-        for j := 1 to 9 do
-          if W_CheckNumForName('e' + itoa(i) + 'm' + itoa(j)) < 0 then
-          begin
-            if not err_shown then
-              I_DevError(s_error);
-            err_shown := true;
-          end;
-      if not err_shown then
-      begin
-        if W_CheckNumForName('dphoof') < 0 then
-          I_DevError(s_error)
-        else if W_CheckNumForName('bfgga0') < 0 then
-          I_DevError(s_error)
-        else if W_CheckNumForName('heada1') < 0 then
-          I_DevError(s_error)
-        else if W_CheckNumForName('cybra1') < 0 then
-          I_DevError(s_error)
-        else if W_CheckNumForName('spida1d1') < 0 then
-          I_DevError(s_error);
-      end;
+      episode := 1;
+      for j := 1 to 7 do
+        if W_CheckNumForName('e' + itoa(episode) + 'm' + itoa(j)) < 0 then
+        begin
+          if not err_shown then
+            I_DevError(s_error);
+          err_shown := true;
+        end;
     end;
 
   // If additonal PWAD files are used, print modified banner
@@ -2319,7 +2102,7 @@ begin
     if showmessageboxonmodified then
     begin
       oldoutproc := outproc;
-      I_IOSetWindowHandle({$IFDEF FPC}0{$ELSE}SUC_GetHandle{$ENDIF});
+      I_IOSetWindowHandle(SUC_GetHandle);
       outproc := @I_IOMessageBox; // Print the message again to messagebox
       printf(MSG_MODIFIEDGAME);
       outproc := oldoutproc;
@@ -2332,9 +2115,7 @@ begin
     shareware,
     indetermined:
       printf(MSG_SHAREWARE);
-    registered,
-    retail,
-    commercial:
+    registered:
       printf(MSG_COMMERCIAL);
   else
     begin
@@ -2372,7 +2153,7 @@ begin
 
   SUC_Progress(69);
 
-  printf('R_Init: Init DOOM refresh daemon.'#13#10);
+  printf('R_Init: Init Rendering Engine.'#13#10);
   R_Init;
 
   SUC_Progress(80);

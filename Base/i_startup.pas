@@ -49,8 +49,10 @@ type
     NetPanel: TPanel;
     NetMsgLabel: TLabel;
     AbortNetButton: TButton;
+    OpenDialog1: TOpenDialog;
     procedure FormCreate(Sender: TObject);
     procedure AbortNetButtonClick(Sender: TObject);
+    procedure OpenDialog1CanClose(Sender: TObject; var CanClose: Boolean);
   private
     { Private declarations }
   public
@@ -83,6 +85,8 @@ procedure SUC_StartingNetwork(const msg: string);
 
 procedure SUC_FinishedNetwork;
 
+function SUC_LocateMarsMadFile: string;
+
 implementation
 
 {$R *.dfm}
@@ -91,7 +95,8 @@ uses
   d_delphi,
   d_main,
   i_io,
-  i_system;
+  i_system,
+  w_wad;
 
 var
   StartUpConsoleForm: TStartUpConsoleForm;
@@ -197,7 +202,7 @@ var
   i: integer;
 begin
   Caption := D_Version + ' - ' + D_VersionBuilt;
-  
+
   DoubleBuffered := True;
   for i := 0 to ComponentCount - 1 do
     if Components[i].InheritsFrom(TWinControl) then
@@ -269,6 +274,50 @@ end;
 procedure SUC_FinishedNetwork;
 begin
   StartUpConsoleForm.NetPanel.Visible := False;
+end;
+
+function SUC_LocateMarsMadFile: string;
+begin
+  if StartUpConsoleForm.OpenDialog1.Execute then
+    result := StartUpConsoleForm.OpenDialog1.Filename
+  else
+    result := '';
+end;
+
+procedure TStartUpConsoleForm.OpenDialog1CanClose(Sender: TObject;
+  var CanClose: Boolean);
+var
+  f: TFileStream;
+  c: char;
+  i: integer;
+  check: string;
+begin
+  if OpenDialog1.FileName <> '' then
+    if fexists(OpenDialog1.FileName) then
+    begin
+      f := TFileStream.Create(OpenDialog1.FileName, fmOpenRead);
+      try
+        if f.Size < 25 then
+          CanClose := false
+        else
+        begin
+          check := '';
+          for i := 0 to 20 do
+          begin
+            f.Read(c, SizeOf(char));
+            check := check + c;
+          end;
+          CanClose := (LeftStr(check, 4) = 'IWAD') or
+                      (LeftStr(check, 4) = 'PWAD') or
+                      (LeftStr(check, Length(MAD1)) = MAD1) or
+                      (LeftStr(check, Length(MAD2)) = MAD2);
+        end;
+        if not CanClose then
+          ShowMessage('Invalid data file');
+      finally
+        f.Free;
+      end;
+    end;
 end;
 
 end.

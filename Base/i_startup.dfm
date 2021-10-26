@@ -8,7 +8,7 @@ object StartUpConsoleForm: TStartUpConsoleForm
   ClientHeight = 361
   ClientWidth = 624
   Color = clBtnFace
-  Font.Charset = GREEK_CHARSET
+  Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
   Font.Height = -13
   Font.Name = 'Arial'
@@ -1058,7 +1058,7 @@ object StartUpConsoleForm: TStartUpConsoleForm
     Cursor = crHourGlass
     Align = alClient
     Color = 4210752
-    Font.Charset = GREEK_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWhite
     Font.Height = -11
     Font.Name = 'Courier New'
@@ -1143,5 +1143,17 @@ object StartUpConsoleForm: TStartUpConsoleForm
       TabOrder = 0
       OnClick = AbortNetButtonClick
     end
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = 'MAD'
+    FileName = 'MARS.MAD'
+    Filter = 
+      'MARS.MAD|MARS.MAD|MARSDEMO.MAD|MARSDEMO.MAD|MAD files (*.mad)|*.' +
+      'mad|WAD files (*.wad)|*.wad'
+    Options = [ofHideReadOnly, ofNoChangeDir, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+    Title = 'Locate data file'
+    OnCanClose = OpenDialog1CanClose
+    Left = 112
+    Top = 208
   end
 end
