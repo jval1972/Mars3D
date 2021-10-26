@@ -854,3 +854,105 @@ ACTOR "MT_ALIENDEAMON" 3005
     }
   }
 }
+
+
+///////////////////////////////
+// MT_CHEMICAL_SHOT
+///////////////////////////////
+ACTOR MT_CHEMICAL_SHOT : MT_ROBOT_SHOT
+{
+  Damage 1
+  States
+  {
+    Death:
+    {
+      TNT1 A 0 A_SetScale(RANDOMPICK(9,10,11)/10)
+      TNT1 A 0 A_RandomFlipSprite(128)
+      GUNS C RANDOMRANGE(3,6) BRIGHT A_GlowLight "RED"
+      GUNS D RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      GUNS E RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      GUNS F RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      Stop
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_CHEMICAL
+///////////////////////////////
+ACTOR MT_CHEMICAL 3003
+{
+  Health 120
+  Width 20
+  Height 56
+  Speed 8
+  Painchance 150
+  Mass 150
+  Reactiontime 8
+  Attacksound MECHATT
+  Painsound CHEMHURT
+  Deathsound MONSDTH
+  +MF_SOLID
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  +MF2_EX_DONTINFIGHTMONSTERS
+  States
+  {
+    Spawn:
+    {
+      CHEM A 4 A_Look
+      CHEM B 4 A_Look
+      Loop
+    }
+    See:
+    {
+      CHEM C 4 A_Chase
+      CHEM C 4 A_Chase
+      CHEM D 4 A_Chase
+      CHEM D 4 A_Chase
+      Loop
+    }
+    Missile:
+    {
+      CHEM E 4 A_FaceTarget
+      TNT1 A 0 A_CustomMissile("MT_CHEMICAL_SHOT", 58, -5)
+      CHEM E 4 A_CustomMissile("MT_CHEMICAL_SHOT", 58, 5)
+      CHEM E 4 A_FaceTarget
+      TNT1 A 0 A_Jump(240, -4)
+      Goto See
+    }
+    Pain:
+    {
+      CHEM F 8
+      Goto See
+    }
+    Death:
+    {
+      CHEM F 8
+      CHEM G 5 A_Scream
+      CHEM H 5 A_Fall
+      CHEM I -1
+      Stop
+    }
+    XDeath:
+    {
+      CHEM J 5
+      CHEM K 5 A_Scream
+      CHEM L 5 A_Fall
+      CHEM M 5 A_Fall
+      CHEM N 5
+      CHEM 0 5
+      CHEM P -1
+      Stop
+    }
+    Raise:
+    {
+      CHEM I 5
+      CHEM H 5
+      CHEM G 5
+      CHEM F 5
+      Goto See
+    }
+  }
+}
