@@ -76,7 +76,8 @@ var
     $BDBDF21C, $CABAC28A, $53B39330, $24B4A3A6, $BAD03605, $CDD70693, $54DE5729, $23D967BF,
     $B3667A2E, $C4614AB8, $5D681B02, $2A6F2B94, $B40BBE37, $C30C8EA1, $5A05DF1B, $2D02EF8D);
 
-function GetCRC32(const FileName: string): string;
+function GetCRC32(const FileName: string): string; overload;
+function GetCRC32(const data: Pointer; const len: integer): string; overload;
 
 function GetLumpCRC32(const LumpName: string): string; overload;
 function GetLumpCRC32(const LumpNum: integer): string; overload;
@@ -137,6 +138,25 @@ begin
   {$I+}
   CRC := not CRC;
   Result := HextL(CRC);
+end;
+
+function GetCRC32(const data: Pointer; const len: integer): string; overload;
+var
+  b: PByteArray;
+  CRC: Cardinal;
+  i: integer;
+begin
+  if len <= 0 then
+  begin
+    result := 'DEADDEAD';
+    exit;
+  end;
+  CRC := $FFFFFFFF;
+  b := data;
+  for i := 0 to len - 1 do
+    CRC := RecountCRC(b[i], CRC);
+  CRC := not CRC;
+  result := HextL(CRC);
 end;
 
 function GetLumpCRC32(const LumpName: string): string;
