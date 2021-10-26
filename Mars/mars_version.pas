@@ -66,7 +66,7 @@ type
     version: marsversion_t;
     fastcrc32: string[8];
     gamemode: GameMode_t;
-    versionstring: string[32];
+    versionstring: string[36];
   end;
 
 const
@@ -84,7 +84,7 @@ const
 
 function MARS_GameModeFromCrc32(const crc: string): Gamemode_t;
 
-function MARS_RadixVersionFromCrc32(const crc: string): marsversion_t;
+function MARS_MADVersionFromCrc32(const crc: string): marsversion_t;
 
 function MARS_VersionStringFromCrc32(const crc: string): string;
 
@@ -108,7 +108,7 @@ begin
   result := indetermined;
 end;
 
-function MARS_RadixVersionFromCrc32(const crc: string): marsversion_t;
+function MARS_MADVersionFromCrc32(const crc: string): marsversion_t;
 var
   i: integer;
 begin
