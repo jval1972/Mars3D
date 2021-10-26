@@ -63,7 +63,7 @@ begin
   if Length(marsdirectory) > 0 then
   begin
     dir := marsdirectory;
-    if not dir[Length(dir)] in ['\', '/'] then
+    if not (dir[Length(dir)] in ['\', '/']) then
       dir := dir + '\';
 
     Result := dir + fn1;
