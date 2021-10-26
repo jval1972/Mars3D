@@ -1030,3 +1030,127 @@ ACTOR "MT_FISH" 3002
     }
   }
 }
+
+
+///////////////////////////////
+// MT_DEFENDER_SHOT
+///////////////////////////////
+actor MT_DEFENDER_SHOT
+{
+  Health 1000
+  Radius 16
+  Height 16
+  Speed 1310720
+  Damage 5
+  Mass 100
+  Reactiontime 8
+  Seesound "GUN2SHT"
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  +MF_EX_REDLIGHT
+  +DEFAULTTRANSPARENT
+  +MF3_EX_ABSOLUTEDAMAGE
+  States
+  {
+    Spawn:
+    {
+      DEVS A 5 BRIGHT
+      DEVS B 5 BRIGHT
+      Loop
+    }
+    Death:
+    {
+      TNT1 A 0 A_SetScale(RANDOMPICK(9,10,11)/10)
+      TNT1 A 0 A_Jump(128, 2)
+      TNT1 A 0 A_FlipSprite
+      DEVE A RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      DEVE B RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      DEVE C RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      DEVE D RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      DEVE E RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      DEVE F RANDOMRANGE(3,6) BRIGHT 
+      DEVE G RANDOMRANGE(3,6) BRIGHT 
+      DEVE H RANDOMRANGE(3,6) BRIGHT 
+      DEVE I RANDOMRANGE(3,6) BRIGHT 
+      DEVE J RANDOMRANGE(3,6) BRIGHT 
+      Stop
+    }
+  }
+}
+
+///////////////////////////////
+// MT_DEFENDER
+///////////////////////////////
+ACTOR MT_DEFENDER 3006
+{
+  Health 100
+  Width 32
+  Height 32
+  Speed 0
+  Painchance 80
+  Mass 100
+  Reactiontime 8
+  ActiveSound MECHAPP
+  SeeSound DEF2ACT
+  Attacksound DEF2ATT
+  Deathsound DEF2DTH
+  +MF_SOLID
+  +MF_NOBLOOD
+  +MF_SHOOTABLE
+  +MF_COUNTKILL
+  +MF2_EX_DONTINFIGHTMONSTERS
+  +MF3_EX_NOGRAVITYDEATH
+  States
+  {
+    Spawn:
+    {
+      DEF1 A 10 A_Look
+      Loop
+    }
+    See:
+    {
+      DEF1 A 4 A_TurretChase
+      DEF1 B 4 A_TurretChase
+      DEF1 C 4 A_TurretChase
+      DEF1 D 4 A_TurretChase
+      Loop
+    }
+    Missile:
+    {
+      DEF1 E 10 A_FaceTarget
+      DEF1 F 10 BRIGHT A_CustomMissile("MT_DEFENDER_SHOT", 4, 0)
+      TNT1 A 0 A_Jump(180, -2)
+      Goto See
+    }
+    Pain:
+    {
+      DEF1 H 8 A_Pain
+      Goto See
+    }
+    Death:
+    {
+      DEF1 I 5
+      DEF1 J 5 A_Scream
+      DEF1 K 5
+      DEF1 L 5 A_Fall
+      DEF1 M 5
+      DEF1 N 5
+      DEF1 O 5
+      DEF1 P -1
+    }
+    Raise:
+    {
+      DEF2 P 5
+      DEF2 O 5
+      DEF2 N 5
+      DEF2 M 5
+      DEF2 L 5
+      DEF2 K 5
+      DEF2 J 5
+      DEF2 I 5
+      Goto See
+    }
+  }
+}
