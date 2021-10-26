@@ -6114,11 +6114,17 @@ begin
   actor.painchance := actor.state.params.IntVal[0];
 end;
 
+//
+// A_SetPushable
+//
 procedure A_SetPushable(actor: Pmobj_t);
 begin
   actor.flags2_ex := actor.flags2_ex or MF2_EX_PUSHABLE;
 end;
 
+//
+// A_SetPushable
+//
 procedure A_UnSetPushable(actor: Pmobj_t);
 begin
   actor.flags2_ex := actor.flags2_ex and not MF2_EX_PUSHABLE;
