@@ -401,7 +401,7 @@ var
 // medikit
   smedikit: integer;
 // Weapons ammo for small display
-  sammo: array[0..3] of integer;
+  sammo: array[0..Ord(NUMAMMO)] of integer;
 
 // 0-9, tall numbers
   tallnum: array[0..9] of Ppatch_t;
@@ -1513,7 +1513,9 @@ begin
 // Cells do not exist in shareware version, use W_CheckNumForName instead of W_GetNumForName
   sammo[2] := W_CheckNumForName('CELLA0');
   sammo[3] := W_GetNumForName('ROCKA0');
-
+  for i := 4 to Ord(NUMAMMO) do
+    sammo[i] := W_GetNumForName('TNT1A0');
+    
   // face states
   facenum := 0;
   for i := 0 to ST_NUMPAINFACES - 1 do
