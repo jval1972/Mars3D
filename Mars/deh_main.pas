@@ -1035,6 +1035,8 @@ begin
 
       // Retrieve think number
       weapon_no := atoi(stmp, -1);
+      if weapon_no < 0 then
+        weapon_no := DEH_WeaponType(stmp);
       if (weapon_no < 0) or (weapon_no >= Ord(NUMWEAPONS)) then
       begin
         I_Warning('DEH_Parse(): Wrong weapon number = %s'#13#10, [stmp]);
@@ -1099,7 +1101,12 @@ begin
         end;
 
         case weapon_idx of
-           0: weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
+           0:
+            begin
+              if weapon_val < 0 then
+                weapon_val := DEH_AmmoType(token2);
+              weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
+            end;
            1: weaponinfo[weapon_no].upstate := weapon_val;
            2: weaponinfo[weapon_no].downstate := weapon_val;
            3: weaponinfo[weapon_no].readystate := weapon_val;
