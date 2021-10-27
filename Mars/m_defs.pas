@@ -1777,7 +1777,7 @@ const
      _type: tString),
 
 
-    (name: 'Autoload';
+    (name: 'Files';
      location: nil;
      setable: DFS_NEVER;
      defaultsvalue: '';
