@@ -1377,10 +1377,10 @@ begin
   if M_CheckParmCDROM then
   begin
     printf(D_CDROM);
-    basedefault := CD_WORKDIR + 'RAD.ini';
+    basedefault := CD_WORKDIR + AppTitle + '.ini';
   end
   else
-    basedefault := 'RAD.ini';
+    basedefault := AppTitle + '.ini';
 
   printf('M_LoadDefaults: Load system defaults.'#13#10);
   M_LoadDefaults;              // load before initing other systems
