@@ -1,0 +1,34 @@
+// WP_FIST
+WEAPON 0
+{
+  Ammo 10
+  States
+  {
+    Up:
+    {
+      FISG A 1 A_Raise
+      Loop
+    }
+    Down:
+    {
+      FISG A 1 A_Lower
+      Loop
+    }
+    Ready:
+    {
+      FISG A 1 A_WeaponReady
+      Loop
+    }
+    Attack:
+    {
+      HADE B 4
+      HADE C 4 A_Punch
+      HADE B 4
+      HADE D 4
+      HADE E 4 A_Punch
+      HADE D 4
+      HADE A 5 A_Refire
+      Goto Ready
+    }
+  }
+}
