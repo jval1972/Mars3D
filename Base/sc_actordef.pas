@@ -1028,26 +1028,26 @@ var
         alias := '';
     end;
 
-    sprite := sc._string;
+    sprite := sc._String;
     sc.GetString;
-    frames := sc._string;
+    frames := sc._String;
 
     stateflags := 0;
     sc.GetString;
     if sc.MatchString('RANDOMSELECT') then
     begin
       sc.GetInteger;
-      tics := sc._integer;
+      tics := sc._Integer;
       sc.GetInteger;
-      tics2 := sc._integer;
+      tics2 := sc._Integer;
       stateflags := stateflags or MF_EX_STATE_RANDOM_SELECT;
     end
     else if sc.MatchString('RANDOMRANGE') then
     begin
       sc.GetInteger;
-      tics := sc._integer;
+      tics := sc._Integer;
       sc.GetInteger;
-      tics2 := sc._integer;
+      tics2 := sc._Integer;
       stateflags := stateflags or MF_EX_STATE_RANDOM_RANGE;
     end
     else
@@ -1063,8 +1063,8 @@ var
       sc.UnGet
     else
     begin
-      if strupper(sc._string) = 'BRIGHT' then
-        stmp := sc._string + ' ' + SC_RemoveLineComments(sc.GetStringEOLUnChanged)
+      if strupper(sc._String) = 'BRIGHT' then
+        stmp := sc._String + ' ' + SC_RemoveLineComments(sc.GetStringEOLUnChanged)
       else
       begin
         restline := strtrim(SC_RemoveLineComments(sc.GetStringEOLUnChanged));
@@ -1075,7 +1075,7 @@ var
           if restline[1] <> '(' then
             restline := ' ' + restline;
         end;
-        stmp := sc._string + restline;
+        stmp := sc._String + restline;
       end;
 
       bright := false;
@@ -1850,7 +1850,7 @@ begin
       sc.MustGetString;
       if not sc.NewLine then
       begin
-        th.dn := atoi(sc._string);
+        th.dn := atoi(sc._String);
         sc.MustGetString;
       end;
 
@@ -2126,7 +2126,7 @@ begin
       begin
         SetLength(mobj.name, Length(mobj.name) - 1);
         sc.GetString;
-        mobj.inheritsfrom := sc._string;
+        mobj.inheritsfrom := sc._String;
         isinherit := true;
       end
       else
@@ -2141,7 +2141,7 @@ begin
         begin
           if not sc.GetString then
             break;
-          mobj.inheritsfrom := sc._string;
+          mobj.inheritsfrom := sc._String;
 
         end;
       end;
@@ -2272,9 +2272,9 @@ begin
       end
       else
       begin
-        if StrIsInteger(sc._string) then
+        if StrIsInteger(sc._String) then
         begin
-          mobj.doomednum := atoi(sc._string);
+          mobj.doomednum := atoi(sc._String);
           if not sc.GetString then
             break;
         end;
@@ -2294,7 +2294,7 @@ begin
         if sc.MatchString('health') then
         begin
           sc.GetInteger;
-          mobj.spawnhealth := sc._integer;
+          mobj.spawnhealth := sc._Integer;
           sc.GetString;
         end
         // When "inherits" is after the first line of actor we do not copy properties
@@ -2302,13 +2302,13 @@ begin
         begin
           if not sc.GetString then
             break;
-          mobj.inheritsfrom := sc._string;
+          mobj.inheritsfrom := sc._String;
         end
         else if sc.MatchString('replaces') then
         begin
           if not sc.GetString then
             break;
-          idx := Info_GetMobjNumForName(sc._string);
+          idx := Info_GetMobjNumForName(sc._String);
           if idx >= 0 then
           begin
             if (mobj.doomednum > 0) and (mobjinfo[idx].doomednum <> mobj.doomednum) then
@@ -2320,7 +2320,7 @@ begin
             end;
           end
           else
-            I_Warning('SC_ActordefToDEH(): Replaces keyword point to an unknown mobj %s'#13#10, [sc._string]);
+            I_Warning('SC_ActordefToDEH(): Replaces keyword point to an unknown mobj %s'#13#10, [sc._String]);
           sc.GetString;
         end
         else if sc.MatchString('monster') or sc.MatchString('+monster') then
@@ -2464,13 +2464,13 @@ begin
         else if sc.MatchString('radius') or sc.MatchString('width') then  // JVAL: width -> DelphiDoom specific
         begin
           sc.GetInteger;
-          mobj.radius := sc._integer;
+          mobj.radius := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('height') then
         begin
           sc.GetInteger;
-          mobj.height := sc._integer;
+          mobj.height := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('vspeed') then
@@ -2482,7 +2482,7 @@ begin
         else if sc.MatchString('minmissilechance') then
         begin
           sc.GetInteger;
-          mobj.minmissilechance := sc._integer;
+          mobj.minmissilechance := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('pushfactor') then
@@ -2526,55 +2526,55 @@ begin
         else if sc.MatchString('speed') then
         begin
           sc.GetInteger;
-          mobj.speed := sc._integer;
+          mobj.speed := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('damage') then
         begin
           sc.GetInteger;
-          mobj.damage := sc._integer;
+          mobj.damage := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('painchance') then
         begin
           sc.GetInteger;
-          mobj.painchance := sc._integer;
+          mobj.painchance := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('mass') then
         begin
           sc.GetInteger;
-          mobj.mass := sc._integer;
+          mobj.mass := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('reactiontime') then
         begin
           sc.GetInteger;
-          mobj.reactiontime := sc._integer;
+          mobj.reactiontime := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('dropitem') then
         begin
           sc.GetString;
-          mobj.dropitem := sc._string;
+          mobj.dropitem := sc._String;
           sc.GetString;
         end
         else if sc.MatchString('missiletype') then
         begin
           sc.GetString;
-          mobj.missiletype := sc._string;
+          mobj.missiletype := sc._String;
           sc.GetString;
         end
         else if sc.MatchString('explosiondamage') then
         begin
           sc.GetInteger;
-          mobj.explosiondamage := sc._integer;
+          mobj.explosiondamage := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('explosionradius') then
         begin
           sc.GetInteger;
-          mobj.explosionradius := sc._integer;
+          mobj.explosionradius := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('meleedamage') then
@@ -2640,19 +2640,19 @@ begin
         else if sc.MatchString('floatspeed') then
         begin
           sc.GetInteger;
-          mobj.floatspeed := sc._integer;
+          mobj.floatspeed := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('normalspeed') then
         begin
           sc.GetInteger;
-          mobj.normalspeed := sc._integer;
+          mobj.normalspeed := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('fastspeed') then
         begin
           sc.GetInteger;
-          mobj.normalspeed := sc._integer;
+          mobj.normalspeed := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('obituary') then
