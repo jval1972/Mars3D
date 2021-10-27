@@ -65,6 +65,12 @@ procedure DEH_PrintActordef;
 
 procedure DEH_SaveActordef(const fname: string);
 
+function DEH_CurrentWeapondef: string;
+
+procedure DEH_PrintWeapondef;
+
+procedure DEH_SaveWeapondef(const fname: string);
+
 procedure DEH_PrintActions;
 
 function DEH_FixedOrFloat(const token: string; const tolerance: integer): fixed_t;
@@ -113,6 +119,8 @@ implementation
 uses
   TypInfo,
   deh_main,
+  doomdef,
+  d_items,
   i_system,
   info,
   info_h,
@@ -438,6 +446,58 @@ begin
     s.Text := DEH_CurrentActordef;
     s.SaveToFile(fname1);
     printf('ACTORDEF settings saved to %s'#13#10, [fname1]);
+  finally
+    s.Free;
+  end;
+end;
+
+function DEH_CurrentWeapondef: string;
+var
+  w: integer;
+begin
+  result := '';
+  for w := 0 to Ord(NUMWEAPONS) - 1 do
+    result := result + SC_GetWeapondefDeclaration(@weaponinfo[w]);
+end;
+
+procedure DEH_PrintWeapondef;
+var
+  s: TDSTringList;
+  i: integer;
+begin
+  s := TDSTringList.Create;
+  try
+    s.Text := DEH_CurrentWeapondef;
+    for i := 0 to s.Count - 1 do
+      printf('%s'#13#10, [s[i]]);
+  finally
+    s.Free;
+  end;
+end;
+
+procedure DEH_SaveWeapondef(const fname: string);
+var
+  s: TDSTringList;
+  fname1: string;
+begin
+  if fname = '' then
+  begin
+    printf('Please specify the filename to save current WEAPONDEF settings'#13#10);
+    exit;
+  end;
+
+  if Pos('.', fname) = 0 then
+    fname1 := fname + '.txt'
+  else
+    fname1 := fname;
+
+  fname1 := M_SaveFileName(fname1);
+
+  s := TDSTringList.Create;
+  try
+    s.Text := DEH_CurrentWeapondef;
+    s.SaveToFile(fname1);
+    printf('WEAPONDEF settings saved to %s'#13#10, [fname1]);
   finally
     s.Free;
   end;
