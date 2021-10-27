@@ -1982,10 +1982,14 @@ begin
 
       if not sc.GetString then
         break;
-      if StrIsInteger(sc._string) then
-        wpn.weaponno := atoi(sc._string)
+      if StrIsInteger(sc._String) then
+        wpn.weaponno := atoi(sc._String)
       else
-        sc.UnGet;
+      begin
+        wpn.weaponno := DEH_WeaponType(sc._String);
+        if wpn.weaponno < 0 then
+          sc.UnGet;
+      end;
 
       sc.GetString;
       
@@ -1993,8 +1997,8 @@ begin
       repeat
         if sc.MatchString('ammo') then
         begin
-          sc.GetInteger;
-          wpn.ammo := sc._Integer;
+          sc.GetString;
+          wpn.ammo := DEH_AmmoType(sc._String);
           sc.GetString;
         end
         else if sc.MatchString('states') then
