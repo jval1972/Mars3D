@@ -2825,6 +2825,7 @@ begin
 
   sc.Free;
   m_state_tokens.Free;
+  w_state_tokens.Free;
 end;
 
 procedure SC_ParseActordefLump(const in_text: string);
