@@ -3177,7 +3177,7 @@ begin
     weapontype_tokens.Add(strupper(GetENumName(TypeInfo(weapontype_t), i)));
 
   ammotype_tokens := TDTextList.Create;
-  for i := 0 to Ord(NUMAMMO) do
+  for i := 0 to Ord(NUMAMMO) + 1 do
     ammotype_tokens.Add(strupper(GetENumName(TypeInfo(ammotype_t), i)));
 
   deh_strings.numstrings := 0;
