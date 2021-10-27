@@ -283,7 +283,6 @@ var
   mobj: rtl_mobjinfo_t;
   pinf: Pmobjinfo_t;
   wpn: rtl_weaponinfo_t;
-  winf: Pweaponinfo_t;
   sc: TActordefScriptEngine;
   foundstates: boolean;
   numstates: integer;
@@ -1630,10 +1629,10 @@ var
   begin
     if not weaponpending then
       Exit;
-    actorpending := false;
+    weaponpending := false;
     res := '';
 
-    AddRes('WEAPON' + itoa(wpn.weaponno));
+    AddRes('WEAPON ' + itoa(wpn.weaponno));
     AddRes('Ammo Type = ' + itoa(wpn.ammo));
     AddStateRes(wpn.upstate, 'DESELECT');
     AddStateRes(wpn.downstate, 'SELECT');
@@ -1972,7 +1971,6 @@ begin
       DoDEHParseAll
     else if sc.MatchString('WEAPON') then
     begin
-      winf := nil;
       weaponpending := true;
       FillChar(wpn, SizeOf(wpn), 0);
       wpn.weaponno := -1;
@@ -1989,6 +1987,8 @@ begin
       else
         sc.UnGet;
 
+      sc.GetString;
+      
       foundstates := false;
       repeat
         if sc.MatchString('ammo') then
