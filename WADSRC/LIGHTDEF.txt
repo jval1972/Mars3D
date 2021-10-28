@@ -401,3 +401,95 @@ object MT_DEFENDER_SHOT
     frame DEVEI { light DEFENDER_SHOT_X4 }
     frame DEVEJ { light DEFENDER_SHOT_X4 }
 }
+
+
+// MT_SHOCKGUNMISSILE
+pointlight SHOCKGUNMISSILE_SHOT_A
+{
+    color 0.0 0.0 1.0
+    size 64
+}
+
+pointlight SHOCKGUNMISSILE_SHOT_B
+{
+    color 0.2 0.0 0.9
+    size 64
+}
+
+flickerlight SHOCKGUNMISSILE_SHOT_C
+{
+    color 0.4 0.0 0.8
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight SHOCKGUNMISSILE_SHOT_D
+{
+    color 0.6 0.0 0.6
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight SHOCKGUNMISSILE_SHOT_E
+{
+    color 0.8 0.0 0.4
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight SHOCKGUNMISSILE_SHOT_F
+{
+    color 0.9 0.0 0.3
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight SHOCKGUNMISSILE_SHOT_G
+{
+    color 1.0 0.0 0.2
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight SHOCKGUNMISSILE_SHOT_H
+{
+    color 1.0 0.0 0.0
+    size 72
+    secondarySize 80
+    chance 0.3
+}
+
+flickerlight SHOCKGUNMISSILE_SHOT_I
+{
+    color 1.0 0.0 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight SHOCKGUNMISSILE_SHOT_J
+{
+    color 1.0 0.0 0.0
+    size 48
+    secondarySize 56
+    chance 0.3
+}
+
+object MT_SHOCKGUNMISSILE
+{
+    frame ELEEA { light SHOCKGUNMISSILE_SHOT_A }
+    frame ELEEB { light SHOCKGUNMISSILE_SHOT_B }
+    frame ELEEC { light SHOCKGUNMISSILE_SHOT_C }
+    frame ELEED { light SHOCKGUNMISSILE_SHOT_D }
+    frame ELEEE { light SHOCKGUNMISSILE_SHOT_E }
+    frame ELEEF { light SHOCKGUNMISSILE_SHOT_F }
+    frame ELEEG { light SHOCKGUNMISSILE_SHOT_G }
+    frame ELEEH { light SHOCKGUNMISSILE_SHOT_H }
+    frame ELEEI { light SHOCKGUNMISSILE_SHOT_I }
+    frame ELEEJ { light SHOCKGUNMISSILE_SHOT_J }
+}
