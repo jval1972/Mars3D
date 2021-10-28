@@ -398,7 +398,8 @@ uses
   xmi_iff in 'XMILIB\xmi_iff.pas',
   xmi_lib in 'XMILIB\xmi_lib.pas',
   mars_files in 'Mars\mars_files.pas',
-  mars_version in 'Mars\mars_version.pas';
+  mars_version in 'Mars\mars_version.pas',
+  mars_weapons in 'Mars\mars_weapons.pas';
 
 var
   Saved8087CW: Word;

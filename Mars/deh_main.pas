@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 355;
+  DEHNUMACTIONS = 356;
 
 type
   deh_action_t = record
@@ -130,6 +130,7 @@ uses
   p_pspr,
   p_inter,
   p_musinfo,
+  mars_weapons,
   psi_overlay,
   r_renderstyle,
   st_stuff,
@@ -3164,7 +3165,9 @@ begin
   deh_actions[354].action.acp1 := @A_UnSetPushable;
   deh_actions[354].originalname := strupper('UnSetPushable');
   {$IFDEF DLL}deh_actions[354].decl := 'A_UnSetPushable()';{$ENDIF}
-
+  deh_actions[355].action.acp1 := @A_BulletCartridgeDrop;
+  deh_actions[355].originalname := strupper('BulletCartridgeDrop');
+  {$IFDEF DLL}deh_actions[355].decl := 'A_BulletCartridgeDrop()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin
