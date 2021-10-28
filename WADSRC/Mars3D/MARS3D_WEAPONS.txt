@@ -21,13 +21,20 @@ WEAPON WP_FIST
     }
     Attack:
     {
+      FISF A 4
+      FISF B 4
+      FISF C 4 A_PunchAndKick
+      FISF B 4
+      FISF A 2 A_Refire
+      Goto Ready
+    }
+    Hold:
       HADE B 4
-      HADE C 4 A_Punch
+      HADE C 4 A_PunchAndKick
       HADE B 4
       HADE D 4
-      HADE E 4 A_Punch
+      HADE E 4 A_PunchAndKick
       HADE D 4
-      HADE A 5 A_Refire
       Goto Ready
     }
   }
