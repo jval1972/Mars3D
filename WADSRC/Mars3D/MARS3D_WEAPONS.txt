@@ -33,3 +33,40 @@ WEAPON WP_FIST
   }
 }
 
+// WP_PISTOL
+WEAPON WP_PISTOL
+{
+  Ammo AM_BULLET
+  States
+  {
+    Up:
+    {
+      LITG A 1 RAISE
+      Loop
+    }
+    Down:
+    {
+      LITG A 1 LOWER
+      Loop
+    }
+    Ready:
+    {
+      LITG A 1 WEAPONREADY
+      Loop
+    }
+    Attack:
+    {
+      LITG A 3
+      LITF A 4 FIREPISTOL
+      LITF B 3
+      LITF A 4 REFIRE
+      Goto Ready
+    }
+    Flash:
+    {
+      TNT1 A 7 LIGHT1
+      TNT1 E 0 LIGHT0
+      Stop
+    }
+  }
+}
