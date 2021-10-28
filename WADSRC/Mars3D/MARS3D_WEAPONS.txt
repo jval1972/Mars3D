@@ -61,31 +61,32 @@ WEAPON WP_PISTOL
   {
     Up:
     {
-      LITG A 1 RAISE
+      LITG A 1 A_Raise
       Loop
     }
     Down:
     {
-      LITG A 1 LOWER
+      LITG A 1 A_Lower
       Loop
     }
     Ready:
     {
-      LITG A 1 WEAPONREADY
+      LITG A 1 A_WeaponReady
       Loop
     }
     Attack:
     {
       LITG A 3
-      LITF A 4 FIREPISTOL
+      TNT1 E 0 A_BulletCartridgeDrop
+      LITF A 4 A_FirePistol
       LITF B 3
-      LITF A 4 REFIRE
+      LITF A 4 A_Refire
       Goto Ready
     }
     Flash:
     {
-      TNT1 A 7 LIGHT1
-      TNT1 E 0 LIGHT0
+      TNT1 A 7 A_Light1
+      TNT1 A 0 A_Light0
       Stop
     }
   }
