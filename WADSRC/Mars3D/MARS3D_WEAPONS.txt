@@ -187,3 +187,50 @@ WEAPON WP_SHOCKGUN
   }
 }
 
+// MT_NERVEGUNMISSILE
+ACTOR "MT_NERVEGUNMISSILE"
+{
+  Health 1000
+  Width 12
+  Height 12
+  Speed 1310720
+  Damage 0
+  Mass 100
+  Reactiontime 8
+  Seesound GUN3EXP
+  Deathsound GUN3EXP
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  +MF3_EX_ABSOLUTEDAMAGE
+  States
+  {
+    Spawn:
+    {
+      FUZS A 3 BRIGHT
+      FUZS B 3 BRIGHT
+      FUZS C 3 BRIGHT
+      FUZS D 3 BRIGHT
+      TNT1 A 0 A_RandomFlipSprite(128)
+      Loop
+    }
+    Death:
+    {
+      FUZE A 3 BRIGHT
+      FUZE B 3 BRIGHT
+      FUZE C 3 BRIGHT
+      FUZE D 3 BRIGHT
+      FUZE E 3 BRIGHT
+      FUZE F 3 BRIGHT A_FriendlyExplode(160) 
+      FUZE G 3 BRIGHT
+      FUZE H 3 BRIGHT
+      FUZE I 3 BRIGHT A_FadeOut10
+      FUZE J 3 BRIGHT A_FadeOut10
+      FUZE K 3 BRIGHT A_FadeOut10
+      FUZE LLLLL 3 BRIGHT A_FadeOut10
+      Stop
+    }
+  }
+}
+
