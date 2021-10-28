@@ -49,6 +49,8 @@ procedure A_FriendlyExplode(actor: Pmobj_t);
 
 procedure A_FireNerveGun(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_FireFreezeGun(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -261,6 +263,26 @@ begin
     Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
 
   P_SpawnPlayerMissile(player.mo, MT_NERVEGUNMISSILE);
+end;
+
+var
+  MT_FREEZEGUNMISSILE: integer = -2;
+
+procedure A_FireFreezeGun(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if MT_FREEZEGUNMISSILE = -2 then
+    MT_FREEZEGUNMISSILE := Info_GetMobjNumForName('MT_FREEZEGUNMISSILE');
+
+  if MT_FREEZEGUNMISSILE < 0 then
+    Exit;
+
+  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
+    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+
+  P_SetPsprite(player,
+    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
+
+  P_SpawnPlayerMissile(player.mo, MT_FREEZEGUNMISSILE);
 end;
 
 end.
