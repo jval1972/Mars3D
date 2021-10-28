@@ -958,7 +958,6 @@ begin
   if (player <> nil) and (gameskill = sk_baby) then
     damage := _SHR1(damage); // take half damage in trainer mode
 
-
   if (inflictor <> nil) and (target.flags_ex and MF_EX_FIRERESIST <> 0) then
   begin
     if damage > 1 then
