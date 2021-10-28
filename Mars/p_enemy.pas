@@ -2588,8 +2588,6 @@ procedure A_TurretChase(actor: Pmobj_t);
 var
   delta: integer;
   nomissile: boolean;
-  dist: fixed_t;
-  ang: angle_t;
 begin
   if actor.reactiontime <> 0 then
     actor.reactiontime := actor.reactiontime - 1;
