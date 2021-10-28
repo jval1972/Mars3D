@@ -47,6 +47,8 @@ procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_FriendlyExplode(actor: Pmobj_t);
 
+procedure A_FireNerveGun(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -54,6 +56,7 @@ uses
   doomdef,
   d_items,
   info_h,
+  info,
   info_common,
   info_rnd,
   m_fixed,
@@ -66,6 +69,7 @@ uses
   p_local,
   p_pspr,
   p_setup,
+  p_tick,
   r_main,
   s_sound;
 
@@ -163,21 +167,29 @@ var
 function PIT_FriendlyExplode(thing: Pmobj_t): boolean;
 begin
   Result := True;
-  
+
   if thing.health <= 0 then
     Exit;
 
   if thing.flags2_ex and MF2_EX_FRIEND <> 0 then
-    Exit;
+    if thing.friendtics = 0 then
+      Exit;
 
+  if thing.friendticstime = leveltime then
+    Exit;
+    
   if not Info_IsMonster(thing._type) then
     Exit;
 
-  if P_AproxDistance(fe_x - thing.x, fe_y - thing.y) > fe_dist then
+  if P_AproxDistance(fe_x - thing.x, fe_y - thing.y) > fe_dist + thing.radius then
     Exit;
 
   thing.friendtics := thing.friendtics + fe_tics;
+  thing.friendticstime := leveltime;
   thing.flags2_ex := thing.flags2_ex or MF2_EX_FRIEND;
+
+//  if thing.state <> @states[thing.info.seestate] then
+//    P_SetMobjStateNF(thing, statenum_t(thing.info.seestate));
 end;
 
 procedure A_FriendlyExplode(actor: Pmobj_t);
@@ -229,6 +241,26 @@ begin
   for bx := xl to xh do
     for by := yl to yh do
       if P_BlockThingsIterator(bx, by, PIT_FriendlyExplode) then
+end;
+
+var
+  MT_NERVEGUNMISSILE: integer = -2;
+
+procedure A_FireNerveGun(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if MT_NERVEGUNMISSILE = -2 then
+    MT_NERVEGUNMISSILE := Info_GetMobjNumForName('MT_NERVEGUNMISSILE');
+
+  if MT_NERVEGUNMISSILE < 0 then
+    Exit;
+
+  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
+    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+
+  P_SetPsprite(player,
+    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
+
+  P_SpawnPlayerMissile(player.mo, MT_NERVEGUNMISSILE);
 end;
 
 end.

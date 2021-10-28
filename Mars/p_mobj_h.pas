@@ -534,6 +534,7 @@ type
     WeaveIndexZ: integer;
     painchance: integer;
     friendtics: integer;
+    friendticstime: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

@@ -911,12 +911,7 @@ end;
 function P_LookForTargets(actor: Pmobj_t; allaround: boolean): boolean;
 begin
   if actor.flags2_ex and MF2_EX_FRIEND <> 0 then
-  begin
-    result := P_LookForMonsters(actor);
-    if not result then
-      if P_Random < 200 then
-        result := P_LookForPlayers(actor, true);
-  end
+    result := P_LookForMonsters(actor)
   else
     result := P_LookForPlayers(actor, allaround);
 end;
@@ -1023,7 +1018,8 @@ begin
     end;
   end;
 
-  P_SetMobjState(actor, statenum_t(actor.info.seestate));
+  if actor.state <> @states[actor.info.seestate] then
+    P_SetMobjState(actor, statenum_t(actor.info.seestate));
 end;
 
 //
@@ -1062,6 +1058,15 @@ begin
       actor.angle := actor.angle + ANG90 div 2;
   end;
 
+  if P_BothFriends(actor, actor.target) then
+  begin
+    if P_LookForTargets(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
+      exit; // got a new target
+    if actor.state <> @states[actor.info.spawnstate] then
+      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
+    exit;
+  end;
+
   if (actor.target = nil) or
      (actor.target.flags and MF_SHOOTABLE = 0) then
   begin
@@ -1070,7 +1075,7 @@ begin
       exit; // got a new target
 
     if actor.state <> @states[actor.info.spawnstate] then
-      P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
+      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
     exit;
   end;
 
@@ -1087,7 +1092,8 @@ begin
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
     A_AttackSound(actor, actor);
-    P_SetMobjState(actor, statenum_t(actor.info.meleestate));
+    if actor.state <> @states[actor.info.meleestate] then
+      P_SetMobjState(actor, statenum_t(actor.info.meleestate));
     exit;
   end;
 
@@ -1101,7 +1107,8 @@ begin
       nomissile := true;
     if not nomissile then
     begin
-      P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+      if actor.state <> @states[actor.info.missilestate] then
+        P_SetMobjState(actor, statenum_t(actor.info.missilestate));
       actor.flags := actor.flags or MF_JUSTATTACKED;
       exit;
     end;
@@ -1188,7 +1195,8 @@ begin
     if P_LookForPlayers(actor, True) then
       exit; // got a new target
 
-    P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
+    if actor.state <> @states[actor.info.spawnstate] then
+      P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
     exit;
   end;
 
@@ -1207,7 +1215,8 @@ begin
     if actor.info.attacksound <> 0 then
       S_StartSound(actor, actor.info.attacksound);
 
-    P_SetMobjState(actor, statenum_t(actor.info.meleestate));
+    if actor.state <> @states[actor.info.meleestate] then
+      P_SetMobjState(actor, statenum_t(actor.info.meleestate));
     exit;
   end;
 
@@ -1219,7 +1228,8 @@ begin
       if not ((gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0)) then
         if P_CheckMissileRange(actor) then
         begin
-          P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+          if actor.state <> @states[actor.info.missilestate] then
+            P_SetMobjState(actor, statenum_t(actor.info.missilestate));
           actor.flags := actor.flags or MF_JUSTATTACKED;
           exit;
         end;
@@ -1233,7 +1243,8 @@ begin
         nomissile := True;
       if not nomissile then
       begin
-        P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+        if actor.state <> @states[actor.info.missilestate] then
+          P_SetMobjState(actor, statenum_t(actor.info.missilestate));
         actor.flags := actor.flags or MF_JUSTATTACKED;
         exit;
       end;
@@ -1360,7 +1371,8 @@ begin
 
   if (actor.target = nil) or (actor.target.health <= 0) or
      not P_CheckSight(actor, actor.target) then
-    P_SetMobjState(actor, statenum_t(actor.info.seestate));
+    if actor.state <> @states[actor.info.seestate] then
+      P_SetMobjState(actor, statenum_t(actor.info.seestate));
 end;
 
 procedure A_SpidRefire(actor: Pmobj_t);
@@ -1373,7 +1385,8 @@ begin
 
   if (actor.target = nil) or (actor.target.health <= 0) or
      not P_CheckSight(actor, actor.target) then
-    P_SetMobjState(actor, statenum_t(actor.info.seestate));
+    if actor.state <> @states[actor.info.seestate] then
+      P_SetMobjState(actor, statenum_t(actor.info.seestate));
 end;
 
 procedure A_BspiAttack(actor: Pmobj_t);
@@ -2519,7 +2532,8 @@ begin
     newmobj.flags2_ex := newmobj.flags2_ex or MF2_EX_FRIEND;
 
   if P_LookForTargets(newmobj, true) then
-    P_SetMobjState(newmobj, statenum_t(newmobj.info.seestate));
+    if newmobj.state <> @states[newmobj.info.seestate] then
+      P_SetMobjState(newmobj, statenum_t(newmobj.info.seestate));
 
   // telefrag anything in this spot
   P_TeleportMove(newmobj, newmobj.x, newmobj.y);
@@ -2613,6 +2627,15 @@ begin
       actor.angle := actor.angle + ANG90 div 2;
   end;
 
+  if P_BothFriends(actor, actor.target) then
+  begin
+    if P_LookForTargets(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
+      exit; // got a new target
+    if actor.state <> @states[actor.info.spawnstate] then
+      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
+    exit;
+  end;
+
   if (actor.target = nil) or
      (actor.target.flags and MF_SHOOTABLE = 0) then
   begin
@@ -2621,7 +2644,7 @@ begin
       exit; // got a new target
 
     if actor.state <> @states[actor.info.spawnstate] then
-      P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
+      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
     exit;
   end;
 
@@ -2636,7 +2659,8 @@ begin
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
     A_AttackSound(actor, actor);
-    P_SetMobjState(actor, statenum_t(actor.info.meleestate));
+    if actor.state <> @states[actor.info.meleestate] then
+      P_SetMobjState(actor, statenum_t(actor.info.meleestate));
     exit;
   end;
 
@@ -2650,7 +2674,8 @@ begin
       nomissile := true;
     if not nomissile then
     begin
-      P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+      if actor.state <> @states[actor.info.missilestate] then
+        P_SetMobjState(actor, statenum_t(actor.info.missilestate));
       actor.flags := actor.flags or MF_JUSTATTACKED;
       exit;
     end;
