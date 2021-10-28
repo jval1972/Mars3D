@@ -2268,6 +2268,10 @@ begin
 
   if bombsource <> nil then
   begin
+    if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+        exit;
+
     if thing.player = nil then
       if bombsource.info.doomednum > 0 then
       begin
