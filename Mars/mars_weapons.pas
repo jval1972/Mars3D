@@ -103,7 +103,7 @@ begin
   P_SetPsprite(player,
     Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
 
-  P_SpawnPlayerMissile(player.mo, Ord(MT_SHOCKGUNMISSILE));
+  P_SpawnPlayerMissile(player.mo, MT_SHOCKGUNMISSILE);
 end;
 
 end.
