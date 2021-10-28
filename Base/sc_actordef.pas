@@ -3510,7 +3510,7 @@ begin
 
   aid := Ord(w.ammo);
 
-  AddLn('WEAPON ' + itoa(wid));
+  AddLn('WEAPON ' + strupper(GetENumName(TypeInfo(weapontype_t), Ord(wid))));
   AddLn('{');
   AddLn('Ammo ' + decide(IsIntegerInRange(aid, 0, Ord(NUMAMMO) + 1), strupper(GetENumName(TypeInfo(ammotype_t), Ord(aid))), itoa(aid)));
 
