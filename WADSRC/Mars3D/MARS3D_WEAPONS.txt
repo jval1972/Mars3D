@@ -1,7 +1,7 @@
 // WP_FIST
-WEAPON 0
+WEAPON WP_FIST
 {
-  Ammo 10
+  Ammo AM_NOAMMO
   States
   {
     Up:
@@ -32,3 +32,4 @@ WEAPON 0
     }
   }
 }
+
