@@ -750,6 +750,13 @@ begin
       exit;
     end;
 
+    if tmthing.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+      begin
+        result := thing.flags and MF_SOLID = 0;
+        exit;
+      end;
+
     // damage / explode
     if tmthing.flags3_ex and MF3_EX_ABSOLUTEDAMAGE <> 0 then
       damage := tmthing.info.damage
