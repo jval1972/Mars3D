@@ -38,15 +38,21 @@ uses
 
 procedure A_BulletCartridgeDrop(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_FireShockGun(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
+  d_items,
+  info_h,
   info_common,
   m_fixed,
+  m_rnd,
   tables,
   p_mobj,
   p_mobj_h,
-  p_local;
+  p_local,
+  p_pspr;
 
 var
   MT_BULLETCARTRIDGE: integer = -2;
@@ -78,6 +84,26 @@ begin
   mo.momx := player.mo.momx + finecosine[ang shr ANGLETOFINESHIFT] * 4;
   mo.momy := player.mo.momy + finesine[ang shr ANGLETOFINESHIFT] * 4;
   mo.momz := player.mo.momz + 3 * FRACUNIT;
+end;
+
+var
+  MT_SHOCKGUNMISSILE: integer = -2;
+
+procedure A_FireShockGun(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if MT_SHOCKGUNMISSILE = -2 then
+    MT_SHOCKGUNMISSILE := Info_GetMobjNumForName('MT_SHOCKGUNMISSILE');
+
+  if MT_SHOCKGUNMISSILE < 0 then
+    Exit;
+
+  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
+    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+
+  P_SetPsprite(player,
+    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
+
+  P_SpawnPlayerMissile(player.mo, Ord(MT_SHOCKGUNMISSILE));
 end;
 
 end.
