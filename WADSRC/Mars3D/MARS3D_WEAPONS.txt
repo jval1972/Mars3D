@@ -35,6 +35,7 @@ WEAPON WP_FIST
       HADE D 4
       HADE E 4 A_PunchAndKick
       HADE D 4
+      HADE D 2 A_Refire
       Goto Ready
     }
   }
