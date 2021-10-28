@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 359;
+  DEHNUMACTIONS = 360;
 
 type
   deh_action_t = record
@@ -3179,6 +3179,9 @@ begin
   deh_actions[358].action.acp1 := @A_PunchAndKick;
   deh_actions[358].originalname := strupper('PunchAndKick');
   {$IFDEF DLL}deh_actions[358].decl := 'A_PunchAndKick()';{$ENDIF}
+  deh_actions[359].action.acp1 := @A_FriendlyExplode;
+  deh_actions[359].originalname := strupper('FriendlyExplode');
+  {$IFDEF DLL}deh_actions[359].decl := 'A_FriendlyExplode()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin

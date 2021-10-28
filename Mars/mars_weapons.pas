@@ -34,6 +34,7 @@ interface
 
 uses
   d_player,
+  p_mobj_h,
   p_pspr_h;
 
 procedure A_PunchAndKick(player: Pplayer_t; psp: Ppspdef_t);
@@ -44,6 +45,8 @@ procedure A_FireShockGun(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_FriendlyExplode(actor: Pmobj_t);
+
 implementation
 
 uses
@@ -52,14 +55,17 @@ uses
   d_items,
   info_h,
   info_common,
+  info_rnd,
   m_fixed,
   m_rnd,
   tables,
+  p_common,
   p_map,
+  p_maputl,
   p_mobj,
-  p_mobj_h,
   p_local,
   p_pspr,
+  p_setup,
   r_main,
   s_sound;
 
@@ -145,6 +151,84 @@ end;
 procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
 begin
   S_StartSound(player.mo, 'GUN2ACT');
+end;
+
+// A_FriendlyExplode
+
+var
+  fe_x, fe_y: fixed_t;
+  fe_dist: fixed_t;
+  fe_tics: integer;
+
+function PIT_FriendlyExplode(thing: Pmobj_t): boolean;
+begin
+  Result := True;
+  
+  if thing.health <= 0 then
+    Exit;
+
+  if thing.flags2_ex and MF2_EX_FRIEND <> 0 then
+    Exit;
+
+  if not Info_IsMonster(thing._type) then
+    Exit;
+
+  if P_AproxDistance(fe_x - thing.x, fe_y - thing.y) > fe_dist then
+    Exit;
+
+  thing.friendtics := thing.friendtics + fe_tics;
+  thing.flags2_ex := thing.flags2_ex or MF2_EX_FRIEND;
+end;
+
+procedure A_FriendlyExplode(actor: Pmobj_t);
+const
+  DEF_TICS = 10 * TICRATE;
+  DEF_RADIUS = 128 * FRACUNIT;
+var
+  tics: integer;
+  radius: integer;
+  x, y: fixed_t;
+  xl: integer;
+  xh: integer;
+  yl: integer;
+  yh: integer;
+  bx: integer;
+  by: integer;
+begin
+  tics := actor.state.params.IntVal[0];
+  if tics <= 0 then
+    tics := DEF_TICS;
+
+  radius := actor.state.params.FixedVal[1];
+  if radius <= 0 then
+    radius := DEF_RADIUS;
+
+  x := actor.x;
+  y := actor.y;
+
+  if internalblockmapformat then
+  begin
+    xl := MapBlockIntX(int64(x) - int64(bmaporgx) - radius div 2);
+    xh := MapBlockIntX(int64(x) - int64(bmaporgx) + radius div 2);
+    yl := MapBlockIntY(int64(y) - int64(bmaporgy) - radius div 2);
+    yh := MapBlockIntY(int64(y) - int64(bmaporgy) + radius div 2);
+  end
+  else
+  begin
+    xl := MapBlockInt(x - bmaporgx - radius div 2);
+    xh := MapBlockInt(x - bmaporgx + radius div 2);
+    yl := MapBlockInt(y - bmaporgy - radius div 2);
+    yh := MapBlockInt(y - bmaporgy + radius div 2);
+  end;
+
+  fe_x := x;
+  fe_y := y;
+  fe_dist := radius div 2;
+  fe_tics := tics;
+
+  for bx := xl to xh do
+    for by := yl to yh do
+      if P_BlockThingsIterator(bx, by, PIT_FriendlyExplode) then
 end;
 
 end.

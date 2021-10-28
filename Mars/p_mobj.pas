@@ -742,6 +742,13 @@ begin
       exit; // mobj was removed
   end;
 
+  if mobj.friendtics > 0 then
+  begin
+    dec(mobj.friendtics);
+    if mobj.friendtics = 0 then
+      mobj.flags2_ex := mobj.flags2_ex and not MF2_EX_FRIEND;
+  end;
+  
   if mobj.flags_ex and MF_EX_FLOATBOB <> 0 then
   begin
     mobj.z := mobj.floorz + FloatBobOffsets[mobj.bob];
