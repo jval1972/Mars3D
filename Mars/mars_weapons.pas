@@ -40,6 +40,8 @@ procedure A_BulletCartridgeDrop(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_FireShockGun(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -52,7 +54,8 @@ uses
   p_mobj,
   p_mobj_h,
   p_local,
-  p_pspr;
+  p_pspr,
+  s_sound;
 
 var
   MT_BULLETCARTRIDGE: integer = -2;
@@ -104,6 +107,11 @@ begin
     Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
 
   P_SpawnPlayerMissile(player.mo, MT_SHOCKGUNMISSILE);
+end;
+
+procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  S_StartSound(player.mo, 'GUN2ACT');
 end;
 
 end.
