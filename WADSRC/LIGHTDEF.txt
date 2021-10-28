@@ -606,3 +606,70 @@ object MT_FREEZEGUNMISSILE
 }
 
 
+// MT_NERVEGUNMISSILE
+flickerlight NERVEGUNMISSILE_SHOT_SA
+{
+    color 1.0 0.85 0.7
+    size 88
+    secondarySize 96
+    chance 0.5
+}
+
+flickerlight NERVEGUNMISSILE_SHOT_SB
+{
+    color 1.0 0.88 0.67
+    size 92
+    secondarySize 100
+    chance 0.5
+}
+
+flickerlight NERVEGUNMISSILE_SHOT_SC
+{
+    color 1.0 0.85 0.75
+    size 88
+    secondarySize 96
+    chance 0.5
+}
+
+flickerlight NERVEGUNMISSILE_SHOT_SD
+{
+    color 1.0 0.83 0.72
+    size 92
+    secondarySize 100
+    chance 0.5
+}
+
+flickerlight NERVEGUNMISSILE_SHOT_EA
+{
+    color 1.0 0.0 0.0
+    size 96
+    secondarySize 104
+    chance 0.5
+}
+
+flickerlight NERVEGUNMISSILE_SHOT_EB
+{
+    color 0.9 0.1 0.0
+    size 88
+    secondarySize 96
+    chance 0.5
+}
+
+flickerlight NERVEGUNMISSILE_SHOT_EC
+{
+    color 0.8 0.1 0.0
+    size 72
+    secondarySize 80
+    chance 0.5
+}
+
+object MT_NERVEGUNMISSILE
+{
+    frame FUZSA { light NERVEGUNMISSILE_SHOT_SA }
+    frame FUZSB { light NERVEGUNMISSILE_SHOT_SB }
+    frame FUZSC { light NERVEGUNMISSILE_SHOT_SC }
+    frame FUZSD { light NERVEGUNMISSILE_SHOT_SD }
+    frame FUZEA { light NERVEGUNMISSILE_SHOT_EA }
+    frame FUZEB { light NERVEGUNMISSILE_SHOT_EB }
+    frame FUZEC { light NERVEGUNMISSILE_SHOT_EC }
+}
