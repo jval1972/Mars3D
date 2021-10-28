@@ -140,3 +140,49 @@ ACTOR "MT_SHOCKGUNMISSILE"
   }
 }
 
+// WP_SHOCKGUN
+WEAPON WP_SHOCKGUN
+{
+  Ammo AM_SHOCKGUNAMMO
+  States
+  {
+    Up:
+    {
+      ELEG A 1 A_Raise
+      Loop
+    }
+    Down:
+    {
+      ELEG A 1 A_Lower
+      Loop
+    }
+    Ready:
+    {
+      ELEG A 1 A_WeaponReady
+      Loop
+    }
+    Attack:
+    {
+      ELEF A 3 A_ShockGunSound
+      ELEF B 3
+      ELEF C 6 A_FireShockGun
+      ELEF D 6 
+      ELEF D 0 A_Refire
+      Goto Ready
+    }
+    Hold:
+    {
+      ELEF C 6 A_FireShockGun
+      ELEF D 6
+      ELEF D 0 A_Refire
+      Goto Ready
+    }
+    Flash:
+    {
+      TNT1 A 4 A_Light1
+      TNT1 A 0 A_Light0
+      Stop
+    }
+  }
+}
+
