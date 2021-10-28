@@ -36,6 +36,8 @@ uses
   d_player,
   p_pspr_h;
 
+procedure A_PunchAndKick(player: Pplayer_t; psp: Ppspdef_t);
+
 procedure A_BulletCartridgeDrop(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_FireShockGun(player: Pplayer_t; psp: Ppspdef_t);
@@ -45,17 +47,48 @@ procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
 implementation
 
 uses
+  d_delphi,
+  doomdef,
   d_items,
   info_h,
   info_common,
   m_fixed,
   m_rnd,
   tables,
+  p_map,
   p_mobj,
   p_mobj_h,
   p_local,
   p_pspr,
+  r_main,
   s_sound;
+
+procedure A_PunchAndKick(player: Pplayer_t; psp: Ppspdef_t);
+var
+  angle: angle_t;
+  damage: integer;
+  slope: integer;
+begin
+  S_StartSound(player.mo, 'FISTSHT');
+
+  damage := (P_Random mod 10 + 1) * 2;
+
+  if player.powers[Ord(pw_strength)] <> 0 then
+    damage := damage * 10;
+
+  angle := player.mo.angle;
+  angle := angle + _SHLW(P_Random - P_Random, 18);
+  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
+  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
+
+  // turn to face target
+  if linetarget <> nil then
+  begin
+    S_StartSound(player.mo, 'FISTEXP');
+    player.mo.angle :=
+      R_PointToAngle2(player.mo.x, player.mo.y, linetarget.x, linetarget.y);
+  end;
+end;
 
 var
   MT_BULLETCARTRIDGE: integer = -2;
