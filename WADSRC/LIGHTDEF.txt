@@ -495,21 +495,21 @@ object MT_SHOCKGUNMISSILE
 }
 
 
-// MT_NERVEGUNMISSILE
-pointlight NERVEGUNMISSILE_SHOT_SA
+// MT_FREEZEGUNMISSILE
+pointlight FREEZEGUNMISSILE_SHOT_SA
 {
     color 0.0 1.0 0.0
     size 48
 }
 
-pointlight NERVEGUNMISSILE_SHOT_SB
+pointlight FREEZEGUNMISSILE_SHOT_SB
 {
     color 0.0 1.0 0.0
     size 56
 }
 
 
-flickerlight NERVEGUNMISSILE_SHOT_EA
+flickerlight FREEZEGUNMISSILE_SHOT_EA
 {
     color 0.0 1.0 0.0
     size 48
@@ -517,7 +517,7 @@ flickerlight NERVEGUNMISSILE_SHOT_EA
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_EB
+flickerlight FREEZEGUNMISSILE_SHOT_EB
 {
     color 0.0 1.0 0.0
     size 52
@@ -525,7 +525,7 @@ flickerlight NERVEGUNMISSILE_SHOT_EB
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_EC
+flickerlight FREEZEGUNMISSILE_SHOT_EC
 {
     color 0.0 1.0 0.0
     size 56
@@ -533,7 +533,7 @@ flickerlight NERVEGUNMISSILE_SHOT_EC
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_ED
+flickerlight FREEZEGUNMISSILE_SHOT_ED
 {
     color 0.1 0.9 0.0
     size 72
@@ -541,7 +541,7 @@ flickerlight NERVEGUNMISSILE_SHOT_ED
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_EE
+flickerlight FREEZEGUNMISSILE_SHOT_EE
 {
     color 0.1 0.9 0.0
     size 96
@@ -549,7 +549,7 @@ flickerlight NERVEGUNMISSILE_SHOT_EE
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_EF
+flickerlight FREEZEGUNMISSILE_SHOT_EF
 {
     color 0.1 0.9 0.0
     size 88
@@ -557,7 +557,7 @@ flickerlight NERVEGUNMISSILE_SHOT_EF
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_EG
+flickerlight FREEZEGUNMISSILE_SHOT_EG
 {
     color 0.1 0.85 0.05
     size 80
@@ -565,7 +565,7 @@ flickerlight NERVEGUNMISSILE_SHOT_EG
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_EH
+flickerlight FREEZEGUNMISSILE_SHOT_EH
 {
     color 0.1 0.8 0.05
     size 72
@@ -573,7 +573,7 @@ flickerlight NERVEGUNMISSILE_SHOT_EH
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_EI
+flickerlight FREEZEGUNMISSILE_SHOT_EI
 {
     color 0.1 0.75 0.05
     size 72
@@ -581,7 +581,7 @@ flickerlight NERVEGUNMISSILE_SHOT_EI
     chance 0.5
 }
 
-flickerlight NERVEGUNMISSILE_SHOT_EJ
+flickerlight FREEZEGUNMISSILE_SHOT_EJ
 {
     color 0.1 0.70 0.1
     size 72
@@ -591,16 +591,18 @@ flickerlight NERVEGUNMISSILE_SHOT_EJ
 
 object MT_FREEZEGUNMISSILE
 {
-    frame FRESA { light NERVEGUNMISSILE_SHOT_SA }
-    frame FRESB { light NERVEGUNMISSILE_SHOT_SB }
-    frame FREEA { light NERVEGUNMISSILE_SHOT_EA }
-    frame FREEB { light NERVEGUNMISSILE_SHOT_EB }
-    frame FREEC { light NERVEGUNMISSILE_SHOT_EC }
-    frame FREED { light NERVEGUNMISSILE_SHOT_ED }
-    frame FREEE { light NERVEGUNMISSILE_SHOT_EE }
-    frame FREEF { light NERVEGUNMISSILE_SHOT_EF }
-    frame FREEG { light NERVEGUNMISSILE_SHOT_EG }
-    frame FREEH { light NERVEGUNMISSILE_SHOT_EH }
-    frame FREEI { light NERVEGUNMISSILE_SHOT_EI }
-    frame FREEJ { light NERVEGUNMISSILE_SHOT_EJ }
+    frame FRESA { light FREEZEGUNMISSILE_SHOT_SA }
+    frame FRESB { light FREEZEGUNMISSILE_SHOT_SB }
+    frame FREEA { light FREEZEGUNMISSILE_SHOT_EA }
+    frame FREEB { light FREEZEGUNMISSILE_SHOT_EB }
+    frame FREEC { light FREEZEGUNMISSILE_SHOT_EC }
+    frame FREED { light FREEZEGUNMISSILE_SHOT_ED }
+    frame FREEE { light FREEZEGUNMISSILE_SHOT_EE }
+    frame FREEF { light FREEZEGUNMISSILE_SHOT_EF }
+    frame FREEG { light FREEZEGUNMISSILE_SHOT_EG }
+    frame FREEH { light FREEZEGUNMISSILE_SHOT_EH }
+    frame FREEI { light FREEZEGUNMISSILE_SHOT_EI }
+    frame FREEJ { light FREEZEGUNMISSILE_SHOT_EJ }
 }
+
+
