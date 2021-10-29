@@ -533,7 +533,7 @@ begin
       exit;
     player._message := GOTBOXOFBULLETS;
   end
-  else if s_spr = 'BOB1' then // Grenades
+  else if s_spr = 'BOB1' then // Grenade
   begin
     if not P_GiveAmmo(player, am_grenades, 1) then
       exit;
