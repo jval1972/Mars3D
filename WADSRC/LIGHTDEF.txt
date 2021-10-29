@@ -673,3 +673,84 @@ object MT_NERVEGUNMISSILE
     frame FUZEB { light NERVEGUNMISSILE_SHOT_EB }
     frame FUZEC { light NERVEGUNMISSILE_SHOT_EC }
 }
+
+
+// MT_FLAMEGUNMISSILE
+pointlight FLAMEGUNMISSILE_SHOT_SA
+{
+    color 0.85 0.7 0.25
+    size 56
+}
+
+pointlight FLAMEGUNMISSILE_SHOT_SB
+{
+    color 0.9 0.7 0.2
+    size 48
+}
+
+
+flickerlight FLAMEGUNMISSILE_SHOT_EAG
+{
+    color 1.0 1.0 0.4
+    size 48
+    secondarySize 56
+    chance 0.5
+}
+
+flickerlight FLAMEGUNMISSILE_SHOT_EBF
+{
+    color 1.0 1.0 0.4
+    size 56
+    secondarySize 64
+    chance 0.5
+}
+
+flickerlight FLAMEGUNMISSILE_SHOT_ECE
+{
+    color 1.0 1.0 0.4
+    size 80
+    secondarySize 88
+    chance 0.5
+}
+
+flickerlight FLAMEGUNMISSILE_SHOT_ED
+{
+    color 1.0 1.0 0.4
+    size 104
+    secondarySize 112
+    chance 0.5
+}
+
+
+flickerlight FLAMEGUNMISSILE_SHOT_EHIJ
+{
+    color 1.0 1.0 0.5
+    size 56
+    secondarySize 64
+    chance 0.5
+}
+
+flickerlight FLAMEGUNMISSILE_SHOT_EK
+{
+    color 1.0 1.0 0.5
+    size 40
+    secondarySize 48
+    chance 0.5
+}
+
+object MT_FLAMEGUNMISSILE
+{
+    frame FLASA { light FLAMEGUNMISSILE_SHOT_SA   }
+    frame FLASB { light FLAMEGUNMISSILE_SHOT_SB   }
+    frame FLAEA { light FLAMEGUNMISSILE_SHOT_EAG  }
+    frame FLAEB { light FLAMEGUNMISSILE_SHOT_EBF  }
+    frame FLAEC { light FLAMEGUNMISSILE_SHOT_ECE  }
+    frame FLAED { light FLAMEGUNMISSILE_SHOT_EAG  }
+    frame FLAEE { light FLAMEGUNMISSILE_SHOT_ECE  }
+    frame FLAEF { light FLAMEGUNMISSILE_SHOT_EBF  }
+    frame FLAEG { light FLAMEGUNMISSILE_SHOT_EAG  }
+    frame FLAEH { light FLAMEGUNMISSILE_SHOT_EHIJ }
+    frame FLAEI { light FLAMEGUNMISSILE_SHOT_EHIJ }
+    frame FLAEJ { light FLAMEGUNMISSILE_SHOT_EHIJ }
+    frame FLAEK { light FLAMEGUNMISSILE_SHOT_EK   }
+}
