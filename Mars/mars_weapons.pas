@@ -57,6 +57,8 @@ procedure A_LowerWeapon(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_RaiseWeapon(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_ThowGrenade(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -363,6 +365,23 @@ begin
     exit;
 
   psp.sy := WEAPONTOP;
+end;
+
+var
+  MT_GRENADEMISSILE: integer = -2;
+
+procedure A_ThowGrenade(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if MT_GRENADEMISSILE = -2 then
+    MT_GRENADEMISSILE := Info_GetMobjNumForName('MT_GRENADEMISSILE');
+
+  if MT_GRENADEMISSILE < 0 then
+    Exit;
+
+  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
+    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+
+  P_SpawnPlayerMissile(player.mo, MT_GRENADEMISSILE);
 end;
 
 end.
