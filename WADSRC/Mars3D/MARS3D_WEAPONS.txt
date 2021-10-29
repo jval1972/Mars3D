@@ -531,3 +531,56 @@ ACTOR "MT_GRENADEMISSILE"
   }
 }
 
+///////////////////////////////
+// WP_GRENADES
+///////////////////////////////
+WEAPON WP_GRENADES
+{
+  Ammo AM_GRENADES
+  States
+  {
+    Up:
+    {
+      BOMF A 1 A_Raise
+      Loop
+    }
+    Down:
+    {
+      BOMF A 1 A_Lower
+      Loop
+    }
+    Ready:
+    {
+      BOMF A 1 A_WeaponReady
+      Loop
+    }
+    Attack:
+    {
+      BOMF A 6
+      BOMF B 6 
+      BOMF C 6
+      BOMF D 6 
+      BOMF E 6 
+      BOMF F 6 
+      BOMF J 10 A_ThowGrenade
+      BOMF JJJJJJJJJJJJJJJ 1 A_LowerWeapon(8)
+      BOMF AAAAAAAAAAAAAAAAAAAA 1 A_RaiseWeapon(8)
+      BOMF A 1 A_Refire
+      Goto Ready
+    }
+    Hold:
+    {
+      BOMF B 6 
+      BOMF C 6
+      BOMF D 6 
+      BOMF E 6 
+      BOMF F 6 
+      BOMF J 10 A_ThowGrenade
+      BOMF JJJJJJJJJJJJJJJ 1 A_LowerWeapon(8)
+      BOMF AAAAAAAAAAAAAAAAAAAA 1 A_RaiseWeapon(8)
+      BOMF A 1 A_Refire
+      Goto Ready
+    }
+  }
+}
+
