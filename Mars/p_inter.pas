@@ -967,6 +967,14 @@ begin
         if damage > 1 then
           damage := _SHR1(damage);
     end;
+    if inflictor.flags4_ex and MF4_EX_SHOCKGUNDAMAGE <> 0 then
+    begin
+      if target.flags4_ex and MF4_EX_NOSHOCKGUNDAMAGE <> 0 then
+        exit;
+      if target.flags4_ex and MF4_EX_SHOCKGUNDAMAGERESIST <> 0 then
+        if damage > 1 then
+          damage := _SHR1(damage);
+    end;
   end;
 
   player := target.player;

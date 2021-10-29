@@ -1182,6 +1182,14 @@ begin
   result.health := p.health;
   result.customparams := nil; // JVAL: Should keep the old params!
 
+  // jval 20211029 ->
+  //  - No damage from shockgun in player in single player (mars)
+  //  - Half damage from shockgun in player in multiplayer (mars)
+  if netgame then
+    result.flags4_ex := result.flags4_ex or MF4_EX_SHOCKGUNDAMAGERESIST
+  else
+    result.flags4_ex := result.flags4_ex or MF4_EX_NOSHOCKGUNDAMAGE;
+
   p.mo := result;
   p.playerstate := PST_LIVE;
   p.refire := 0;
