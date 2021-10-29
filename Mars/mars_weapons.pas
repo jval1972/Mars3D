@@ -53,6 +53,8 @@ procedure A_FireFreezeGun(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_FireFlameGun(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_LowerWeapon(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -306,6 +308,42 @@ begin
     Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
 
   P_SpawnPlayerMissile(player.mo, MT_FLAMEGUNMISSILE);
+end;
+
+//
+// A_LowerWeapon(const speed: float)
+//
+procedure A_LowerWeapon(player: Pplayer_t; psp: Ppspdef_t);
+var
+  speed: fixed_t;
+begin
+  speed := LOWERSPEED;
+  if psp.state.params <> nil then
+    if psp.state.params.Count > 0 then
+      speed := psp.state.params.FixedVal[0];
+
+  psp.sy := psp.sy + speed;
+
+  // Is already down.
+  if psp.sy < WEAPONBOTTOM then
+    exit;
+
+  // Player is dead.
+  if player.playerstate = PST_DEAD then
+  begin
+    psp.sy := WEAPONBOTTOM;
+    // don't bring weapon back up
+    exit;
+  end;
+
+  // The old weapon has been lowered off the screen,
+  // so change the weapon and start raising it
+  if player.health = 0 then
+  begin
+    // Player is dead, so keep the weapon off screen.
+    P_SetPsprite(player, Ord(ps_weapon), S_NULL);
+    exit;
+  end;
 end;
 
 end.

@@ -109,6 +109,17 @@ var
 // plasma cells for a bfg attack
   p_bfgcells: integer = 40;
 
+//
+// Adjust weapon bottom and top
+//
+const
+  WEAPONTOP = 32 * FRACUNIT;
+  WEAPONBOTTOM = WEAPONTOP + 96 * FRACUNIT;
+
+const
+  LOWERSPEED = 6 * FRACUNIT;
+  RAISESPEED = 6 * FRACUNIT;
+
 
 implementation
 
@@ -139,18 +150,6 @@ uses
   doomstat,
 // Data.
   sounds;
-
-//
-// Adjust weapon bottom and top
-//
-
-const
-  WEAPONTOP = 32 * FRACUNIT;
-  WEAPONBOTTOM = WEAPONTOP + 96 * FRACUNIT;
-
-const
-  LOWERSPEED = 6 * FRACUNIT;
-  RAISESPEED = 6 * FRACUNIT;
 
 //
 // P_SetPsprite
