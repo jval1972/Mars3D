@@ -55,6 +55,8 @@ procedure A_FireFlameGun(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_LowerWeapon(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_RaiseWeapon(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -344,6 +346,23 @@ begin
     P_SetPsprite(player, Ord(ps_weapon), S_NULL);
     exit;
   end;
+end;
+
+procedure A_RaiseWeapon(player: Pplayer_t; psp: Ppspdef_t);
+var
+  speed: fixed_t;
+begin
+  speed := RAISESPEED;
+  if psp.state.params <> nil then
+    if psp.state.params.Count > 0 then
+      speed := psp.state.params.FixedVal[0];
+
+  psp.sy := psp.sy - RAISESPEED;
+
+  if psp.sy > WEAPONTOP then
+    exit;
+
+  psp.sy := WEAPONTOP;
 end;
 
 end.
