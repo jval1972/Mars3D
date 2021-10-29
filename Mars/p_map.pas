@@ -751,7 +751,7 @@ begin
     end;
 
     if tmthing.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
-      if thing.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+      if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
       begin
         result := true;
         exit;
@@ -2276,7 +2276,7 @@ begin
   if bombsource <> nil then
   begin
     if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
-      if thing.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+      if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
       begin
         result := true;
         exit;
@@ -2432,7 +2432,7 @@ begin
   end;
 
   if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
-    if thing.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+    if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
     begin
       result := true;
       exit;
