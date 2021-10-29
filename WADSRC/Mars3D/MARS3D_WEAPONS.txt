@@ -439,3 +439,44 @@ ACTOR "MT_FLAMEGUNMISSILE"
   }
 }
 
+///////////////////////////////
+// WP_FLAMEGUN
+///////////////////////////////
+WEAPON WP_FLAMEGUN
+{
+  Ammo AM_FLAMEGUNAMMO
+  States
+  {
+    Up:
+    {
+      FLAG A 1 A_Raise
+      Loop
+    }
+    Down:
+    {
+      FLAG A 1 A_Lower
+      Loop
+    }
+    Ready:
+    {
+      FLAG A 1 A_WeaponReady
+      Loop
+    }
+    Attack:
+    {
+      FLAF A 6
+      FLAF B 6 A_FireFlameGun 
+      FLAF C 6
+      FLAG B 20 A_Refire
+      Goto Ready
+    }
+    Flash:
+    {
+      TNT1 A 4 A_Light2
+      TNT1 A 4 A_Light1
+      TNT1 A 0 A_Light0
+      Stop
+    }
+  }
+}
+
