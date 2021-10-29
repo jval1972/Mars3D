@@ -200,7 +200,7 @@ const
   DEF_RADIUS = 128 * FRACUNIT;
 var
   tics: integer;
-  radius: integer;
+  radius, r2: integer;
   x, y: fixed_t;
   xl: integer;
   xh: integer;
@@ -220,24 +220,25 @@ begin
   x := actor.x;
   y := actor.y;
 
+  r2 := radius div 2;
   if internalblockmapformat then
   begin
-    xl := MapBlockIntX(int64(x) - int64(bmaporgx) - radius div 2);
-    xh := MapBlockIntX(int64(x) - int64(bmaporgx) + radius div 2);
-    yl := MapBlockIntY(int64(y) - int64(bmaporgy) - radius div 2);
-    yh := MapBlockIntY(int64(y) - int64(bmaporgy) + radius div 2);
+    xl := MapBlockIntX(int64(x) - int64(bmaporgx) - r2);
+    xh := MapBlockIntX(int64(x) - int64(bmaporgx) + r2);
+    yl := MapBlockIntY(int64(y) - int64(bmaporgy) - r2);
+    yh := MapBlockIntY(int64(y) - int64(bmaporgy) + r2);
   end
   else
   begin
-    xl := MapBlockInt(x - bmaporgx - radius div 2);
-    xh := MapBlockInt(x - bmaporgx + radius div 2);
-    yl := MapBlockInt(y - bmaporgy - radius div 2);
-    yh := MapBlockInt(y - bmaporgy + radius div 2);
+    xl := MapBlockInt(x - bmaporgx - r2);
+    xh := MapBlockInt(x - bmaporgx + r2);
+    yl := MapBlockInt(y - bmaporgy - r2);
+    yh := MapBlockInt(y - bmaporgy + r2);
   end;
 
   fe_x := x;
   fe_y := y;
-  fe_dist := radius div 2;
+  fe_dist := r2;
   fe_tics := tics;
 
   for bx := xl to xh do
