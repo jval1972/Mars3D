@@ -481,3 +481,53 @@ WEAPON WP_FLAMEGUN
   }
 }
 
+
+///////////////////////////////
+// MT_GRENADEMISSILE
+///////////////////////////////
+ACTOR "MT_GRENADEMISSILE"
+{
+  Health 1000
+  Width 12
+  Height 12
+  Speed 1310720
+  Damage 10
+  Mass 100
+  Gravity 0.2
+  Reactiontime 8
+  Seesound GUN6SHT
+  Deathsound BARLEXP
+  +MF_NOBLOCKMAP
+  +MF_DROPOFF
+  +MF_MISSILE
+  +MF3_EX_ABSOLUTEDAMAGE
+  States
+  {
+    Spawn:
+    {
+      BOMS A 3 BRIGHT
+      BOMS B 3 BRIGHT 
+      BOMS C 3 BRIGHT 
+      BOMS D 3 BRIGHT 
+      BOMS E 3 BRIGHT 
+      BOMS F 3 BRIGHT 
+      BOMS G 3 BRIGHT 
+      BOMS H 3 BRIGHT 
+      Loop
+    }
+    Death:
+    {
+      BOME A 3 BRIGHT A_SetTranslucent(0.6)
+      BOME B 2 BRIGHT
+      BOME B 1 A_LocalEarthQuake(35, 1.0, 256)
+      BOME C 3 BRIGHT A_Explode
+      BOME D 3 BRIGHT
+      BOME E 3 BRIGHT
+      BOME F 3 BRIGHT
+      BOME G 3 BRIGHT 
+      BOME HHHHH 1 BRIGHT A_FadeOut10
+      Stop
+    }
+  }
+}
+
