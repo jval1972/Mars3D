@@ -403,7 +403,7 @@ const
 const
   // Actor is hurt less by flame damage missile
   MF4_EX_FLAMEDAMAGERESIST = 1;
-  // Missile for shockgun
+  // Mark missiles fired by shockgun
   MF4_EX_SHOCKGUNDAMAGE = 2;
   // Actor is not hurt by shockgun missile
   MF4_EX_NOSHOCKGUNDAMAGE = 4;
