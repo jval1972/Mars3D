@@ -1791,6 +1791,35 @@ const
   );
 {$ENDIF}
 
+type
+  pspritey_t = record
+    sprname: string[8];
+    sy: fixed_t;
+  end;
+
+const
+  NUM_PSPRITESY = 1;
+
+  PSPRITESY: array[0..NUM_PSPRITESY - 1] of pspritey_t = (
+    (sprname: 'FISGA0'; sy: 10 * FRACUNIT)
+  );
+
+function R_PSpriteSY(const lump: integer): fixed_t;
+var
+  check: string;
+  i: integer;
+begin
+  check := strupper(char8tostring(W_GetNameForNum(lump + firstspritelump)));
+  for i := 0 to NUM_PSPRITESY - 1 do
+    if check = PSPRITESY[i].sprname then
+    begin
+      result := PSPRITESY[i].sy;
+      exit;
+    end;
+
+  result := 0;
+end;
+
 procedure R_DrawPSprite(psp: Ppspdef_t);
 var
   tx: fixed_t;
@@ -1847,6 +1876,10 @@ begin
   vis.mo := viewplayer.mo;
 
   vis.texturemid := (BASEYCENTER * FRACUNIT) {+ FRACUNIT div 2} - (psp.sy - spritetopoffset[lump]);
+
+  if screenblocks > 10 then
+    vis.texturemid := vis.texturemid - R_PSpriteSY(lump);
+
 {$IFDEF HERETIC}
   if screenblocks > 10 then
     vis.texturemid := vis.texturemid - PSpriteSY[Ord(viewplayer.readyweapon)];
