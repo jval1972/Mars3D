@@ -1,4 +1,6 @@
+///////////////////////////////
 // WP_FIST
+///////////////////////////////
 WEAPON WP_FIST
 {
   Ammo AM_NOAMMO
@@ -61,7 +63,9 @@ ACTOR MT_BULLETCARTRIDGE
   }
 }
 
+///////////////////////////////
 // WP_PISTOL
+///////////////////////////////
 WEAPON WP_PISTOL
 {
   Ammo AM_BULLET
@@ -100,7 +104,9 @@ WEAPON WP_PISTOL
   }
 }
 
+///////////////////////////////
 // MT_SHOCKGUNMISSILE
+///////////////////////////////
 ACTOR "MT_SHOCKGUNMISSILE"
 {
   Health 1000
@@ -140,7 +146,9 @@ ACTOR "MT_SHOCKGUNMISSILE"
   }
 }
 
+///////////////////////////////
 // WP_SHOCKGUN
+///////////////////////////////
 WEAPON WP_SHOCKGUN
 {
   Ammo AM_SHOCKGUNAMMO
@@ -187,7 +195,9 @@ WEAPON WP_SHOCKGUN
   }
 }
 
+///////////////////////////////
 // MT_NERVEGUNMISSILE
+///////////////////////////////
 ACTOR "MT_NERVEGUNMISSILE"
 {
   Health 1000
@@ -234,7 +244,9 @@ ACTOR "MT_NERVEGUNMISSILE"
   }
 }
 
+///////////////////////////////
 // WP_NERVEGUN
+///////////////////////////////
 WEAPON WP_NERVEGUN
 {
   Ammo AM_NERVEGUNAMMO
@@ -276,7 +288,9 @@ WEAPON WP_NERVEGUN
 }
 
 
+///////////////////////////////
 // MT_FREEZEGUNMISSILE
+///////////////////////////////
 ACTOR "MT_FREEZEGUNMISSILE"
 {
   Health 1000
@@ -321,7 +335,9 @@ ACTOR "MT_FREEZEGUNMISSILE"
   }
 }
 
+///////////////////////////////
 // WP_FREEZEGUN
+///////////////////////////////
 WEAPON WP_FREEZEGUN
 {
   Ammo AM_FREEZEGUNAMMO
