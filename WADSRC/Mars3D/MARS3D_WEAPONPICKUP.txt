@@ -175,7 +175,7 @@ ACTOR MT_TRACKINGMISSILELAUNCHER 2006
 ///////////////////////////////
 // MT_FREEZEGUN
 ///////////////////////////////
-ACTOR MT_FREEZEGUN 2006
+ACTOR MT_FREEZEGUN 2023
 {
   Health 1000
   Width 20
