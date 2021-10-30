@@ -69,6 +69,7 @@ implementation
 
 uses
   d_delphi,
+  d_englsh,
   doomdef,
   d_items,
   g_game,
