@@ -808,3 +808,81 @@ object MT_GRENADEMISSILE
     frame BOMEG { light GRENADEMISSILE_SHOT_G   }
     frame BOMEH { light GRENADEMISSILE_SHOT_H   }
 }
+
+
+// MT_ROCKETMISSILE
+pointlight ROCKETMISSILE_A
+{
+    color 1.0 0.7 0.0
+    size 56
+}
+
+flickerlight ROCKETMISSILE_XA
+{
+    color 1.0 0.3 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+}
+
+flickerlight ROCKETMISSILE_XB
+{
+    color 1.0 0.3 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+flickerlight ROCKETMISSILE_XC
+{
+    color 1.0 0.5 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+flickerlight ROCKETMISSILE_XD
+{
+    color 1.0 0.7 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+flickerlight ROCKETMISSILE_XE
+{
+    color 0.8 0.5 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+flickerlight ROCKETMISSILE_XF
+{
+    color 0.5 0.1 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+}
+
+flickerlight ROCKETMISSILE_XG
+{
+    color 0.3 0.0 0.0
+    size 56
+    secondarySize 64
+    chance 0.3
+}
+
+object MT_ROCKETMISSILE
+{
+    frame MISS  { light ROCKETMISSILE_A  }
+
+    frame MISEA { light ROCKETMISSILE_XA }
+    frame MISEB { light ROCKETMISSILE_XB }
+    frame MISEC { light ROCKETMISSILE_XC }
+    frame MISED { light ROCKETMISSILE_XD }
+    frame MISEE { light ROCKETMISSILE_XE }
+    frame MISEF { light ROCKETMISSILE_XF }
+    frame MISEG { light ROCKETMISSILE_XG }
+}
+
