@@ -59,6 +59,8 @@ procedure A_RaiseWeapon(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_ThowGrenade(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_BoomerangDisk(actor: Pmobj_t);
+
 implementation
 
 uses
@@ -73,12 +75,14 @@ uses
   m_rnd,
   tables,
   p_common,
+  p_inter,
   p_map,
   p_maputl,
   p_mobj,
   p_local,
   p_pspr,
   p_setup,
+  p_sight,
   p_tick,
   r_main,
   s_sound;
@@ -382,6 +386,122 @@ begin
     player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
 
   P_SpawnPlayerMissile(player.mo, MT_GRENADEMISSILE);
+end;
+
+// A_BoomerangDisk
+
+var
+  bdisk: Pmobj_t;
+
+const
+  BOOMERANGDISK_RANGE = 64 * FRACUNIT;
+  BOOMERANGDISK_DAMAGE = 1;
+
+function PIT_BoomerangDisk(thing: Pmobj_t): boolean;
+var
+  p: Pplayer_t;
+  dx: fixed_t;
+  dy: fixed_t;
+  dist: fixed_t;
+begin
+  p := thing.player;
+  if p <> nil then
+  begin
+    P_DamageMobj(bdisk, bdisk, bdisk, 10000);
+    if p.ammo[Ord(am_disk)] < p.maxammo[Ord(am_disk)] then
+      p.ammo[Ord(am_disk)] := p.ammo[Ord(am_disk)] + 1;
+    result := false;  // Stop
+    exit;
+  end;
+
+  dx := abs(thing.x - bdisk.x);
+  dy := abs(thing.y - bdisk.y);
+
+  if dx > dy then
+    dist := dx
+  else
+    dist := dy;
+  dist := FixedInt(dist - thing.radius);
+
+  if dist < 0 then
+    dist := 0;
+
+  if dist >= BOOMERANGDISK_RANGE then
+  begin
+    result := true; // out of range
+    exit;
+  end;
+
+  if bdisk.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+    if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
+    begin
+      result := true;
+      exit;
+    end;
+
+  if bdisk.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+    if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
+    begin
+      result := true;
+      exit;
+    end;
+
+  if bdisk.flags4_ex and MF4_EX_SHOCKGUNDAMAGE <> 0 then
+    if thing.flags4_ex and MF4_EX_NOSHOCKGUNDAMAGE <> 0 then
+    begin
+      result := true;
+      exit;
+    end;
+
+  if P_CheckSight(thing, bdisk) then
+    P_DamageMobj(thing, bdisk, bdisk, BOOMERANGDISK_DAMAGE);
+
+  result := true;
+end;
+
+procedure P_BoomerangDisk(spot: Pmobj_t);
+var
+  x: integer;
+  y: integer;
+  xl: integer;
+  xh: integer;
+  yl: integer;
+  yh: integer;
+  dist: fixed_t;
+begin
+  dist := BOOMERANGDISK_RANGE;
+  if internalblockmapformat then
+  begin
+    yh := MapBlockIntY(int64(spot.y) + int64(dist) - int64(bmaporgy));
+    yl := MapBlockIntY(int64(spot.y) - int64(dist) - int64(bmaporgy));
+    xh := MapBlockIntX(int64(spot.x) + int64(dist) - int64(bmaporgx));
+    xl := MapBlockIntX(int64(spot.x) - int64(dist) - int64(bmaporgx));
+  end
+  else
+  begin
+    yh := MapBlockInt(spot.y + dist - bmaporgy);
+    yl := MapBlockInt(spot.y - dist - bmaporgy);
+    xh := MapBlockInt(spot.x + dist - bmaporgx);
+    xl := MapBlockInt(spot.x - dist - bmaporgx);
+  end;
+
+  bdisk := spot;
+
+  for y := yl to yh do
+    for x := xl to xh do
+      P_BlockThingsIterator(x, y, PIT_BoomerangDisk);
+end;
+
+
+procedure A_BoomerangDisk(actor: Pmobj_t);
+begin
+  if actor.momx or actor.momy or actor.momz = 0 then
+  begin
+    actor.flags := actor.flags or MF_SPECIAL;
+    exit;
+  end;
+
+  P_BoomerangDisk(actor);
 end;
 
 end.
