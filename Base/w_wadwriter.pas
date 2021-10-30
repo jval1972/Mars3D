@@ -45,6 +45,7 @@ type
     destructor Destroy; override;
     procedure Clear; virtual;
     procedure AddData(const lumpname: string; const data: pointer; const size: integer);
+    procedure AddFile(const lumpname: string; const fname: string);
     procedure AddString(const lumpname: string; const data: string);
     procedure AddSeparator(const lumpname: string);
     procedure SaveToStream(const strm: TDStream);
@@ -92,6 +93,35 @@ begin
   m := TDMemoryStream.Create;
   m.Write(data^, size);
   lumps.AddObject(strupper(lumpname), m);
+end;
+
+procedure TWadWriter.AddFile(const lumpname: string; const fname: string);
+var
+  m: TDMemoryStream;
+  f: TFile;
+  buf: array[0..8191] of byte;
+  numread: integer;
+begin
+  if fexists(fname) then
+  begin
+    f := TFile.Create(fname, fOpenReadOnly);
+    if f.Size = 0 then
+    begin
+      AddSeparator(lumpname);
+      f.Free;
+      exit;
+    end;
+    m := TDMemoryStream.Create;
+    repeat
+      numread := f.Read(buf, SizeOf(buf));
+      if numread > 0 then
+        m.Write(buf, numread);
+    until numread <= 0;
+    lumps.AddObject(strupper(lumpname), m);
+    f.Free;
+  end
+  else
+    AddSeparator(lumpname);
 end;
 
 procedure TWadWriter.AddString(const lumpname: string; const data: string);
