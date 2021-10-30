@@ -1,0 +1,55 @@
+//////////////////////////////////////////////////////////////
+// Extra ammo pick ups using the MAD file patches
+// !! Not present in the original game
+// Editor numbers > 4000
+//////////////////////////////////////////////////////////////
+
+///////////////////////////////
+// MT_BOOMERANGDISKAMMO
+///////////////////////////////
+ACTOR MT_BOOMERANGDISKAMMO 2101
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      CDR1 A 4
+      CDR1 B 4
+      CDR1 C 4
+      CDR1 D 4
+      CDR1 E 4
+      CDR1 F 4
+      CDR1 G 4
+      CDR1 H 4
+      Loop
+    }
+  }
+}
+
+
+///////////////////////////////
+// MT_BOOMERANGDISKPACK
+///////////////////////////////
+ACTOR MT_BOOMERANGDISKPACK 2102
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      CDR2 A -1
+    }
+  }
+}
+

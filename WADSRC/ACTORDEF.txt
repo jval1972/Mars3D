@@ -1,6 +1,7 @@
 #include "Mars3D\MARS3D_KEYS.txt"
 #include "Mars3D\MARS3D_WEAPONPICKUP.txt"
 #include "Mars3D\MARS3D_AMMO.txt"
+#include "Mars3D\MARS3D_AMMO_EXTRA.txt"
 #include "Mars3D\MARS3D_HEALTHBONUS.txt"
 #include "MARS3D\MARS3D_DECORATIONS.txt"
 #include "MARS3D\MARS3D_OBSTACLES.txt"

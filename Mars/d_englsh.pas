@@ -162,6 +162,8 @@ var
   GOTTRACKINGMISSILES: string = 'Tracking Missiles';
   GOTBOXOFBULLETS: string = 'Box of bullets';
   GOTGRENADES: string = 'Grenades';
+  GOTDISK: string = 'Boomerang disk';
+  GOTDISKS: string = 'Box of boomerang disks';
 
   // Health
   GOTHEALTH15: string = 'Got the Medkit pack';

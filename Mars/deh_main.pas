@@ -3438,6 +3438,8 @@ begin
   DEH_AddString(@deh_strings, @GOTTRACKINGMISSILES, 'GOTTRACKINGMISSILES');
   DEH_AddString(@deh_strings, @GOTBOXOFBULLETS, 'GOTBOXOFBULLETS');
   DEH_AddString(@deh_strings, @GOTGRENADES, 'GOTGRENADES');
+  DEH_AddString(@deh_strings, @GOTDISK, 'GOTDISK');
+  DEH_AddString(@deh_strings, @GOTDISKS, 'GOTDISKS');
 
   DEH_AddString(@deh_strings, @DETAILULTRA, 'DETAILULTRA');
   DEH_AddString(@deh_strings, @DETAILHI, 'DETAILHI');

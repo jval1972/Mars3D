@@ -59,7 +59,7 @@ const
 // a weapon is found with two clip loads,
 // a big item has five clip loads
   maxammo: array[0..Ord(NUMAMMO) - 1] of integer = (300, 999, 999, 999, 999, 999, 999, 999, 999);
-  clipammo: array[0..Ord(NUMAMMO) - 1] of integer = (10, 15, 10, 25, 15, 5, 5, 5, 5);
+  clipammo: array[0..Ord(NUMAMMO) - 1] of integer = (10, 15, 10, 25, 15, 1, 5, 5, 5);
 
 procedure P_CmdSuicide;
 
@@ -538,6 +538,18 @@ begin
     if not P_GiveAmmo(player, am_grenades, 1) then
       exit;
     player._message := GOTGRENADES;
+  end
+  else if s_spr = 'CDR1' then // Boomerang disk
+  begin
+    if not P_GiveAmmo(player, am_disk, 1) then
+      exit;
+    player._message := GOTDISK;
+  end
+  else if s_spr = 'CDR2' then // Boomerang disk pack
+  begin
+    if not P_GiveAmmo(player, am_disk, 10) then
+      exit;
+    player._message := GOTDISKS;
   end
   else if s_spr = 'HSP1' then // MT_HEALTH15 (Medkit pack)
   begin
