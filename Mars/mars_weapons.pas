@@ -613,8 +613,7 @@ begin
   speed := mobjinfo[MT_DISKMISSILE].speed;
 
   th.momx := FixedMul(speed, finecosine[ang]);
-  th.momy := FixedMul(speed, finesine[ang]);
-  
+  th.momy := FixedMul(speed, finesine[ang]);  
 end;
 
 
