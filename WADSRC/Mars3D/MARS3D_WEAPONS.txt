@@ -674,7 +674,7 @@ ACTOR "MT_ROCKETMISSILE"
   Width 12
   Height 12
   Speed 1572864
-  Damage 10
+  Damage 20
   Mass 100
   Reactiontime 8
   Seesound GUN8SHT
