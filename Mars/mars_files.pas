@@ -44,7 +44,8 @@ function MARS_FindFile(const fn: string): string;
 implementation
 
 uses
-  d_delphi;
+  d_delphi,
+  d_main;
 
 function MARS_FindFile(const fn: string): string;
 var
@@ -67,6 +68,8 @@ begin
     if not (dir[Length(dir)] in ['\', '/']) then
       dir := dir + '\';
 
+    dir := fixslashpath(dir);
+    
     Result := dir + fn1;
     if fexists(Result) then
       Exit;
@@ -85,7 +88,8 @@ begin
           Exit;
       end;
   end;
-  Result := fn;
+
+  Result := D_FileInDoomPath(fn);
 end;
 
 end.
