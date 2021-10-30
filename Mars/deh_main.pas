@@ -3216,7 +3216,7 @@ begin
   deh_actions[367].originalname := strupper('ThowBoomerangDisk');
   {$IFDEF DLL}deh_actions[367].decl := 'A_ThowBoomerangDisk()';{$ENDIF}
   deh_actions[368].action.acp1 := @A_FireRocketMissile;
-  deh_actions[368].originalname := strupper('A_FireRocketMissile');
+  deh_actions[368].originalname := strupper('FireRocketMissile');
   {$IFDEF DLL}deh_actions[368].decl := 'A_FireRocketMissile()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
