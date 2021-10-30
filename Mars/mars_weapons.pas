@@ -400,7 +400,7 @@ var
   bdisk: Pmobj_t;
 
 const
-  BOOMERANGDISK_RANGE = 64 * FRACUNIT;
+  BOOMERANGDISK_RANGE = 32 * FRACUNIT;
   BOOMERANGDISK_DAMAGE = 1;
   BOOMERANGDISK_TIMEOUT = TICRATE;
 
@@ -416,19 +416,12 @@ begin
     result := true;
     exit;
   end;
-  
-  p := thing.player;
-  if p <> nil then
-    if leveltime - bdisk.spawntime > BOOMERANGDISK_TIMEOUT then
-    begin
-      if p.ammo[Ord(am_disk)] < p.maxammo[Ord(am_disk)] then
-      begin
-        p.ammo[Ord(am_disk)] := p.ammo[Ord(am_disk)] + 1;
-        P_RemoveMobj(bdisk);
-        result := false;  // Stop
-        exit;
-      end;
-    end;
+
+  if not P_ThingsInSameZ(thing, bdisk) then
+  begin
+    result := true;
+    exit;
+  end;
 
   dist := P_AproxDistance(thing.x - bdisk.x, thing.y - bdisk.y);
 
@@ -442,6 +435,22 @@ begin
     result := true; // out of range
     exit;
   end;
+
+  p := thing.player;
+  if p <> nil then
+    if leveltime - bdisk.spawntime > BOOMERANGDISK_TIMEOUT then
+    begin
+      if p.ammo[Ord(am_disk)] < p.maxammo[Ord(am_disk)] then
+      begin
+        p.ammo[Ord(am_disk)] := p.ammo[Ord(am_disk)] + 1;
+        P_RemoveMobj(bdisk);
+        if p = @players[consoleplayer] then
+          S_StartSound(nil, 'ITEMUP');
+        p._message := RETURNDISK;
+        result := false;  // Stop
+        exit;
+      end;
+    end;
 
   if (thing.flags and MF_SHOOTABLE <> 0) and (p = nil) then
   begin
@@ -507,12 +516,14 @@ begin
       P_BlockThingsIterator(x, y, PIT_BoomerangDisk);
 end;
 
-function P_BoomerandDiskReturn(const mo: Pmobj_t; const p: Pplayer_t): boolean;
+function P_BoomerangDiskReturn(const mo: Pmobj_t; const p: Pplayer_t): boolean;
 var
   targetang, diskang: angle_t;
+  dist: fixed_t;
   itargetang, idiskang: integer;
   newang: angle_t;
   speed: fixed_t;
+  slope: fixed_t;
 begin
   Result := False;
 
@@ -522,38 +533,64 @@ begin
   targetang := R_PointToAngle2(mo.x, mo.y, p.mo.x, p.mo.y);
   diskang := mo.angle;
 
-  itargetang := targetang div ANGLETOFINEUNIT;
-  idiskang := diskang div ANGLETOFINEUNIT;
-
-  // Turn towads player
-  if (Abs(itargetang - idiskang) < ANG45 div ANGLETOFINEUNIT) or
-    (Abs(itargetang - idiskang) > ANG315 div ANGLETOFINEUNIT) then
+  if targetang <> diskang then
   begin
-    if Abs(itargetang - idiskang) < ANG45 div ANGLETOFINEUNIT then
+    itargetang := targetang div ANGLETOFINEUNIT;
+    idiskang := diskang div ANGLETOFINEUNIT;
+
+    // Turn towads player
+    if (Abs(itargetang - idiskang) < ANG45 div ANGLETOFINEUNIT) or
+      (Abs(itargetang - idiskang) > ANG315 div ANGLETOFINEUNIT) then
     begin
-      if itargetang > idiskang then
-        newang := diskang + ANG1
+      if Abs(itargetang - idiskang) < ANG45 div ANGLETOFINEUNIT then
+      begin
+        if itargetang > idiskang then
+          newang := diskang + ANG5
+        else
+          newang := diskang - ANG5;
+      end
       else
-        newang := diskang - ANG1;
-    end
-    else
-    begin
-      if itargetang > idiskang then
-        newang := diskang - ANG1
+      begin
+        if itargetang > idiskang then
+          newang := diskang - ANG5
+        else
+          newang := diskang + ANG5;
+      end;
+
+      speed := FixedSqrt(FixedMul(mo.momx, mo.momx) + FixedMul(mo.momy, mo.momy));
+
+      mo.angle := newang;
+      newang := newang div ANGLETOFINEUNIT;
+
+      mo.momx := FixedMul(speed, finecosine[newang]);
+      mo.momy := FixedMul(speed, finesine[newang]);
+
+      // change slope
+      dist := P_AproxDistance(p.mo.x - mo.x, p.mo.y - mo.y);
+
+      dist := dist div speed;
+
+      if dist < 1 then
+        dist := 1;
+      if p.mo.height >= 56 * FRACUNIT then
+        slope := (p.mo.z + 40 * FRACUNIT - mo.z) div dist
       else
-        newang := diskang + ANG1;
+        slope := (p.mo.z + mo.height * 2 div 3 - mo.z) div dist;
+
+      if slope < mo.momz then
+        mo.momz := mo.momz - FRACUNIT div 8
+      else
+        mo.momz := mo.momz + FRACUNIT div 8;
+
+      Result := True;
     end;
-
-    speed := FixedSqrt(FixedMul(mo.momx, mo.momx) + FixedMul(mo.momy, mo.momy));
-
-    mo.angle := newang;
-    newang := newang div ANGLETOFINEUNIT;
-
-    mo.momx := FixedMul(speed, finecosine[newang]);
-    mo.momy := FixedMul(speed, finesine[newang]);
-
-    Result := True;
   end;
+end;
+
+procedure P_BoomerangFriction(actor: Pmobj_t);
+begin
+  actor.momx := actor.momx * 15 div 16;
+  actor.momy := actor.momy * 15 div 16;
 end;
 
 procedure A_BoomerangDisk(actor: Pmobj_t);
@@ -565,8 +602,12 @@ begin
     actor.flags := actor.flags or MF_SPECIAL;
     actor.flags := actor.flags and not MF_NOGRAVITY;
     actor.flags3_ex := actor.flags3_ex and not MF3_EX_THRUACTORS;
+    P_BoomerangFriction(actor);
     exit;
   end;
+
+  if actor.z - actor.floorz < 2 * FRACUNIT then // Apply friction
+    P_BoomerangFriction(actor);
 
   P_BoomerangDisk(actor);
 
@@ -576,7 +617,7 @@ begin
   if leveltime - actor.spawntime > BOOMERANGDISK_TIMEOUT then
     for i := 0 to MAXPLAYERS - 1 do
       if playeringame[i] then
-        if P_BoomerandDiskReturn(actor, @players[i]) then
+        if P_BoomerangDiskReturn(actor, @players[i]) then
           Break;
 end;
 
@@ -590,6 +631,7 @@ var
   ang: angle_t;
   th: Pmobj_t;
   speed: fixed_t;
+  slope: fixed_t;
 begin
   if MT_DISKMISSILE = -2 then
     MT_DISKMISSILE := Info_GetMobjNumForName('MT_DISKMISSILE');
@@ -604,7 +646,8 @@ begin
   ang := player.mo.angle div ANGLETOFINEUNIT;
   x := player.mo.x + FixedMul(dist, finecosine[ang]);
   y := player.mo.y + FixedMul(dist, finesine[ang]);
-  z := player.mo.z + PVIEWHEIGHT;
+  slope := (player.lookdir * FRACUNIT) div 173;
+  z := player.mo.z + PVIEWHEIGHT + slope;
 
   th := P_SpawnMobj(x, y, z, MT_DISKMISSILE);
 
@@ -616,6 +659,7 @@ begin
 
   th.momx := FixedMul(speed, finecosine[ang]);
   th.momy := FixedMul(speed, finesine[ang]);
+  th.momz := FixedMul(speed, slope);
 end;
 
 

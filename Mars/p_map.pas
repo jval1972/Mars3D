@@ -65,6 +65,8 @@ procedure P_LineAttack(t1: Pmobj_t; angle: angle_t;
 
 procedure P_UseLines(player: Pplayer_t);
 
+function P_ThingsInSameZ(const A, B: Pmobj_t): boolean;
+
 procedure P_RadiusAttack(spot: Pmobj_t; source: Pmobj_t; const damage: integer);
 
 procedure P_RadiusAttackEx(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);

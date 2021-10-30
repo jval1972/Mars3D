@@ -164,6 +164,7 @@ var
   GOTGRENADES: string = 'Grenades';
   GOTDISK: string = 'Boomerang disk';
   GOTDISKS: string = 'Box of boomerang disks';
+  RETURNDISK: string = 'Boomerang disk returned!';
 
   // Health
   GOTHEALTH15: string = 'Got the Medkit pack';
