@@ -359,7 +359,7 @@ begin
     if psp.state.params.Count > 0 then
       speed := psp.state.params.FixedVal[0];
 
-  psp.sy := psp.sy - RAISESPEED;
+  psp.sy := psp.sy - speed;
 
   if psp.sy > WEAPONTOP then
     exit;
