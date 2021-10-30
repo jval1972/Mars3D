@@ -796,3 +796,44 @@ ACTOR "MT_TRACKINGROCKETMISSILE"
   }
 }
 
+///////////////////////////////
+// WP_TRACKINGMISSILE
+///////////////////////////////
+WEAPON WP_TRACKINGMISSILE
+{
+  Ammo AM_TRACKINGMISL
+  States
+  {
+    Up:
+    {
+      DEVG A 1 A_Raise
+      Loop
+    }
+    Down:
+    {
+      DEVG A 1 A_Lower
+      Loop
+    }
+    Ready:
+    {
+      DEVG A 1 A_WeaponReady
+      Loop
+    }
+    Attack:
+    {
+      DEVF A 5
+      DEVF B 5
+      DEVF C 5 A_FireRocketMissile
+      DEVF D 5
+      DEVF D 0 A_Refire
+      Goto Ready
+    }
+    Flash:
+    {
+      TNT1 A 4 A_Light2
+      TNT1 A 4 A_Light1
+      TNT1 A 0 A_Light0
+      Stop
+    }
+  }
+}
