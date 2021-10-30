@@ -584,3 +584,36 @@ WEAPON WP_GRENADES
   }
 }
 
+
+///////////////////////////////
+// MT_DISKMISSILE
+///////////////////////////////
+ACTOR "MT_DISKMISSILE"
+{
+  Health 1
+  Width 12
+  Height 12
+  Speed 1310720
+  Mass 100
+  Reactiontime 8
+  Seesound GUN7SHT
+  +MF_DROPOFF
+  +MF_NOGRAVITY
+  +MF3_EX_CEILINGBOUNCE
+  +MF3_EX_WALLBOUNCE
+  +MF3_EX_THRUACTORS
+  States
+  {
+    Spawn:
+    {
+      CDCS AAA 1 BRIGHT A_BoomerangDisk
+      CDCS BBB 1 BRIGHT A_BoomerangDisk
+      CDCS CCC 1 BRIGHT A_BoomerangDisk
+      CDCS DDD 1 BRIGHT A_BoomerangDisk
+      CDCS EEE 1 BRIGHT A_BoomerangDisk
+      CDCS FFF 1 BRIGHT A_BoomerangDisk
+      Loop
+    }
+  }
+}
+
