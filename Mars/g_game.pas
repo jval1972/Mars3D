@@ -580,7 +580,7 @@ begin
   end;
 
   // chainsaw overrides
-  for i := 0 to Ord(NUMWEAPONS) - 2 do
+  for i := 0 to Ord(NUMWEAPONS) - 1 do
     if gamekeydown[KEY_WEAPONS[i]^] then
     begin
       cmd.buttons := cmd.buttons or BT_CHANGE;
