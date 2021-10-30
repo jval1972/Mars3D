@@ -924,6 +924,7 @@ begin
   mobj.sprite := st.sprite;
   mobj.frame := st.frame;
   mobj.touching_sectorlist := nil; // NULL head of sector list // phares 3/13/98
+  mobj.spawntime := leveltime;
 
   // set subsector and/or block links
   P_SetThingPosition(mobj);
