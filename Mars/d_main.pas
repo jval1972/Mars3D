@@ -180,6 +180,7 @@ uses
   psi_overlay,
   mars_version,
   mars_files,
+  mars_sounds,
   r_draw,
   r_main,
   r_hires,
@@ -2181,7 +2182,10 @@ begin
   printf('S_Init: Setting up sound.'#13#10);
   S_Init(snd_SfxVolume, snd_MusicVolume);
 
-  SUC_Progress(90);
+  SUC_Progress(89);
+
+  printf('MARS_InitSounds: Identify MARS sounds.'#13#10);
+  MARS_InitSounds;
 
   printf('HU_Init: Setting up heads up display.'#13#10);
   HU_Init;
