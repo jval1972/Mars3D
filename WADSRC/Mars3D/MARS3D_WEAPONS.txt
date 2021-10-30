@@ -120,6 +120,8 @@ ACTOR "MT_SHOCKGUNMISSILE"
   Reactiontime 8
   Seesound GUN2SHT
   Deathsound BAREXP
+  RenderStyle TRANSLUCENT
+  Alpha 0.8
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
@@ -130,20 +132,23 @@ ACTOR "MT_SHOCKGUNMISSILE"
   {
     Spawn:
     {
-      ELEE A 3 BRIGHT
-      ELEE B 3 BRIGHT
+      ELES A 3 BRIGHT
+      ELES B 3 BRIGHT
+      ELES C 3 BRIGHT
       Loop
     }
     Death:
     {
-      ELEE C 6 A_Explode BRIGHT
-      ELEE D 4 BRIGHT
+      ELEE A 3 BRIGHT
+      ELEE B 3 BRIGHT A_Explode 
+      ELEE C 3 BRIGHT
+      ELEE D 3 BRIGHT
       ELEE E 3 BRIGHT
       ELEE F 3 BRIGHT
-      ELEE G 3 BRIGHT
-      ELEE H 3 BRIGHT
-      ELEE I 3 BRIGHT
-      ELEE J 3 BRIGHT
+      ELEE GGG 1 BRIGHT A_FadeOut(0.05)
+      ELEE HHH 1 BRIGHT A_FadeOut(0.05)
+      ELEE III 1 BRIGHT A_FadeOut(0.05)
+      ELEE JJJ 1 BRIGHT A_FadeOut(0.1)
       Stop
     }
   }
