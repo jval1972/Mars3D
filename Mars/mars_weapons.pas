@@ -63,6 +63,8 @@ procedure A_BoomerangDisk(actor: Pmobj_t);
 
 procedure A_ThowBoomerangDisk(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_FireRocketMissile(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -613,8 +615,28 @@ begin
   speed := mobjinfo[MT_DISKMISSILE].speed;
 
   th.momx := FixedMul(speed, finecosine[ang]);
-  th.momy := FixedMul(speed, finesine[ang]);  
+  th.momy := FixedMul(speed, finesine[ang]);
 end;
 
+
+var
+  MT_ROCKETMISSILE: integer = -2;
+
+procedure A_FireRocketMissile(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if MT_ROCKETMISSILE = -2 then
+    MT_ROCKETMISSILE := Info_GetMobjNumForName('MT_ROCKETMISSILE');
+
+  if MT_ROCKETMISSILE < 0 then
+    Exit;
+
+  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
+    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+
+  P_SetPsprite(player,
+    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+
+  P_SpawnPlayerMissile(player.mo, MT_ROCKETMISSILE);
+end;
 
 end.
