@@ -1070,6 +1070,7 @@ begin
     D_AddFile(marsmad);
     mars_crc32 := strupper(W_WadFastCrc32(marsmad));
     marsdirectory := fpath(marsmad);
+    D_AddFile(GAME_CNV_FILE); // Must be called after setting the marsdirectory variable
   end
   else
   begin

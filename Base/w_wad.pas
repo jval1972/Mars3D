@@ -221,10 +221,13 @@ const
   MAD1 = 'CD&MMM';
   MAD2 = 'WORLD&ART&DIRECTORY';
 
+  GAME_CNV_FILE = '::MARS_DATA.WAD';
+
 implementation
 
 uses
   i_system,
+  mars_xlat_wad,
   w_pak,
   z_zone;
 
@@ -318,16 +321,6 @@ begin
     result[i] := #0;
 end;
 
-function filelength(handle: TCachedFile): integer;
-begin
-  try
-    result := handle.Size;
-  except
-    result := 0;
-    I_Error('filelength(): Error fstating');
-  end;
-end;
-
 procedure ExtractFileBase(const path: string; var dest: string);
 var
   i: integer;
@@ -393,13 +386,13 @@ var
   lump_p: Plumpinfo_t;
   i: integer;
   j: integer;
-  handle: TCachedFile;
+  handle: TDStream;
   len: integer;
   startlump: integer;
   fileinfo: Pfilelump_tArray;
   pfi: Pfilelump_t;
   singleinfo: filelump_t;
-  storehandle: TCachedFile;
+  storehandle: TDStream;
   ext: string;
   iswad: boolean;
   c: char;
@@ -415,19 +408,29 @@ begin
   else
     reloadname := '';
 
-  if not fexists(filename) then
+  if filename = GAME_CNV_FILE then
   begin
-    I_Warning('W_AddFile(): File %s does not exist'#13#10, [filename]);
-    result := nil;
-    exit;
-  end;
+    handle := TDMemoryStream.Create;
+    Mars2Stream_Game(handle);
+    Mars2Wad_Game('mars_data.wad');
+    handle.Seek(0, sFromBeginning);
+  end
+  else
+  begin
+    if not fexists(filename) then
+    begin
+      I_Warning('W_AddFile(): File %s does not exist'#13#10, [filename]);
+      result := nil;
+      exit;
+    end;
 
-  try
-    handle := TCachedFile.Create(filename, fOpenReadOnly);
-  except
-    I_Warning('W_AddFile(): couldn''t open %s'#13#10, [filename]);
-    result := nil;
-    exit;
+    try
+      handle := TCachedFile.Create(filename, fOpenReadOnly);
+    except
+      I_Warning('W_AddFile(): couldn''t open %s'#13#10, [filename]);
+      result := nil;
+      exit;
+    end;
   end;
 
   result := handle;
@@ -483,10 +486,13 @@ begin
     len := 0;
     fileinfo := @singleinfo;
     singleinfo.filepos := 0;
-    singleinfo.size := filelength(handle);
+    singleinfo.size := handle.Size;
     ExtractFileBase8(filename, singleinfo.name);
     inc(numlumps);
-    printf(' adding %s'#13#10, [filename]);
+    if filename = GAME_CNV_FILE then
+      printf(' adding MARS data files'#13#10, [filename])
+    else
+      printf(' adding %s'#13#10, [filename]);
   end
   else
   begin

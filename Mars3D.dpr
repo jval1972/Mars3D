@@ -401,7 +401,11 @@ uses
   mars_weapons in 'Mars\mars_weapons.pas',
   mars_map_extra in 'Mars\mars_map_extra.pas',
   mars_sounds in 'Mars\mars_sounds.pas',
-  mars_xlat_wad in 'Mars\mars_xlat_wad.pas';
+  mars_xlat_wad in 'Mars\mars_xlat_wad.pas',
+  mars_bitmap in 'Mars\mars_bitmap.pas',
+  mars_palette in 'Mars\mars_palette.pas',
+  mars_patch in 'Mars\mars_patch.pas',
+  mars_font in 'Mars\mars_font.pas';
 
 var
   Saved8087CW: Word;
