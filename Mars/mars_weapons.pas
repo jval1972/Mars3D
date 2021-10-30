@@ -67,10 +67,12 @@ uses
   d_delphi,
   doomdef,
   d_items,
+  g_game,
   info_h,
   info,
   info_common,
   info_rnd,
+  mars_map_extra,
   m_fixed,
   m_rnd,
   tables,
@@ -396,32 +398,30 @@ var
 const
   BOOMERANGDISK_RANGE = 64 * FRACUNIT;
   BOOMERANGDISK_DAMAGE = 1;
+  BOOMERANGDISK_TIMEOUT = 3 * TICRATE;
 
 function PIT_BoomerangDisk(thing: Pmobj_t): boolean;
 var
   p: Pplayer_t;
-  dx: fixed_t;
-  dy: fixed_t;
   dist: fixed_t;
+  dist2: fixed_t;
+  damage: integer;
 begin
   p := thing.player;
   if p <> nil then
   begin
-    P_DamageMobj(bdisk, bdisk, bdisk, 10000);
     if p.ammo[Ord(am_disk)] < p.maxammo[Ord(am_disk)] then
+    begin
       p.ammo[Ord(am_disk)] := p.ammo[Ord(am_disk)] + 1;
+      P_RemoveMobj(bdisk);
+    end;
     result := false;  // Stop
     exit;
   end;
 
-  dx := abs(thing.x - bdisk.x);
-  dy := abs(thing.y - bdisk.y);
+  dist := P_AproxDistance(thing.x - bdisk.x, thing.y - bdisk.y);
 
-  if dx > dy then
-    dist := dx
-  else
-    dist := dy;
-  dist := FixedInt(dist - thing.radius);
+  dist := dist - thing.radius;
 
   if dist < 0 then
     dist := 0;
@@ -432,29 +432,33 @@ begin
     exit;
   end;
 
-  if bdisk.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
-    if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
-    begin
-      result := true;
-      exit;
-    end;
+  if thing.flags and MF_SHOOTABLE <> 0 then
+  begin
+    damage := BOOMERANGDISK_DAMAGE;
 
-  if bdisk.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
-    if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
-    begin
-      result := true;
-      exit;
-    end;
+    if bdisk.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
+        damage := 0;
 
-  if bdisk.flags4_ex and MF4_EX_SHOCKGUNDAMAGE <> 0 then
-    if thing.flags4_ex and MF4_EX_NOSHOCKGUNDAMAGE <> 0 then
-    begin
-      result := true;
-      exit;
-    end;
+    if bdisk.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
+        damage := 0;
 
-  if P_CheckSight(thing, bdisk) then
-    P_DamageMobj(thing, bdisk, bdisk, BOOMERANGDISK_DAMAGE);
+    if bdisk.flags4_ex and MF4_EX_SHOCKGUNDAMAGE <> 0 then
+      if thing.flags4_ex and MF4_EX_NOSHOCKGUNDAMAGE <> 0 then
+        damage := 0;
+
+    if damage > 0 then
+      if P_CheckSight(thing, bdisk) then
+        P_DamageMobj(thing, bdisk, bdisk, damage);
+  end;
+
+  if dist <= bdisk.radius + thing.radius then
+  begin
+    dist2 := P_AproxDistance(thing.x - bdisk.x - bdisk.momx, thing.y - bdisk.y - bdisk.momy);
+    if dist2 < dist then  // Disk is going towards thing
+      P_MobjBounceMobj(bdisk, thing);
+  end;
 
   result := true;
 end;
@@ -492,8 +496,47 @@ begin
       P_BlockThingsIterator(x, y, PIT_BoomerangDisk);
 end;
 
+function P_BoomerandDiskReturn(const mo: Pmobj_t; const p: Pplayer_t): boolean;
+var
+  ang, ang2: angle_t;
+  iang, iang2: integer;
+  newang: angle_t;
+  speed: fixed_t;
+begin
+  Result := False;
+
+  if p.mo = nil then
+    Exit;
+
+  ang := R_PointToAngle(mo.x - p.mo.x, mo.y - p.mo.y);
+  ang2 := mo.angle;
+
+  iang := ang div ANGLETOFINEUNIT;
+  iang2 := ang2 div ANGLETOFINEUNIT;
+
+  // Turn towads player
+  if Abs(iang - iang2) < ANG45 div ANGLETOFINEUNIT then
+  begin
+    if iang > iang2 then
+      newang := ang - ANG1
+    else
+      newang := ang + ANG1;
+
+    speed := FixedSqrt(FixedMul(mo.momx, mo.momx) + FixedMul(mo.momy, mo.momy));
+
+    mo.angle := newang;
+    newang := newang div ANGLETOFINEUNIT;
+
+    mo.momx := FixedMul(speed, finecosine[newang]);
+    mo.momy := FixedMul(speed, finesine[newang]);
+
+    Result := True;
+  end;
+end;
 
 procedure A_BoomerangDisk(actor: Pmobj_t);
+var
+  i: integer;
 begin
   if actor.momx or actor.momy or actor.momz = 0 then
   begin
@@ -501,7 +544,18 @@ begin
     exit;
   end;
 
+  actor.flags := actor.flags and not MF_SPECIAL;
+
   P_BoomerangDisk(actor);
+
+  if actor.health <= 0 then
+    exit;
+
+  if leveltime - actor.spawntime > BOOMERANGDISK_TIMEOUT then
+    for i := 0 to MAXPLAYERS - 1 do
+      if playeringame[i] then
+        if P_BoomerandDiskReturn(actor, @players[i]) then
+          Break;
 end;
 
 end.
