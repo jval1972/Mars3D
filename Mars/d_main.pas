@@ -1065,6 +1065,7 @@ begin
   begin
     D_AddFile(marsmad);
     mars_crc32 := strupper(W_WadFastCrc32(marsmad));
+    marsdirectory := fpath(marsmad);
   end
   else
   begin
