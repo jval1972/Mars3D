@@ -750,3 +750,49 @@ WEAPON WP_MISSILE
     }
   }
 }
+
+
+///////////////////////////////
+// MT_TRACKINGROCKETMISSILE
+///////////////////////////////
+ACTOR "MT_TRACKINGROCKETMISSILE"
+{
+  Health 1000
+  Width 12
+  Height 12
+  Speed 1572864
+  Damage 25
+  Mass 100
+  Reactiontime 8
+  Seesound GUN8SHT
+  Deathsound BAREXP
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  States
+  {
+    Spawn:
+    {
+      DEVS A 3 BRIGHT
+      DEVS B 3 BRIGHT A_Tracer
+      Loop
+    }
+    Death:
+    {
+      TNT1 A 0 A_SetTranslucent(0.7)
+      DEVE A 6 A_Explode BRIGHT
+      DEVE B 4 BRIGHT
+      DEVE C 3 BRIGHT
+      DEVE D 3 BRIGHT
+      DEVE E 3 BRIGHT
+      DEVE F 3 BRIGHT
+      DEVE G 3 BRIGHT
+      DEVE H 3 BRIGHT
+      DEVE III 1 BRIGHT A_FadeOut(0.05)
+      DEVE JJJJJJJJJ 1 BRIGHT A_FadeOut(0.05)
+      Stop
+    }
+  }
+}
+
