@@ -140,7 +140,6 @@ uses
   d_notifications,
   c_con,
   c_cmds,
-  d_check,
   e_endoom,
 {$IFNDEF OPENGL}
   f_wipe,
@@ -1255,6 +1254,7 @@ end;
 procedure D_AddWADFiles(const parm: string);
 var
   p: integer;
+  fn: string;
 begin
   p := M_CheckParm(parm);
   if p <> 0 then
@@ -1265,7 +1265,12 @@ begin
     inc(p);
     while (p < myargc) and (myargv[p][1] <> '-') do
     begin
-      D_AddFile(D_FileInDoomPath(myargv[p]));
+      fn := D_FileInDoomPath(myargv[p]);
+      if fexists(fn) then
+      begin
+        D_AddFile(fn);
+        MARS_CheckUnknownWad(fn);
+      end;
       inc(p);
     end;
   end;
@@ -2265,7 +2270,7 @@ begin
   p := M_CheckParm('-loadgame');
   if (p <> 0) and (p < myargc - 1) then
   begin
-    sprintf(filename, M_SaveFileName(D_GetSavePath + SAVEGAMENAME) + '%s.dsg', [myargv[p + 1][1]]);
+    sprintf(filename, M_SaveFileName(MARS_GetSavePath + SAVEGAMENAME) + '%s.dsg', [myargv[p + 1][1]]);
     G_LoadGame(filename);
   end;
 

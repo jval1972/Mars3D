@@ -280,7 +280,6 @@ implementation
 
 uses
   c_cmds,
-  d_check,
   z_zone,
   doomstat,
   doomdata,
@@ -292,6 +291,7 @@ uses
   info_h,
   info,
   info_rnd,
+  mars_version,
   m_rnd,
   i_system,
   i_io,
@@ -1622,7 +1622,7 @@ begin
   begin
     if name = itoa(i) then
     begin
-      sprintf(result, D_GetSavePath + SAVEGAMENAME + '%s.dsg', [name]);
+      sprintf(result, MARS_GetSavePath + SAVEGAMENAME + '%s.dsg', [name]);
       exit;
     end;
   end;
@@ -1924,7 +1924,7 @@ begin
     name := savename
   else
   begin
-    sprintf(name, M_SaveFileName(D_GetSavePath + SAVEGAMENAME) + '%d.dsg', [savegameslot]);
+    sprintf(name, M_SaveFileName(MARS_GetSavePath + SAVEGAMENAME) + '%d.dsg', [savegameslot]);
   end;
 
   G_DoSaveGameInFile(name);

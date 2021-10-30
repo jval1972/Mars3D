@@ -254,7 +254,6 @@ uses
   p_adjust in 'Base\p_adjust.pas',
   w_autoload in 'Base\w_autoload.pas',
   p_common in 'Base\p_common.pas',
-  d_check in 'Mars\d_check.pas',
   r_aspect in 'Base\r_aspect.pas',
   i_threads in 'Base\i_threads.pas',
   r_colormaps in 'Base\r_colormaps.pas',
@@ -372,7 +371,9 @@ uses
   xmi_core in 'XMILIB\xmi_core.pas' {XMICore},
   xmi_iff in 'XMILIB\xmi_iff.pas',
   xmi_lib in 'XMILIB\xmi_lib.pas',
-  mars_files in 'Mars\mars_files.pas';
+  mars_files in 'Mars\mars_files.pas',
+  mars_version in 'Mars\mars_version.pas',
+  mars_weapons in 'Mars\mars_weapons.pas';
 
 var
   Saved8087CW: Word;

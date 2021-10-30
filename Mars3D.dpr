@@ -260,7 +260,6 @@ uses
   sc_tokens in 'Base\sc_tokens.pas',
   sc_states in 'Base\sc_states.pas',
   p_common in 'Base\p_common.pas',
-  d_check in 'Mars\d_check.pas',
   r_precalc in 'Base\r_precalc.pas',
   r_wall32 in 'Base\r_wall32.pas',
   r_wall8 in 'Base\r_wall8.pas',
