@@ -394,7 +394,9 @@ uses
   BTMemoryModule in 'Base\BTMemoryModule.pas',
   s_externalmusic in 'Base\s_externalmusic.pas',
   info_export in 'Base\info_export.pas',
-  mars_info in 'Mars\mars_info.pas';
+  mars_info in 'Mars\mars_info.pas',
+  mars_weapons in 'Mars\mars_weapons.pas',
+  mars_map_extra in 'Mars\mars_map_extra.pas';
 
 exports
   dd_compile_doom,

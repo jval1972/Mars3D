@@ -115,11 +115,12 @@ uses
   d_player,
   d_think,
   d_main,
-  m_vectors,
   g_game,
   i_system,
   z_zone,
+  mars_map_extra,
   m_rnd,
+  m_vectors,
   doomdef,
   p_gravity,
   p_local,
@@ -241,20 +242,6 @@ begin
   mo.flags := mo.flags and not MF_MISSILE;
 
   A_DeathSound(mo, mo);
-end;
-
-procedure P_WallBounceMobj(const mo: Pmobj_t; const line: Pline_t);
-var
-  d, wall, reflect: vec2_t;
-begin
-  d[0] := mo.momx / FRACUNIT;
-  d[1] := mo.momy / FRACUNIT;
-  wall[0] := line.dx / FRACUNIT;
-  wall[1] := line.dy / FRACUNIT;
-  CalculateReflect2(d, wall, reflect);
-  mo.momx := Round(reflect[0] * FRACUNIT);
-  mo.momy := Round(reflect[1] * FRACUNIT);
-  mo.angle := R_PointToAngle(mo.momx, mo.momy);
 end;
 
 //
