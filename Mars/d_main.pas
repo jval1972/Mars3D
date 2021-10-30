@@ -961,11 +961,7 @@ begin
         tmp := tmp + additionalwadpaths[i];
     end;
     if tmp <> '' then
-    begin
-      if not (tmp[Length(tmp) in ['\', '/']) then
-        tmp := tmp + '\';
-      paths.Add(fixslashpath(tmp));
-    end;
+      paths.Add(tmp);
   end;
 
   if searchsteampaths then
@@ -999,13 +995,16 @@ begin
   for i := 0 to paths.Count - 1 do
   begin
     tmp := fixslashpath(paths.Strings[i]);
-    if tmp[length(tmp)] <> '\' then
-      tmp := tmp + '\';
-    if fexists(tmp + result) then
+    if tmp <> '' then
     begin
-      result := tmp + result;
-      paths.free;
-      exit;
+      if tmp[length(tmp)] <> '\' then
+        tmp := tmp + '\';
+      if fexists(tmp + result) then
+      begin
+        result := tmp + result;
+        paths.free;
+        exit;
+      end;
     end;
   end;
   result := fn;
