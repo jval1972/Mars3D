@@ -50,6 +50,7 @@ function MARS_FindFile(const fn: string): string;
 var
   fn1: string;
   dir: string;
+  i: integer;
 begin
   Result := fn;
   if fexists(Result) then
@@ -73,6 +74,16 @@ begin
     Result := dir + 'INSTALL\' + fn1;
     if fexists(Result) then
       Exit;
+
+    // Parent directory
+    for i := Length(dir) downto 3 do
+      if dir[i] in in ['\', '/'] then
+      begin
+        SetLength(dir, i);
+        Result := dir + fn1;
+        if fexists(Result) then
+          Exit;
+      end;
   end;
   Result := fn;
 end;
