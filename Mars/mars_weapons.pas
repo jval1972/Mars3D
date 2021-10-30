@@ -400,7 +400,7 @@ var
 const
   BOOMERANGDISK_RANGE = 64 * FRACUNIT;
   BOOMERANGDISK_DAMAGE = 1;
-  BOOMERANGDISK_TIMEOUT = 3 * TICRATE;
+  BOOMERANGDISK_TIMEOUT = TICRATE;
 
 function PIT_BoomerangDisk(thing: Pmobj_t): boolean;
 var
