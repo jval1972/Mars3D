@@ -80,7 +80,7 @@ begin
 
     // Parent directory
     for i := Length(dir) downto 3 do
-      if dir[i] in in ['\', '/'] then
+      if dir[i] in ['\', '/'] then
       begin
         SetLength(dir, i);
         Result := dir + fn1;

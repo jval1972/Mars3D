@@ -180,6 +180,7 @@ uses
   ps_main,
   psi_overlay,
   mars_version,
+  mars_files,
   r_draw,
   r_main,
   r_hires,
