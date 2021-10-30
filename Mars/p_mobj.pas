@@ -300,7 +300,8 @@ begin
   ymove := mo.momy;
 
   repeat
-    if (xmove > MAXMOVE div 2) or (ymove > MAXMOVE div 2) then
+    if (xmove > MAXMOVE div 2) or (ymove > MAXMOVE div 2) or
+       (xmove < -MAXMOVE div 2) or (ymove < -MAXMOVE div 2) then
     begin
     // JVAL 20180107
     // Please do not change, the div and the _SHR1, problem with demo compatibility..
@@ -348,6 +349,8 @@ begin
       else if (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) and (tmbounceline <> nil) then
       begin
         P_WallBounceMobj(mo, tmbounceline);
+        xmove := 0;
+        ymove := 0;
 {        mo.momx := mo.momx div 8;
         mo.momy := mo.momy div 8;
 
@@ -739,7 +742,7 @@ end;
 //
 // P_MobjThinker
 //
-procedure P_MobjThinker(mobj: Pmobj_t);
+procedure P_DoMobjThinker(mobj: Pmobj_t);
 var
   onmo: Pmobj_t;
 begin
@@ -842,6 +845,31 @@ begin
 
     P_NightmareRespawn(mobj);
   end;
+end;
+
+procedure P_MobjThinker(mobj: Pmobj_t);
+begin
+  // JVAL: 20200507 - Actual (real) velocity
+  mobj.velx := mobj.x - mobj.oldx;
+  mobj.vely := mobj.y - mobj.oldy;
+  mobj.velz := mobj.z - mobj.oldz;
+
+  // JVAL: 20200503 - Caclulate velocity
+  mobj.velocityxy := P_AproxDistance(mobj.velx, mobj.vely);
+  mobj.velocity := P_AproxDistance(mobj.velocityxy, mobj.velz);
+
+  // JVAL: 20200503 - Keep previous tic position
+  mobj.oldx := mobj.x;
+  mobj.oldy := mobj.y;
+  mobj.oldz := mobj.z;
+
+  // JVAL: Clear just spawned flag
+  mobj.flags := mobj.flags and not MF_JUSTAPPEARED;
+
+  P_DoMobjThinker(mobj);
+
+  if not Assigned(mobj.thinker._function.acv) then
+    exit; // mobj was removed
 end;
 
 //

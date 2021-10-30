@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 367;
+  DEHNUMACTIONS = 368;
 
 type
   deh_action_t = record
@@ -3212,6 +3212,9 @@ begin
   deh_actions[366].action.acp1 := @A_BoomerangDisk;
   deh_actions[366].originalname := strupper('BoomerangDisk');
   {$IFDEF DLL}deh_actions[366].decl := 'A_BoomerangDisk()';{$ENDIF}
+  deh_actions[367].action.acp1 := @A_ThowBoomerangDisk;
+  deh_actions[367].originalname := strupper('ThowBoomerangDisk');
+  {$IFDEF DLL}deh_actions[367].decl := 'A_ThowBoomerangDisk()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin

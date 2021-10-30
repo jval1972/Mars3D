@@ -61,6 +61,8 @@ procedure A_ThowGrenade(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_BoomerangDisk(actor: Pmobj_t);
 
+procedure A_ThowBoomerangDisk(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -407,17 +409,24 @@ var
   dist2: fixed_t;
   damage: integer;
 begin
-  p := thing.player;
-  if p <> nil then
+  if thing = bdisk then
   begin
-    if p.ammo[Ord(am_disk)] < p.maxammo[Ord(am_disk)] then
-    begin
-      p.ammo[Ord(am_disk)] := p.ammo[Ord(am_disk)] + 1;
-      P_RemoveMobj(bdisk);
-    end;
-    result := false;  // Stop
+    result := true;
     exit;
   end;
+  
+  p := thing.player;
+  if p <> nil then
+    if leveltime - bdisk.spawntime > BOOMERANGDISK_TIMEOUT then
+    begin
+      if p.ammo[Ord(am_disk)] < p.maxammo[Ord(am_disk)] then
+      begin
+        p.ammo[Ord(am_disk)] := p.ammo[Ord(am_disk)] + 1;
+        P_RemoveMobj(bdisk);
+        result := false;  // Stop
+        exit;
+      end;
+    end;
 
   dist := P_AproxDistance(thing.x - bdisk.x, thing.y - bdisk.y);
 
@@ -432,7 +441,7 @@ begin
     exit;
   end;
 
-  if thing.flags and MF_SHOOTABLE <> 0 then
+  if (thing.flags and MF_SHOOTABLE <> 0) and (p = nil) then
   begin
     damage := BOOMERANGDISK_DAMAGE;
 
@@ -498,8 +507,8 @@ end;
 
 function P_BoomerandDiskReturn(const mo: Pmobj_t; const p: Pplayer_t): boolean;
 var
-  ang, ang2: angle_t;
-  iang, iang2: integer;
+  targetang, diskang: angle_t;
+  itargetang, idiskang: integer;
   newang: angle_t;
   speed: fixed_t;
 begin
@@ -508,19 +517,30 @@ begin
   if p.mo = nil then
     Exit;
 
-  ang := R_PointToAngle(mo.x - p.mo.x, mo.y - p.mo.y);
-  ang2 := mo.angle;
+  targetang := R_PointToAngle2(mo.x, mo.y, p.mo.x, p.mo.y);
+  diskang := mo.angle;
 
-  iang := ang div ANGLETOFINEUNIT;
-  iang2 := ang2 div ANGLETOFINEUNIT;
+  itargetang := targetang div ANGLETOFINEUNIT;
+  idiskang := diskang div ANGLETOFINEUNIT;
 
   // Turn towads player
-  if Abs(iang - iang2) < ANG45 div ANGLETOFINEUNIT then
+  if (Abs(itargetang - idiskang) < ANG45 div ANGLETOFINEUNIT) or
+    (Abs(itargetang - idiskang) > ANG315 div ANGLETOFINEUNIT) then
   begin
-    if iang > iang2 then
-      newang := ang - ANG1
+    if Abs(itargetang - idiskang) < ANG45 div ANGLETOFINEUNIT then
+    begin
+      if itargetang > idiskang then
+        newang := diskang + ANG1
+      else
+        newang := diskang - ANG1;
+    end
     else
-      newang := ang + ANG1;
+    begin
+      if itargetang > idiskang then
+        newang := diskang - ANG1
+      else
+        newang := diskang + ANG1;
+    end;
 
     speed := FixedSqrt(FixedMul(mo.momx, mo.momx) + FixedMul(mo.momy, mo.momy));
 
@@ -538,13 +558,13 @@ procedure A_BoomerangDisk(actor: Pmobj_t);
 var
   i: integer;
 begin
-  if actor.momx or actor.momy or actor.momz = 0 then
+  if actor.velocityxy < FRACUNIT then
   begin
     actor.flags := actor.flags or MF_SPECIAL;
+    actor.flags := actor.flags and not MF_NOGRAVITY;
+    actor.flags3_ex := actor.flags3_ex and not MF3_EX_THRUACTORS;
     exit;
   end;
-
-  actor.flags := actor.flags and not MF_SPECIAL;
 
   P_BoomerangDisk(actor);
 
@@ -557,5 +577,45 @@ begin
         if P_BoomerandDiskReturn(actor, @players[i]) then
           Break;
 end;
+
+var
+  MT_DISKMISSILE: integer = -2;
+
+procedure A_ThowBoomerangDisk(player: Pplayer_t; psp: Ppspdef_t);
+var
+  x, y, z: fixed_t;
+  dist: fixed_t;
+  ang: angle_t;
+  th: Pmobj_t;
+  speed: fixed_t;
+begin
+  if MT_DISKMISSILE = -2 then
+    MT_DISKMISSILE := Info_GetMobjNumForName('MT_DISKMISSILE');
+
+  if MT_DISKMISSILE < 0 then
+    Exit;
+
+  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
+    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+
+  dist := player.mo.info.radius + mobjinfo[MT_DISKMISSILE].radius + 4 * FRACUNIT;
+  ang := player.mo.angle div ANGLETOFINEUNIT;
+  x := player.mo.x + FixedMul(dist, finecosine[ang]);
+  y := player.mo.y + FixedMul(dist, finesine[ang]);
+  z := player.mo.z + PVIEWHEIGHT;
+
+  th := P_SpawnMobj(x, y, z, MT_DISKMISSILE);
+
+  S_StartSound(th, mobjinfo[MT_DISKMISSILE].seesound);
+
+  th.angle := player.mo.angle + (((P_Random - P_Random) * ANG5) div 256);
+
+  speed := mobjinfo[MT_DISKMISSILE].speed;
+
+  th.momx := FixedMul(speed, finecosine[ang]);
+  th.momy := FixedMul(speed, finesine[ang]);
+  
+end;
+
 
 end.

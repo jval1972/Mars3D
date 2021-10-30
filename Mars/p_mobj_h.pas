@@ -452,6 +452,19 @@ type
     momy: fixed_t;
     momz: fixed_t;
 
+    // JVAL: 20200503 - previous tic position
+    oldx: fixed_t;
+    oldy: fixed_t;
+    oldz: fixed_t;
+
+    // JVAL: 20200507 - Actual (real) velocity
+    velx: fixed_t;
+    vely: fixed_t;
+    velz: fixed_t;
+
+    velocityxy: fixed_t;  // JVAL: 20200503 - actual velocity in XY axis
+    velocity: fixed_t;  // JVAL: 20200503 - actual velocity
+
     // If == validcount, already checked.
     validcount: integer;
 

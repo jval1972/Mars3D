@@ -539,7 +539,7 @@ begin
       exit;
     player._message := GOTGRENADES;
   end
-  else if s_spr = 'CDR1' then // Boomerang disk
+  else if (s_spr = 'CDR1') or (s_spr = 'CDCS') then // Boomerang disk
   begin
     if not P_GiveAmmo(player, am_disk, 1) then
       exit;
