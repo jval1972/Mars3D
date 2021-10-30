@@ -754,3 +754,57 @@ object MT_FLAMEGUNMISSILE
     frame FLAEJ { light FLAMEGUNMISSILE_SHOT_EHIJ }
     frame FLAEK { light FLAMEGUNMISSILE_SHOT_EK   }
 }
+
+
+// MT_GRENADEMISSILE
+flickerlight GRENADEMISSILE_SHOT_AF
+{
+    color 1.0 1.0 0.4
+    size 80
+    secondarySize 88
+    chance 0.5
+}
+
+flickerlight GRENADEMISSILE_SHOT_BDE
+{
+    color 1.0 1.0 0.4
+    size 96
+    secondarySize 104
+    chance 0.5
+}
+
+flickerlight GRENADEMISSILE_SHOT_C
+{
+    color 1.0 1.0 0.5
+    size 112
+    secondarySize 128
+    chance 0.5
+}
+
+flickerlight GRENADEMISSILE_SHOT_G
+{
+    color 0.8 0.5 0.2
+    size 56
+    secondarySize 64
+    chance 0.5
+}
+
+flickerlight GRENADEMISSILE_SHOT_H
+{
+    color 0.8 0.5 0.2
+    size 40
+    secondarySize 48
+    chance 0.5
+}
+
+object MT_GRENADEMISSILE
+{
+    frame BOMEA { light GRENADEMISSILE_SHOT_AF  }
+    frame BOMEB { light GRENADEMISSILE_SHOT_BDE }
+    frame BOMEC { light GRENADEMISSILE_SHOT_C   }
+    frame BOMED { light GRENADEMISSILE_SHOT_BDE }
+    frame BOMEE { light GRENADEMISSILE_SHOT_BDE }
+    frame BOMEF { light GRENADEMISSILE_SHOT_AF  }
+    frame BOMEG { light GRENADEMISSILE_SHOT_G   }
+    frame BOMEH { light GRENADEMISSILE_SHOT_H   }
+}
