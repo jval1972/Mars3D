@@ -65,6 +65,8 @@ procedure A_ThowBoomerangDisk(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_FireRocketMissile(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_FireTrackingMissile(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -682,6 +684,27 @@ begin
     Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
 
   P_SpawnPlayerMissile(player.mo, MT_ROCKETMISSILE);
+end;
+
+
+var
+  MT_TRACKINGROCKETMISSILE: integer = -2;
+
+procedure A_FireTrackingMissile(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if MT_TRACKINGROCKETMISSILE = -2 then
+    MT_TRACKINGROCKETMISSILE := Info_GetMobjNumForName('MT_TRACKINGROCKETMISSILE');
+
+  if MT_TRACKINGROCKETMISSILE < 0 then
+    Exit;
+
+  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
+    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+
+  P_SetPsprite(player,
+    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+
+  P_SpawnPlayerMissile(player.mo, MT_TRACKINGROCKETMISSILE);
 end;
 
 end.

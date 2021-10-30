@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 369;
+  DEHNUMACTIONS = 370;
 
 type
   deh_action_t = record
@@ -3218,6 +3218,9 @@ begin
   deh_actions[368].action.acp1 := @A_FireRocketMissile;
   deh_actions[368].originalname := strupper('FireRocketMissile');
   {$IFDEF DLL}deh_actions[368].decl := 'A_FireRocketMissile()';{$ENDIF}
+  deh_actions[369].action.acp1 := @A_FireTrackingMissile;
+  deh_actions[369].originalname := strupper('FireTrackingMissile');
+  {$IFDEF DLL}deh_actions[369].decl := 'A_FireTrackingMissile()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin
