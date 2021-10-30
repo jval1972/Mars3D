@@ -243,6 +243,20 @@ begin
   A_DeathSound(mo, mo);
 end;
 
+procedure P_WallBounceMobj(const mo: Pmobj_t; const line: Pline_t);
+var
+  d, wall, reflect: vec2_t;
+begin
+  d[0] := mo.momx / FRACUNIT;
+  d[1] := mo.momy / FRACUNIT;
+  wall[0] := line.dx / FRACUNIT;
+  wall[1] := line.dy / FRACUNIT;
+  CalculateReflect2(d, wall, reflect);
+  mo.momx := Round(reflect[0] * FRACUNIT);
+  mo.momy := Round(reflect[1] * FRACUNIT);
+  mo.angle := R_PointToAngle(mo.momx, mo.momy);
+end;
+
 //
 // P_XYMovement
 //
@@ -344,9 +358,10 @@ begin
         P_SlideMove(mo); // try to slide along it
       end
       // JVAL: 20200308 - Bounce on walls
-      else if mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0 then
+      else if (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) and (tmbounceline <> nil) then
       begin
-        mo.momx := mo.momx div 8;
+        P_WallBounceMobj(mo, tmbounceline);
+{        mo.momx := mo.momx div 8;
         mo.momy := mo.momy div 8;
 
         if P_TryMove(mo, mo.x - xmove, ymove + mo.y) then
@@ -355,7 +370,7 @@ begin
           mo.momx := -mo.momx;
 
         xmove := 0;
-        ymove := 0;
+        ymove := 0;  }
       end
       else if mo.flags and MF_MISSILE <> 0 then
       begin
