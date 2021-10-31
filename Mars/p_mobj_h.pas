@@ -409,6 +409,8 @@ const
   MF4_EX_NOSHOCKGUNDAMAGE = 4;
   // Actor is hurt less by shockgun missile
   MF4_EX_SHOCKGUNDAMAGERESIST = 8;
+  // No monster collision
+  MF4_EX_THRUMONSTERS = $10;
 
 type
 // Map Object definition.
