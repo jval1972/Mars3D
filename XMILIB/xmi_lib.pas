@@ -12,6 +12,7 @@ function XMI_OpenMusicFile(const fname: string): Boolean;
 function XMI_GetNumTracks: Integer;
 function XMI_ConvertTrackToFile(const trNo: integer; const fname: string): Boolean;
 function XMI_ConvertTrackToMemory(const trNo: integer; const typ: string; var p: pointer; var sz: integer): Boolean;
+function XMI_FreeMem(var p: pointer; var sz: integer): Boolean;
 function XMI_PlayTrack(const trNo: integer): Boolean;
 procedure XMI_StopPlayback;
 
@@ -124,6 +125,12 @@ begin
 
   XMICore.ChkButtons;
   Result := XMICore.SaveFileToPointer('tmp.' + typ, p, sz);
+end;
+
+function XMI_FreeMem(var p: pointer; var sz: integer): Boolean;
+begin
+  FreeMem(p, sz);
+  p := nil;
 end;
 
 function XMI_PlayTrack(const trNo: integer): Boolean;
