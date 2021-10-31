@@ -180,7 +180,10 @@ begin
   if not result then
     exit;
 
+  pal := p;
   MARS_CreateTranslation(@def_pal, pal, @water_tr);
+
+  wadwriter.AddData('TR_WATER', @water_tr, 256);
 
   memfree(p, size);
 end;
