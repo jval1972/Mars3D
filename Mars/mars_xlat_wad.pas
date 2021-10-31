@@ -56,7 +56,8 @@ uses
   sc_engine,
   v_video,
   w_wadwriter,
-  w_wad;
+  w_wad,
+  xmi_lib;
 
 type
   TMarsToWADConverter = class(TObject)
@@ -515,7 +516,48 @@ begin
 end;
 
 function TMarsToWADConverter.GenerateMusic: boolean;
+var
+  xmifilename: string;
+
+  procedure _convert_music_track(const trNo: integer; const lumpname: string);
+  var
+    p: pointer;
+    sz: integer;
+  begin
+    XMI_Init;
+
+    if XMI_OpenMusicFile(xmifilename) then
+      if XMI_ConvertTrackToMemory(trNo, 'mid', p, sz) then
+      begin
+        wadwriter.AddData(lumpname, p, sz);
+        XMI_FreeMem(p, sz);
+      end;
+
+    XMI_ShutDown;
+  end;
+
 begin
+  xmifilename := MARS_FindFile('MARS.XMI');
+  if not fexists(xmifilename) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  wadwriter.AddSeparator('M_START');
+
+  _convert_music_track(0, 'D_INTRO');
+  _convert_music_track(1, 'D_E1M1');
+  _convert_music_track(2, 'D_E1M2');
+  _convert_music_track(3, 'D_E1M3');
+  _convert_music_track(4, 'D_E1M4');
+  _convert_music_track(5, 'D_E1M5');
+  _convert_music_track(6, 'D_E1M6');
+  _convert_music_track(7, 'D_E1M7');
+
+  wadwriter.AddSeparator('M_END');
+
+  result := true; 
 end;
 
 function TMarsToWADConverter.GenerateSounds: boolean;
@@ -523,6 +565,7 @@ var
   i: integer;
   sndfilename: string;
 begin
+  result := false;
   for i := 0 to Ord(NUM_MARS_SOUNDS) - 1 do
   begin
     sndfilename := MARS_FindFile(marssounds[i].name + '.WAV');
@@ -530,6 +573,7 @@ begin
     begin
       marssounds[i].path := sndfilename;
       wadwriter.AddFile(marssounds[i].name, sndfilename);
+      result := true;
     end;
   end;
 end;
