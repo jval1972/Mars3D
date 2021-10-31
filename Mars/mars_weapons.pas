@@ -480,7 +480,11 @@ begin
   begin
     dist2 := P_AproxDistance(thing.x - bdisk.x - bdisk.momx, thing.y - bdisk.y - bdisk.momy);
     if dist2 < dist then  // Disk is going towards thing
+    begin
       P_MobjBounceMobj(bdisk, thing);
+      result := false;
+      exit;
+    end;
   end;
 
   result := true;
