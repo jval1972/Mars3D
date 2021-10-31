@@ -117,7 +117,7 @@ begin
   // turn to face target
   if linetarget <> nil then
   begin
-    S_StartSound(player.mo, 'FISTEXP');
+    S_StartSound(linetarget, 'FISTEXP');
     player.mo.angle :=
       R_PointToAngle2(player.mo.x, player.mo.y, linetarget.x, linetarget.y);
   end;
