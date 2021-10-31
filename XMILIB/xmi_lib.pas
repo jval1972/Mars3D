@@ -73,6 +73,12 @@ begin
 
   LoopEnabled := True;
   Idx := trNo;
+  if Idx >= XMICore.TrkCh.Items.Count then
+  begin
+    Result := False;
+    Exit;
+  end;
+
   XMICore.TrkCh.ItemIndex := Idx;
   XMICore.FillEvents(XMICore.TrkCh.ItemIndex);
   XMICore.ChkButtons;
