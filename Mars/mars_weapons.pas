@@ -561,31 +561,33 @@ begin
       end;
 
       speed := FixedSqrt(FixedMul(mo.momx, mo.momx) + FixedMul(mo.momy, mo.momy));
+      if speed >= FRACUNIT then
+      begin
+        mo.angle := newang;
+        newang := newang div ANGLETOFINEUNIT;
 
-      mo.angle := newang;
-      newang := newang div ANGLETOFINEUNIT;
+        mo.momx := FixedMul(speed, finecosine[newang]);
+        mo.momy := FixedMul(speed, finesine[newang]);
 
-      mo.momx := FixedMul(speed, finecosine[newang]);
-      mo.momy := FixedMul(speed, finesine[newang]);
+        // change slope
+        dist := P_AproxDistance(p.mo.x - mo.x, p.mo.y - mo.y);
 
-      // change slope
-      dist := P_AproxDistance(p.mo.x - mo.x, p.mo.y - mo.y);
+        dist := dist div speed;
 
-      dist := dist div speed;
+        if dist < 1 then
+          dist := 1;
+        if p.mo.height >= 56 * FRACUNIT then
+          slope := (p.mo.z + 40 * FRACUNIT - mo.z) div dist
+        else
+          slope := (p.mo.z + mo.height * 2 div 3 - mo.z) div dist;
 
-      if dist < 1 then
-        dist := 1;
-      if p.mo.height >= 56 * FRACUNIT then
-        slope := (p.mo.z + 40 * FRACUNIT - mo.z) div dist
-      else
-        slope := (p.mo.z + mo.height * 2 div 3 - mo.z) div dist;
+        if slope < mo.momz then
+          mo.momz := mo.momz - FRACUNIT div 8
+        else
+          mo.momz := mo.momz + FRACUNIT div 8;
 
-      if slope < mo.momz then
-        mo.momz := mo.momz - FRACUNIT div 8
-      else
-        mo.momz := mo.momz + FRACUNIT div 8;
-
-      Result := True;
+        Result := True;
+      end;
     end;
   end;
 end;
