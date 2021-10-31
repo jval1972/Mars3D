@@ -511,7 +511,7 @@ begin
     trn[i] := i;
   for i := 0 to 15 do
     trn[208 + i] := 128 + i;
-  wadwriter.AddData('TRN_MENU', @trn, 256);
+  wadwriter.AddData('TR_MENU', @trn, 256);
 end;
 
 function TMarsToWADConverter.GenerateMusic: boolean;
