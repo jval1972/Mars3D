@@ -139,6 +139,8 @@ type
     { Public declarations }
     function LoadFile(FileName, Fmt: string): boolean;
     function SaveFile(FileName: string): boolean;
+    function SaveFileToStream(FileName: string; M: TMemoryStream): boolean;
+    function SaveFileToPointer(FileName: string; var p: pointer; var sz: integer): boolean;
     function DetectFile(var F: TMemoryStream): string;
     function DetectMIDI(var F: TMemoryStream): boolean;
     function DetectRMI(var F: TMemoryStream): boolean;
@@ -12676,16 +12678,13 @@ begin
   Result := Opened;
 end;
 
-function TXMICore.SaveFile(FileName: string): boolean;
+function TXMICore.SaveFileToStream(FileName: string; M: TMemoryStream): boolean;
 var
-  Idx: integer;
   Ext: string;
-  M: TMemoryStream;
   TargetContainer, TargetEventFormat, TargetEventProfile: ansistring;
 begin
   Result := False;
   LogOutput('[*] Saving to ' + FileName + '...');
-  Idx := TrkCh.ItemIndex;
   Ext := LowerCase(ExtractFileExt(FileName));
   TargetContainer := '';
   TargetEventFormat := '';
@@ -12775,7 +12774,6 @@ begin
   if TargetEventProfile = '' then
     TargetEventProfile := EventProfile;
 
-  M := TMemoryStream.Create;
   if TargetContainer = 'smf' then
   begin
     if TargetEventProfile = 'mid' then
@@ -12863,6 +12861,19 @@ begin
     WriteSYX(M);
     Result := True;
   end;
+end;
+
+function TXMICore.SaveFile(FileName: string): boolean;
+var
+  Idx: integer;
+  M: TMemoryStream;
+begin
+  Idx := TrkCh.ItemIndex;
+
+  M := TMemoryStream.Create;
+
+  Result := SaveFileToStream(FileName, M);
+
   try
     if Result then
       M.SaveToFile(FileName);
@@ -12873,7 +12884,46 @@ begin
     LogOutput('[+] Saved.')
   else
     LogOutput('[-] Save failed.');
+
   M.Free;
+
+  RefTrackList;
+  TrkCh.ItemIndex := Idx;
+  if (TrkCh.Items.Count > 0) and (TrkCh.ItemIndex = -1) then
+    TrkCh.ItemIndex := 0;
+  FillEvents(TrkCh.ItemIndex);
+  ChkButtons;
+end;
+
+function TXMICore.SaveFileToPointer(FileName: string; var p: pointer; var sz: integer): boolean;
+var
+  Idx: integer;
+  M: TMemoryStream;
+begin
+  Idx := TrkCh.ItemIndex;
+
+  M := TMemoryStream.Create;
+
+  Result := SaveFileToStream(FileName, M);
+
+  try
+    if Result then
+    begin
+      sz := M.Size;
+      M.Position := 0;
+      GetMem(p, sz);
+      M.Read(p^, sz);
+    end;
+  except
+    Result := False;
+  end;
+  if Result then
+    LogOutput('[+] Saved.')
+  else
+    LogOutput('[-] Save failed.');
+
+  M.Free;
+
   RefTrackList;
   TrkCh.ItemIndex := Idx;
   if (TrkCh.Items.Count > 0) and (TrkCh.ItemIndex = -1) then
