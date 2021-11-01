@@ -131,6 +131,8 @@ var
   key_speed: integer;
 // JVAL Jump
   key_jump: integer;
+// JVAL: 20211101 - Crouch
+  key_crouch: integer;
 
 // JVAL 20191207 Key bindings for weapon change
   key_weapon0: integer = Ord('0');
@@ -159,6 +161,7 @@ var
   joybuse: integer;
   joybspeed: integer;
   joybjump: integer;
+  joybcrouch: integer;  // JVAL: 20211101 - Crouch
   joyblleft: integer;
   joyblright: integer;
 
@@ -245,6 +248,7 @@ var
   autorunmode: boolean = false;
   keepcheatsinplayerreborn: boolean = false;
   allowplayerjumps: boolean = true;
+  allowplayercrouch: boolean = true;
   majorbossdeathendsdoom1level: boolean = false;
 
 var
@@ -736,6 +740,23 @@ begin
     else
       cmd.jump := 0;
     players[consoleplayer].oldjump := cmd.jump;
+    // JVAL: 20211101 - Crouch
+    // allowplayercrouch variable controls if we accept input for crouching
+    if cmd.jump = 0 then
+    begin
+      if allowplayercrouch and (gamekeydown[key_crouch] or (usejoystick and joybuttons[joybcrouch])) then
+      begin
+        if players[consoleplayer].oldcrouch <> 0 then
+          cmd.crouch := 2
+        else
+          cmd.crouch := 1
+        end
+      else
+        cmd.crouch := 0;
+    end
+    else
+      cmd.crouch := 0;
+    players[consoleplayer].oldcrouch := cmd.crouch;
   end;
 
   // special buttons
@@ -1176,6 +1197,8 @@ begin
     key_strafeleft := 44;
     key_straferight := 46;
     key_jump := 97;
+    // JVAL: 20211101 - Crouch
+    key_crouch := 122;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
@@ -1206,6 +1229,8 @@ begin
     key_strafeleft := 97;
     key_straferight := 100;
     key_jump := 101;
+    // JVAL: 20211101 - Crouch
+    key_crouch := 113;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
@@ -2266,6 +2291,7 @@ begin
     cmd.lookupdown16 := 0; // JVAL Smooth Look Up/Down
     cmd.lookleftright := 0;
     cmd.jump := 0;
+    cmd.crouch := 0; // JVAL: 20211101 - Crouch
   end
   else
   begin
@@ -2285,6 +2311,14 @@ begin
     demo_p := @demo_p[1];
     cmd.jump := demo_p[0];
     demo_p := @demo_p[1];
+    // JVAL: 20211101 - Crouch
+    if demoversion >= VERSION206 then
+    begin
+      cmd.crouch := demo_p[0];
+      demo_p := @demo_p[1];
+    end
+    else
+      cmd.crouch := 0;
   end;
 end;
 
@@ -2360,6 +2394,10 @@ begin
   demo_p := @demo_p[1];
 
   demo_p[0] := cmd.jump;
+  // JVAL: 20211101 - Crouch
+  demo_p := @demo_p[1];
+  // JVAL: 20211101 - Crouch
+  demo_p[0] := cmd.crouch;
 
   demo_p := demo_start;
 

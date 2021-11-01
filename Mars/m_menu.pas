@@ -1008,6 +1008,8 @@ type
     kb_strafeleft,
     kb_straferight,
     kb_jump,
+    // JVAL: 20211101 - Crouch
+    kb_crouch,
     kb_fire,
     kb_use,
     kb_strafe,
@@ -1051,6 +1053,8 @@ const
     (text: 'Strafe left'; pkey: @key_strafeleft),
     (text: 'Strafe right'; pkey: @key_straferight),
     (text: 'Jump'; pkey: @key_jump),
+    // JVAL: 20211101 - Crouch
+    (text: 'Crouch'; pkey: @key_crouch),
     (text: 'Fire'; pkey: @key_fire),
     (text: 'Use'; pkey: @key_use),
     (text: 'Strafe'; pkey: @key_strafe),
@@ -1680,6 +1684,8 @@ begin
     key_strafeleft := 44;
     key_straferight := 46;
     key_jump := 97;
+    // JVAL: 20211101 - Crouch
+    key_crouch := 122;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
@@ -1710,6 +1716,8 @@ begin
     key_strafeleft := 97;
     key_straferight := 100;
     key_jump := 101;
+    // JVAL: 20211101 - Crouch
+    key_crouch := 113;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
@@ -1740,6 +1748,8 @@ begin
     key_strafeleft := 115;
     key_straferight := 102;
     key_jump := 97;
+    // JVAL: 20211101 - Crouch
+    key_crouch := 122;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
@@ -1772,6 +1782,8 @@ begin
      (key_strafeleft = 44) and
      (key_straferight = 46) and
      (key_jump = 97) and
+    // JVAL: 20211101 - Crouch
+     (key_crouch = 122) and
      (key_fire = 157) and
      (key_use = 32) and
      (key_strafe = 184) and
@@ -1804,6 +1816,8 @@ begin
      (key_strafeleft = 97) and
      (key_straferight = 100) and
      (key_jump = 101) and
+    // JVAL: 20211101 - Crouch
+     (key_crouch = 113) and
      (key_fire = 157) and
      (key_use = 32) and
      (key_strafe = 184) and
@@ -1836,6 +1850,8 @@ begin
      (key_strafeleft = 115) and
      (key_straferight = 102) and
      (key_jump = 97) and
+    // JVAL: 20211101 - Crouch
+     (key_crouch = 122) and
      (key_fire = 157) and
      (key_use = 32) and
      (key_strafe = 184) and

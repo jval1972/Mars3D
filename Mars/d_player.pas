@@ -105,6 +105,11 @@ type
     // jump
     oldjump: integer;
 
+    // JVAL: 20211101 - Crouch
+    oldcrouch: integer;
+    lastongroundtime: integer;
+    deltacrouchheight: fixed_t;
+
     // This is only used between levels,
     // mo->health is used during levels.
     health: integer;

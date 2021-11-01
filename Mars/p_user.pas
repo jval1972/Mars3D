@@ -171,11 +171,19 @@ begin
       if player.deltaviewheight = 0 then
         player.deltaviewheight := 1;
     end;
+
   end;
-  player.viewz := player.mo.z + player.viewheight + player.viewbob;
+  player.viewz := player.mo.z + player.viewheight + player.viewbob - player.deltacrouchheight; // JVAL: 20211101 - Crouch;
+
+  player.viewz := player.viewz div 2 + player.oldviewz div 2;
 
   if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+                    Psubsector_t(player.mo.subsector).sector.gravity := 0;
+  {$IFDEF DEBUG}
+  printf('leveltime=%5d,viewz=%6d,viewheight=%6d,viewbob=%6d,deltaviewheight=%6d,deltacrouchheight=%6d,z=%6d'#13#10, [
+    leveltime, player.viewz, player.viewheight, player.viewbob, player.deltaviewheight, player.deltacrouchheight, player.mo.z]);
+  {$ENDIF}
 end;
 
 // JVAL: Slopes
@@ -353,6 +361,9 @@ begin
     if G_PlayingEngineVersion > VERSION120 then
       onground := player.mo.flags2_ex and MF2_EX_ONMOBJ <> 0;
 
+  if onground then
+    player.lastongroundtime := leveltime; // JVAL: 20211101 - Crouch
+
   // villsa [STRIFE] allows player to climb over things by jumping
   // haleyjd 20110205: air control thrust should be 256, not cmd.forwardmove
   if (G_PlayingEngineVersion >= VERSION121) and not onground and (player.cheats and CF_LOWGRAVITY = 0) and (cmd.forwardmove <> 0) then
@@ -367,6 +378,10 @@ begin
       if G_PlayingEngineVersion >= VERSION120 then
         if Psubsector_t(player.mo.subsector).sector.special and FRICTION_MASK <> 0 then
           movefactor := P_GetMoveFactor(player.mo); //movefactor * 2;
+
+    // JVAL: 20211101 - Crouch
+    if cmd.crouch > 0 then
+      movefactor := FixedMul(FixedDiv(CROUCH_FRICTION_FACTOR, ORIG_FRICTION_FACTOR), movefactor);
 
     if (player.cheats and CF_LOWGRAVITY <> 0) or
       ((cmd.forwardmove <> 0) and
@@ -548,7 +563,34 @@ begin
     player.oldlook2 := look2;
 
     if (onground or (player.cheats and CF_LOWGRAVITY <> 0)) and (cmd.jump > 1) then
-      player.mo.momz := 8 * FRACUNIT;
+    begin
+      // JVAL: 20211101 - Crouch
+      if cmd.crouch > 0 then
+        player.mo.momz := 4 * FRACUNIT
+      else
+        player.mo.momz := 8 * FRACUNIT;
+    end;
+
+    // JVAL: 20211101 - Crouch
+    if (leveltime - player.lastongroundtime < TICRATE) and (cmd.crouch <> 0) then
+    begin
+      player.deltacrouchheight := player.deltacrouchheight + cmd.crouch * FRACUNIT;
+      if player.deltacrouchheight > PMAXCROUCHHEIGHT then
+        player.deltacrouchheight := PMAXCROUCHHEIGHT;
+    end
+    else if player.deltacrouchheight <> 0 then
+    begin
+      player.deltacrouchheight := player.deltacrouchheight - 2 * FRACUNIT;
+      if player.deltacrouchheight < 0 then
+        player.deltacrouchheight := 0;
+    end;
+    if not onground and (cmd.crouch <> 0) then
+      if player.mo.momz > -4 * FRACUNIT then
+      begin
+        player.mo.momz := player.mo.momz - FRACUNIT div 2;
+        if player.mo.momz < -4 * FRACUNIT then
+          player.mo.momz := -4 * FRACUNIT;
+      end;
   end
   else
     player.lookdir2 := 0;

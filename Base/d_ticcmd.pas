@@ -51,15 +51,16 @@ type
     buttons2: byte;
     inventory: integer;
 {$ENDIF}
-    commands: byte; // JVAL for special commands
+    commands: byte;       // JVAL for special commands
 {$IFDEF HERETIC_OR_HEXEN}
-    lookfly: byte;   // look up/down/centering/fly
+    lookfly: byte;        // look up/down/centering/fly
     arti: byte;
 {$ENDIF}
-    lookupdown: byte;      // JVAL look up/down/centering
-    lookleftright: byte;   // JVAL look left/right/forward
-    jump: byte;     // JVAL Jump!
-    lookupdown16: word;    // JVAL Smooth Look Up/Down
+    lookupdown: byte;     // JVAL look up/down/centering
+    lookleftright: byte;  // JVAL look left/right/forward
+    jump: byte;           // JVAL Jump!
+    crouch: byte;         // JVAL: 20211101 - Crouch
+    lookupdown16: word;   // JVAL Smooth Look Up/Down
   end;
   Pticcmd_t = ^ticcmd_t;
 
