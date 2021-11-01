@@ -116,6 +116,9 @@ end;
 procedure P_CalcHeight(player: Pplayer_t);
 var
   angle: integer;
+  clheight: fixed_t; // JVAL: 20211101 - Crouch
+  flheight: fixed_t; // JVAL: 20211101 - Crouch
+  range: fixed_t; // JVAL: 20211101 - Crouch
 begin
   // Regular movement bobbing
   // (needs to be calculated for gun swing
@@ -132,6 +135,24 @@ begin
     player.bob := MAXBOB;
 
   player.oldviewz := player.viewz;  // JVAL: Slopes
+
+  // JVAL: 20211101 - Crouch
+  player.mo.height := player.mo.info.height - player.deltacrouchheight;
+  clheight := P_3dCeilingHeight(player.mo);
+  if player.mo.z + player.mo.height > clheight then
+  begin
+    flheight := P_3dFloorHeight(player.mo);
+    player.mo.z := clheight - player.mo.height;
+    if player.mo.z < flheight then
+    begin
+      player.mo.z := flheight;
+      range := clheight - flheight;
+      player.deltacrouchheight := player.mo.info.height - range;
+      if player.deltacrouchheight > PMAXCROUCHHEIGHT then
+        player.deltacrouchheight := PMAXCROUCHHEIGHT;
+      player.mo.height := player.mo.info.height - player.deltacrouchheight;
+    end;
+  end;
 
   if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
@@ -173,13 +194,13 @@ begin
     end;
 
   end;
-  player.viewz := player.mo.z + player.viewheight + player.viewbob - player.deltacrouchheight; // JVAL: 20211101 - Crouch;
+  player.viewz := player.mo.z + player.viewheight + player.viewbob - player.deltacrouchheight; // JVAL: 20211101 - Crouch
 
   player.viewz := player.viewz div 2 + player.oldviewz div 2;
 
   if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
-                    Psubsector_t(player.mo.subsector).sector.gravity := 0;
+
   {$IFDEF DEBUG}
   printf('leveltime=%5d,viewz=%6d,viewheight=%6d,viewbob=%6d,deltaviewheight=%6d,deltacrouchheight=%6d,z=%6d'#13#10, [
     leveltime, player.viewz, player.viewheight, player.viewbob, player.deltaviewheight, player.deltacrouchheight, player.mo.z]);
