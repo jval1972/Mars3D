@@ -405,7 +405,8 @@ uses
   mars_bitmap in 'Mars\mars_bitmap.pas',
   mars_palette in 'Mars\mars_palette.pas',
   mars_patch in 'Mars\mars_patch.pas',
-  mars_font in 'Mars\mars_font.pas';
+  mars_font in 'Mars\mars_font.pas',
+  anm_lib in 'Base\anm_lib.pas';
 
 var
   Saved8087CW: Word;
