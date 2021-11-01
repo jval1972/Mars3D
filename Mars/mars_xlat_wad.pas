@@ -169,6 +169,17 @@ begin
   wadwriter.AddData('PLAYPAL', @playpal, SizeOf(playpal));
   wadwriter.AddData('COLORMAP', @colormap, SizeOf(colormap));
   memfree(p, size);
+
+  result := ReadFile('WATER.PAL', p, size);
+  if not result then
+    exit;
+
+  pal := p;
+  MARS_CreateDoomPalette(pal, @playpal, @colormap);
+
+  wadwriter.AddData('WATERPAL', @playpal, SizeOf(playpal));
+  wadwriter.AddData('WATERMAP', @colormap, SizeOf(colormap));
+  memfree(p, size);
 end;
 
 function TMarsToWADConverter.GenerateTranslationTables: boolean;
