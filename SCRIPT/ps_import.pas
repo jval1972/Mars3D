@@ -574,6 +574,8 @@ begin
   baseproclist.Add('function key_weapon6: integer;', @PS_key_weapon6);
   baseproclist.Add('function key_weapon7: integer;', @PS_key_weapon7);
   {$ENDIF}
+  baseproclist.Add('function key_weapon8: integer;', @PS_key_weapon8);
+  baseproclist.Add('function key_weapon9: integer;', @PS_key_weapon9);
   {$IFDEF HERETIC_OR_HEXEN}
   baseproclist.Add('function key_flyup: integer;', @PS_key_flyup);
   baseproclist.Add('function key_flydown: integer;', @PS_key_flydown);
@@ -585,8 +587,6 @@ begin
   {$IFDEF STRIFE}
   baseproclist.Add('function key_invleft: integer;', @PS_key_invleft);
   baseproclist.Add('function key_invright: integer;', @PS_key_invright);
-  baseproclist.Add('function key_weapon8: integer;', @PS_key_weapon8);
-  baseproclist.Add('function key_weapon9: integer;', @PS_key_weapon9);
   baseproclist.Add('function key_usehealth: integer;', @PS_key_usehealth);
   baseproclist.Add('function key_invquery: integer;', @PS_key_invquery);
   baseproclist.Add('function key_mission: integer;', @PS_key_mission);

@@ -756,14 +756,14 @@ function PS_key_invright: integer;
 function PS_key_useartifact: integer;
 {$ENDIF}
 
+function PS_key_weapon8: integer;
+
+function PS_key_weapon9: integer;
+
 {$IFDEF STRIFE}
 function PS_key_invleft: integer;
 
 function PS_key_invright: integer;
-
-function PS_key_weapon8: integer;
-
-function PS_key_weapon9: integer;
 
 function PS_key_usehealth: integer;
 
@@ -6602,6 +6602,22 @@ begin
 end;
 {$ENDIF}
 
+function PS_key_weapon8: integer;
+begin
+  if demoplayback or demorecording or netgame then
+    Result := 0
+  else
+    Result := key_weapon8;
+end;
+
+function PS_key_weapon9: integer;
+begin
+  if demoplayback or demorecording or netgame then
+    Result := 0
+  else
+    Result := key_weapon9;
+end;
+
 {$IFDEF HERETIC_OR_HEXEN}
 function PS_key_flyup: integer;
 begin
@@ -6667,22 +6683,6 @@ begin
     Result := 0
   else
     Result := key_invright;
-end;
-
-function PS_key_weapon8: integer;
-begin
-  if demoplayback or demorecording or netgame then
-    Result := 0
-  else
-    Result := key_weapon8;
-end;
-
-function PS_key_weapon9: integer;
-begin
-  if demoplayback or demorecording or netgame then
-    Result := 0
-  else
-    Result := key_weapon9;
 end;
 
 function PS_key_usehealth: integer;
