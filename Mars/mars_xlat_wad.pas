@@ -71,9 +71,9 @@ type
     function ReadFile(const aname: string; var p: pointer; var sz: integer): boolean;
     function GeneratePalette: boolean;
     function GenerateTranslationTables: boolean;
+    function GenerateMenuTranslation: boolean;
     function GenerateBigFonts: boolean;
     function GenerateDosFonts: boolean;
-    function GenerateMenuTranslation: boolean;
     function GenerateMusic: boolean;
     function GenerateSounds: boolean;
   public
@@ -187,6 +187,19 @@ begin
   wadwriter.AddData('TR_WATER', @water_tr, 256);
 
   memfree(p, size);
+end;
+
+function TMarsToWADConverter.GenerateMenuTranslation: boolean;
+var
+  trn: packed array[0..255] of byte;
+  i: integer;
+begin
+  result := true;
+  for i := 0 to 255 do
+    trn[i] := i;
+  for i := 0 to 15 do
+    trn[208 + i] := 128 + i;
+  wadwriter.AddData('TR_MENU', @trn, 256);
 end;
 
 function TMarsToWADConverter.GenerateBigFonts: boolean;
@@ -496,19 +509,6 @@ begin
   memfree(pointer(imgout), 8 * 8);
 end;
 
-function TMarsToWADConverter.GenerateMenuTranslation: boolean;
-var
-  trn: packed array[0..255] of byte;
-  i: integer;
-begin
-  result := true;
-  for i := 0 to 255 do
-    trn[i] := i;
-  for i := 0 to 15 do
-    trn[208 + i] := 128 + i;
-  wadwriter.AddData('TR_MENU', @trn, 256);
-end;
-
 function TMarsToWADConverter.GenerateMusic: boolean;
 var
   xmifilename: string;
@@ -581,10 +581,9 @@ begin
 
   GeneratePalette;
   GenerateTranslationTables;
+  GenerateMenuTranslation;
   GenerateBigFonts;
   GenerateDosFonts;
-  GenerateDosFonts;
-  GenerateMenuTranslation;
   GenerateMusic;
   GenerateSounds;
 end;
