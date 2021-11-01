@@ -38,6 +38,9 @@ interface
 uses
   d_delphi;
 
+const
+  MARS_PATCH_BLANC = 0;
+
 procedure MARS_CreateDoomPatch(const img: PByteArray; const width, height: integer;
   const solid: boolean; out p: pointer; out size: integer; const offsx: integer = -255; const offsy: integer = -255);
 
@@ -125,7 +128,7 @@ begin
       begin
         c := img[x * height + y];
         if not solid then
-          if c = 255 then
+          if c = MARS_PATCH_BLANC then
           begin
             flashcolumndata;
             continue;
@@ -215,7 +218,7 @@ begin
       begin
         c := img[4 + y * width + x];
         if not solid then
-          if c = 255 then
+          if c = MARS_PATCH_BLANC then
           begin
             flashcolumndata;
             continue;

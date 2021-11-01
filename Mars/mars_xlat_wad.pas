@@ -307,7 +307,7 @@ begin
     for i := 0 to imgsize - 1 do
     begin
       if BIG_FONT_BUFFER[i] = 0 then
-        imginp[i] := 254
+        imginp[i] := MARS_PATCH_BLANC
       else
       begin
         if BIG_FONT_BUFFER[i] = 255 then
@@ -330,9 +330,7 @@ begin
         else if b < 0 then
           b := 0;
         c := r shl 16 + g shl 8 + b;
-        imginp[i] := V_FindAproxColorIndex(@def_palL, c, 0, 253);
-        if def_palL[imginp[i]] = 0 then
-          imginp[i] := 254;
+        imginp[i] := V_FindAproxColorIndex(@def_palL, c, 1, 255);
       end;
     end;
 
@@ -348,7 +346,7 @@ begin
         widx := 18 * 21 - 1;
         while widx > 0 do
         begin
-          if imgout[widx] <> 254 then
+          if imgout[widx] <> MARS_PATCH_BLANC then
             break;
           dec(widx);
         end;
@@ -365,7 +363,7 @@ begin
       end
       else
       begin
-        memset(imgout, 254, 18 * 21);
+        memset(imgout, MARS_PATCH_BLANC, 18 * 21);
         MARS_CreateDoomPatch(imgout, 5, 21, false, p, size, 4, 1);
       end;
       wadwriter.AddData('BIGF' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
@@ -414,7 +412,7 @@ begin
     for i := 0 to imgsize - 1 do
     begin
       if DOS_FONT_BUFFER[i] = 0 then
-        imginp[i] := 254
+        imginp[i] := MARS_PATCH_BLANC
       else
       begin
         r := round(r1 * DOS_FONT_BUFFER[i] / 256);
@@ -427,9 +425,7 @@ begin
         if b > 255 then
           b := 255;
         c := r shl 16 + g shl 8 + b;
-        imginp[i] := V_FindAproxColorIndex(@def_palL, c, 0, 253);
-        if def_palL[imginp[i]] = 0 then
-          imginp[i] := 254;
+        imginp[i] := V_FindAproxColorIndex(@def_palL, c, 1, 255);
       end;
     end;
 
@@ -460,7 +456,7 @@ begin
     for i := 0 to imgsize - 1 do
     begin
       if SMALL_DOS_FONT_BUFFER[i] = 0 then
-        imginp[i] := 254
+        imginp[i] := MARS_PATCH_BLANC
       else
       begin
         r := round(r1 * SMALL_DOS_FONT_BUFFER[i] / 256);
@@ -473,9 +469,7 @@ begin
         if b > 255 then
           b := 255;
         c := r shl 16 + g shl 8 + b;
-        imginp[i] := V_FindAproxColorIndex(@def_palL, c, 0, 253);
-        if def_palL[imginp[i]] = 0 then
-          imginp[i] := 254;
+        imginp[i] := V_FindAproxColorIndex(@def_palL, c, 1, 255);
       end;
     end;
 
