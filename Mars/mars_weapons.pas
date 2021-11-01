@@ -140,7 +140,7 @@ begin
 
   x := player.mo.x;
   y := player.mo.y;
-  z := player.mo.z + PVIEWHEIGHT;
+  z := player.mo.z + player.viewheight;
 
   ang := player.mo.angle;
   x := x + finecosine[ang shr ANGLETOFINESHIFT] * 24;
@@ -656,7 +656,7 @@ begin
   x := player.mo.x + FixedMul(dist, finecosine[ang]);
   y := player.mo.y + FixedMul(dist, finesine[ang]);
   slope := (player.lookdir * FRACUNIT) div 173;
-  z := player.mo.z + PVIEWHEIGHT + slope;
+  z := player.mo.z + player.viewheight + slope;
 
   th := P_SpawnMobj(x, y, z, MT_DISKMISSILE);
 
