@@ -108,6 +108,7 @@ type
     // JVAL: 20211101 - Crouch
     oldcrouch: integer;
     lastongroundtime: integer;
+    lastautocrouchtime: integer;
     deltacrouchheight: fixed_t;
 
     // This is only used between levels,

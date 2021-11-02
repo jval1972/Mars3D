@@ -146,6 +146,8 @@ begin
     if player.mo.z < flheight then
     begin
       player.mo.z := flheight;
+      player.lastautocrouchtime := leveltime;
+      player.lastongroundtime := leveltime;
       range := clheight - flheight;
       player.deltacrouchheight := player.mo.info.height - range;
       if player.deltacrouchheight > PMAXCROUCHHEIGHT then
@@ -599,7 +601,7 @@ begin
       if player.deltacrouchheight > PMAXCROUCHHEIGHT then
         player.deltacrouchheight := PMAXCROUCHHEIGHT;
     end
-    else if player.deltacrouchheight <> 0 then
+    else if (leveltime - player.lastautocrouchtime > TICRATE) and (player.deltacrouchheight <> 0) then
     begin
       player.deltacrouchheight := player.deltacrouchheight - 2 * FRACUNIT;
       if player.deltacrouchheight < 0 then
