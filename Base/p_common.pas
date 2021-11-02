@@ -5469,10 +5469,10 @@ end;
 //
 procedure A_BasicAttack(actor: Pmobj_t);
 var
-	MeleeDamage: integer;
-	MeleeSound: integer;
-	MissileType: integer;
-	MissileHeight: fixed_t;
+  MeleeDamage: integer;
+  MeleeSound: integer;
+  MissileType: integer;
+  MissileHeight: fixed_t;
 begin
   if not P_CheckStateParams(actor, 4) then
     exit;
