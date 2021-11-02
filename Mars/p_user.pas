@@ -201,6 +201,8 @@ begin
 
   if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+  if player.viewz < player.mo.floorz + 4 * FRACUNIT then
+    player.viewz := player.mo.floorz + 4 * FRACUNIT;
 
   {$IFDEF DEBUG}
   printf('leveltime=%5d,viewz=%6d,viewheight=%6d,viewbob=%6d,deltaviewheight=%6d,crouchheight=%6d,z=%6d'#13#10, [
