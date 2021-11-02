@@ -137,7 +137,7 @@ begin
   player.oldviewz := player.viewz;  // JVAL: Slopes
 
   // JVAL: 20211101 - Crouch
-  player.mo.height := player.mo.info.height - player.deltacrouchheight;
+  player.mo.height := player.mo.info.height - player.crouchheight;
   clheight := P_3dCeilingHeight(player.mo);
   if player.mo.z + player.mo.height > clheight then
   begin
@@ -149,10 +149,10 @@ begin
       player.lastautocrouchtime := leveltime;
       player.lastongroundtime := leveltime;
       range := clheight - flheight;
-      player.deltacrouchheight := player.mo.info.height - range;
-      if player.deltacrouchheight > PMAXCROUCHHEIGHT then
-        player.deltacrouchheight := PMAXCROUCHHEIGHT;
-      player.mo.height := player.mo.info.height - player.deltacrouchheight;
+      player.crouchheight := player.mo.info.height - range;
+      if player.crouchheight > PMAXCROUCHHEIGHT then
+        player.crouchheight := PMAXCROUCHHEIGHT;
+      player.mo.height := player.mo.info.height - player.crouchheight;
     end;
   end;
 
@@ -194,9 +194,8 @@ begin
       if player.deltaviewheight = 0 then
         player.deltaviewheight := 1;
     end;
-
   end;
-  player.viewz := player.mo.z + player.viewheight + player.viewbob - player.deltacrouchheight; // JVAL: 20211101 - Crouch
+  player.viewz := player.mo.z + player.viewheight + player.viewbob - player.crouchheight; // JVAL: 20211101 - Crouch
 
   player.viewz := player.viewz div 2 + player.oldviewz div 2;
 
@@ -204,8 +203,8 @@ begin
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
 
   {$IFDEF DEBUG}
-  printf('leveltime=%5d,viewz=%6d,viewheight=%6d,viewbob=%6d,deltaviewheight=%6d,deltacrouchheight=%6d,z=%6d'#13#10, [
-    leveltime, player.viewz, player.viewheight, player.viewbob, player.deltaviewheight, player.deltacrouchheight, player.mo.z]);
+  printf('leveltime=%5d,viewz=%6d,viewheight=%6d,viewbob=%6d,deltaviewheight=%6d,crouchheight=%6d,z=%6d'#13#10, [
+    leveltime, player.viewz, player.viewheight, player.viewbob, player.deltaviewheight, player.crouchheight, player.mo.z]);
   {$ENDIF}
 end;
 
@@ -597,15 +596,15 @@ begin
     // JVAL: 20211101 - Crouch
     if (leveltime - player.lastongroundtime < TICRATE) and (cmd.crouch <> 0) then
     begin
-      player.deltacrouchheight := player.deltacrouchheight + cmd.crouch * FRACUNIT;
-      if player.deltacrouchheight > PMAXCROUCHHEIGHT then
-        player.deltacrouchheight := PMAXCROUCHHEIGHT;
+      player.crouchheight := player.crouchheight + cmd.crouch * FRACUNIT;
+      if player.crouchheight > PMAXCROUCHHEIGHT then
+        player.crouchheight := PMAXCROUCHHEIGHT;
     end
-    else if (leveltime - player.lastautocrouchtime > TICRATE) and (player.deltacrouchheight <> 0) then
+    else if (leveltime - player.lastautocrouchtime > TICRATE) and (player.crouchheight <> 0) then
     begin
-      player.deltacrouchheight := player.deltacrouchheight - 2 * FRACUNIT;
-      if player.deltacrouchheight < 0 then
-        player.deltacrouchheight := 0;
+      player.crouchheight := player.crouchheight - 2 * FRACUNIT;
+      if player.crouchheight < 0 then
+        player.crouchheight := 0;
     end;
     if not onground and (cmd.crouch <> 0) then
       if player.mo.momz > -4 * FRACUNIT then

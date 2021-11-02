@@ -109,7 +109,7 @@ type
     oldcrouch: integer;
     lastongroundtime: integer;
     lastautocrouchtime: integer;
-    deltacrouchheight: fixed_t;
+    crouchheight: fixed_t;
 
     // This is only used between levels,
     // mo->health is used during levels.
