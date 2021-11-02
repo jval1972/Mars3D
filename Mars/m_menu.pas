@@ -1034,10 +1034,12 @@ type
   );
 
 var
-  KeyBindingsMenu1: array[0..Ord(kb_weapon0) - 1] of menuitem_t;
+  KeyBindingsMenu1: array[0..Ord(kb_lookup) - 1] of menuitem_t;
   KeyBindingsDef1: menu_t;
-  KeyBindingsMenu2: array[0..Ord(kb_end) - Ord(kb_weapon0) - 1] of menuitem_t;
+  KeyBindingsMenu2: array[0..Ord(kb_weapon0) - Ord(kb_lookup) - 1] of menuitem_t;
   KeyBindingsDef2: menu_t;
+  KeyBindingsMenu3: array[0..Ord(kb_end) - Ord(kb_weapon0) - 1] of menuitem_t;
+  KeyBindingsDef3: menu_t;
 
 type
   bindinginfo_t = record
@@ -1208,12 +1210,17 @@ end;
 
 procedure M_DrawBindings1;
 begin
-  M_DrawBindings(KeyBindingsDef1, 0, Ord(kb_weapon0));
+  M_DrawBindings(KeyBindingsDef1, 0, Ord(kb_lookup));
 end;
 
 procedure M_DrawBindings2;
 begin
-  M_DrawBindings(KeyBindingsDef2, Ord(kb_weapon0), Ord(kb_end));
+  M_DrawBindings(KeyBindingsDef2, Ord(kb_lookup), Ord(kb_weapon0));
+end;
+
+procedure M_DrawBindings3;
+begin
+  M_DrawBindings(KeyBindingsDef3, Ord(kb_weapon0), Ord(kb_end));
 end;
 
 //
@@ -1229,6 +1236,15 @@ begin
 end;
 
 procedure M_KeyBindingSelect2(choice: integer);
+begin
+  bindkeyEnter := true;
+
+  bindkeySlot := Ord(kb_lookup) + choice;
+
+  saveOldkey := KeyBindingsInfo[Ord(kb_lookup) + choice].pkey^;
+end;
+
+procedure M_KeyBindingSelect3(choice: integer);
 begin
   bindkeyEnter := true;
 
@@ -5312,7 +5328,6 @@ begin
   pmi.pBoolVal := @allowplayerjumps;
   pmi.alphaKey := 'j';
 
-
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Allow player crouching';
@@ -5624,7 +5639,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsMenu1
   pmi := @KeyBindingsMenu1[0];
-  for i := 0 to Ord(kb_weapon0) - 1 do
+  for i := 0 to Ord(kb_lookup) - 1 do
   begin
     pmi.status := 1;
     pmi.name := '';
@@ -5637,9 +5652,9 @@ begin
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsDef1
-  KeyBindingsDef1.numitems := Ord(kb_weapon0); // # of menu items
+  KeyBindingsDef1.numitems := Ord(kb_lookup); // # of menu items
   KeyBindingsDef1.prevMenu := @ControlsDef; // previous menu
-  KeyBindingsDef1.leftMenu := @KeyBindingsDef2; // left menu
+  KeyBindingsDef1.leftMenu := @KeyBindingsDef3; // left menu
   KeyBindingsDef1.rightMenu := @KeyBindingsDef2; // right menu
   KeyBindingsDef1.menuitems := Pmenuitem_tArray(@KeyBindingsMenu1);  // menu items
   KeyBindingsDef1.drawproc := @M_DrawBindings1;  // draw routine
@@ -5652,7 +5667,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsMenu2
   pmi := @KeyBindingsMenu2[0];
-  for i := 0 to Ord(kb_end) - Ord(kb_weapon0) - 1 do
+  for i := 0 to Ord(kb_weapon0) - Ord(kb_lookup) - 1 do
   begin
     pmi.status := 1;
     pmi.name := '';
@@ -5665,10 +5680,10 @@ begin
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsDef2
-  KeyBindingsDef2.numitems := Ord(kb_end) - Ord(kb_weapon0); // # of menu items
+  KeyBindingsDef2.numitems := Ord(kb_weapon0) - Ord(kb_lookup); // # of menu items
   KeyBindingsDef2.prevMenu := @ControlsDef; // previous menu
   KeyBindingsDef2.leftMenu := @KeyBindingsDef1; // left menu
-  KeyBindingsDef2.rightMenu := @KeyBindingsDef1; // right menu
+  KeyBindingsDef2.rightMenu := @KeyBindingsDef3; // right menu
   KeyBindingsDef2.menuitems := Pmenuitem_tArray(@KeyBindingsMenu2);  // menu items
   KeyBindingsDef2.drawproc := @M_DrawBindings2;  // draw routine
   KeyBindingsDef2.x := 32;
@@ -5677,6 +5692,33 @@ begin
   KeyBindingsDef2.itemheight := LINEHEIGHT2;
   KeyBindingsDef2.texturebk := true;
 
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindingsMenu3
+  pmi := @KeyBindingsMenu3[0];
+  for i := 0 to Ord(kb_end) - Ord(kb_weapon0) - 1 do
+  begin
+    pmi.status := 1;
+    pmi.name := '';
+    pmi.cmd := '';
+    pmi.routine := @M_KeyBindingSelect3;
+    pmi.pBoolVal := nil;
+    pmi.alphaKey := Chr(Ord('1') + i);
+    inc(pmi);
+  end;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindingsDef3
+  KeyBindingsDef3.numitems := Ord(kb_end) - Ord(kb_weapon0); // # of menu items
+  KeyBindingsDef3.prevMenu := @ControlsDef; // previous menu
+  KeyBindingsDef3.leftMenu := @KeyBindingsDef2; // left menu
+  KeyBindingsDef3.rightMenu := @KeyBindingsDef1; // right menu
+  KeyBindingsDef3.menuitems := Pmenuitem_tArray(@KeyBindingsMenu3);  // menu items
+  KeyBindingsDef3.drawproc := @M_DrawBindings3;  // draw routine
+  KeyBindingsDef3.x := 32;
+  KeyBindingsDef3.y := 34; // x,y of menu
+  KeyBindingsDef3.lastOn := 0; // last item user was on in menu
+  KeyBindingsDef3.itemheight := LINEHEIGHT2;
+  KeyBindingsDef3.texturebk := true;
 ////////////////////////////////////////////////////////////////////////////////
 //LoadMenu
   pmi := @LoadMenu[0];
