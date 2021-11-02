@@ -158,7 +158,7 @@ begin
 
   if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
-    player.viewz := player.mo.z + PVIEWHEIGHT;
+    player.viewz := player.mo.z + PVIEWHEIGHT - player.crouchheight;
 
     if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
       player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
