@@ -939,6 +939,7 @@ type
 //
   compatibility_e = (
     cmp_allowplayerjumps,
+    cmp_allowplayercrouch,
     cmp_allowplayerbreath,
     cmp_keepcheatsinplayerrebord,
     cmp_majorbossdeathendsdoom1level,
@@ -5310,6 +5311,15 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @allowplayerjumps;
   pmi.alphaKey := 'j';
+
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Allow player crouching';
+  pmi.cmd := 'allowplayercrouch';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @allowplayercrouch;
+  pmi.alphaKey := 'c';
 
   inc(pmi);
   pmi.status := 1;
