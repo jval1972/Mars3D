@@ -35,6 +35,9 @@ unit mars_sounds;
 
 interface
 
+uses
+  p_mobj_h;
+  
 type
   marssound_t = (
     snd_ARM1HURT,
@@ -181,7 +184,10 @@ implementation
 
 uses
   d_delphi,
+  info_common,
   mars_files,
+  p_local,
+  p_mobj,
   sounds,
   s_sound,
   w_wad;
