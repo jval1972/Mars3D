@@ -80,6 +80,7 @@ uses
   info_common,
   info_rnd,
   mars_map_extra,
+  mars_sounds,
   m_fixed,
   m_rnd,
   tables,
@@ -102,7 +103,7 @@ var
   damage: integer;
   slope: integer;
 begin
-  S_StartSound(player.mo, 'FISTSHT');
+  MARS_StartSound(player.mo, snd_FISTSHT);
 
   damage := (P_Random mod 10 + 1) * 2;
 
@@ -117,7 +118,7 @@ begin
   // turn to face target
   if linetarget <> nil then
   begin
-    S_StartSound(linetarget, 'FISTEXP');
+    MARS_StartSound(linetarget, snd_FISTEXP);
     player.mo.angle :=
       R_PointToAngle2(player.mo.x, player.mo.y, linetarget.x, linetarget.y);
   end;
@@ -177,7 +178,7 @@ end;
 
 procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
 begin
-  S_StartSound(player.mo, 'GUN2ACT');
+  MARS_StartSound(player.mo, snd_GUN2ACT);
 end;
 
 // A_FriendlyExplode
@@ -448,7 +449,7 @@ begin
         p.ammo[Ord(am_disk)] := p.ammo[Ord(am_disk)] + 1;
         P_RemoveMobj(bdisk);
         if p = @players[consoleplayer] then
-          S_StartSound(nil, 'ITEMUP');
+          MARS_StartSound(nil, snd_ITEMUP);
         p._message := RETURNDISK;
         result := false;  // Stop
         exit;

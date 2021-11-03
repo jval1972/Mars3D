@@ -171,12 +171,15 @@ const
 
 procedure MARS_InitSounds;
 
+function MARS_StartSound(origin: pointer; const soundid: marssound_t): boolean;
+
 implementation
 
 uses
   d_delphi,
   mars_files,
   sounds,
+  s_sound,
   w_wad;
 
 procedure MARS_InitSounds;
@@ -187,6 +190,35 @@ begin
   begin
     marssounds[i].path := MARS_FindFile(marssounds[i].name + '.WAV');
     marssounds[i].sound_id := S_GetSoundNumForName(marssounds[i].name);
+  end;
+end;
+
+function MARS_StartSound(origin: pointer; const soundid: marssound_t): boolean;
+var
+  id, wid: integer;
+begin
+  id := Ord(soundid);
+  if not IsIntegerInRange(id, 0, Ord(NUM_MARS_SOUNDS) - 1) then
+  begin
+    Result := False;
+    Exit;
+  end;
+
+  if marssounds[id].sound_id > 0 then
+  begin
+    S_StartSound(origin, marssounds[id].sound_id);
+    Result := True;
+    Exit;
+  end;
+
+  wid := S_GetSoundNumForName(marssounds[id].name);
+
+  Result := wid > 0;
+
+  if Result then
+  begin
+    marssounds[id].sound_id := wid; // JVAL: 20211103 - Remember sound
+    S_StartSound(origin, wid);
   end;
 end;
 
