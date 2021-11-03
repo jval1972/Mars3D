@@ -19,7 +19,7 @@ ACTOR "MT_GLASS1"
       GLA1 B 10
       GLA1 C 10
       GLA1 D 10
-      GLA1 E 700
+      GLA1 E RANDOMRANGE(600,700)
       GLA1 EEEEEEEEEEEEEEEEEEEE A_Fadeout(0.03)
       Stop
     }
@@ -48,7 +48,7 @@ ACTOR "MT_GLASS2"
       GLA2 B 10
       GLA2 C 10
       GLA2 D 10
-      GLA2 E 700
+      GLA2 E RANDOMRANGE(600, 700)
       GLA2 EEEEEEEEEEEEEEEEEEEE A_Fadeout(0.03)
       Stop
     }
@@ -77,7 +77,7 @@ ACTOR "MT_GLASS3"
       GLA3 B 10
       GLA3 C 10
       GLA3 D 10
-      GLA3 E 700
+      GLA3 E RANDOMRANGE(600, 700)
       GLA3 EEEEEEEEEEEEEEEEEEEE A_Fadeout(0.03)
       Stop
     }
