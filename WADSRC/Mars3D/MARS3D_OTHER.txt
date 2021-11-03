@@ -1,0 +1,19 @@
+///////////////////////////
+// MT_AMBIENTSOUND
+///////////////////////////
+ACTOR MT_AMBIENTSOUND
+{
+    HEALTH 1000
+    REACTIONTIME 8
+    RADIUS 16
+    HEIGHT 16
+    MASS 100
+    SPEED 0
+    +NOBLOCKMAP +DONTDRAW +NOGRAVITY +SPAWNFLOAT
+    States
+    {
+    Spawn:
+        TNT1 AAAAAAAAAA 35 // Nothing to do, the engine takes care of playing the sound
+        Stop
+    }
+}
