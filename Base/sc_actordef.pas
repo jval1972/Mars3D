@@ -2018,7 +2018,7 @@ begin
       end;
 
       sc.GetString;
-      
+
       foundstates := false;
       repeat
         if sc.MatchString('ammo') then
@@ -3409,6 +3409,7 @@ var
       AddLn('Goto Hold');
       exit;
     end;
+
     if st = w.flashstate then
     begin
       AddLn('Goto Flash');
