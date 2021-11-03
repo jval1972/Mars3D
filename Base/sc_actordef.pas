@@ -1005,7 +1005,10 @@ var
     result := sc.MatchString(state_tokens) = -1;
 
     if not result then
+    begin
+      sc.Unget;
       exit;
+    end;
 
     if sc.BracketLevel = 0 then
     begin
