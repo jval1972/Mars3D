@@ -10,6 +10,7 @@ ACTOR MT_ENEMYSOLDIER 7
   Painchance 200
   Mass 100
   Reactiontime 8
+  GibHealth -10
   Attacksound GUN1SHT
   Painsound ARM1HURT
   Deathsound MONSDTH
@@ -57,6 +58,7 @@ ACTOR MT_ENEMYSOLDIER 7
       ARM1 I 5 A_Scream
       ARM1 J 5 A_Fall
       ARM1 K -1
+      Stop
     }
     Xdeath:
     {
@@ -139,6 +141,7 @@ ACTOR MT_ROBOT 3004
   Painchance 150
   Mass 100
   Reactiontime 8
+  GibHealth -20
   SeeSound MECHAPP
   Attacksound MECHATT
   Painsound MECHHURT
@@ -693,6 +696,7 @@ ACTOR MT_WATERFEAR 3001
   Painchance 0
   Mass 150
   Reactiontime 8
+  GibHealth -40
   SeeSound LAKEACT
   ActiveSound LAKEAPP
   Attacksound LAKEATT
@@ -787,6 +791,7 @@ ACTOR "MT_ALIENDEAMON" 3005
   Painchance 150
   Mass 180
   Reactiontime 10
+  GibHealth -40
   ActiveSound MOUSAPP
   PainSound MOUSHURT
   Deathsound MOUSDTH
@@ -890,6 +895,7 @@ ACTOR MT_CHEMICAL 3003
   Painchance 150
   Mass 150
   Reactiontime 8
+  GibHealth -40
   Attacksound MECHATT
   Painsound CHEMHURT
   Deathsound MONSDTH
