@@ -1,0 +1,85 @@
+////////////////////
+// MT_GLASS1
+////////////////////
+ACTOR "MT_GLASS1"
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  DEFAULTTRANSPARENT
+  +MF_NOBLOCKMAP
+  +MF_NOCLIP
+  States
+  {
+    Spawn:
+    {
+      GLA1 A 10
+      GLA1 B 10
+      GLA1 C 10
+      GLA1 D 10
+      GLA1 E 700
+      GLA1 EEEEEEEEEEEEEEEEEEEE A_Fadeout(0.03)
+      Stop
+    }
+  }
+}
+
+
+////////////////////
+// MT_GLASS2
+////////////////////
+ACTOR "MT_GLASS2"
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  DEFAULTTRANSPARENT
+  +MF_NOBLOCKMAP
+  +MF_NOCLIP
+  States
+  {
+    Spawn:
+    {
+      GLA2 A 10
+      GLA2 B 10
+      GLA2 C 10
+      GLA2 D 10
+      GLA2 E 700
+      GLA2 EEEEEEEEEEEEEEEEEEEE A_Fadeout(0.03)
+      Stop
+    }
+  }
+}
+
+
+////////////////////
+// MT_GLASS3
+////////////////////
+ACTOR "MT_GLASS3"
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  DEFAULTTRANSPARENT
+  +MF_NOBLOCKMAP
+  +MF_NOCLIP
+  States
+  {
+    Spawn:
+    {
+      GLA3 A 10
+      GLA3 B 10
+      GLA3 C 10
+      GLA3 D 10
+      GLA3 E 700
+      GLA3 EEEEEEEEEEEEEEEEEEEE A_Fadeout(0.03)
+      Stop
+    }
+  }
+}

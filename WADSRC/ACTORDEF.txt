@@ -10,3 +10,4 @@
 #include "MARS3D\MARS3D_ENEMIES.txt"
 #include "MARS3D\MARS3D_THINKERS.txt"
 #include "MARS3D\MARS3D_WEAPONS.txt"
+#include "MARS3D\MARS3D_GLASS.txt"
