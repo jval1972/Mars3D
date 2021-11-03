@@ -411,6 +411,8 @@ const
   MF4_EX_SHOCKGUNDAMAGERESIST = 8;
   // No monster collision
   MF4_EX_THRUMONSTERS = $10;
+  // Player has calculated it's viewz
+  MF4_EX_VIEWZCALCED = $20;
 
 type
 // Map Object definition.

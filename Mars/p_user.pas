@@ -197,7 +197,10 @@ begin
   end;
   player.viewz := player.mo.z + player.viewheight + player.viewbob - player.crouchheight; // JVAL: 20211101 - Crouch
 
-  player.viewz := player.viewz div 2 + player.oldviewz div 2;
+  if player.mo.flags4_ex and MF4_EX_VIEWZCALCED <> 0 then
+    player.viewz := player.viewz div 2 + player.oldviewz div 2
+  else
+    player.mo.flags4_ex := player.mo.flags4_ex or MF4_EX_VIEWZCALCED;
 
   if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
