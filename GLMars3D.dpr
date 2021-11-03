@@ -381,7 +381,8 @@ uses
   mars_palette in 'Mars\mars_palette.pas',
   mars_patch in 'Mars\mars_patch.pas',
   mars_font in 'Mars\mars_font.pas',
-  anm_lib in 'Base\anm_lib.pas';
+  anm_lib in 'Base\anm_lib.pas',
+  mars_glass in 'Mars\mars_glass.pas';
 
 var
   Saved8087CW: Word;

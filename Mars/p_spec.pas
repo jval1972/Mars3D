@@ -568,6 +568,7 @@ uses
   m_argv,
   m_rnd,
   m_bbox,
+  mars_glass,
   w_wad,
   r_data,
   r_main,
@@ -1609,6 +1610,7 @@ begin
     34,
     117,
     118,
+    121,  // JVAL: 20211103 - Breakable glass (MARS)
 
     139,               // Lighting specials
     170,
@@ -1713,7 +1715,7 @@ var
   oldcompatibility: boolean;
 begin
   //  Triggers that other things can activate
-  if thing.player = nil then
+  if (thing.player = nil) and (line.special <> 121) then  // JVAL: 20211103 - Bråakable glass (MARS)
   begin
     // Things that should NOT trigger specials...
     case thing._type of
@@ -1828,6 +1830,7 @@ begin
        4, // RAISE DOOR
       10, // PLAT DOWN-WAIT-UP-STAY TRIGGER
       88, // PLAT DOWN-WAIT-UP-STAY RETRIGGER
+     121, // JVAL: 20211103 - Breakable glass (MARS)
      //jff 3/5/98 add ability of monsters etc. to use teleporters
      208, //silent thing teleporters
      207,
@@ -2103,6 +2106,13 @@ begin
         // Raise floor to nearest surr. floor
         if (EV_DoFloor(line, raiseFloorToNearest) <> 0) or oldcompatibility then
           line.special := 0;
+      end;
+
+   121:
+      begin
+        // JVAL: 20211103 - Breakable glass (MARS)
+        if thing.flags and MF_MISSILE <> 0 then
+          MARS_SpawnBrokenGlass(line);
       end;
 
    287:
@@ -2718,6 +2728,13 @@ begin
   if G_PlayingEngineVersion > VERSION115 then
   begin
     oldcompatibility := false;
+
+    if line.special = 121 then // JVAL: 20211103 - Brake glass (MARS)
+    begin
+      MARS_SpawnBrokenGlass(line);
+      exit;
+    end;
+
     // pointer to line function is nil by default, set non-null if
     // line special is walkover generalized linedef type
     linefunc := nil;
