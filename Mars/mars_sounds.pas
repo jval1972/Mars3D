@@ -173,6 +173,10 @@ procedure MARS_InitSounds;
 
 function MARS_StartSound(origin: pointer; const soundid: marssound_t): boolean;
 
+function S_AmbientSound(const x, y: integer; const sndname: string): Pmobj_t;
+
+function MARS_AmbientSound(const x, y: integer; const soundid: marssound_t): Pmobj_t;
+
 implementation
 
 uses
@@ -220,6 +224,42 @@ begin
     marssounds[id].sound_id := wid; // JVAL: 20211103 - Remember sound
     S_StartSound(origin, wid);
   end;
+end;
+
+var
+  MT_AMBIENTSOUND: integer = -2;
+
+const
+  STR_AMBIENTSOUND = 'MT_AMBIENTSOUND';
+
+function S_AmbientSound(const x, y: integer; const sndname: string): Pmobj_t;
+begin
+  if MT_AMBIENTSOUND = -2 then
+    MT_AMBIENTSOUND := Info_GetMobjNumForName(STR_AMBIENTSOUND);
+
+  if MT_AMBIENTSOUND < 0  then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  result := P_SpawnMobj(x, y, ONFLOATZ, MT_AMBIENTSOUND);
+  S_StartSound(result, sndname);
+end;
+
+function MARS_AmbientSound(const x, y: integer; const soundid: marssound_t): Pmobj_t;
+begin
+  if MT_AMBIENTSOUND = -2 then
+    MT_AMBIENTSOUND := Info_GetMobjNumForName(STR_AMBIENTSOUND);
+
+  if MT_AMBIENTSOUND < 0  then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  result := P_SpawnMobj(x, y, ONFLOATZ, MT_AMBIENTSOUND);
+  MARS_StartSound(result, soundid);
 end;
 
 end.
