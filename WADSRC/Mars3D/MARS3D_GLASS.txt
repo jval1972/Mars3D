@@ -8,6 +8,7 @@ ACTOR "MT_GLASS1"
   Height 16
   Mass 100
   Reactiontime 8
+  Gravity 0.7
   DEFAULTTRANSPARENT
   +MF_NOBLOCKMAP
   +MF_NOCLIP
@@ -38,6 +39,7 @@ ACTOR "MT_GLASS2"
   Height 16
   Mass 100
   Reactiontime 8
+  Gravity 0.7
   DEFAULTTRANSPARENT
   +MF_NOBLOCKMAP
   +MF_NOCLIP
@@ -68,6 +70,7 @@ ACTOR "MT_GLASS3"
   Height 16
   Mass 100
   Reactiontime 8
+  Gravity 0.7
   DEFAULTTRANSPARENT
   +MF_NOBLOCKMAP
   +MF_NOCLIP
