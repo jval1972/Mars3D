@@ -330,7 +330,7 @@ begin
 end;
 
 //
-// Find string width from hu_font chars
+// Find string width from small_fontA chars
 //
 function M_StringWidth(const str: string): integer;
 var
@@ -344,19 +344,19 @@ begin
     if (c < 0) or (c >= HU_FONTSIZE) then
       result := result + 4
     else
-      result := result + hu_font[c].width;
+      result := result + small_fontA[c].width;
   end;
 end;
 
 //
-// Find string height from hu_font chars
+// Find string height from small_fontA chars
 //
 function M_StringHeight(const str: string): integer;
 var
   i: integer;
   height: integer;
 begin
-  height := hu_font[0].height;
+  height := small_fontA[0].height;
 
   result := height;
   for i := 1 to Length(str) do
@@ -370,7 +370,7 @@ type
   end;
 
 //
-// Write a string using the hu_font
+// Write a string using the small_fontA
 //
 function M_WriteText(x, y: integer; const str: string): menupos_t;
 var
@@ -423,10 +423,10 @@ begin
       continue;
     end;
 
-    w := hu_font[c].width;
+    w := small_fontA[c].width;
     if (cx + w) > 320 then
       break;
-    V_DrawPatch(cx, cy, SCN_TMP, hu_font[c], false);
+    V_DrawPatch(cx, cy, SCN_TMP, small_fontA[c], false);
     cx := cx + w;
   end;
 
@@ -488,10 +488,10 @@ begin
       continue;
     end;
 
-    w := hu_font[c].width;
+    w := small_fontB[c].width;
     if (cx + w) > 320 then
       break;
-    V_DrawPatch(cx, cy, SCN_TMP, hu_font[c], false);
+    V_DrawPatch(cx, cy, SCN_TMP, small_fontB[c], false);
     cx := cx + w;
   end;
   Z_ChangeTag(v_translation, PU_CACHE);
@@ -3570,7 +3570,7 @@ begin
     for i := 1 to len do
     begin
       if messageString[i] = #13 then
-        y := y + hu_font[0].height
+        y := y + small_fontA[0].height
       else if messageString[i] = #10 then
       begin
         x := (320 - M_StringWidth(str)) div 2;
@@ -3583,7 +3583,7 @@ begin
     if str <> '' then
     begin
       x := (320 - M_StringWidth(str)) div 2;
-      y := y + hu_font[0].height;
+      y := y + small_fontA[0].height;
       M_WriteText(x, y, str);
     end;
 
