@@ -74,6 +74,7 @@ type
     function GenerateMenuTranslation: boolean;
     function GenerateBigFonts: boolean;
     function GenerateDosFonts: boolean;
+    function GenerateMarsFonts: boolean;
     function GenerateMusic: boolean;
     function GenerateSounds: boolean;
   public
@@ -520,6 +521,132 @@ begin
   memfree(pointer(imgout), 8 * 8);
 end;
 
+function TMarsToWADConverter.GenerateMarsFonts: boolean;
+const
+  NUM_MARS_FONT_COLORS = 2;
+  MARS_FONT_FILESIZE = 2048;
+var
+  fntfilename: string;
+  imgsize: integer;
+  imginp: PByteArray;
+  imgout: PByteArray;
+  p: pointer;
+  size: integer;
+  i, j: integer;
+  ch: char;
+  COLORS: array[0..NUM_MARS_FONT_COLORS - 1] of LongWord;
+  ASCII_FONT_BUFFER: PByteArray;
+  ASCII_DATA: array[0..MARS_FONT_FILESIZE - 1] of byte;
+  fs: TFile;
+  bb: byte;
+  cnt: integer;
+  cidx: integer;
+  c: LongWord;
+  r1, g1, b1: LongWord;
+  r, g, b: LongWord;
+  x, y, fpos: integer;
+begin
+  fntfilename := MARS_FindFile('ASCII.FNT');
+  if not fexists(fntfilename) then
+  begin
+    result := false;
+    ZeroMemory(@ASCII_DATA, SizeOf(ASCII_DATA));
+  end
+  else
+  begin
+    fs := TFile.Create(fntfilename, fOpenReadOnly);
+    if fs.Size <> MARS_FONT_FILESIZE then
+    begin
+      result := false;
+      ZeroMemory(@ASCII_DATA, SizeOf(ASCII_DATA));
+    end
+    else
+    begin
+      result := true;
+      fs.Read(ASCII_DATA, SizeOf(ASCII_DATA));
+    end;
+    fs.Free;
+  end;
+
+  COLORS[0] := 95 shl 16 + 207 shl 8 + 87;
+  COLORS[1] := 55 shl 16 + 115 shl 8 + 43;
+
+  // Small ascii font
+  imgsize := 128 * 128;
+  ASCII_FONT_BUFFER := malloc(imgsize);
+
+  cnt := 0;
+  for i := 0 to SizeOf(ASCII_DATA) - 1 do
+  begin
+    bb := ASCII_DATA[i];
+    ASCII_FONT_BUFFER[cnt] := (bb shr 7) and 1;
+    Inc(cnt);
+    ASCII_FONT_BUFFER[cnt] := (bb shr 6) and 1;
+    Inc(cnt);
+    ASCII_FONT_BUFFER[cnt] := (bb shr 5) and 1;
+    Inc(cnt);
+    ASCII_FONT_BUFFER[cnt] := (bb shr 4) and 1;
+    Inc(cnt);
+    ASCII_FONT_BUFFER[cnt] := (bb shr 3) and 1;
+    Inc(cnt);
+    ASCII_FONT_BUFFER[cnt] := (bb shr 2) and 1;
+    Inc(cnt);
+    ASCII_FONT_BUFFER[cnt] := (bb shr 1) and 1;
+    Inc(cnt);
+    ASCII_FONT_BUFFER[cnt] := bb and 1;
+    Inc(cnt);
+  end;
+
+  imginp := malloc(imgsize);
+
+  imgout := malloc(8 * 16);
+  for cidx := 0 to NUM_MARS_FONT_COLORS - 1 do
+  begin
+    r1 := (COLORS[cidx] shr 16) and $FF;
+    g1 := (COLORS[cidx] shr 8) and $FF;
+    b1 := COLORS[cidx] and $FF;
+    for i := 0 to imgsize - 1 do
+    begin
+      if ASCII_FONT_BUFFER[i] = 0 then
+        imginp[i] := MARS_PATCH_BLANC
+      else
+      begin
+        r := r1 * ASCII_FONT_BUFFER[i];
+        if r > 255 then
+          r := 255;
+        g := g1 * ASCII_FONT_BUFFER[i];
+        if g > 255 then
+          g := 255;
+        b := b1 * ASCII_FONT_BUFFER[i];
+        if b > 255 then
+          b := 255;
+        c := r shl 16 + g shl 8 + b;
+        imginp[i] := V_FindAproxColorIndex(@def_palL, c, 1, 255);
+      end;
+    end;
+
+    for ch := Chr(33) to Chr(128) do
+    begin
+      fpos := Ord(ch) * 128;
+      for j := 0 to 15 do
+      begin
+        for i := 0 to 7 do
+        begin
+          imgout[i * 16 + j] := imginp[fpos];
+          inc(fpos);
+        end;
+      end;
+      MARS_CreateDoomPatch(imgout, 8, 16, false, p, size, 0, 0);
+      wadwriter.AddData('MFNT' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
+      memfree(p, size);
+    end;
+  end;
+
+  memfree(pointer(ASCII_FONT_BUFFER), imgsize);
+  memfree(pointer(imginp), imgsize);
+  memfree(pointer(imgout), 8 * 16);
+end;
+
 function TMarsToWADConverter.GenerateMusic: boolean;
 var
   xmifilename: string;
@@ -595,6 +722,7 @@ begin
   GenerateMenuTranslation;
   GenerateBigFonts;
   GenerateDosFonts;
+  GenerateMarsFonts;
   GenerateMusic;
   GenerateSounds;
 end;
