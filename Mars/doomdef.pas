@@ -205,12 +205,12 @@ type
 // Key cards.
 //
   card_t = (
+    it_redcard,
     it_bluecard,
     it_yellowcard,
-    it_redcard,
+    it_redskull,
     it_blueskull,
     it_yellowskull,
-    it_redskull,
     NUMCARDS
   );
 
