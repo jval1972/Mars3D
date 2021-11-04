@@ -111,6 +111,7 @@ uses
   d_notifications,
   g_game,
   mars_version,
+  mars_hud,
   m_argv,
   m_misc,
   m_fixed,
@@ -656,6 +657,7 @@ var
 type
   optionsdisplayappearance_e = (
     od_drawfps,
+    od_drawcrosshair,
     od_shademenubackground,
     od_displaydiskbusyicon,
     od_displayendscreen,
@@ -4386,6 +4388,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @drawfps;
   pmi.alphaKey := 'f';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Draw Crosshair';
+  pmi.cmd := 'drawfps';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @drawcrosshair;
+  pmi.alphaKey := 'c';
 
   inc(pmi);
   pmi.status := 1;
