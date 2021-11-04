@@ -179,6 +179,7 @@ uses
   ps_main,
   psi_overlay,
   mars_version,
+  mars_hud,
   mars_files,
   mars_sounds,
   r_draw,
@@ -410,10 +411,11 @@ begin
           if inhelpscreensstate and not inhelpscreens then
             redrawsbar := true; // just put away the help screen
           viewfullscreen := viewheight = SCREENHEIGHT;
-          if viewfullscreen then
+          MARS_HudDrawer;
+{          if viewfullscreen then
             ST_Drawer(stdo_no, redrawsbar)
           else
-            ST_Drawer(stdo_full, redrawsbar);
+            ST_Drawer(stdo_full, redrawsbar);}
         end;
       end;
     GS_INTERMISSION:
@@ -476,7 +478,8 @@ begin
         end;
       end
       else if R_FullStOn and (gametic <> 0) then
-        ST_Drawer(stdo_small, redrawsbar);
+        MARS_HudDrawer;
+//        ST_Drawer(stdo_small, redrawsbar);
     end;
   end;
 
@@ -2188,6 +2191,8 @@ begin
   printf('MARS_InitSounds: Identify MARS sounds.'#13#10);
   MARS_InitSounds;
 
+  SUC_Progress(90);
+
   printf('HU_Init: Setting up heads up display.'#13#10);
   HU_Init;
 
@@ -2197,6 +2202,11 @@ begin
   ST_Init;
 
   SUC_Progress(92);
+
+  printf('MARS_InitHud: Init MARS hud.'#13#10);
+  MARS_InitHud;
+
+  SUC_Progress(93);
 
   //    // check for a driver that wants intermission stats
   p := M_CheckParm('-statcopy');
@@ -2303,6 +2313,8 @@ var
 begin
   printf('C_ShutDown: Shut down console.'#13#10);
   C_ShutDown;
+  printf('MARS_ShutDownHud: Shut down hud.'#13#10);
+  MARS_ShutDownHud;
   printf('P_ShutDown: Shut down Playloop state.'#13#10);
   P_ShutDown;
   printf('R_ShutDown: Shut down Rendering Engine.');
