@@ -22,14 +22,8 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION (d_main.h):
-//  System specific interface stuff.
-//
-// DESCRIPTION (d_main.c):
-//  DOOM main program (D_DoomMain) and game loop (D_DoomLoop),
-//  plus functions to determine game mode (shareware, registered),
-//  parse command line parameters, configure game parameters (turbo),
-//  and call the startup functions.
+// DESCRIPTION
+//  Detect known data files
 //
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/mars3d/
