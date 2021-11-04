@@ -421,7 +421,7 @@ var
 begin
   result := true;
 
-  COLORS[0] := 95 shl 16 + 207 shl 8 + 87; //192 shl 16 + 14 shl 8 + 14 shl 8;
+  COLORS[0] := 95 shl 16 + 207 shl 8 + 87;
   COLORS[1] := $FFFFFF;
 
   // Big dos font
