@@ -86,7 +86,7 @@ uses
   z_zone;
 
 //
-// Find string width from hu_font chars
+// Find string width from small_font chars
 //
 function M_SmallStringWidth(const str: string): integer;
 var
@@ -96,11 +96,11 @@ begin
   result := 0;
   for i := 1 to Length(str) do
   begin
-    c := Ord(toupper(str[i])) - Ord(HU_FONTSTART);
-    if (c < 0) or (c >= HU_FONTSIZE) then
+    c := Ord(toupper(str[i])) - Ord(DOS_FONTSTART);
+    if (c < 0) or (c >= DOS_FONTSIZE) then
       result := result + 4
     else
-      result := result + hu_font[c].width;
+      result := result + small_fontA[c].width;
   end;
 end;
 
@@ -112,32 +112,32 @@ begin
   result := 0;
   for i := 1 to Length(str) do
   begin
-    c := Ord(toupper(str[i])) - Ord(HU_FONTSTART);
-    if (c < 0) or (c >= HU_FONTSIZE) then
+    c := Ord(toupper(str[i])) - Ord(DOS_FONTSTART);
+    if (c < 0) or (c >= DOS_FONTSIZE) then
       result := result + 3
     else
-      result := result + hu_font[c].width;
+      result := result + small_fontA[c].width;
   end;
 end;
 
 //
-// Find string height from hu_font chars
+// Find string height from small_font chars
 //
 function M_SmallStringHeight(const str: string): integer;
 var
   i: integer;
   height: integer;
 begin
-  height := hu_font[0].height;
+  height := small_fontA[0].height;
 
   result := height;
   for i := 1 to Length(str) do
-    if str[i] = #13 then
+    if str[i] = #10 then
       result := result + height;
 end;
 
 //
-// Write a string using the hu_font
+// Write a string using the small_font
 //
 function M_WriteSmallText(x, y: integer; const str: string; const scn: integer): menupos_t;
 var
@@ -183,17 +183,17 @@ begin
       continue;
     end;
 
-    c := Ord(toupper(Chr(c))) - Ord(HU_FONTSTART);
-    if (c < 0) or (c >= HU_FONTSIZE) then
+    c := Ord(toupper(Chr(c))) - Ord(DOS_FONTSTART);
+    if (c < 0) or (c >= DOS_FONTSIZE) then
     begin
       cx := cx + 4;
       continue;
     end;
 
-    w := hu_font[c].width;
+    w := small_fontA[c].width;
     if (cx + w) > 320 then
       break;
-    V_DrawPatch(cx, cy, scn, hu_font[c], false);
+    V_DrawPatch(cx, cy, scn, small_fontA[c], false);
     cx := cx + w;
   end;
 
@@ -226,7 +226,6 @@ var
   cx: integer;
   cy: integer;
   len: integer;
-  oldtranslation: PByteArray;
 begin
   len := Length(str);
   if len = 0 then
@@ -240,8 +239,6 @@ begin
   cx := x;
   cy := y;
 
-  oldtranslation := v_translation;
-  v_translation := W_CacheLumpName('TRN_MENU', PU_STATIC);
   while true do
   begin
     if ch > len then
@@ -265,21 +262,19 @@ begin
       continue;
     end;
 
-    c := Ord(toupper(Chr(c))) - Ord(HU_FONTSTART);
-    if (c < 0) or (c >= HU_FONTSIZE) then
+    c := Ord(toupper(Chr(c))) - Ord(DOS_FONTSTART);
+    if (c < 0) or (c >= DOS_FONTSIZE) then
     begin
       cx := cx + 4;
       continue;
     end;
 
-    w := hu_font[c].width;
+    w := small_fontB[c].width;
     if (cx + w) > 320 then
       break;
-    V_DrawPatch(cx, cy, scn, hu_font[c], false);
+    V_DrawPatch(cx, cy, scn, small_fontB[c], false);
     cx := cx + w;
   end;
-  Z_ChangeTag(v_translation, PU_CACHE);
-  v_translation := oldtranslation;
 
   result.x := cx;
   result.y := cy;
@@ -293,7 +288,6 @@ var
   cx: integer;
   cy: integer;
   len: integer;
-  oldtranslation: PByteArray;
 begin
   len := Length(str);
   if len = 0 then
@@ -307,8 +301,6 @@ begin
   cx := x;
   cy := y;
 
-  oldtranslation := v_translation;
-  v_translation := W_CacheLumpName('TRN_MENU', PU_STATIC);
   while true do
   begin
     if ch > len then
@@ -332,21 +324,19 @@ begin
       continue;
     end;
 
-    c := Ord(toupper(Chr(c))) - Ord(HU_FONTSTART);
-    if (c < 0) or (c >= HU_FONTSIZE) then
+    c := Ord(toupper(Chr(c))) - Ord(DOS_FONTSTART);
+    if (c < 0) or (c >= DOS_FONTSIZE) then
     begin
       cx := cx + 3;
       continue;
     end;
 
-    w := hu_font[c].width;
+    w := small_fontB[c].width;
     if (cx + w) > 320 then
       break;
-    V_DrawPatch(cx, cy, scn, hu_font[c], false);
+    V_DrawPatch(cx, cy, scn, small_fontB[c], false);
     cx := cx + w;
   end;
-  Z_ChangeTag(v_translation, PU_CACHE);
-  v_translation := oldtranslation;
 
   result.x := cx;
   result.y := cy;
