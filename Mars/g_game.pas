@@ -241,6 +241,8 @@ type
     load6,
     load7,
     load8,
+    load9,
+    load10,
     load_end
   );
 
