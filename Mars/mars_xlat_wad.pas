@@ -544,7 +544,7 @@ var
   c: LongWord;
   r1, g1, b1: LongWord;
   r, g, b: LongWord;
-  x, y, fpos: integer;
+  fpos: integer;
 begin
   fntfilename := MARS_FindFile('ASCII.FNT');
   if not fexists(fntfilename) then
