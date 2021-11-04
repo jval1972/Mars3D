@@ -49,6 +49,18 @@ const
 
 // Calculate # of glyphs in font.
   HU_FONTSIZE = (Ord(HU_FONTEND) - Ord(HU_FONTSTART)) + 1;
+
+  DOS_FONTSTART = '!'; // the first dos font characters
+  DOS_FONTEND = #128; // the last dos font characters
+
+// Calculate # of glyphs in font.
+  DOS_FONTSIZE = (Ord(DOS_FONTEND) - Ord(DOS_FONTSTART)) + 1;
+
+  BIG_FONTSTART = '!'; // the first dos font characters
+  BIG_FONTEND = #128; // the last dos font characters
+
+  BIG_FONTSIZE = (Ord(BIG_FONTEND) - Ord(BIG_FONTSTART)) + 1;
+
   HU_BROADCAST = 5;
 
   HU_MSGREFRESH = KEY_ENTER;
@@ -81,6 +93,16 @@ procedure HU_Erase;
 
 var
   hu_font: array[0..HU_FONTSIZE - 1] of Ppatch_t;
+
+  dos_fontA: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+  dos_fontB: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+
+  big_fontA: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+  big_fontB: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+  big_fontC: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+
+  small_fontA: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+  small_fontB: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
 
   chat_on: boolean;
 
@@ -393,6 +415,7 @@ var
   i: integer;
   j: integer;
   buffer: string;
+  lump: integer;
 begin
   if language = french then
   begin
@@ -412,6 +435,90 @@ begin
     buffer := 'STCFN' + IntToStrZfill(3, j);
     inc(j);
     hu_font[i] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
+  end;
+
+  // Red DOS font
+  j := Ord(DOS_FONTSTART);
+  for i := 0 to DOS_FONTSIZE - 1 do
+  begin
+    buffer := 'DOSFA' + IntToStrZfill(3, j);
+    lump := W_CheckNumForName(buffer);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
+    inc(j);
+    dos_fontA[i] := W_CacheLumpNum(lump, PU_STATIC);
+  end;
+
+  // White DOS font
+  j := Ord(DOS_FONTSTART);
+  for i := 0 to DOS_FONTSIZE - 1 do
+  begin
+    buffer := 'DOSFB' + IntToStrZfill(3, j);
+    lump := W_CheckNumForName(buffer);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
+    inc(j);
+    dos_fontB[i] := W_CacheLumpNum(lump, PU_STATIC);
+  end;
+
+  // Red BIG font
+  j := Ord(BIG_FONTSTART);
+  for i := 0 to BIG_FONTSIZE - 1 do
+  begin
+    buffer := 'BIGFA' + IntToStrZfill(3, j);
+    lump := W_CheckNumForName(buffer);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
+    inc(j);
+    big_fontA[i] := W_CacheLumpNum(lump, PU_STATIC);
+  end;
+
+  // Gray BIG font
+  j := Ord(BIG_FONTSTART);
+  for i := 0 to BIG_FONTSIZE - 1 do
+  begin
+    buffer := 'BIGFB' + IntToStrZfill(3, j);
+    lump := W_CheckNumForName(buffer);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
+    inc(j);
+    big_fontB[i] := W_CacheLumpNum(lump, PU_STATIC);
+  end;
+
+  // Orange BIG font
+  j := Ord(BIG_FONTSTART);
+  for i := 0 to BIG_FONTSIZE - 1 do
+  begin
+    buffer := 'BIGFC' + IntToStrZfill(3, j);
+    lump := W_CheckNumForName(buffer);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
+    inc(j);
+    big_fontC[i] := W_CacheLumpNum(lump, PU_STATIC);
+  end;
+
+  // Red small font
+  j := Ord(BIG_FONTSTART);
+  for i := 0 to BIG_FONTSIZE - 1 do
+  begin
+    buffer := 'DOSSA' + IntToStrZfill(3, j);
+    lump := W_CheckNumForName(buffer);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
+    inc(j);
+    small_fontA[i] := W_CacheLumpNum(lump, PU_STATIC);
+  end;
+
+  // White small font
+  j := Ord(BIG_FONTSTART);
+  for i := 0 to BIG_FONTSIZE - 1 do
+  begin
+    buffer := 'DOSSB' + IntToStrZfill(3, j);
+    lump := W_CheckNumForName(buffer);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
+    inc(j);
+    small_fontB[i] := W_CacheLumpNum(lump, PU_STATIC);
   end;
 
   for i := 0 to FPSSIZE - 1 do
