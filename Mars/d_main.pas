@@ -336,7 +336,6 @@ procedure D_DisplayHU;
 {$ENDIF}
 var
   y: integer;
-  redrawsbar: boolean;
   redrawbkscn: boolean;
   palette: PByteArray;
   drawhu: boolean;
@@ -365,7 +364,6 @@ begin
   if nodrawers then
     exit; // for comparative timing / profiling
 
-  redrawsbar := false;
   redrawbkscn := false;
   drawhu := false;
 
@@ -405,17 +403,11 @@ begin
         if gametic <> 0 then
         begin
           if amstate = am_only then
+          begin
             AM_Drawer;
-          if {$IFNDEF OPENGL}wipe or {$ENDIF}((viewheight <> SCREENHEIGHT) and viewfullscreen) then
-            redrawsbar := true;
-          if inhelpscreensstate and not inhelpscreens then
-            redrawsbar := true; // just put away the help screen
-          viewfullscreen := viewheight = SCREENHEIGHT;
-          MARS_HudDrawer;
-{          if viewfullscreen then
-            ST_Drawer(stdo_no, redrawsbar)
-          else
-            ST_Drawer(stdo_full, redrawsbar);}
+            MARS_HudDrawer;
+          end;
+          ST_DoPaletteStuff;
         end;
       end;
     GS_INTERMISSION:
@@ -433,6 +425,7 @@ begin
     if (amstate <> am_only) and (gametic <> 0) then
     begin
       D_RenderPlayerView(@players[displayplayer]);
+      MARS_HudDrawer;
       if amstate = am_overlay then
         AM_Drawer;
     end;
@@ -473,13 +466,13 @@ begin
         if borderdrawcount > 0 then
         begin
           R_DrawViewBorder; // erase old menu stuff
+          if gamestate = gs_level then
+            MARS_HudDrawer;
           redrawbkscn := true;
           dec(borderdrawcount);
         end;
-      end
-      else if R_FullStOn and (gametic <> 0) then
-        MARS_HudDrawer;
-//        ST_Drawer(stdo_small, redrawsbar);
+      end;
+      ST_DoPaletteStuff;
     end;
   end;
 
@@ -601,6 +594,7 @@ begin
     begin
       R_FillBackScreen; // draw the pattern into the back screen
       D_RenderPlayerView(@players[displayplayer]);
+      MARS_HudDrawer;
     end;
   end;
   if gamestate = GS_LEVEL then

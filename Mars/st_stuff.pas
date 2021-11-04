@@ -66,6 +66,8 @@ function ST_Responder(ev: Pevent_t): boolean;
 // Called by main loop.
 procedure ST_Ticker;
 
+procedure ST_DoPaletteStuff;
+
 // Called by main loop.
 procedure ST_Drawer(dopt: stdrawoptions_t; refresh: boolean);
 
@@ -1257,7 +1259,7 @@ var
 begin
   if plyr = nil then
     exit;
-    
+
   cnt := plyr.damagecount;
 
   if plyr.powers[Ord(pw_strength)] <> 0 then
@@ -1296,7 +1298,7 @@ begin
   if customgame in [cg_chex, cg_chex2] then
     if (palette >= STARTREDPALS) and (palette < STARTREDPALS + NUMREDPALS) then
       palette := RADIATIONPAL;
-          
+
   if palette <> st_palette then
   begin
     st_palette := palette;
