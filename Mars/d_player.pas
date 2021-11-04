@@ -198,6 +198,9 @@ type
     cmd: ticcmd_t;      // JVAL Smooth Look Up/Down
     nextoof: integer;
     quakeintensity: fixed_t;
+
+    plinetarget: Pmobj_t; // JVAL: For the crosshair target
+    pcrosstic: integer;
   end;
   Pplayer_t = ^player_t;
 

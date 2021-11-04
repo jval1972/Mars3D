@@ -55,6 +55,7 @@ uses
   d_net,
   g_game,
   mt_utils,
+  p_tick,
   r_defs,
   r_main,
   tables,
@@ -74,6 +75,7 @@ var
   bignums: array[0..9] of Ppatch_t;
   stkeys: array[0..2] of Ppatch_t;
   compass: array[0..7] of Ppatch_t;
+  crosshairs: array[0..4] of Ppatch_t;
 
 type
   weaponpos_t = record
@@ -112,6 +114,9 @@ begin
 
   for i := 0 to 7 do
     compass[i] := W_CacheLumpName('WILV0' + itoa(i), PU_STATIC);
+
+  for i := 0 to 4 do
+    crosshairs[i] := W_CacheLumpName('CROSS' + itoa(i), PU_STATIC);
 end;
 
 procedure MARS_ShutDownHud;
@@ -122,6 +127,32 @@ end;
 procedure MARS_HudDrawPatch(const x, y: integer; const patch: Ppatch_t);
 begin
   V_DrawPatch(x + patch.leftoffset, y + patch.topoffset, SCN_HUD, patch, false);
+end;
+
+procedure MARS_HudDrawCrossHair;
+var
+  cidx: integer;
+  p: Ppatch_t;
+begin
+  if not drawcrosshair then
+    exit;
+
+  if amstate = am_only then
+    exit;
+
+  if hud_player.playerstate = PST_DEAD then
+    exit;
+
+  if hud_player.plinetarget = nil then
+    cidx := 0
+  else
+    cidx := (((leveltime - hud_player.pcrosstic) div 8) mod 4) + 1;
+
+  p := crosshairs[cidx];
+  if screenblocks > 10 then
+    V_DrawPatch(160, 100, SCN_HUD, p, false)
+  else
+    V_DrawPatch(160, 100 - STATUSBAR_HEIGHT div 2, SCN_HUD, p, false);
 end;
 
 procedure MARS_HudDrawCompass(const x, y: integer);
@@ -163,7 +194,8 @@ end;
 
 procedure MARS_HudDrawerSmall;
 begin
-
+  // Draw crosshair
+  MARS_HudDrawCrossHair;
 end;
 
 procedure MARS_HudDrawerStatusBar;
@@ -171,6 +203,9 @@ var
   i: integer;
   x, y: integer;
 begin
+  // Draw crosshair
+  MARS_HudDrawCrossHair;
+
   // Draw statusbar
   MARS_HudDrawPatch(0, 200 - STATUSBAR_HEIGHT, statusbarimage);
 

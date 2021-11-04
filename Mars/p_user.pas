@@ -776,6 +776,12 @@ begin
   else
     player.mo.flags := player.mo.flags and not MF_NOCLIP;
 
+  // JVAL: MARS - Retrieve Linetarget
+  P_AimLineAttack(player.mo, player.mo.angle, 16 * 64 * FRACUNIT);
+  if (player.plinetarget = nil) and (linetarget <> nil) then
+    player.pcrosstic := leveltime;
+  player.plinetarget := linetarget;
+
   // chain saw run forward
   cmd := @player.cmd;
   if player.mo.flags and MF_JUSTATTACKED <> 0 then
