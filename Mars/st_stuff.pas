@@ -298,12 +298,6 @@ const
 
 // Width, in characters again.
   ST_OUTWIDTH = 52;
- // Height, in lines.
-  ST_OUTHEIGHT = 1;
-
-
-  ST_MAPTITLEY = 0;
-  ST_MAPHEIGHT = 1;
 
 // Minimum (small display constants)
 // Location of medikit
