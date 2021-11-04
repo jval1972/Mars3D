@@ -318,9 +318,9 @@ begin
   imgsize := SizeOf(BIG_FONT_BUFFER);
   imginp := malloc(imgsize);
 
-  COLORS[0] := $800000;
+  COLORS[0] := $008000;
   COLORS[1] := $808080;
-  COLORS[2] := $C47C0C;
+  COLORS[2] := $7CC40C;
 
   fnt := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890`~!@#$%^&*()-_=+*/<>.,\[]|;:''"{}';
   imgout := malloc(18 * 21);
