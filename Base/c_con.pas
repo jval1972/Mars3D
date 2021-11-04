@@ -752,7 +752,7 @@ begin
           else
             begin
               c := Ord(toupper(Chr(c)));
-              if ((c >= Ord(HU_FONTSTART)) and (c <= Ord({$IFDEF DOOM_OR_STRIFE}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}))) or
+              if ((c >= Ord(DOS_FONTSTART)) and (c <= Ord(DOS_FONTEND))) or
                  (Chr(c) in [' ', '.', '!', '-', '+', '=', '*', '/', '\']) then
               begin
                 if shiftdown then
@@ -946,9 +946,9 @@ begin
         while i <= len do
         begin
           c := toupper(ConsoleText[line].line[i]);
-          if (c >= HU_FONTSTART) and (c <= {$IFDEF DOOM_OR_STRIFE}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}) then
+          if (c >= DOS_FONTSTART) and (c <= DOS_FONTEND) then
           begin
-            patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord(c) - Ord(HU_FONTSTART)];
+            patch := small_fontB[Ord(c) - Ord(DOS_FONTSTART)];
             if c in FIXED_PITCH_CHARS then
             begin
               V_DrawPatch(x + C_FONTWIDTH - patch.width, y, SCN_CON, patch, false);
@@ -983,9 +983,9 @@ begin
     for i := 1 to Length(ConsoleInputBuff) do
     begin
       c := toupper(ConsoleInputBuff[i]);
-      if (c >= HU_FONTSTART) and (c <= {$IFDEF DOOM_OR_STRIFE}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}) and (x < xmax) then
+      if (c >= DOS_FONTSTART) and (c <= DOS_FONTEND) and (x < xmax) then
       begin
-        patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord(c) - Ord(HU_FONTSTART)];
+        patch := small_fontB[Ord(c) - Ord(DOS_FONTSTART)];
         if c in FIXED_PITCH_CHARS then
         begin
           V_DrawPatch(x + C_FONTWIDTH - patch.width, y, SCN_CON, patch, false);
@@ -1003,7 +1003,7 @@ begin
 
     if cursonon and (x < xmax) then
     begin
-      patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord('_') - Ord(HU_FONTSTART)];
+      patch := small_fontB[Ord('_') - Ord(DOS_FONTSTART)];
       V_DrawPatch(x, y, SCN_CON, patch, false);
     end;
     cursor_x := x;
@@ -1017,7 +1017,7 @@ begin
   begin
     if cursonon and (cursor_x < xmax) then
     begin
-      patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord('_') - Ord(HU_FONTSTART)];
+      patch := small_fontB[Ord('_') - Ord(DOS_FONTSTART)];
       V_DrawPatch(cursor_x, cursor_y, SCN_CON, patch, false);
     end;
     cursor_needs_update := false;
