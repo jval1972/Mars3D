@@ -433,8 +433,11 @@ begin
   for i := 0 to HU_FONTSIZE - 1 do
   begin
     buffer := 'STCFN' + IntToStrZfill(3, j);
+    lump := W_CheckNumForName(buffer);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
     inc(j);
-    hu_font[i] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
+    hu_font[i] := W_CacheLumpNum(lump, PU_STATIC);
   end;
 
   // Red DOS font
