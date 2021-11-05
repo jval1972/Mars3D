@@ -54,20 +54,22 @@ type
   end;
 
 const
-  NUMINDICATORS = 39;
+  NUMINDICATORS = 40;
   IND_FLOOR = 1;
   IND_SPRITE = 2;
   IND_PATCH = 3;
   IND_VOXEL = 4;
   IND_HIRES = 5;
   IND_MUSIC = 5;
-  IND_MAX = 7;
+  IND_FONT = 5;
+  IND_MAX = 8;
   TYPE_FLOOR = 1 shl IND_FLOOR;
   TYPE_SPRITE = 1 shl IND_SPRITE;
   TYPE_PATCH = 1 shl IND_PATCH;
   TYPE_VOXEL = 1 shl IND_VOXEL;
   TYPE_HIRES = 1 shl IND_HIRES;
   TYPE_MUSIC = 1 shl IND_MUSIC;
+  TYPE_FONT = 1 shl IND_FONT;
 
   lumpindicators: array[0..NUMINDICATORS - 1] of lumpindicator_t = (
     (_START: 'F_START';  _END: 'F_END';    _type: IND_FLOOR),
@@ -108,7 +110,8 @@ const
     (_START: 'PP_START'; _END: 'PP_END';   _type: IND_PATCH),
     (_START: 'VX_START'; _END: 'VX_END';   _type: IND_VOXEL),
     (_START: 'HI_START'; _END: 'HI_END';   _type: IND_HIRES),
-    (_START: 'M_START';  _END: 'M_END';    _type: IND_MUSIC)
+    (_START: 'M_START';  _END: 'M_END';    _type: IND_MUSIC),
+    (_START: 'FN_START'; _END: 'FN_END';   _type: IND_FONT)
   );
 
 type
