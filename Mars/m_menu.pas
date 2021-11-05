@@ -208,8 +208,7 @@ var
   saveOldString: string;
 
 var
-  p_leftarrow: Ppatch_t;
-  p_rightarrow: Ppatch_t;
+  p_bulletind: Ppatch_t;
 
 const
   ARROWXOFFS = -8;
@@ -3673,7 +3672,7 @@ begin
   end;
 
   if currentMenu.flags and FLG_MN_DRAWITEMON <> 0 then
-    V_DrawPatch(x + ARROWXOFFS, currentMenu.y + itemOn * currentMenu.itemheight + ARROWYOFFS, SCN_TMP, p_rightarrow, false);
+    V_DrawPatch(x + ARROWXOFFS, currentMenu.y + itemOn * currentMenu.itemheight + ARROWYOFFS, SCN_TMP, p_bulletind, false);
 
   M_FinishUpdate(200);
 end;
@@ -3903,8 +3902,7 @@ begin
   gammamsg[4] := GAMMALVL4;
 
 ////////////////////////////////////////////////////////////////////////////////
-  p_leftarrow := W_CacheLumpName('L_ARROW', PU_STATIC);
-  p_rightarrow := W_CacheLumpName('R_ARROW', PU_STATIC);
+  p_bulletind := W_CacheLumpName('M_SKULL1', PU_STATIC);
 
 ////////////////////////////////////////////////////////////////////////////////
 // MainMenu
