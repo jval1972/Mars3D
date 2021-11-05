@@ -409,7 +409,7 @@ uses
   anm_lib in 'Base\anm_lib.pas',
   mars_glass in 'Mars\mars_glass.pas',
   mars_hud in 'Mars\mars_hud.pas',
-  mn_font in 'Mars\mn_font.pas';
+  mn_textwrite in 'Mars\mn_textwrite.pas';
 
 var
   Saved8087CW: Word;
