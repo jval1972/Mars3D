@@ -45,21 +45,10 @@ const
 // Globally visible constants.
 //
   HU_FONTSTART = '!'; // the first font characters
-  HU_FONTEND = '_'; // the last font characters
+  HU_FONTEND = #127; // the last font characters
 
 // Calculate # of glyphs in font.
   HU_FONTSIZE = (Ord(HU_FONTEND) - Ord(HU_FONTSTART)) + 1;
-
-  DOS_FONTSTART = '!'; // the first dos font characters
-  DOS_FONTEND = #128; // the last dos font characters
-
-// Calculate # of glyphs in font.
-  DOS_FONTSIZE = (Ord(DOS_FONTEND) - Ord(DOS_FONTSTART)) + 1;
-
-  BIG_FONTSTART = '!'; // the first dos font characters
-  BIG_FONTEND = #128; // the last dos font characters
-
-  BIG_FONTSIZE = (Ord(BIG_FONTEND) - Ord(BIG_FONTSTART)) + 1;
 
   HU_BROADCAST = 5;
 
@@ -92,17 +81,23 @@ function HU_dequeueChatChar: char;
 procedure HU_Erase;
 
 var
-  hu_font: array[0..HU_FONTSIZE - 1] of Ppatch_t;
+  hu_fontY: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Small Yellow Text
+  hu_fontW: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Small White Text
+  hu_fontB: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Small Black Text
+  hu_fontR: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Small Red Text
+  hu_fontG: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Small gray Text
 
-  dos_fontA: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
-  dos_fontB: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+  big_fontY: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Big Yellow Text
+  big_fontW: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Big White Text
+  big_fontB: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Big Black Text
+  big_fontR: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Big Red Text
+  big_fontG: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Big gray Text
 
-  big_fontA: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
-  big_fontB: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
-  big_fontC: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+  dos_fontG: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Green DOS font
+  dos_fontW: array[0..HU_FONTSIZE - 1] of Ppatch_t; // White DOS font
 
-  small_fontA: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
-  small_fontB: array[0..DOS_FONTSIZE - 1] of Ppatch_t;
+  mars_fontLG: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Light Green MARS font
+  mars_fontDG: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Dark Green MARS font
 
   chat_on: boolean;
 
@@ -280,12 +275,12 @@ const
 
 function HU_TITLEY: integer;
 begin
-  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 167 div 200{$ELSE}167{$ENDIF} - hu_font[0].height;
+  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 167 div 200{$ELSE}167{$ENDIF} - hu_fontY[0].height;
 end;
 
 function HU_LEVELTIMEY: integer;
 begin
-  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 167 div 200{$ELSE}167{$ENDIF} - 2 * hu_font[0].height;
+  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 167 div 200{$ELSE}167{$ENDIF} - 2 * hu_fontY[0].height;
 end;
 
 const
@@ -298,7 +293,7 @@ end;
 
 function HU_INPUTY: integer;
 begin
-  result := HU_MSGY + HU_MSGHEIGHT * (hu_font[0].height + 1)
+  result := HU_MSGY + HU_MSGHEIGHT * (hu_fontY[0].height + 1)
 end;
 
 const
@@ -410,6 +405,20 @@ begin
     result := ch;
 end;
 
+var
+  tnt1a0_lump: Integer;
+
+function HU_CacheLumpName(const name: string; const tag: integer): Ppatch_t;
+var
+  lump: integer;
+begin
+  lump := W_CheckNumForName(name);
+  if lump < 0 then
+    Result := W_CacheLumpNum(tnt1a0_lump, tag)
+  else
+    Result := W_CacheLumpNum(lump, tag);
+end;
+
 procedure HU_Init;
 var
   i: integer;
@@ -428,100 +437,32 @@ begin
       shiftxform[i] := english_shiftxform[i];
   end;
 
+  tnt1a0_lump := W_GetNumForName('TNT1A0');
+
   // load the heads-up font
   j := Ord(HU_FONTSTART);
   for i := 0 to HU_FONTSIZE - 1 do
   begin
-    buffer := 'STCFN' + IntToStrZfill(3, j);
-    lump := W_CheckNumForName(buffer);
-    if lump < 0 then
-      lump := W_GetNumForName('TNT1A0');
+    buffer := IntToStrZfill(3, j);
     inc(j);
-    hu_font[i] := W_CacheLumpNum(lump, PU_STATIC);
-  end;
 
-  // Red DOS font
-  j := Ord(DOS_FONTSTART);
-  for i := 0 to DOS_FONTSIZE - 1 do
-  begin
-    buffer := 'DOSFA' + IntToStrZfill(3, j);
-    lump := W_CheckNumForName(buffer);
-    if lump < 0 then
-      lump := W_GetNumForName('TNT1A0');
-    inc(j);
-    dos_fontA[i] := W_CacheLumpNum(lump, PU_STATIC);
-  end;
+    hu_fontY[i] := HU_CacheLumpName('SFNTA' + buffer, PU_STATIC);
+    hu_fontW[i] := HU_CacheLumpName('SFNTB' + buffer, PU_STATIC);
+    hu_fontB[i] := HU_CacheLumpName('SFNTC' + buffer, PU_STATIC);
+    hu_fontR[i] := HU_CacheLumpName('SFNTD' + buffer, PU_STATIC);
+    hu_fontG[i] := HU_CacheLumpName('SFNTE' + buffer, PU_STATIC);
 
-  // White DOS font
-  j := Ord(DOS_FONTSTART);
-  for i := 0 to DOS_FONTSIZE - 1 do
-  begin
-    buffer := 'DOSFB' + IntToStrZfill(3, j);
-    lump := W_CheckNumForName(buffer);
-    if lump < 0 then
-      lump := W_GetNumForName('TNT1A0');
-    inc(j);
-    dos_fontB[i] := W_CacheLumpNum(lump, PU_STATIC);
-  end;
+    big_fontY[i] := HU_CacheLumpName('BFNTA' + buffer, PU_STATIC);
+    big_fontW[i] := HU_CacheLumpName('BFNTB' + buffer, PU_STATIC);
+    big_fontB[i] := HU_CacheLumpName('BFNTC' + buffer, PU_STATIC);
+    big_fontR[i] := HU_CacheLumpName('BFNTD' + buffer, PU_STATIC);
+    big_fontG[i] := HU_CacheLumpName('BFNTE' + buffer, PU_STATIC);
 
-  // Red BIG font
-  j := Ord(BIG_FONTSTART);
-  for i := 0 to BIG_FONTSIZE - 1 do
-  begin
-    buffer := 'BIGFA' + IntToStrZfill(3, j);
-    lump := W_CheckNumForName(buffer);
-    if lump < 0 then
-      lump := W_GetNumForName('TNT1A0');
-    inc(j);
-    big_fontA[i] := W_CacheLumpNum(lump, PU_STATIC);
-  end;
+    dos_fontG[i] := HU_CacheLumpName('DFNTA' + buffer, PU_STATIC);
+    dos_fontW[i] := HU_CacheLumpName('DFNTB' + buffer, PU_STATIC);
 
-  // Gray BIG font
-  j := Ord(BIG_FONTSTART);
-  for i := 0 to BIG_FONTSIZE - 1 do
-  begin
-    buffer := 'BIGFB' + IntToStrZfill(3, j);
-    lump := W_CheckNumForName(buffer);
-    if lump < 0 then
-      lump := W_GetNumForName('TNT1A0');
-    inc(j);
-    big_fontB[i] := W_CacheLumpNum(lump, PU_STATIC);
-  end;
-
-  // Orange BIG font
-  j := Ord(BIG_FONTSTART);
-  for i := 0 to BIG_FONTSIZE - 1 do
-  begin
-    buffer := 'BIGFC' + IntToStrZfill(3, j);
-    lump := W_CheckNumForName(buffer);
-    if lump < 0 then
-      lump := W_GetNumForName('TNT1A0');
-    inc(j);
-    big_fontC[i] := W_CacheLumpNum(lump, PU_STATIC);
-  end;
-
-  // Red small font
-  j := Ord(BIG_FONTSTART);
-  for i := 0 to BIG_FONTSIZE - 1 do
-  begin
-    buffer := 'DOSSA' + IntToStrZfill(3, j);
-    lump := W_CheckNumForName(buffer);
-    if lump < 0 then
-      lump := W_GetNumForName('TNT1A0');
-    inc(j);
-    small_fontA[i] := W_CacheLumpNum(lump, PU_STATIC);
-  end;
-
-  // White small font
-  j := Ord(BIG_FONTSTART);
-  for i := 0 to BIG_FONTSIZE - 1 do
-  begin
-    buffer := 'DOSSB' + IntToStrZfill(3, j);
-    lump := W_CheckNumForName(buffer);
-    if lump < 0 then
-      lump := W_GetNumForName('TNT1A0');
-    inc(j);
-    small_fontB[i] := W_CacheLumpNum(lump, PU_STATIC);
+    mars_fontLG[i] := HU_CacheLumpName('MFNTA' + buffer, PU_STATIC);
+    mars_fontDG[i] := HU_CacheLumpName('MFNTB' + buffer, PU_STATIC);
   end;
 
   for i := 0 to FPSSIZE - 1 do
@@ -556,18 +497,18 @@ begin
   // create the message widget
   HUlib_initSText(@w_message,
     HU_MSGX, HU_MSGY, HU_MSGHEIGHT,
-    @hu_font,
+    @hu_fontG,
     Ord(HU_FONTSTART), @message_on);
 
   // create the map title widget
   HUlib_initTextLine(@w_title,
     HU_TITLEX, HU_TITLEY,
-    @hu_font,
+    @hu_fontG,
     Ord(HU_FONTSTART));
 
   HUlib_initTextLine(@w_leveltime,
     HU_LEVELTIMEX, HU_LEVELTIMEY,
-    @hu_font,
+    @hu_fontG,
     Ord(HU_FONTSTART));
 
   case gamemode of
@@ -591,7 +532,7 @@ begin
   // create the chat widget
   HUlib_initIText(@w_chat,
     HU_INPUTX, HU_INPUTY,
-    @hu_font,
+    @hu_fontG,
     Ord(HU_FONTSTART), @chat_on);
 
   // create the inputbuffer widgets
@@ -629,7 +570,7 @@ begin
     if m_fps[i] <> ' ' then
     begin
       c := Ord(toupper(m_fps[i])) - Ord(HU_FONTSTART);
-      V_DrawPatch(x, y, SCN_FG, hu_font[c], false);
+      V_DrawPatch(x, y, SCN_FG, hu_fontG[c], false);
       x := x - 8;
     end
     else
@@ -652,7 +593,7 @@ begin
     if m_fps[i] <> ' ' then
     begin
       c := Ord(toupper(m_fps[i])) - Ord(HU_FONTSTART);
-      V_DrawPatch(x, y, SCN_FG, hu_font[c], true);
+      V_DrawPatch(x, y, SCN_FG, hu_fontG[c], true);
       x := x - 8;
     end
     else

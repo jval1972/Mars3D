@@ -43,37 +43,22 @@ type
     x, y: integer;
   end;
 
-function M_SmallStringWidth(const str: string): integer;
+const
+  _MA_LEFT = 0;
+  _MA_RIGHT = 1;
+  _MA_CENTER = 2;
+  _MALIGN_MASK = 3;
+  _MC_UPPER = 4;
+  _MC_LOWER = 8;
+  _MC_NOCASE = 0;
+  _MCASE_MASK = 12;
 
-function M_SmallStringHeight(const str: string): integer;
+function M_WriteText(x, y: integer; const str: string; const flags: integer;
+  const font: Ppatch_tPArray; const shadefont: Ppatch_tPArray = nil): menupos_t;
 
-function M_WriteSmallText(x, y: integer; const str: string; const scn: integer): menupos_t;
+function M_StringWidth(const str: string; const flags: integer; const font: Ppatch_tPArray): integer;
 
-function M_WriteSmallTextCenter(y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_WriteSmallWhiteText(x, y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_WriteSmallWhiteTextCenter(y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_WriteSmallWhiteTextCenterNarrow(y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_BigStringWidth(const str: string; const font_array: Ppatch_tPArray): integer;
-
-function M_WriteBigText(x, y: integer; const font_array: Ppatch_tPArray; const str: string; const scn: integer): menupos_t;
-
-function M_WriteBigTextCenter(y: integer; const font_array: Ppatch_tPArray; const str: string; const scn: integer): menupos_t;
-
-function M_WriteBigTextRed(x, y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_WriteBigTextRedCenter(y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_WriteBigTextGray(x, y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_WriteBigTextGrayCenter(y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_WriteBigTextOrange(x, y: integer; const str: string; const scn: integer): menupos_t;
-
-function M_WriteBigTextOrangeCenter(y: integer; const str: string; const scn: integer): menupos_t;
+function M_StringHeight(const str: string; const font: Ppatch_tPArray): integer;
 
 implementation
 
@@ -81,429 +66,144 @@ uses
   d_delphi,
   hu_stuff,
   v_data,
-  v_video,
-  w_wad,
-  z_zone;
+  v_video;
+
+type
+  casefunc_t = function (ch: Char): Char;
+
+function nocase(ch: Char): Char;
+begin
+  Result := ch;
+end;
 
 //
-// Find string width from small_font chars
+// Write a string using the font
 //
-function M_SmallStringWidth(const str: string): integer;
+function M_WriteText(x, y: integer; const str: string; const flags: integer;
+  const font: Ppatch_tPArray; const shadefont: Ppatch_tPArray = nil): menupos_t;
+var
+  w: integer;
+  ch: integer;
+  c: integer;
+  cx: integer;
+  cy: integer;
+  len: integer;
+  align: integer;
+  ccase: integer;
+  casefunc: casefunc_t;
+begin
+  len := Length(str);
+  if len = 0 then
+  begin
+    result.x := x;
+    result.y := y;
+    exit;
+  end;
+
+  ch := 1;
+  align := flags and _MALIGN_MASK;
+  case align of
+    _MA_LEFT: cx := x;
+    _MA_RIGHT: cx := x - M_StringWidth(str, flags, font);
+  else
+    cx := x - M_StringWidth(str, flags, font) div 2;
+  end;
+  cy := y;
+
+  ccase := flags and _MCASE_MASK;
+  case ccase of
+    _MC_UPPER: casefunc := @toupper;
+    _MC_LOWER: casefunc := @tolower;
+  else
+    casefunc := @nocase;
+  end;
+
+  while true do
+  begin
+    if ch > len then
+      break;
+
+    c := Ord(str[ch]);
+    inc(ch);
+
+    if c = 0 then
+      break;
+
+    if c = 10 then
+    begin
+      cx := x;
+      continue;
+    end;
+
+    if c = 13 then
+    begin
+      cy := cy + font[0].height + 2;
+      continue;
+    end;
+
+    c := Ord(casefunc(Chr(c))) - Ord(HU_FONTSTART);
+    if (c < 0) or (c >= HU_FONTSIZE) then
+    begin
+      cx := cx + 4;
+      continue;
+    end;
+
+    w := font[c].width;
+    if (cx + w + 1) > 320 then
+      break;
+    if shadefont <> nil then
+      V_DrawPatch(cx + 1, cy + 1, SCN_TMP, shadefont[c], false);
+    V_DrawPatch(cx, cy, SCN_TMP, font[c], false);
+    cx := cx + w;
+  end;
+
+  result.x := cx;
+  result.y := cy;
+end;
+
+//
+// Find string width
+//
+function M_StringWidth(const str: string; const flags: integer; const font: Ppatch_tPArray): integer;
 var
   i: integer;
   c: integer;
+  ccase: integer;
+  casefunc: casefunc_t;
 begin
+  ccase := flags and _MCASE_MASK;
+  case ccase of
+    _MC_UPPER: casefunc := @toupper;
+    _MC_LOWER: casefunc := @tolower;
+  else
+    casefunc := @nocase;
+  end;
+
   result := 0;
   for i := 1 to Length(str) do
   begin
-    c := Ord(toupper(str[i])) - Ord(DOS_FONTSTART);
-    if (c < 0) or (c >= DOS_FONTSIZE) then
+    c := Ord(casefunc(str[i])) - Ord(HU_FONTSTART);
+    if (c < 0) or (c >= HU_FONTSIZE) then
       result := result + 4
     else
-      result := result + small_fontA[c].width;
-  end;
-end;
-
-function M_SmallStringWidthNarrow(const str: string): integer;
-var
-  i: integer;
-  c: integer;
-begin
-  result := 0;
-  for i := 1 to Length(str) do
-  begin
-    c := Ord(toupper(str[i])) - Ord(DOS_FONTSTART);
-    if (c < 0) or (c >= DOS_FONTSIZE) then
-      result := result + 3
-    else
-      result := result + small_fontA[c].width;
+      result := result + font[c].width;
   end;
 end;
 
 //
-// Find string height from small_font chars
+// Find string height from hu_fontY chars
 //
-function M_SmallStringHeight(const str: string): integer;
+function M_StringHeight(const str: string; const font: Ppatch_tPArray): integer;
 var
   i: integer;
   height: integer;
 begin
-  height := small_fontA[0].height;
+  height := font[0].height;
 
   result := height;
   for i := 1 to Length(str) do
-    if str[i] = #10 then
+    if str[i] = #13 then
       result := result + height;
 end;
 
-//
-// Write a string using the small_font
-//
-function M_WriteSmallText(x, y: integer; const str: string; const scn: integer): menupos_t;
-var
-  w: integer;
-  ch: integer;
-  c: integer;
-  cx: integer;
-  cy: integer;
-  len: integer;
-begin
-  len := Length(str);
-  if len = 0 then
-  begin
-    result.x := x;
-    result.y := y;
-    exit;
-  end;
-
-  ch := 1;
-  cx := x;
-  cy := y;
-
-  while true do
-  begin
-    if ch > len then
-      break;
-
-    c := Ord(str[ch]);
-    inc(ch);
-
-    if c = 0 then
-      break;
-
-    if c = 10 then
-    begin
-      cx := x;
-      continue;
-    end;
-
-    if c = 13 then
-    begin
-      cy := cy + 12;
-      continue;
-    end;
-
-    c := Ord(toupper(Chr(c))) - Ord(DOS_FONTSTART);
-    if (c < 0) or (c >= DOS_FONTSIZE) then
-    begin
-      cx := cx + 4;
-      continue;
-    end;
-
-    w := small_fontA[c].width;
-    if (cx + w) > 320 then
-      break;
-    V_DrawPatch(cx, cy, scn, small_fontA[c], false);
-    cx := cx + w;
-  end;
-
-  result.x := cx;
-  result.y := cy;
-end;
-
-function M_WriteSmallTextCenter(y: integer; const str: string; const scn: integer): menupos_t;
-var
-  i, x, w: integer;
-  lst: TDStringList;
-begin
-  lst := TDStringList.Create;
-  lst.Text := str;
-  for i := 0 to lst.Count - 1 do
-  begin
-    w := M_SmallStringWidth(lst.Strings[i]);
-    x := (320 - w) div 2;
-    M_WriteSmallText(x, y, lst.Strings[i], scn);
-    y := y + 14;
-  end;
-  lst.Free;
-end;
-
-function M_WriteSmallWhiteText(x, y: integer; const str: string; const scn: integer): menupos_t;
-var
-  w: integer;
-  ch: integer;
-  c: integer;
-  cx: integer;
-  cy: integer;
-  len: integer;
-begin
-  len := Length(str);
-  if len = 0 then
-  begin
-    result.x := x;
-    result.y := y;
-    exit;
-  end;
-
-  ch := 1;
-  cx := x;
-  cy := y;
-
-  while true do
-  begin
-    if ch > len then
-      break;
-
-    c := Ord(str[ch]);
-    inc(ch);
-
-    if c = 0 then
-      break;
-
-    if c = 10 then
-    begin
-      cx := x;
-      continue;
-    end;
-
-    if c = 13 then
-    begin
-      cy := cy + 12;
-      continue;
-    end;
-
-    c := Ord(toupper(Chr(c))) - Ord(DOS_FONTSTART);
-    if (c < 0) or (c >= DOS_FONTSIZE) then
-    begin
-      cx := cx + 4;
-      continue;
-    end;
-
-    w := small_fontB[c].width;
-    if (cx + w) > 320 then
-      break;
-    V_DrawPatch(cx, cy, scn, small_fontB[c], false);
-    cx := cx + w;
-  end;
-
-  result.x := cx;
-  result.y := cy;
-end;
-
-function M_WriteSmallWhiteTextNarrow(x, y: integer; const str: string; const scn: integer): menupos_t;
-var
-  w: integer;
-  ch: integer;
-  c: integer;
-  cx: integer;
-  cy: integer;
-  len: integer;
-begin
-  len := Length(str);
-  if len = 0 then
-  begin
-    result.x := x;
-    result.y := y;
-    exit;
-  end;
-
-  ch := 1;
-  cx := x;
-  cy := y;
-
-  while true do
-  begin
-    if ch > len then
-      break;
-
-    c := Ord(str[ch]);
-    inc(ch);
-
-    if c = 0 then
-      break;
-
-    if c = 10 then
-    begin
-      cx := x;
-      continue;
-    end;
-
-    if c = 13 then
-    begin
-      cy := cy + 12;
-      continue;
-    end;
-
-    c := Ord(toupper(Chr(c))) - Ord(DOS_FONTSTART);
-    if (c < 0) or (c >= DOS_FONTSIZE) then
-    begin
-      cx := cx + 3;
-      continue;
-    end;
-
-    w := small_fontB[c].width;
-    if (cx + w) > 320 then
-      break;
-    V_DrawPatch(cx, cy, scn, small_fontB[c], false);
-    cx := cx + w;
-  end;
-
-  result.x := cx;
-  result.y := cy;
-end;
-
-function M_WriteSmallWhiteTextCenter(y: integer; const str: string; const scn: integer): menupos_t;
-var
-  i, x, w: integer;
-  lst: TDStringList;
-begin
-  lst := TDStringList.Create;
-  lst.Text := str;
-  for i := 0 to lst.Count - 1 do
-  begin
-    w := M_SmallStringWidth(lst.Strings[i]);
-    x := (320 - w) div 2;
-    M_WriteSmallWhiteText(x, y, lst.Strings[i], scn);
-    y := y + 14;
-  end;
-  lst.Free;
-end;
-
-function M_WriteSmallWhiteTextCenterNarrow(y: integer; const str: string; const scn: integer): menupos_t;
-var
-  i, x, w: integer;
-  lst: TDStringList;
-begin
-  lst := TDStringList.Create;
-  lst.Text := str;
-  for i := 0 to lst.Count - 1 do
-  begin
-    w := M_SmallStringWidthNarrow(lst.Strings[i]);
-    x := (320 - w) div 2;
-    M_WriteSmallWhiteTextNarrow(x, y, lst.Strings[i], scn);
-    y := y + 14;
-  end;
-  lst.Free;
-end;
-
-//
-// Write a string using the big_fontX
-//
-function M_BigStringWidth(const str: string; const font_array: Ppatch_tPArray): integer;
-var
-  i: integer;
-  c: integer;
-begin
-  result := 0;
-  for i := 1 to Length(str) do
-  begin
-    c := Ord(toupper(str[i])) - Ord(BIG_FONTSTART);
-    if (c < 0) or (c >= BIG_FONTSIZE) then
-      result := result + 4
-    else
-      result := result + font_array[c].width;
-  end;
-end;
-
-function M_WriteBigText(x, y: integer; const font_array: Ppatch_tPArray; const str: string; const scn: integer): menupos_t;
-var
-  w: integer;
-  ch: integer;
-  c: integer;
-  cx: integer;
-  cy: integer;
-  len: integer;
-begin
-  len := Length(str);
-  if len = 0 then
-  begin
-    result.x := x;
-    result.y := y;
-    exit;
-  end;
-
-  ch := 1;
-  cx := x;
-  cy := y;
-
-  while true do
-  begin
-    if ch > len then
-      break;
-
-    c := Ord(str[ch]);
-    inc(ch);
-
-    if c = 0 then
-      break;
-
-    if c = 10 then
-    begin
-      cx := x;
-      continue;
-    end;
-
-    if c = 13 then
-    begin
-      cy := cy + 14;
-      continue;
-    end;
-
-    c := Ord(toupper(Chr(c))) - Ord(BIG_FONTSTART);
-    if (c < 0) or (c >= BIG_FONTSIZE) then
-    begin
-      cx := cx + 4;
-      continue;
-    end;
-
-    w := font_array[c].width;
-    if (cx + w) > 320 then
-      break;
-    V_DrawPatch(cx, cy, scn, font_array[c], false);
-    cx := cx + w;
-  end;
-
-  result.x := cx;
-  result.y := cy;
-end;
-
-function M_WriteBigTextCenter(y: integer; const font_array: Ppatch_tPArray; const str: string; const scn: integer): menupos_t;
-var
-  i, x, w: integer;
-  lst: TDStringList;
-begin
-  lst := TDStringList.Create;
-  lst.Text := str;
-  for i := 0 to lst.Count - 1 do
-  begin
-    w := M_BigStringWidth(lst.Strings[i], font_array);
-    x := (320 - w) div 2;
-    M_WriteBigText(x, y, font_array, lst.Strings[i], scn);
-    y := y + 14;
-  end;
-  lst.Free;
-end;
-
-function M_WriteBigTextRed(x, y: integer; const str: string; const scn: integer): menupos_t;
-begin
-  result := M_WriteBigText(x, y, @big_fontA, str, scn);
-end;
-
-function M_WriteBigTextRedCenter(y: integer; const str: string; const scn: integer): menupos_t;
-begin
-  result := M_WriteBigTextCenter(y, @big_fontA, str, scn);
-end;
-
-function M_WriteBigTextGray(x, y: integer; const str: string; const scn: integer): menupos_t;
-begin
-  result := M_WriteBigText(x, y, @big_fontB, str, scn);
-end;
-
-function M_WriteBigTextGrayCenter(y: integer; const str: string; const scn: integer): menupos_t;
-begin
-  result := M_WriteBigTextCenter(y, @big_fontB, str, scn);
-end;
-
-function M_WriteBigTextOrange(x, y: integer; const str: string; const scn: integer): menupos_t;
-begin
-  result := M_WriteBigText(x, y, @big_fontC, str, scn);
-end;
-
-function M_WriteBigTextOrangeCenter(y: integer; const str: string; const scn: integer): menupos_t;
-begin
-  result := M_WriteBigTextCenter(y, @big_fontC, str, scn);
-end;
-
-
 end.
- 

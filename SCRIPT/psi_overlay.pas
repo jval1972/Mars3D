@@ -794,9 +794,9 @@ var
     while i <= len do
     begin
       c := txt[i];
-      if (c >= HU_FONTSTART) and (c <= {$IFDEF DOOM_OR_STRIFE}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}) then
+      if (c >= HU_FONTSTART) and (c <= HU_FONTEND) then
       begin
-        patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord(c) - Ord(HU_FONTSTART)];
+        patch := hu_fontG[Ord(c) - Ord(HU_FONTSTART)];
         twidth := twidth + patch.width + 1;
       end
       else
@@ -827,9 +827,9 @@ begin
   while i <= len do
   begin
     c := txt[i];
-    if (c >= HU_FONTSTART) and (c <= {$IFDEF DOOM_OR_STRIFE}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}) then
+    if (c >= HU_FONTSTART) and (c <= HU_FONTEND) then
     begin
-      patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord(c) - Ord(HU_FONTSTART)];
+      patch := hu_fontG[Ord(c) - Ord(HU_FONTSTART)];
       DrawPatch(fx, fy, patch);
       fx := fx + (patch.width + 1);
     end

@@ -72,7 +72,7 @@ type
     function GeneratePalette: boolean;
     function GenerateTranslationTables: boolean;
     function GenerateMenuTranslation: boolean;
-    function GenerateBigFonts: boolean;
+    function GenerateFonts: boolean;
     function GenerateDosFonts: boolean;
     function GenerateMarsFonts: boolean;
     function GenerateMusic: boolean;
@@ -214,9 +214,10 @@ begin
   wadwriter.AddData('TR_MENU', @trn, 256);
 end;
 
-function TMarsToWADConverter.GenerateBigFonts: boolean;
+function TMarsToWADConverter.GenerateFonts: boolean;
 const
-  NUM_BIG_FONT_COLORS = 3;
+  NUM_SMALL_FONT_COLORS = 5;
+  NUM_BIG_FONT_COLORS = 5;
 var
   imgsize: integer;
   imginp: PByteArray;
@@ -224,9 +225,10 @@ var
   imgoutw: PByteArray;
   p: pointer;
   size: integer;
-  i: integer;
+  i, j: integer;
   ch: char;
-  COLORS: array[0..NUM_BIG_FONT_COLORS - 1] of LongWord;
+  BIG_FONT_COLORS: array[0..NUM_BIG_FONT_COLORS - 1] of LongWord;
+  SMALL_FONT_COLORS: array[0..NUM_SMALL_FONT_COLORS - 1] of LongWord;
   cidx: integer;
   pnoise: double;
   c: LongWord;
@@ -234,6 +236,7 @@ var
   r, g, b: integer;
   x, y: integer;
   fnt: string;
+  fpos: integer;
   fidx: integer;
   widx: integer;
   w: integer;
@@ -315,20 +318,68 @@ var
 begin
   result := true;
 
+  SMALL_FONT_COLORS[0] := $E2CE4A;
+  SMALL_FONT_COLORS[1] := $F0F0F0;
+  SMALL_FONT_COLORS[2] := $0F0F0F;
+  SMALL_FONT_COLORS[3] := $F00000;
+  SMALL_FONT_COLORS[4] := $C0C0C0;
+
+  imgout := malloc(8 * 8);
+  for cidx := 0 to NUM_SMALL_FONT_COLORS - 1 do
+  begin
+    r1 := (SMALL_FONT_COLORS[cidx] shr 16) and $FF;
+    g1 := (SMALL_FONT_COLORS[cidx] shr 8) and $FF;
+    b1 := SMALL_FONT_COLORS[cidx] and $FF;
+    wadwriter.AddSeparator('FN_START');
+    for ch := Chr(33) to Chr(127) do
+    begin
+      x := ((Ord(ch) - 31) - 1) mod 16;
+      y := ((Ord(ch) - 31) - 1) div 16;
+      for j := 0 to 7 do
+      begin
+        fpos := x * 8 + (y * 8 + j) * 128;
+        for i := 0 to 7 do
+        begin
+          imgout[i * 8 + j] := SMALL_FONT_DATA[fpos];
+          inc(fpos);
+        end;
+      end;
+      for i := 0 to 63 do
+        if imgout[i] <> 0 then
+        begin
+          pnoise := PerlinNoise((i + x * 8) mod 128, (i * y + x * 8) div 128);
+          r := GetIntegerInRange(round(r1 * imgout[i] / 256 + pnoise), 0, 255);
+          g := GetIntegerInRange(round(g1 * imgout[i] / 256 + pnoise), 0, 255);
+          b := GetIntegerInRange(round(b1 * imgout[i] / 256 + pnoise), 0, 255);
+          c := r shl 16 + g shl 8 + b;
+          imgout[i] := V_FindAproxColorIndex(@def_palL, c, 1, 255);
+        end
+        else
+          imgout[i] := MARS_PATCH_BLANC;
+      MARS_CreateDoomPatch(imgout, 8, 8, false, p, size, 0, 0);
+      wadwriter.AddData('SFNT' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
+      memfree(p, size);
+    end;
+    wadwriter.AddSeparator('FN_END');
+  end;
+  MemFree(pointer(imgout), 8 * 8);
+
   imgsize := SizeOf(BIG_FONT_BUFFER);
   imginp := malloc(imgsize);
 
-  COLORS[0] := $008000;
-  COLORS[1] := $808080;
-  COLORS[2] := $7CC40C;
+  BIG_FONT_COLORS[0] := $E2CE4A;
+  BIG_FONT_COLORS[1] := $F0F0F0;
+  BIG_FONT_COLORS[2] := $0F0F0F;
+  BIG_FONT_COLORS[3] := $F00000;
+  BIG_FONT_COLORS[4] := $C0C0C0;
 
   fnt := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890`~!@#$%^&*()-_=+*/<>.,\[]|;:''"{}';
   imgout := malloc(18 * 21);
   for cidx := 0 to NUM_BIG_FONT_COLORS - 1 do
   begin
-    r1 := (COLORS[cidx] shr 16) and $FF;
-    g1 := (COLORS[cidx] shr 8) and $FF;
-    b1 := COLORS[cidx] and $FF;
+    r1 := (BIG_FONT_COLORS[cidx] shr 16) and $FF;
+    g1 := (BIG_FONT_COLORS[cidx] shr 8) and $FF;
+    b1 := BIG_FONT_COLORS[cidx] and $FF;
     for i := 0 to imgsize - 1 do
     begin
       if BIG_FONT_BUFFER[i] = 0 then
@@ -359,6 +410,7 @@ begin
       end;
     end;
 
+    wadwriter.AddSeparator('FN_START');
     for ch := Chr(33) to Chr(128) do
     begin
       fidx := Pos(ch, fnt);
@@ -391,9 +443,10 @@ begin
         memset(imgout, MARS_PATCH_BLANC, 18 * 21);
         MARS_CreateDoomPatch(imgout, 5, 21, false, p, size, 4, 1);
       end;
-      wadwriter.AddData('BIGF' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
+      wadwriter.AddData('BFNT' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
       memfree(p, size);
     end;
+    wadwriter.AddSeparator('FN_END');
   end;
 
   memfree(pointer(imginp), imgsize);
@@ -423,50 +476,6 @@ begin
 
   COLORS[0] := 95 shl 16 + 207 shl 8 + 87;
   COLORS[1] := $FFFFFF;
-
-  // Big dos font
-  imgsize := $10000;
-  imginp := malloc(imgsize);
-
-  imgout := malloc(14 * 14);
-  for cidx := 0 to NUM_DOS_FONT_COLORS - 1 do
-  begin
-    r1 := (COLORS[cidx] shr 16) and $FF;
-    g1 := (COLORS[cidx] shr 8) and $FF;
-    b1 := COLORS[cidx] and $FF;
-    for i := 0 to imgsize - 1 do
-    begin
-      if DOS_FONT_BUFFER[i] = 0 then
-        imginp[i] := MARS_PATCH_BLANC
-      else
-      begin
-        r := round(r1 * DOS_FONT_BUFFER[i] / 256);
-        if r > 255 then
-          r := 255;
-        g := round(g1 * DOS_FONT_BUFFER[i] / 256);
-        if g > 255 then
-          g := 255;
-        b := round(b1 * DOS_FONT_BUFFER[i] / 256);
-        if b > 255 then
-          b := 255;
-        c := r shl 16 + g shl 8 + b;
-        imginp[i] := V_FindAproxColorIndex(@def_palL, c, 1, 255);
-      end;
-    end;
-
-    for ch := Chr(33) to Chr(128) do
-    begin
-      x := Ord(ch) mod 16;
-      y := Ord(ch) div 16;
-      MARS_BltImageBuffer(imginp, 256, 256, imgout, x * 16 + 1, x * 16 + 14, y * 16 + 2, y * 16 + 15);
-      MARS_CreateDoomPatch(imgout, 14, 14, false, p, size, 3, 1);
-      wadwriter.AddData('DOSF' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
-      memfree(p, size);
-    end;
-  end;
-
-  memfree(pointer(imginp), imgsize);
-  memfree(pointer(imgout), 14 * 14);
 
   // Small dos font
   imgsize := 128 * 128;
@@ -498,6 +507,7 @@ begin
       end;
     end;
 
+    wadwriter.AddSeparator('FN_START');
     for ch := Chr(33) to Chr(128) do
     begin
       x := (Ord(ch) - 1) mod 16;
@@ -512,9 +522,10 @@ begin
         end;
       end;
       MARS_CreateDoomPatch(imgout, 8, 8, false, p, size, 0, 0);
-      wadwriter.AddData('DOSS' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
+      wadwriter.AddData('DFNT' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
       memfree(p, size);
     end;
+    wadwriter.AddSeparator('FN_END');
   end;
 
   memfree(pointer(imginp), imgsize);
@@ -625,6 +636,7 @@ begin
       end;
     end;
 
+    wadwriter.AddSeparator('FN_START');
     for ch := Chr(33) to Chr(127) do
     begin
       fpos := Ord(ch) * 128;
@@ -640,6 +652,7 @@ begin
       wadwriter.AddData('MFNT' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
       memfree(p, size);
     end;
+    wadwriter.AddSeparator('FN_END');
   end;
 
   memfree(pointer(ASCII_FONT_BUFFER), imgsize);
@@ -720,7 +733,7 @@ begin
   GeneratePalette;
   GenerateTranslationTables;
   GenerateMenuTranslation;
-  GenerateBigFonts;
+  GenerateFonts;
   GenerateDosFonts;
   GenerateMarsFonts;
   GenerateMusic;
