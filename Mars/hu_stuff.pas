@@ -99,6 +99,10 @@ var
   mars_fontLG: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Light Green MARS font
   mars_fontDG: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Dark Green MARS font
 
+  green_font: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Green font (DD_FONT)
+  white_font: array[0..HU_FONTSIZE - 1] of Ppatch_t; // White font (DD_FONT)
+  dark_font: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Dark font (DD_FONT)
+
   chat_on: boolean;
 
   message_on: boolean;
@@ -463,6 +467,10 @@ begin
 
     mars_fontLG[i] := HU_CacheLumpName('MFNTA' + buffer, PU_STATIC);
     mars_fontDG[i] := HU_CacheLumpName('MFNTB' + buffer, PU_STATIC);
+
+    green_font[i] := HU_CacheLumpName('STCFN' + buffer, PU_STATIC);
+    white_font[i] := HU_CacheLumpName('STCFO' + buffer, PU_STATIC);
+    dark_font[i] := HU_CacheLumpName('STCFP' + buffer, PU_STATIC);
   end;
 
   for i := 0 to FPSSIZE - 1 do
