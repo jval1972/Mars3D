@@ -428,7 +428,6 @@ var
   i: integer;
   j: integer;
   buffer: string;
-  lump: integer;
 begin
   if language = french then
   begin
