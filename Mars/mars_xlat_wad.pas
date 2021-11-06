@@ -432,16 +432,16 @@ begin
           w := (widx div 21) + 1;
           imgoutw := malloc(21 * w);
           memcpy(imgoutw, imgout, w * 21);
-          MARS_CreateDoomPatch(imgoutw, w, 21, false, p, size, 4, 1);
+          MARS_CreateDoomPatch(imgoutw, w, 21, false, p, size, 1, 2);
           memfree(pointer(imgoutw), 21 * w);
         end
         else
-          MARS_CreateDoomPatch(imgout, 18, 21, false, p, size, 4, 1);
+          MARS_CreateDoomPatch(imgout, 18, 21, false, p, size, 1, 2);
       end
       else
       begin
         memset(imgout, MARS_PATCH_BLANC, 18 * 21);
-        MARS_CreateDoomPatch(imgout, 5, 21, false, p, size, 4, 1);
+        MARS_CreateDoomPatch(imgout, 5, 21, false, p, size, 1, 2);
       end;
       wadwriter.AddData('BFNT' + Chr(Ord('A') + cidx) + IntToStrzFill(3, Ord(ch)), p, size);
       memfree(p, size);
