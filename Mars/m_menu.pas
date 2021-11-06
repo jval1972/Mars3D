@@ -310,7 +310,7 @@ begin
   for i := y + 1 to y + 14 do
     M_HorzLine(0, 319, i, 63);
 
-  M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @big_fontR);
+  M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @big_fontR, @big_fontB);
 end;
 
 procedure M_DrawSubHeadLine(const y: integer; const str: string);
@@ -322,7 +322,7 @@ begin
   for i := y + 1 to y + 14 do
     M_HorzLine(0, 319, i, 63);
 
-  M_WriteText(25, y, str, _MA_LEFT or _MC_UPPER, @big_fontG);
+  M_WriteText(25, y, str, _MA_LEFT or _MC_UPPER, @big_fontG, @big_fontB);
 end;
 
 procedure M_DrawSmallLine(const y: integer; const str: string);
