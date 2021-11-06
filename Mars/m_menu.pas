@@ -316,26 +316,32 @@ begin
   Result := M_WriteText(x, y, str, flags, value_menu_font, shade_menu_font);
 end;
 
+const
+  FRAME_COLOR_UP = 161;
+  FRAME_COLOR_DOWN = 163;
+  FRAME_COLOR_FILL = 247;
+  FRAME_COLOR_BRIGHT = 160;
+
 procedure M_DrawHeadLine(const y: integer; const str: string);
 var
   i: integer;
 begin
-  M_HorzLine(0, 319, y, 64);
-  M_HorzLine(0, 319, y + 15, 80);
+  M_HorzLine(0, 319, y, FRAME_COLOR_UP);
+  M_HorzLine(0, 319, y + 15, FRAME_COLOR_DOWN);
   for i := y + 1 to y + 14 do
-    M_HorzLine(0, 319, i, 63);
+    M_HorzLine(0, 319, i, FRAME_COLOR_FILL);
 
-  M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @big_fontR, @big_fontB);
+  M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @big_fontY, @big_fontB);
 end;
 
 procedure M_DrawSubHeadLine(const y: integer; const str: string);
 var
   i: integer;
 begin
-  M_HorzLine(0, 319, y, 64);
-  M_HorzLine(0, 319, y + 15, 80);
+  M_HorzLine(0, 319, y, FRAME_COLOR_UP);
+  M_HorzLine(0, 319, y + 15, FRAME_COLOR_DOWN);
   for i := y + 1 to y + 14 do
-    M_HorzLine(0, 319, i, 63);
+    M_HorzLine(0, 319, i, FRAME_COLOR_FILL);
 
   M_WriteText(25, y, str, _MA_LEFT or _MC_UPPER, @big_fontG, @big_fontB);
 end;
@@ -344,12 +350,12 @@ procedure M_DrawSmallLine(const y: integer; const str: string);
 var
   i: integer;
 begin
-  M_HorzLine(0, 319, y, 64);
-  M_HorzLine(0, 319, y + 9, 80);
+  M_HorzLine(0, 319, y, FRAME_COLOR_UP);
+  M_HorzLine(0, 319, y + 9, FRAME_COLOR_DOWN);
   for i := y + 1 to y + 8 do
-    M_HorzLine(0, 319, i, 63);
+    M_HorzLine(0, 319, i, FRAME_COLOR_FILL);
 
-  M_WriteTextValue(160, y, str, _MA_CENTER or _MC_UPPER);
+  M_WriteTextValue(160, y + 1, str, _MA_CENTER or _MC_UPPER);
 end;
 
 const
@@ -361,7 +367,7 @@ var
   i: integer;
   p: integer;
 begin
-  M_Frame3d(x, y, x + thermWidth * 8 + 2, y + 10, 64, 80, 72);
+  M_Frame3d(x, y, x + thermWidth * 8 + 2, y + 10, FRAME_COLOR_UP, FRAME_COLOR_DOWN, FRAME_COLOR_BRIGHT);
 
   if numdots <= 1 then
     numdots := thermWidth;
@@ -372,9 +378,9 @@ begin
     if not odd(i) then
     begin
       if i < p then
-        M_VertLine(x + i, y + 2, y + 8, 136)
+        M_VertLine(x + i, y + 2, y + 8, 161)
       else
-        M_VertLine(x + i, y + 2, y + 8, 251);
+        M_VertLine(x + i, y + 2, y + 8, 164);
     end;
 end;
 
@@ -3809,7 +3815,7 @@ var
   i: integer;
   lump: integer;
 begin
-  option_menu_font := @green_font;
+  option_menu_font := @yellow_font;
   value_menu_font := @white_font;
   shade_menu_font := @dark_font;
 
