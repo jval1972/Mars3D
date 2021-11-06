@@ -1219,47 +1219,9 @@ begin
 end;
 
 //
-// Draw border for the savegame description
-//
-procedure M_DrawSaveLoadBorder(x, y: integer);
-var
-  i: integer;
-begin
-  V_DrawPatch(x - 8, y + 7, SCN_TMP, 'M_LSLEFT', false);
-
-  for i := 0 to 23 do
-  begin
-    V_DrawPatch (x, y + 7, SCN_TMP, 'M_LSCNTR', false);
-    x := x + 8;
-  end;
-
-  V_DrawPatch(x, y + 7, SCN_TMP, 'M_LSRGHT', false);
-end;
-
-//
 // M_DrawSaveLoadScreenShot
 // JVAL: 20200303 - Draw Game Screenshot in Load/Save screens
 //
-var
-  sspatch: integer = -2;
-
-function ss_patch: integer;
-begin
-  if sspatch <> -2 then
-  begin
-    result := sspatch;
-    exit;
-  end;
-
-  if customgame = cg_hacx then
-    result := W_CheckNumForName('M_SSHOTH')
-  else if customgame in [cg_chex, cg_chex2] then
-    result := W_CheckNumForName('M_SSHOTC')
-  else
-    result := W_CheckNumForName('M_SSHOT');
-  sspatch := result;
-end;
-
 procedure M_DrawSaveLoadScreenShot(const screenshot: Pmenuscreenbuffer_t; const mnpos: integer);
 const
   SHOT_X = 320 - MN_SCREENSHOTWIDTH - 4;
@@ -1267,7 +1229,6 @@ const
 var
   i, x, y, spos: integer;
   b: byte;
-  patchno: integer;
 begin
   if screenshot = nil then
     exit;
@@ -1283,10 +1244,6 @@ begin
       if screenshot.data[i] = 0 then
         screenshot.data[i] := aprox_black;
   end;
-
-  patchno := ss_patch;
-  if patchno >= 0 then
-    V_DrawPatch(SHOT_X - 8, SHOT_Y + mnpos * Loaddef.itemheight + Loaddef.itemheight div 2 - 3, SCN_TMP, patchno, false);
 
   // Draw screenshot starting at (SHOT_X,SHOT_Y) position
   for y := 0 to MN_SCREENSHOTHEIGHT - 1 do
@@ -1312,7 +1269,6 @@ begin
   V_DrawPatch(0, 0, SCN_TMP, 'M_DETAIL', false);
   for i := 0 to Ord(load_end) - 1 do
   begin
-    M_DrawSaveLoadBorder(LoadDef.x, LoadDef.y + LoadDef.itemheight * i);
     M_WriteTextOption(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER);
     if itemon = i then
       M_DrawSaveLoadScreenShot(@savegameshots[i], i);
@@ -1356,7 +1312,6 @@ begin
   V_DrawPatch(0, 0, SCN_TMP, 'M_DETAIL', false);
   for i := 0 to Ord(load_end) - 1 do
   begin
-    M_DrawSaveLoadBorder(LoadDef.x, LoadDef.y + LoadDef.itemheight * i);
     M_WriteText(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER, @mars_fontDG);
     if itemon = i then
       M_DrawSaveLoadScreenShot(@mn_screenshotbuffer, i);
