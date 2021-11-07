@@ -1277,12 +1277,12 @@ begin
   V_DrawPatch(28 + m_lgttl.leftoffset, 19 + m_lgttl.topoffset, SCN_TMP, m_lgttl, false);
   for i := 0 to Ord(load_end) - 1 do
   begin
-    M_WriteText(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER, @green_font);
+    M_WriteText(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER, @green_font, @dark_font);
     if itemon = i then
     begin
-      M_WriteText(LoadDef.x - 8, LoadDef.y + LoadDef.itemheight * i, '-', _MA_LEFT or _MC_UPPER, @green_font);
+      M_WriteText(LoadDef.x - 8, LoadDef.y + LoadDef.itemheight * i, '-', _MA_LEFT or _MC_UPPER, @green_font, @dark_font);
       M_DrawSaveLoadScreenShot(@savegameshots[i]);
-      M_WriteText(224, 162, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font);
+      M_WriteText(224, 162, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font, @dark_font);
     end;
   end;
 end;
@@ -1326,12 +1326,12 @@ begin
   V_DrawPatch(28 + m_sgttl.leftoffset, 19 + m_sgttl.topoffset, SCN_TMP, m_sgttl, false);
   for i := 0 to Ord(load_end) - 1 do
   begin
-    M_WriteText(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER, @green_font);
+    M_WriteText(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER, @green_font, @dark_font);
     if itemon = i then
     begin
-      M_WriteText(LoadDef.x - 8, LoadDef.y + LoadDef.itemheight * i, '-', _MA_LEFT or _MC_UPPER, @green_font);
+      M_WriteText(LoadDef.x - 8, LoadDef.y + LoadDef.itemheight * i, '-', _MA_LEFT or _MC_UPPER, @green_font, @dark_font);
       M_DrawSaveLoadScreenShot(@mn_screenshotbuffer);
-      M_WriteText(224, 162, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font);
+      M_WriteText(224, 162, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font, @dark_font);
     end;
   end;
 
@@ -1339,7 +1339,7 @@ begin
   begin
     i := M_StringWidth(savegamestrings[saveSlot], _MA_LEFT or _MC_UPPER, @green_font);
     if (gametic div 18) mod 2 = 0 then
-      M_WriteText(LoadDef.x + i, LoadDef.y + LoadDef.itemheight * saveSlot, '_', _MA_LEFT or _MC_UPPER, @green_font);
+      M_WriteText(LoadDef.x + i, LoadDef.y + LoadDef.itemheight * saveSlot, '_', _MA_LEFT or _MC_UPPER, @green_font, @dark_font);
   end;
 end;
 
