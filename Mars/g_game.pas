@@ -811,7 +811,11 @@ begin
   else
   begin
     if gameepisode < 5 then
-      skytexture := R_TextureNumForName('SKY' + Chr(Ord('0') + gameepisode))
+    begin
+      skytexture := R_CheckTextureNumForName('SKY' + Chr(Ord('0') + gameepisode));
+      if skytexture < 0 then
+        skytexture := R_TextureNumForName('SKY1');
+    end
     else
       skytexture := R_TextureNumForName('SKY1');
   end;
