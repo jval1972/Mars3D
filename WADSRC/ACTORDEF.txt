@@ -1,3 +1,4 @@
+#VANILLA_DEMO_OFF
 #include "Mars3D\MARS3D_KEYS.txt"
 #include "Mars3D\MARS3D_WEAPONPICKUP.txt"
 #include "Mars3D\MARS3D_AMMO.txt"
