@@ -1571,6 +1571,22 @@ begin
   result := M_WriteTextOption(mp.x, mp.y, s2, _MA_LEFT or _MC_UPPER);
 end;
 
+function M_WriteHelpControlText(const x, y: integer; const control: PInteger): menupos_t;
+var
+  i: integer;
+begin
+  for i := 0 to Ord(kb_end) - 1 do
+    if KeyBindingsInfo[i].pkey = control then
+    begin
+      result := M_WriteTextOption(x, y, KeyBindingsInfo[i].text + ': ', _MA_LEFT or _MC_UPPER);
+      result := M_WriteTextValue(result.x, result.y, M_KeyToString(control^), _MA_LEFT or _MC_UPPER);
+      exit;
+    end;
+
+  result.x := x;
+  result.y := y;
+end;
+
 procedure M_DrawReadThis1;
 var
   y: integer;
@@ -1632,25 +1648,6 @@ begin
   M_WriteHelpText(10, y, 'ARROWS', 'NAVIGATE');
   M_WriteHelpText(110, y, 'ENTER', 'SELECT');
   M_WriteHelpText(210, y, 'BACKSPACE', 'GO BACK');
-end;
-
-//
-// Read This Menus - optional second page.
-//
-function M_WriteHelpControlText(const x, y: integer; const control: PInteger): menupos_t;
-var
-  i: integer;
-begin
-  for i := 0 to Ord(kb_end) - 1 do
-    if KeyBindingsInfo[i].pkey = control then
-    begin
-      result := M_WriteTextOption(x, y, KeyBindingsInfo[i].text + ': ', _MA_LEFT or _MC_UPPER);
-      result := M_WriteTextValue(result.x, result.y, M_KeyToString(control^), _MA_LEFT or _MC_UPPER);
-      exit;
-    end;
-
-  result.x := x;
-  result.y := y;
 end;
 
 procedure M_DrawReadThis2;
