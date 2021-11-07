@@ -157,7 +157,6 @@ uses
   dstrings in 'Mars\dstrings.pas',
   e_endoom in 'Base\e_endoom.pas',
   f_finale in 'Mars\f_finale.pas',
-  f_wipe in 'Base\f_wipe.pas',
   g_game in 'Mars\g_game.pas',
   hu_lib in 'Base\hu_lib.pas',
   hu_stuff in 'Mars\hu_stuff.pas',
@@ -396,7 +395,24 @@ uses
   info_export in 'Base\info_export.pas',
   mars_info in 'Mars\mars_info.pas',
   mars_weapons in 'Mars\mars_weapons.pas',
-  mars_map_extra in 'Mars\mars_map_extra.pas';
+  mars_map_extra in 'Mars\mars_map_extra.pas',
+  mars_sounds in 'Mars\mars_sounds.pas',
+  mars_xlat_wad in 'Mars\mars_xlat_wad.pas',
+  mars_bitmap in 'Mars\mars_bitmap.pas',
+  mars_palette in 'Mars\mars_palette.pas',
+  mars_patch in 'Mars\mars_patch.pas',
+  mars_font in 'Mars\mars_font.pas',
+  anm_lib in 'Base\anm_lib.pas',
+  mars_glass in 'Mars\mars_glass.pas',
+  mars_hud in 'Mars\mars_hud.pas',
+  mn_textwrite in 'Mars\mn_textwrite.pas',
+  mars_wipe in 'Mars\mars_wipe.pas',
+  mars_files in 'Mars\mars_files.pas',
+  mars_version in 'Mars\mars_version.pas',
+  xmi_consts in 'XMILIB\xmi_consts.pas',
+  xmi_core in 'XMILIB\xmi_core.pas' {XMICore},
+  xmi_iff in 'XMILIB\xmi_iff.pas',
+  xmi_lib in 'XMILIB\xmi_lib.pas';
 
 exports
   dd_compile_doom,
