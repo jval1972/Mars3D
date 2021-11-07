@@ -142,7 +142,7 @@ uses
   c_cmds,
   e_endoom,
 {$IFNDEF OPENGL}
-  f_wipe,
+  mars_wipe,
 {$ENDIF}
   f_finale,
   m_argv,

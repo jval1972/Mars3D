@@ -327,7 +327,6 @@ uses
   w_folders in 'Base\w_folders.pas',
   r_subsectors in 'Base\r_subsectors.pas',
   e_endoom in 'Base\e_endoom.pas',
-  f_wipe in 'Base\f_wipe.pas',
   r_renderstyle in 'Base\r_renderstyle.pas',
   vx_voxelsprite in 'Base\vx_voxelsprite.pas',
   w_wadwriter in 'Base\w_wadwriter.pas',
@@ -384,7 +383,8 @@ uses
   anm_lib in 'Base\anm_lib.pas',
   mars_glass in 'Mars\mars_glass.pas',
   mars_hud in 'Mars\mars_hud.pas',
-  mn_textwrite in 'Mars\mn_textwrite.pas';
+  mn_textwrite in 'Mars\mn_textwrite.pas',
+  mars_wipe in 'Mars\mars_wipe.pas';
 
 var
   Saved8087CW: Word;

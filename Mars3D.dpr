@@ -150,7 +150,6 @@ uses
   dstrings in 'Mars\dstrings.pas',
   e_endoom in 'Base\e_endoom.pas',
   f_finale in 'Mars\f_finale.pas',
-  f_wipe in 'Base\f_wipe.pas',
   g_game in 'Mars\g_game.pas',
   hu_lib in 'Base\hu_lib.pas',
   hu_stuff in 'Mars\hu_stuff.pas',
@@ -409,7 +408,8 @@ uses
   anm_lib in 'Base\anm_lib.pas',
   mars_glass in 'Mars\mars_glass.pas',
   mars_hud in 'Mars\mars_hud.pas',
-  mn_textwrite in 'Mars\mn_textwrite.pas';
+  mn_textwrite in 'Mars\mn_textwrite.pas',
+  mars_wipe in 'Mars\mars_wipe.pas';
 
 var
   Saved8087CW: Word;
