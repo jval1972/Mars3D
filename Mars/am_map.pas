@@ -630,7 +630,7 @@ var
 begin
   for i := 0 to AM_NUMMARKPOINTS - 1 do
   begin
-    sprintf(namebuf, 'AMMNUM%d', [i]);
+    sprintf(namebuf, 'SFNTB0%2d', [i + Ord('0')]);
     marknumsid[i] := W_GetNumForName(namebuf);
     marknums[i] := W_CacheLumpNum(marknumsid[i], PU_STATIC);
   end;
