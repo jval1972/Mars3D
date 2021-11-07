@@ -1225,6 +1225,13 @@ begin
     key_weapon7 := Ord('7');
     key_weapon8 := Ord('8');
     key_weapon9 := Ord('9');
+    AM_GOBIGKEY := Ord('o');
+    AM_FOLLOWKEY := Ord('f');
+    AM_GRIDKEY := Ord('g');
+    AM_ROTATEKEY := Ord('r');
+    AM_TEXTUREDAUTOMAP := Ord('t');
+    AM_MARKKEY := Ord('m');
+    AM_CLEARMARKKEY := Ord('c');
   end
   else if mode = 1 then
   begin
@@ -1257,6 +1264,13 @@ begin
     key_weapon7 := Ord('7');
     key_weapon8 := Ord('8');
     key_weapon9 := Ord('9');
+    AM_GOBIGKEY := Ord('o');
+    AM_FOLLOWKEY := Ord('f');
+    AM_GRIDKEY := Ord('g');
+    AM_ROTATEKEY := Ord('r');
+    AM_TEXTUREDAUTOMAP := Ord('t');
+    AM_MARKKEY := Ord('m');
+    AM_CLEARMARKKEY := Ord('c');
   end;
 end;
 
