@@ -2265,7 +2265,7 @@ end;
 //
 procedure M_DrawNewGame;
 var
-  y: integer;
+  i, y: integer;
 begin
   M_DrawHeadLine(15, 'New Game');
   M_DrawSubHeadLine(40, 'Select Skill');
