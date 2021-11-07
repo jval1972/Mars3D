@@ -2706,7 +2706,7 @@ begin
 
   vx_maxoptimizerpasscount := GetIntegerInRange(vx_maxoptimizerpasscount, 0, MAX_VX_OPTIMIZE);
   ppos := M_WriteTextOption(OptionsDisplayOpenGLVoxelsDef.x, OptionsDisplayOpenGLVoxelsDef.y + OptionsDisplayOpenGLVoxelsDef.itemheight * Ord(od_glv_optimize), 'Voxel mesh optimization: ', _MA_LEFT or _MC_UPPER);
-  M_WriteTextValue((ppos.x, ppos.y, str_voxeloptimizemethod[vx_maxoptimizerpasscount], _MA_LEFT or _MC_UPPER);
+  M_WriteTextValue(ppos.x, ppos.y, str_voxeloptimizemethod[vx_maxoptimizerpasscount], _MA_LEFT or _MC_UPPER);
 end;
 
 procedure M_ChangeTextureFiltering(choice: integer);
@@ -2723,7 +2723,7 @@ begin
   M_DrawSubHeadLine(40, 'Texture Filtering');
 
   ppos := M_WriteTextOption(OptionsDisplayOpenGLFilterDef.x, OptionsDisplayOpenGLFilterDef.y + OptionsDisplayOpenGLFilterDef.itemheight * Ord(od_glf_texture_filter), 'Filter: ', _MA_LEFT or _MC_UPPER);
-  M_WriteTextValue((ppos.x, ppos.y, gl_tex_filter_string, _MA_LEFT or _MC_UPPER);
+  M_WriteTextValue(ppos.x, ppos.y, gl_tex_filter_string, _MA_LEFT or _MC_UPPER);
 end;
 {$ENDIF}
 

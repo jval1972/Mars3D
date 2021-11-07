@@ -102,7 +102,7 @@ uses
   {$IFDEF STRIFE}
   f_fade,
   {$ELSE}
-  f_wipe,
+  mars_wipe,
   {$ENDIF}
   r_main,
   mt_utils,
