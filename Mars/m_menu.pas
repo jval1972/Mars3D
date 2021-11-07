@@ -3730,11 +3730,13 @@ var
   mheight: integer;
   ppos: menupos_t;
   rstr: string;
+  msgfont: Ppatch_tPArray;
 begin
   // Horiz. & Vertically center string and print it.
   if messageToPrint <> 0 then
   begin
-    mheight := M_StringHeight(messageString, @mars_fontLG) + 2;
+    msgfont := @green_font; //@mars_fontLG;
+    mheight := M_StringHeight(messageString, msgfont) + 2;
     y := (200 - mheight) div 2;
     mheight := y + mheight + 20;
     MT_ZeroMemory(screens[SCN_TMP], 320 * mheight);
@@ -3745,8 +3747,8 @@ begin
       if messageString[i] = #13 then
       else if messageString[i] = #10 then
       begin
-        y := y + mars_fontLG[0].height;
-        M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @mars_fontLG);
+        y := y + msgfont[0].height;
+        M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, msgfont);
         str := '';
       end
       else
@@ -3754,8 +3756,8 @@ begin
     end;
     if str <> '' then
     begin
-      y := y + mars_fontLG[0].height;
-      M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @mars_fontLG);
+      y := y + msgfont[0].height;
+      M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, msgfont);
     end;
 
     M_FinishUpdate(mheight);
