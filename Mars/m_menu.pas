@@ -2502,7 +2502,7 @@ begin
     mdisplaymode_idx := numdisplaymodes - 1;
   ppos := M_WriteTextOption(OptionsDisplayVideoModeDef.x, OptionsDisplayVideoModeDef.y + OptionsDisplayVideoModeDef.itemheight * Ord(odm_screensize), 'Screen Size: ', _MA_LEFT or _MC_UPPER);
   sprintf(stmp, '(%dx%d)', [displaymodes[mdisplaymode_idx].width, displaymodes[mdisplaymode_idx].height]);
-  M_WriteTextValue(ppos.x, ppos.y, stmp, _MA_LEFT or _MC_UPPER);
+  M_WriteTextValue(ppos.x, ppos.y, stmp, _MA_LEFT);
 
   M_DrawThermo(
     OptionsDisplayVideoModeDef.x, OptionsDisplayVideoModeDef.y + OptionsDisplayVideoModeDef.itemheight * (Ord(odm_screensize) + 1), 30, mdisplaymode_idx, numdisplaymodes);
