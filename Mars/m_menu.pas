@@ -2253,9 +2253,9 @@ begin
   for i := Ord(mm_newgame) to Ord(mm_quitmars) do
   begin
     if itemOn = i then
-      M_WriteText(160, y, MainMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontY)
+      M_WriteText(160, y, MainMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontY, @big_fontB)
     else
-      M_WriteText(160, y, MainMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontG);
+      M_WriteText(160, y, MainMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontG, @big_fontB);
     y := y + 14;
   end;
 end;
@@ -2264,9 +2264,21 @@ end;
 // M_NewGame
 //
 procedure M_DrawNewGame;
+var
+  y: integer;
 begin
   M_DrawHeadLine(15, 'New Game');
   M_DrawSubHeadLine(40, 'Select Skill');
+
+  y := DEF_MENU_ITEMS_START_Y;
+  for i := Ord(newg_killthings) to Ord(newg_end) - 1 do
+  begin
+    if itemOn = i then
+      M_WriteText(160, y, NewGameMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontY, @big_fontB)
+    else
+      M_WriteText(160, y, NewGameMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontG, @big_fontB);
+    y := y + 14;
+  end;
 end;
 
 procedure M_NewGame(choice: integer);
@@ -2365,9 +2377,9 @@ begin
   for i := Ord(opt_general) to Ord(opt_system) do
   begin
     if itemOn = i then
-      M_WriteText(160, y, OptionsMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontY)
+      M_WriteText(160, y, OptionsMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontY, @big_fontB)
     else
-      M_WriteText(160, y, OptionsMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontG);
+      M_WriteText(160, y, OptionsMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontG, @big_fontB);
     y := y + 14;
   end;
 end;
@@ -2390,9 +2402,9 @@ begin
       else
         str := str + ': OFF';
     if itemOn = i then
-      M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @big_fontY)
+      M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @big_fontY, @big_fontB)
     else
-      M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @big_fontG);
+      M_WriteText(160, y, str, _MA_CENTER or _MC_UPPER, @big_fontG, @big_fontB);
     y := y + 14;
   end;
 
@@ -2429,9 +2441,9 @@ begin
   for i := 0 to Ord(optdisp_end) - 1 do
   begin
     if itemOn = i then
-      M_WriteText(160, y, OptionsDisplayMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontY)
+      M_WriteText(160, y, OptionsDisplayMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontY, @big_fontB)
     else
-      M_WriteText(160, y, OptionsDisplayMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontG);
+      M_WriteText(160, y, OptionsDisplayMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontG, @big_fontB);
     y := y + 14;
   end;
 end;
