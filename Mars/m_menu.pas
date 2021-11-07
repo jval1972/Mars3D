@@ -220,6 +220,7 @@ const
 
 var
   savegamestrings: array[0..Ord(load_end) - 1] of string;
+  savegamelevels: array[0..Ord(load_end) - 1] of string;
   savegameshots: array[0..Ord(load_end) - 1] of menuscreenbuffer_t;
 
 type
@@ -1203,13 +1204,16 @@ begin
     if not fopen(handle, name, fOpenReadOnly) then
     begin
       savegamestrings[i] := '';
+      savegamelevels[i] := '';
       ZeroMemory(@savegameshots[i], SizeOf(menuscreenbuffer_t));
       LoadMenu[i].status := 0;
       continue;
     end;
+    SetLength(savegamelevels[i], SAVEMAPNAMESIZE);
+    BlockRead(handle, (@savegamelevels[i][1])^, SAVEMAPNAMESIZE);
     SetLength(savegamestrings[i], SAVESTRINGSIZE);
     BlockRead(handle, (@savegamestrings[i][1])^, SAVESTRINGSIZE);
-    seek(handle, SAVESTRINGSIZE + SAVEVERSIONSIZE);
+    seek(handle, SAVEMAPNAMESIZE + SAVESTRINGSIZE + SAVEVERSIONSIZE);
     BlockRead(handle, savegameshots[i], SizeOf(menuscreenbuffer_t), numread);
     if numread <> SizeOf(menuscreenbuffer_t) then
       ZeroMemory(@savegameshots[i], SizeOf(menuscreenbuffer_t));
@@ -1222,13 +1226,12 @@ end;
 // M_DrawSaveLoadScreenShot
 // JVAL: 20200303 - Draw Game Screenshot in Load/Save screens
 //
-procedure M_DrawSaveLoadScreenShot(const screenshot: Pmenuscreenbuffer_t; const mnpos: integer);
+procedure M_DrawSaveLoadScreenShot(const screenshot: Pmenuscreenbuffer_t);
 const
-  SHOT_X = 320 - MN_SCREENSHOTWIDTH - 4;
-  SHOT_Y = 34 - MN_SCREENSHOTHEIGHT div 2 - 4;
+  SHOT_X = 123;
+  SHOT_Y = 42;
 var
   i, x, y, spos: integer;
-  b: byte;
 begin
   if screenshot = nil then
     exit;
@@ -1248,16 +1251,19 @@ begin
   // Draw screenshot starting at (SHOT_X,SHOT_Y) position
   for y := 0 to MN_SCREENSHOTHEIGHT - 1 do
   begin
-    spos := (y + SHOT_Y + mnpos * Loaddef.itemheight + Loaddef.itemheight div 2 - 1) * 320 + SHOT_X;
+    spos := (SHOT_Y + y) * 320 + SHOT_X;
     for x := 0 to MN_SCREENSHOTWIDTH - 1 do
     begin
-      b := screenshot.data[y * MN_SCREENSHOTWIDTH + x];
-      if b <> 0 then
-        screens[SCN_TMP][spos] := b;
+      screens[SCN_TMP][spos] := screenshot.data[y * MN_SCREENSHOTWIDTH + x];
       inc(spos);
     end;
   end;
 end;
+
+var
+  m_detail: Ppatch_t;
+  m_lgttl: Ppatch_t;
+  m_sgttl: Ppatch_t;
 
 //
 // M_LoadGame & Cie.
@@ -1266,12 +1272,18 @@ procedure M_DrawLoad;
 var
   i: integer;
 begin
-  V_DrawPatch(0, 0, SCN_TMP, 'M_DETAIL', false);
+  V_DrawPatch(0, 0, SCN_TMP, m_detail, false);
+  M_HorzLine(29, 109, 174, 123);  // JVAL: 20211107 - One extra save slot (9 total)
+  V_DrawPatch(28 + m_lgttl.leftoffset, 19 + m_lgttl.topoffset, SCN_TMP, m_lgttl, false);
   for i := 0 to Ord(load_end) - 1 do
   begin
-    M_WriteTextOption(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER);
+    M_WriteText(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER, @green_font);
     if itemon = i then
-      M_DrawSaveLoadScreenShot(@savegameshots[i], i);
+    begin
+      M_WriteText(LoadDef.x - 8, LoadDef.y + LoadDef.itemheight * i, '-', _MA_LEFT or _MC_UPPER, @green_font);
+      M_DrawSaveLoadScreenShot(@savegameshots[i]);
+      M_WriteText(224, 161, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font);
+    end;
   end;
 end;
 
@@ -1309,19 +1321,25 @@ procedure M_DrawSave;
 var
   i: integer;
 begin
-  V_DrawPatch(0, 0, SCN_TMP, 'M_DETAIL', false);
+  V_DrawPatch(0, 0, SCN_TMP, m_detail, false);
+  M_HorzLine(29, 109, 174, 123);  // JVAL: 20211107 - One extra save slot (9 total)
+  V_DrawPatch(28 + m_sgttl.leftoffset, 19 + m_sgttl.topoffset, SCN_TMP, m_sgttl, false);
   for i := 0 to Ord(load_end) - 1 do
   begin
-    M_WriteText(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER, @mars_fontDG);
+    M_WriteText(LoadDef.x, LoadDef.y + LoadDef.itemheight * i, savegamestrings[i], _MA_LEFT or _MC_UPPER, @green_font);
     if itemon = i then
-      M_DrawSaveLoadScreenShot(@mn_screenshotbuffer, i);
+    begin
+      M_WriteText(LoadDef.x - 8, LoadDef.y + LoadDef.itemheight * i, '-', _MA_LEFT or _MC_UPPER, @green_font);
+      M_DrawSaveLoadScreenShot(@mn_screenshotbuffer);
+      M_WriteText(224, 161, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font);
+    end;
   end;
 
   if saveStringEnter <> 0 then
   begin
-    i := M_StringWidth(savegamestrings[saveSlot], _MA_LEFT or _MC_UPPER, @mars_fontDG);
+    i := M_StringWidth(savegamestrings[saveSlot], _MA_LEFT or _MC_UPPER, @green_font);
     if (gametic div 18) mod 2 = 0 then
-      M_WriteText(LoadDef.x + i, LoadDef.y + LoadDef.itemheight * saveSlot, '_', _MA_LEFT or _MC_UPPER, @mars_fontDG);
+      M_WriteText(LoadDef.x + i, LoadDef.y + LoadDef.itemheight * saveSlot, '_', _MA_LEFT or _MC_UPPER, @green_font);
   end;
 end;
 
@@ -3774,6 +3792,10 @@ begin
   value_menu_font := @white_font;
   shade_menu_font := @dark_font;
 
+  m_detail := W_CacheLumpName('M_DETAIL', PU_STATIC);
+  m_lgttl := W_CacheLumpName('M_LGTTL', PU_STATIC);
+  m_sgttl := W_CacheLumpName('M_SGTTL', PU_STATIC);
+
   currentMenu := @MainDef;
   menuactive := false;
   itemOn := currentMenu.lastOn;
@@ -5777,8 +5799,8 @@ begin
   LoadDef.prevMenu := @MainDef; // previous menu
   LoadDef.menuitems := Pmenuitem_tArray(@LoadMenu);  // menu items
   LoadDef.drawproc := @M_DrawLoad;  // draw routine
-  LoadDef.x := 26;
-  LoadDef.y := 10; // x,y of menu
+  LoadDef.x := 28;
+  LoadDef.y := 44; // x,y of menu
   LoadDef.lastOn := 0; // last item user was on in menu
   LoadDef.itemheight := SAVELOADLINEHEIGHT;
   LoadDef.flags := 0;
@@ -5803,8 +5825,8 @@ begin
   SaveDef.prevMenu := @MainDef; // previous menu
   SaveDef.menuitems := Pmenuitem_tArray(@SaveMenu);  // menu items
   SaveDef.drawproc := M_DrawSave;  // draw routine
-  SaveDef.x := 26;
-  SaveDef.y := 10; // x,y of menu
+  SaveDef.x := 28;
+  SaveDef.y := 44; // x,y of menu
   SaveDef.lastOn := 0; // last item user was on in menu
   SaveDef.itemheight := SAVELOADLINEHEIGHT;
   SaveDef.flags := 0;

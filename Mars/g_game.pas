@@ -242,7 +242,6 @@ type
     load7,
     load8,
     load9,
-    load10,
     load_end
   );
 
@@ -273,6 +272,7 @@ const
   SAVEGAMESIZE = $1000000; // Originally $2C000
   SAVESTRINGSIZE = 24;
   SAVEVERSIONSIZE = 16;
+  SAVEMAPNAMESIZE = 5;
 
 const
   NUMKEYS = 256;
@@ -1691,7 +1691,7 @@ begin
   end;
 
   len := M_ReadFile(savename, pointer(savebuffer));
-  save_p := PByteArray(integer(savebuffer) + SAVESTRINGSIZE);
+  save_p := PByteArray(integer(savebuffer) + SAVESTRINGSIZE + SAVEMAPNAMESIZE);
 
   savegameversion := VERSION; // Assume current version
 
@@ -1826,6 +1826,7 @@ end;
 procedure G_DoSaveGameInFile(name: string);
 var
   name2: string;
+  mapname: string;
   description: string;
   len: integer;
   i: integer;
@@ -1843,6 +1844,13 @@ begin
   until savebuffer <> nil;
 
   save_p := savebuffer;
+
+  mapname := P_GetMapName(gameepisode, gamemap);
+  while Length(mapname) < SAVEMAPNAMESIZE do
+    mapname := mapname + ' ';
+  for i := 1 to SAVEMAPNAMESIZE do
+    save_p[i - 1] := Ord(mapname[i]);
+  save_p := PByteArray(integer(save_p) + SAVEMAPNAMESIZE);
 
   memcpy(save_p, @description[1], SAVESTRINGSIZE);
 
