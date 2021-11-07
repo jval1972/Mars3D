@@ -789,6 +789,16 @@ var
   ReadMenu2: array[0..0] of menuitem_t;
   ReadDef2: menu_t;
 
+type
+  read_e3 = (
+    rdthsempty3,
+    read3_end
+  );
+
+var
+  ReadMenu3: array[0..0] of menuitem_t;
+  ReadDef3: menu_t;
+
 //  https://www.doomworld.com/forum/topic/111465-boom-extended-help-screens-an-undocumented-feature/
 // JVAL 20200122 - Extended help screens
 var
@@ -965,49 +975,50 @@ var
 type
   bindinginfo_t = record
     text: string[26];
+    shorttext: string[20];
     pkey: PInteger;
   end;
 
 const
   KeyBindingsInfo: array [0..Ord(kb_end) - 1] of bindinginfo_t = (
-    (text: 'Move forward'; pkey: @key_up),
-    (text: 'Move backward'; pkey: @key_down),
-    (text: 'Turn left'; pkey: @key_left),
-    (text: 'Turn right'; pkey: @key_right),
-    (text: 'Strafe left'; pkey: @key_strafeleft),
-    (text: 'Strafe right'; pkey: @key_straferight),
-    (text: 'Jump'; pkey: @key_jump),
+    (text: 'Move forward'; shorttext: ''; pkey: @key_up),
+    (text: 'Move backward'; shorttext: ''; pkey: @key_down),
+    (text: 'Turn left'; shorttext: ''; pkey: @key_left),
+    (text: 'Turn right'; shorttext: ''; pkey: @key_right),
+    (text: 'Strafe left'; shorttext: ''; pkey: @key_strafeleft),
+    (text: 'Strafe right'; shorttext: ''; pkey: @key_straferight),
+    (text: 'Jump'; shorttext: ''; pkey: @key_jump),
     // JVAL: 20211101 - Crouch
-    (text: 'Crouch'; pkey: @key_crouch),
-    (text: 'Fire'; pkey: @key_fire),
-    (text: 'Use'; pkey: @key_use),
-    (text: 'Strafe'; pkey: @key_strafe),
-    (text: 'Run'; pkey: @key_speed),
+    (text: 'Crouch'; shorttext: ''; pkey: @key_crouch),
+    (text: 'Fire'; shorttext: ''; pkey: @key_fire),
+    (text: 'Use'; shorttext: ''; pkey: @key_use),
+    (text: 'Strafe'; shorttext: ''; pkey: @key_strafe),
+    (text: 'Run'; shorttext: ''; pkey: @key_speed),
 
-    (text: 'Look up'; pkey: @key_lookup),
-    (text: 'Look down'; pkey: @key_lookdown),
-    (text: 'Look center'; pkey: @key_lookcenter),
-    (text: 'Look left'; pkey: @key_lookleft),
-    (text: 'Look right'; pkey: @key_lookright),
+    (text: 'Look up'; shorttext: ''; pkey: @key_lookup),
+    (text: 'Look down'; shorttext: ''; pkey: @key_lookdown),
+    (text: 'Look center'; shorttext: ''; pkey: @key_lookcenter),
+    (text: 'Look left'; shorttext: ''; pkey: @key_lookleft),
+    (text: 'Look right'; shorttext: ''; pkey: @key_lookright),
 
-    (text: 'Fist'; pkey: @key_weapon0),
-    (text: 'Pistol'; pkey: @key_weapon1),
-    (text: 'Shock gun'; pkey: @key_weapon2),
-    (text: 'Nerve gun'; pkey: @key_weapon3),
-    (text: 'Freeze gun'; pkey: @key_weapon4),
-    (text: 'Flame gun'; pkey: @key_weapon5),
-    (text: 'Grenade launcher'; pkey: @key_weapon6),
-    (text: 'Boomerang'; pkey: @key_weapon7),
-    (text: 'Missile launcher'; pkey: @key_weapon8),
-    (text: 'Tracking missile launcher'; pkey: @key_weapon9),
+    (text: 'Fist'; shorttext: ''; pkey: @key_weapon0),
+    (text: 'Pistol'; shorttext: ''; pkey: @key_weapon1),
+    (text: 'Shock gun'; shorttext: ''; pkey: @key_weapon2),
+    (text: 'Nerve gun'; shorttext: ''; pkey: @key_weapon3),
+    (text: 'Freeze gun'; shorttext: ''; pkey: @key_weapon4),
+    (text: 'Flame gun'; shorttext: ''; pkey: @key_weapon5),
+    (text: 'Grenade launcher'; shorttext: ''; pkey: @key_weapon6),
+    (text: 'Boomerang'; shorttext: ''; pkey: @key_weapon7),
+    (text: 'Missile launcher'; shorttext: ''; pkey: @key_weapon8),
+    (text: 'Tracking missile launcher'; shorttext: ''; pkey: @key_weapon9),
 
-    (text: 'Automap max zoom'; pkey: @AM_GOBIGKEY),
-    (text: 'Automap follow on/off'; pkey: @AM_FOLLOWKEY),
-    (text: 'Automap grid on/off'; pkey: @AM_GRIDKEY),
-    (text: 'Automap rotate on/off'; pkey: @AM_ROTATEKEY),
-    (text: 'Automap texture on/off'; pkey: @AM_TEXTUREDAUTOMAP),
-    (text: 'Automap add mark'; pkey: @AM_MARKKEY),
-    (text: 'Automap clear mark'; pkey: @AM_CLEARMARKKEY)
+    (text: 'Automap max zoom'; shorttext: 'Max Zoom'; pkey: @AM_GOBIGKEY),
+    (text: 'Automap follow on/off'; shorttext: 'Follow On/Off'; pkey: @AM_FOLLOWKEY),
+    (text: 'Automap grid on/off'; shorttext: 'Grid On/Off'; pkey: @AM_GRIDKEY),
+    (text: 'Automap rotate on/off'; shorttext: 'Rotate On/Off'; pkey: @AM_ROTATEKEY),
+    (text: 'Automap texture on/off'; shorttext: 'Texture On/Off'; pkey: @AM_TEXTUREDAUTOMAP),
+    (text: 'Automap add mark'; shorttext: 'Add Mark'; pkey: @AM_MARKKEY),
+    (text: 'Automap clear mark'; shorttext: 'Clear Mark'; pkey: @AM_CLEARMARKKEY)
   );
 
 var
@@ -1574,11 +1585,15 @@ end;
 function M_WriteHelpControlText(const x, y: integer; const control: PInteger): menupos_t;
 var
   i: integer;
+  txt: string;
 begin
   for i := 0 to Ord(kb_end) - 1 do
     if KeyBindingsInfo[i].pkey = control then
     begin
-      result := M_WriteTextOption(x, y, KeyBindingsInfo[i].text + ': ', _MA_LEFT or _MC_UPPER);
+      txt := KeyBindingsInfo[i].shorttext;
+      if txt = '' then
+        txt := KeyBindingsInfo[i].text;
+      result := M_WriteTextOption(x, y, txt + ': ', _MA_LEFT or _MC_UPPER);
       result := M_WriteTextValue(result.x, result.y, M_KeyToString(control^), _MA_LEFT or _MC_UPPER);
       exit;
     end;
@@ -1601,53 +1616,48 @@ begin
 
   y := y + 14;
   M_WriteHelpText(10, y, 'F1', 'HELP');
-  M_WriteHelpText(110, y, 'F2', 'LOAD');
-  M_WriteHelpText(210, y, 'F3', 'SAVE');
+  M_WriteHelpText(160, y, 'F2', 'LOAD');
 
   y := y + 10;
-  M_WriteHelpText(10, y, 'F4', 'SOUND VOLUME');
-  M_WriteHelpText(110, y, 'F5', 'TOGGLE DETAIL');
-  M_WriteHelpText(210, y, 'F6', 'QUICKSAVE');
+  M_WriteHelpText(10, y, 'F3', 'SAVE');
+  M_WriteHelpText(160, y, 'F4', 'SOUND VOLUME');
+
+  y := y + 10;
+  M_WriteHelpText(10, y, 'F5', 'TOGGLE DETAIL');
+  M_WriteHelpText(160, y, 'F6', 'QUICKSAVE');
 
   y := y + 10;
   M_WriteHelpText(10, y, 'F7', 'END GAME');
-  M_WriteHelpText(110, y, 'F8', 'MESSAGES');
-  M_WriteHelpText(210, y, 'F9', 'QUICKLOAD');
+  M_WriteHelpText(160, y, 'F8', 'MESSAGES');
 
   y := y + 10;
-  M_WriteHelpText(10, y, 'F10', 'QUIT GAME');
-  M_WriteHelpText(110, y, 'F11', 'GAMMA');
-  M_WriteHelpText(210, y, 'F12', 'OBJECTIVES');
+  M_WriteHelpText(10, y, 'F9', 'QUICKLOAD');
+  M_WriteHelpText(160, y, 'F10', 'QUIT GAME');
+
+  y := y + 10;
+  M_WriteHelpText(10, y, 'F11', 'GAMMA');
+  M_WriteHelpText(160, y, 'F12', 'OBJECTIVES');
 
   y := y + 10;
   M_WriteHelpText(10, y, 'TAB', 'AUTOMAP');
-  M_WriteHelpText(110, y, 'ESC', 'MENU');
-  M_WriteHelpText(210, y, '+/-', 'VIEW SIZE');
+  M_WriteHelpText(160, y, 'ESC', 'MENU');
 
   y := y + 10;
-  M_WriteHelpText(10, y, 'PRTSC', 'SCREENSHOT');
-  M_WriteHelpText(110, y, 'PAUSE', 'PAUSE GAME');
-
-  y := y + 14;
-  M_DrawSmallLine(y, 'AUTOMAP');
-
-  y := y + 14;
-  M_WriteHelpText(10, y, 'F', 'FOLLOW MODE');
-  M_WriteHelpText(110, y, 'M', 'ADD MARK');
-  M_WriteHelpText(210, y, 'C', 'CLEAR MARKS');
+  M_WriteHelpText(10, y, '+/-', 'VIEW SIZE');
+  M_WriteHelpText(160, y, 'PRTSC', 'SCREENSHOT');
 
   y := y + 10;
-  M_WriteHelpText(10, y, 'G', 'TOGGLE GRID');
-  M_WriteHelpText(110, y, 'T', 'TOGGLE TEXTURES');
-  M_WriteHelpText(210, y, '+/-', 'ZOOM SIZE');
+  M_WriteHelpText(10, y, 'PAUSE', 'PAUSE GAME');
 
   y := y + 14;
   M_DrawSmallLine(y, 'MENU');
 
   y := y + 14;
   M_WriteHelpText(10, y, 'ARROWS', 'NAVIGATE');
-  M_WriteHelpText(110, y, 'ENTER', 'SELECT');
-  M_WriteHelpText(210, y, 'BACKSPACE', 'GO BACK');
+  M_WriteHelpText(160, y, 'ENTER', 'SELECT');
+
+  y := y + 10;
+  M_WriteHelpText(10, y, 'BACKSPACE', 'GO BACK');
 end;
 
 procedure M_DrawReadThis2;
@@ -1683,10 +1693,6 @@ begin
   M_WriteHelpControlText(160, y, @key_use);
 
   y := y + 10;
-//  M_WriteHelpControlText(10, y, @key_afterburner);
-  M_WriteHelpControlText(160, y, @key_speed);
-
-  y := y + 10;
   M_WriteHelpControlText(10, y, @key_lookup);
   M_WriteHelpControlText(160, y, @key_lookdown);
 
@@ -1698,7 +1704,20 @@ begin
   M_WriteHelpControlText(10, y, @key_lookright);
   M_WriteHelpControlText(160, y, @key_strafe);
 
-  y := y + 14;
+  y := y + 10;
+  M_WriteHelpControlText(10, y, @key_speed);
+end;
+
+procedure M_DrawReadThis3;
+var
+  y: integer;
+begin
+  inhelpscreens := true;
+  M_DrawFlatBackground(menubackgroundflat);
+
+  M_DrawHeadLine(15, 'HELP');
+
+  y := 34;
   M_DrawSmallLine(y, 'WEAPON SELECTION');
 
   y := y + 14;
@@ -1716,8 +1735,30 @@ begin
   y := y + 10;
   M_WriteHelpControlText(10, y, @key_weapon6);
   M_WriteHelpControlText(160, y, @key_weapon7);
-end;
 
+  y := y + 10;
+  M_WriteHelpControlText(10, y, @key_weapon8);
+  M_WriteHelpControlText(160, y, @key_weapon9);
+
+  y := y + 14;
+  M_DrawSmallLine(y, 'AUTOMAP');
+
+  y := y + 14;
+  M_WriteHelpControlText(10, y, @AM_FOLLOWKEY);
+  M_WriteHelpControlText(160, y, @AM_MARKKEY);
+
+  y := y + 10;
+  M_WriteHelpControlText(10, y, @AM_CLEARMARKKEY);
+  M_WriteHelpControlText(160, y, @AM_GRIDKEY);
+
+  y := y + 10;
+  M_WriteHelpControlText(10, y, @AM_TEXTUREDAUTOMAP);
+  M_WriteHelpControlText(160, y, @AM_ROTATEKEY);
+
+  y := y + 10;
+  M_WriteHelpControlText(10, y, @AM_GOBIGKEY);
+  M_WriteHelpText(160, y, '+/-', 'ZOOM SIZE');
+end;
 
 procedure M_DrawReadThisExt;
 begin
@@ -2870,6 +2911,11 @@ end;
 procedure M_ReadThis2(choice: integer);
 begin
   M_SetupNextMenu(@ReadDef2);
+end;
+
+procedure M_ReadThis3(choice: integer);
+begin
+  M_SetupNextMenu(@ReadDef3);
 end;
 
 procedure M_FinishReadThis(choice: integer);
@@ -5321,7 +5367,7 @@ begin
   pmi.status := 1;
   pmi.name := '';
   pmi.cmd := '';
-  pmi.routine := @M_FinishReadThis;
+  pmi.routine := @M_ReadThis3;
   pmi.pBoolVal := nil;
   pmi.alphaKey := #0;
 
@@ -5337,6 +5383,28 @@ begin
   ReadDef2.itemheight := BIGLINEHEIGHT;
   ReadDef2.flags := 0;
 
+////////////////////////////////////////////////////////////////////////////////
+//ReadMenu3
+  pmi := @ReadMenu3[0];
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_FinishReadThis;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+////////////////////////////////////////////////////////////////////////////////
+//ReadDef2
+  ReadDef3.numitems := Ord(read3_end); // # of menu items
+  ReadDef3.prevMenu := @ReadDef2; // previous menu
+  ReadDef3.menuitems := Pmenuitem_tArray(@ReadMenu3);  // menu items
+  ReadDef3.drawproc := @M_DrawReadThis3;  // draw routine
+  ReadDef3.x := 330;
+  ReadDef3.y := 165; // x,y of menu
+  ReadDef3.lastOn := 0; // last item user was on in menu
+  ReadDef3.itemheight := BIGLINEHEIGHT;
+  ReadDef3.flags := 0;
+
 // JVAL 20200122 - Extended help screens
 ////////////////////////////////////////////////////////////////////////////////
 //ReadMenuExt
@@ -5351,7 +5419,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////
 //ReadDefExt
   ReadDefExt.numitems := Ord(readext_end); // # of menu items
-  ReadDefExt.prevMenu := @ReadDef2; // previous menu
+  ReadDefExt.prevMenu := @ReadDef3; // previous menu
   ReadDefExt.menuitems := Pmenuitem_tArray(@ReadMenuExt);  // menu items
   ReadDefExt.drawproc := @M_DrawReadThisExt;  // draw routine
   ReadDefExt.x := 330;
