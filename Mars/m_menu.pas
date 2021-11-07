@@ -2312,9 +2312,21 @@ var
   epi: integer;
 
 procedure M_DrawEpisode;
+var
+  i, y: integer;
 begin
   M_DrawHeadLine(15, 'New Game');
   M_DrawSubHeadLine(40, 'Select Episode');
+
+  y := DEF_MENU_ITEMS_START_Y;
+  for i := 0 to EpiDef.numitems - 1 do
+  begin
+    if itemOn = i then
+      M_WriteText(160, y, EpisodeMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontY, @big_fontB)
+    else
+      M_WriteText(160, y, EpisodeMenu[i].name, _MA_CENTER or _MC_UPPER, @big_fontG, @big_fontB);
+    y := y + 14;
+  end;
 end;
 
 procedure M_VerifyNightmare(ch: integer);
