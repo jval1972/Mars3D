@@ -1282,7 +1282,7 @@ begin
     begin
       M_WriteText(LoadDef.x - 8, LoadDef.y + LoadDef.itemheight * i, '-', _MA_LEFT or _MC_UPPER, @green_font);
       M_DrawSaveLoadScreenShot(@savegameshots[i]);
-      M_WriteText(224, 161, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font);
+      M_WriteText(224, 162, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font);
     end;
   end;
 end;
@@ -1331,7 +1331,7 @@ begin
     begin
       M_WriteText(LoadDef.x - 8, LoadDef.y + LoadDef.itemheight * i, '-', _MA_LEFT or _MC_UPPER, @green_font);
       M_DrawSaveLoadScreenShot(@mn_screenshotbuffer);
-      M_WriteText(224, 161, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font);
+      M_WriteText(224, 162, savegamelevels[i], _MA_LEFT or _MC_UPPER, @green_font);
     end;
   end;
 
