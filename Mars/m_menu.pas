@@ -36,6 +36,7 @@ unit m_menu;
 interface
 
 uses
+  d_delphi,
   d_event;
 
 //
@@ -96,10 +97,57 @@ procedure M_InitMenus;
 
 procedure M_SetKeyboardMode(const mode: integer);
 
+// JVAL: 20211108 - Made public (MARS)
+type
+  PmessageRoutine = function(i: integer): pointer;
+
+type
+  menuitem_t = record
+    // 0 = no cursor here, 1 = ok, 2 = arrows ok
+    status: smallint;
+
+    name: string;
+    cmd: string;
+
+    // choice = menu item #.
+    // if status = 2,
+    //   choice=0:leftarrow,1:rightarrow
+    routine: PmessageRoutine;
+
+    // Yes/No location
+    pBoolVal: PBoolean;
+    // hotkey in menu
+    alphaKey: char;
+  end;
+  Pmenuitem_t = ^menuitem_t;
+  menuitem_tArray = packed array[0..$FFFF] of menuitem_t;
+  Pmenuitem_tArray = ^menuitem_tArray;
+
+type
+  Pmenu_t = ^menu_t;
+  menu_t = record
+    numitems: smallint;         // # of menu items
+    prevMenu: Pmenu_t;          // previous menu
+    leftMenu: Pmenu_t;          // left menu
+    rightMenu: Pmenu_t;         // right menu
+    menuitems: Pmenuitem_tArray;// menu items
+    drawproc: PProcedure;       // draw routine
+    x: smallint;
+    y: smallint;                // x,y of menu
+    lastOn: smallint;           // last item user was on in menu
+    itemheight: integer;
+    flags: LongWord;
+  end;
+
+procedure M_SetupNextMenu(menudef: Pmenu_t);
+
+var
+// current menudef
+  currentMenu: Pmenu_t;
+
 implementation
 
 uses
-  d_delphi,
   doomstat,
   doomdef,
   am_map,
@@ -191,12 +239,8 @@ var
 // timed message = no input from user
   messageNeedsInput: boolean;
 
-type
-  PmessageRoutine = function(i: integer): pointer;
-
 var
   messageRoutine: PmessageRoutine;
-
 
 var
   gammamsg: array[0..GAMMASIZE - 1] of string;
@@ -224,53 +268,12 @@ var
   savegamelevels: array[0..Ord(load_end) - 1] of string;
   savegameshots: array[0..Ord(load_end) - 1] of menuscreenbuffer_t;
 
-type
-  menuitem_t = record
-    // 0 = no cursor here, 1 = ok, 2 = arrows ok
-    status: smallint;
-
-    name: string;
-    cmd: string;
-
-    // choice = menu item #.
-    // if status = 2,
-    //   choice=0:leftarrow,1:rightarrow
-    routine: PmessageRoutine;
-
-    // Yes/No location
-    pBoolVal: PBoolean;
-    // hotkey in menu
-    alphaKey: char;
-  end;
-  Pmenuitem_t = ^menuitem_t;
-  menuitem_tArray = packed array[0..$FFFF] of menuitem_t;
-  Pmenuitem_tArray = ^menuitem_tArray;
-
 const
   FLG_MN_TEXTUREBK = 1;
   FLG_MN_DRAWITEMON = 2;
 
-type
-  Pmenu_t = ^menu_t;
-  menu_t = record
-    numitems: smallint;         // # of menu items
-    prevMenu: Pmenu_t;          // previous menu
-    leftMenu: Pmenu_t;          // left menu
-    rightMenu: Pmenu_t;         // right menu
-    menuitems: Pmenuitem_tArray;// menu items
-    drawproc: PProcedure;       // draw routine
-    x: smallint;
-    y: smallint;                // x,y of menu
-    lastOn: smallint;           // last item user was on in menu
-    itemheight: integer;
-    flags: LongWord;
-  end;
-
 var
   itemOn: smallint;             // selected menu item 
-
-// current menudef
-  currentMenu: Pmenu_t;
 
 //
 //      Menu Functions

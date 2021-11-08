@@ -413,7 +413,8 @@ uses
   xmi_core in 'XMILIB\xmi_core.pas' {XMICore},
   xmi_iff in 'XMILIB\xmi_iff.pas',
   xmi_lib in 'XMILIB\xmi_lib.pas',
-  mars_briefing in 'Mars\mars_briefing.pas';
+  mars_briefing in 'Mars\mars_briefing.pas',
+  mars_dialog in 'Mars\mars_dialog.pas';
 
 exports
   dd_compile_doom,

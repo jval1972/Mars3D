@@ -410,7 +410,8 @@ uses
   mars_hud in 'Mars\mars_hud.pas',
   mn_textwrite in 'Mars\mn_textwrite.pas',
   mars_wipe in 'Mars\mars_wipe.pas',
-  mars_briefing in 'Mars\mars_briefing.pas';
+  mars_briefing in 'Mars\mars_briefing.pas',
+  mars_dialog in 'Mars\mars_dialog.pas';
 
 var
   Saved8087CW: Word;
