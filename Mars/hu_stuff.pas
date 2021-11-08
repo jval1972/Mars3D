@@ -232,7 +232,7 @@ begin
   if IsIntegerInRange(x, 0, NUM_MAPNAMES - 1) then
     result := mapnames[x];
   if result = '' then
-    sprintf(result, 'Episode %d - Map %d', [gameepisode, gamemap]);
+    sprintf(result, 'Episode %d - Mission %d', [gameepisode, gamemap]);
 end;
 
 function HU_TITLE2: string;
