@@ -3735,7 +3735,7 @@ begin
   // Horiz. & Vertically center string and print it.
   if messageToPrint <> 0 then
   begin
-    msgfont := @green_font; //@mars_fontLG;
+    msgfont := @yellow_font; //@mars_fontLG;
     mheight := M_StringHeight(messageString, msgfont) + 2;
     y := (200 - mheight) div 2;
     mheight := y + mheight + 20;
