@@ -46,8 +46,6 @@ procedure MARS_CreateDoomPalette(const inppal: PByteArray; const outpal: PByteAr
 // All arrays must be allocated in memory before calling it
 procedure MARS_CreateTranslation(const frompal, topal: PByteArray; const trans: PByteArray);
 
-procedure MARS_FixBufferPalette(const buf: PByteArray; const x1, x2: integer);
-
 implementation
 
 procedure MARS_ColorShiftPalette(const inpal: PByteArray; const outpal: PByteArray;
@@ -204,19 +202,6 @@ begin
     b := topal[i * 3 + 2];
     trans[i] := MARS_BestColor(r, g, b, frompal, 0, 255);
   end;
-end;
-
-procedure MARS_FixBufferPalette(const buf: PByteArray; const x1, x2: integer);
-var
-  i: integer;
-  x0: integer;
-begin
-  x0 := x1;
-  if x0 = 0 then
-    x0 := 1;
-  for i := x0 to x2 do
-    if (buf[i] < 16) or (buf[i] > 239) then
-      buf[i] := buf[i - 1];
 end;
 
 end.
