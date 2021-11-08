@@ -227,10 +227,11 @@ function HU_TITLE: string;
 var
   x: integer;
 begin
+  result := '';
   x := (gameepisode - 1) * 9 + gamemap - 1;
   if IsIntegerInRange(x, 0, NUM_MAPNAMES - 1) then
-    result := mapnames[x]
-  else
+    result := mapnames[x];
+  if result = '' then
     sprintf(result, 'Episode %d - Map %d', [gameepisode, gamemap]);
 end;
 
@@ -280,12 +281,12 @@ const
 
 function HU_TITLEY: integer;
 begin
-  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 167 div 200{$ELSE}167{$ENDIF} - hu_fontY[0].height;
+  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 160 div 200{$ELSE}160{$ENDIF} - hu_fontY[0].height;
 end;
 
 function HU_LEVELTIMEY: integer;
 begin
-  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 167 div 200{$ELSE}167{$ENDIF} - 2 * hu_fontY[0].height;
+  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 160 div 200{$ELSE}160{$ENDIF} - 2 * hu_fontY[0].height;
 end;
 
 const
