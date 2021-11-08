@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 370;
+  DEHNUMACTIONS = 371;
 
 type
   deh_action_t = record
@@ -130,6 +130,7 @@ uses
   p_pspr,
   p_inter,
   p_musinfo,
+  mars_dialog,
   mars_weapons,
   psi_overlay,
   r_renderstyle,
@@ -3223,6 +3224,10 @@ begin
   deh_actions[369].action.acp1 := @A_FireTrackingMissile;
   deh_actions[369].originalname := strupper('FireTrackingMissile');
   {$IFDEF DLL}deh_actions[369].decl := 'A_FireTrackingMissile()';{$ENDIF}
+  deh_actions[370].action.acp1 := @A_Dialog;
+  deh_actions[370].originalname := strupper('Dialog');
+  {$IFDEF DLL}deh_actions[370].decl := 'A_Dialog(dlg1, [dlg2, ...])';{$ENDIF}
+
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin
