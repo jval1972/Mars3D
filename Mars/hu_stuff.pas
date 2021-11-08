@@ -103,6 +103,7 @@ var
   white_font: array[0..HU_FONTSIZE - 1] of Ppatch_t; // White font (DD_FONT)
   dark_font: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Dark font (DD_FONT)
   yellow_font: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Yellow font (DD_FONT)
+  ltgreen_font: array[0..HU_FONTSIZE - 1] of Ppatch_t; // Light Green font (DD_FONT)
 
   chat_on: boolean;
 
@@ -473,6 +474,7 @@ begin
     white_font[i] := HU_CacheLumpName('STCFO' + buffer, PU_STATIC);
     dark_font[i] := HU_CacheLumpName('STCFP' + buffer, PU_STATIC);
     yellow_font[i] := HU_CacheLumpName('STCFQ' + buffer, PU_STATIC);
+    ltgreen_font[i] := HU_CacheLumpName('STCFR' + buffer, PU_STATIC);
   end;
 
   for i := 0 to FPSSIZE - 1 do
