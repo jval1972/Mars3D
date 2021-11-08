@@ -384,7 +384,8 @@ uses
   mars_glass in 'Mars\mars_glass.pas',
   mars_hud in 'Mars\mars_hud.pas',
   mn_textwrite in 'Mars\mn_textwrite.pas',
-  mars_wipe in 'Mars\mars_wipe.pas';
+  mars_wipe in 'Mars\mars_wipe.pas',
+  mars_briefing in 'Mars\mars_briefing.pas';
 
 var
   Saved8087CW: Word;
