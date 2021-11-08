@@ -1,0 +1,32 @@
+///////////////////////////////
+// MT_RESISTANCETROOPER
+///////////////////////////////
+ACTOR MT_RESISTANCETROOPER 93
+{
+  Health 50
+  Width 20
+  Height 56
+  Speed 8
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  +MF2_EX_INTERACTIVE
+  +MF2_EX_CANTLEAVEFLOORPIC
+  States
+  {
+    Spawn:
+    {
+      RAPP A 10 
+      RAPP B 10 
+      RAPP C 10 
+      RAPP D 10 A_Wander
+      Loop
+    }
+    Interact:
+    {
+      RAPP A 10 A_FaceTarget
+      RAPP A 10 A_Dialog("DIALOG_E1M1_A.txt", "DIALOG_E1M1_B.txt")
+      GoTo Spawn
+    }
+  }
+}
