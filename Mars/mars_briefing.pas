@@ -35,9 +35,14 @@ unit mars_briefing;
 
 interface
 
-procedure MARS_Briefing_Init;
+uses
+  d_event;
 
-procedure MARS_Briefing_ShotDown;
+procedure MARS_InitBriefing;
+
+procedure MARS_ShutDownBriefing;
+
+function MARS_BriefingResponder(ev: Pevent_t): boolean;
 
 // Called by main loop
 procedure MARS_Briefing_Ticker;
@@ -55,7 +60,6 @@ uses
   d_delphi,
   doomdef,
   d_player,
-  d_event,
   g_game,
   p_levelinfo,
   v_data,
@@ -69,35 +73,30 @@ var
   br_lumps: TDNumberList;
   br_tic: integer;
 
-procedure MARS_Briefing_Init;
+procedure MARS_InitBriefing;
 begin
   br_lumps := TDNumberList.Create;
 end;
 
-procedure MARS_Briefing_ShotDown;
+procedure MARS_ShutDownBriefing;
 begin
   br_lumps.Free;
 end;
 
-procedure MARS_Briefing_CheckForInput;
-var
-  i: integer;
-  player: Pplayer_t;
+function MARS_BriefingResponder(ev: Pevent_t): boolean;
 begin
-  // check for button presses to skip
-  for i := 0 to MAXPLAYERS - 1 do
+  if ev._type <> ev_keydown then
   begin
-    player := @players[i];
-
-    if playeringame[i] then
-      if (player.cmd.buttons and BT_ATTACK <> 0) or (player.cmd.buttons and BT_USE <> 0) then
-      begin
-        if br_lumps.Count > 0 then
-          br_lumps.Delete(br_lumps.Count - 1);
-        if br_lumps.Count = 0 then
-          gamestate := GS_LEVEL;
-      end;
+    result := false;
+    exit;
   end;
+
+  result := true;
+
+  if br_lumps.Count > 0 then
+    br_lumps.Delete(0);
+  if br_lumps.Count = 0 then
+    gamestate := GS_LEVEL;
 end;
 
 procedure MARS_Briefing_Ticker;
@@ -110,7 +109,7 @@ end;
 procedure MARS_Briefing_Drawer;
 begin
   if br_lumps.Count > 0 then
-  V_DrawPatchFullScreenTMP320x200(br_lumps.Numbers[br_lumps.Count - 1]);
+    V_DrawPatchFullScreenTMP320x200(br_lumps.Numbers[0]);
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
 end;
 
@@ -123,7 +122,7 @@ begin
   br_lumps.Clear;
   for i := 0 to MAX_BRIEFING_SCREENS - 1 do
   begin
-    sprintf(pg, '%s%d%s', [Char(gameepisode + Ord('A')), gamemap, IntToStrZfill(2, i)]);
+    sprintf(pg, '%s%d%s', [Char(gameepisode + Ord('A') - 1), gamemap, IntToStrZfill(2, i)]);
     lump := W_CheckNumForName(pg);
     if lump >= 0 then
       br_lumps.Add(lump);

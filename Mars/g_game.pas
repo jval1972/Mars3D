@@ -297,6 +297,7 @@ uses
   info_h,
   info,
   info_rnd,
+  mars_briefing,
   mars_version,
   m_rnd,
   i_system,
@@ -820,10 +821,16 @@ begin
       skytexture := R_TextureNumForName('SKY1');
   end;
 
-  if wipegamestate = Ord(GS_LEVEL) then
-    wipegamestate := -1;  // force a wipe
+  if demoplayback or demorecording then
+    gamestate := GS_LEVEL
+  else
+  begin
+    gamestate := GS_BRIEFING;
+    MARS_Briefing_Start;
+  end;
 
-  gamestate := GS_LEVEL;
+  if wipegamestate = Ord(gamestate) then
+    wipegamestate := -1;  // force a wipe
 
   for i := 0 to MAXPLAYERS - 1 do
   begin
@@ -880,6 +887,11 @@ begin
   if gamestate = GS_ENDOOM then
   begin
     result := E_Responder(ev);
+    exit;
+  end;
+  if gamestate = GS_BRIEFING then
+  begin
+    result := MARS_BriefingResponder(ev);
     exit;
   end;
   // allow spy mode changes even during the demo
@@ -1144,6 +1156,10 @@ begin
 
   // do main actions
   case gamestate of
+    GS_BRIEFING:
+      begin
+        MARS_Briefing_Ticker;
+      end;
     GS_LEVEL:
       begin
         P_Ticker;
@@ -1651,7 +1667,13 @@ end;
 
 procedure G_DoWorldDone;
 begin
-  gamestate := GS_LEVEL;
+  if demoplayback or demorecording then
+    gamestate := GS_LEVEL
+  else
+  begin
+    gamestate := GS_BRIEFING;
+    MARS_Briefing_Start;
+  end;
   gamemap := wminfo.next + 1;
   G_DoLoadLevel;
   gameaction := ga_nothing;

@@ -178,6 +178,7 @@ uses
   p_mobj,
   ps_main,
   psi_overlay,
+  mars_briefing,
   mars_version,
   mars_hud,
   mars_files,
@@ -398,6 +399,8 @@ begin
 
   // do buffered drawing
   case gamestate of
+    GS_BRIEFING:
+      MARS_Briefing_Drawer;
     GS_LEVEL:
       begin
         if gametic <> 0 then
@@ -2211,6 +2214,10 @@ begin
     printf('External statistics registered.'#13#10);
   end;
 
+  SUC_Progress(94);
+  printf('MARS_InitBriefing: Init MARS briefing screens.'#13#10);
+  MARS_InitBriefing;
+
   // start the apropriate game based on parms
   p := M_CheckParm('-record');
 
@@ -2309,6 +2316,8 @@ begin
   C_ShutDown;
   printf('MARS_ShutDownHud: Shut down hud.'#13#10);
   MARS_ShutDownHud;
+  printf('MARS_ShutDownBriefing: Shut down MARS briefing screens.'#13#10);
+  MARS_ShutDownBriefing;
   printf('P_ShutDown: Shut down Playloop state.'#13#10);
   P_ShutDown;
   printf('R_ShutDown: Shut down Rendering Engine.');
