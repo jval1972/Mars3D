@@ -110,6 +110,7 @@ uses
   d_player,
   d_notifications,
   g_game,
+  mars_briefing,
   mars_version,
   mars_hud,
   mars_sounds,
@@ -858,6 +859,7 @@ type
   compatibility_e = (
     cmp_allowplayerjumps,
     cmp_allowplayercrouch,
+    cmp_showbriefingscreen,
     cmp_allowplayerbreath,
     cmp_keepcheatsinplayerrebord,
     cmp_majorbossdeathendsdoom1level,
@@ -5565,6 +5567,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @allowplayercrouch;
   pmi.alphaKey := 'c';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Show briefing screen';
+  pmi.cmd := 'showbriefingscreen';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @showbriefingscreen;
+  pmi.alphaKey := 'b';
 
   inc(pmi);
   pmi.status := 1;

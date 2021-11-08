@@ -54,6 +54,9 @@ procedure MARS_Briefing_Drawer;
 // Setup the briefing screens.
 procedure MARS_Briefing_Start;
 
+var
+  showbriefingscreen: boolean = true;
+
 implementation
 
 uses
