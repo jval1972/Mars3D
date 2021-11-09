@@ -1707,13 +1707,13 @@ begin
   begin
     if name = itoa(i) then
     begin
-      sprintf(result, MARS_GetSavePath + SAVEGAMENAME + '%s.dsg', [name]);
+      sprintf(result, MARS_GetSavePath + SAVEGAMENAME + '%s.sav', [name]);
       exit;
     end;
   end;
   
-  if strupper(Copy(name, length(name) - 3, 4)) <> '.DSG' then
-    result := name + '.DSG'
+  if strupper(Copy(name, length(name) - 3, 4)) <> '.SAV' then
+    result := name + '.SAV'
   else
     result := name;
 end;
@@ -2017,7 +2017,7 @@ begin
     name := savename
   else
   begin
-    sprintf(name, M_SaveFileName(MARS_GetSavePath + SAVEGAMENAME) + '%d.dsg', [savegameslot]);
+    sprintf(name, M_SaveFileName(MARS_GetSavePath + SAVEGAMENAME) + '%d.sav', [savegameslot]);
   end;
 
   G_DoSaveGameInFile(name);

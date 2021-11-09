@@ -1253,7 +1253,7 @@ var
 begin
   for i := 0 to Ord(load_end) - 1 do
   begin
-    sprintf(name, M_SaveFileName(MARS_GetSavePath + SAVEGAMENAME) + '%d.dsg', [i]);
+    sprintf(name, M_SaveFileName(MARS_GetSavePath + SAVEGAMENAME) + '%d.sav', [i]);
 
     if not fopen(handle, name, fOpenReadOnly) then
     begin
@@ -1348,7 +1348,7 @@ procedure M_LoadSelect(choice: integer);
 var
   name: string;
 begin
-  sprintf(name, M_SaveFileName(MARS_GetSavePath + SAVEGAMENAME) + '%d.dsg', [choice]);
+  sprintf(name, M_SaveFileName(MARS_GetSavePath + SAVEGAMENAME) + '%d.sav', [choice]);
   G_LoadGame(name);
   M_ClearMenus;
 end;
