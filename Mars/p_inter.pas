@@ -575,6 +575,12 @@ begin
       exit;
     player._message := GOTMAP;
   end
+  else if s_spr = 'DFK4' then // MT_RADIATIONSUIT
+  begin
+    if not P_GivePower(player, Ord(pw_ironfeet)) then
+      exit;
+    player._message := GOTSUIT;
+  end
   else if s_spr = 'FILY' then // MT_ALLMAP
   begin
     if not P_GivePower(player, Ord(pw_jetpack)) then
