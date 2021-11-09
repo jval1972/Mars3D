@@ -56,6 +56,7 @@ uses
   r_defs,
   {$ENDIF}
   p_params,
+  p_tick,
   psi_globals,
   sc_evaluate,
   sc_consts,
@@ -76,6 +77,8 @@ type
     function PF_random2(p: TDStrings): string;
     function PF_frandom(p: TDStrings): string;
     function PF_randompick(p: TDStrings): string;
+    // General
+    function PF_leveltime(p: TDStrings): string;
     // Actor position and movement
     function PF_X(p: TDStrings): string;
     function PF_Y(p: TDStrings): string;
@@ -163,6 +166,8 @@ begin
   AddFunc('FRANDOM', PF_frandom, -1);
   AddFunc('RANDOMPICK', PF_randompick, -1);
   AddFunc('FRANDOMPICK', PF_randompick, -1);
+  // General
+  AddFunc('LEVELTIME', PF_leveltime, -1);
   // Actor position and movement
   AddFunc('X', PF_X, 0);
   AddFunc('Y', PF_Y, 0);
@@ -349,6 +354,12 @@ begin
     exit;
   end;
   result := p[N_Random mod p.count];
+end;
+
+// General
+function TActorEvaluator.PF_leveltime(p: TDStrings): string;
+begin
+  result := itoa(leveltime);
 end;
 
 // Actor position and movement
