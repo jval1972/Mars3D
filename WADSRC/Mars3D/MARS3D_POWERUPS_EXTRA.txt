@@ -19,3 +19,28 @@ ACTOR MT_RADIATIONSUIT 2026
   }
 }
 
+
+///////////////////////////////
+// MT_NIGHTVISOR
+///////////////////////////////
+ACTOR MT_RADIATIONSUIT 2030
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      RGLA A 4
+      RGLA B 4
+      RGLA C 4
+      RGLA D 4
+      RGLA E 4
+      Loop
+    }
+  }
+}
