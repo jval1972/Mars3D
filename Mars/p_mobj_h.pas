@@ -413,6 +413,8 @@ const
   MF4_EX_THRUMONSTERS = $10;
   // Player has calculated it's viewz
   MF4_EX_VIEWZCALCED = $20;
+  // fly mode is active
+  MF4_EX_FLY = $40; // JVAL: 20211109 - Fly (Jet pack)
 
 type
 // Map Object definition.

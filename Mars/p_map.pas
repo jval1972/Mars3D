@@ -1043,7 +1043,7 @@ begin
     end;
   end;
   if G_PlayingEngineVersion <= VERSION204 then
-    if (mo.player <> nil) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then
+    if (mo.player <> nil) and (mo.flags4_ex and MF4_EX_FLY <> 0) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then // JVAL: 20211109 - Fly (Jet pack)
       mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 4) and FINEMASK];
 
 //

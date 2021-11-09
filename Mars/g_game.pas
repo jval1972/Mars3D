@@ -446,9 +446,11 @@ var
   look: integer;    // JVAL Look up and down
   look16: integer;  // JVAL Smooth Look Up/Down
   look2: integer;   // JVAL look left and right
+  flyheight: integer;  // JVAL: 20211109 - Fly (Jet pack)
   base: Pticcmd_t;
   imousex: integer;
   imousey: integer;
+  cmd_fly: integer;  // JVAL: 20211109 - Fly (Jet pack)
 begin
   base := I_BaseTiccmd;    // empty, or external driver
 
@@ -468,6 +470,7 @@ begin
   look := 0;
   look16 := 0; // JVAL Smooth Look Up/Down
   look2 := 0;
+  flyheight := 0;
 
   // use two stage accelerative turning
   // on the keyboard and joystick
@@ -769,6 +772,21 @@ begin
     cmd.buttons := BT_SPECIAL or BTS_PAUSE;
   end;
 
+  cmd_fly := Isign(cmd.jump - cmd.crouch); // JVAL: 20211109 - Fly (Jet pack)
+  // Fly up/down/drop keys
+  if cmd_fly > 0 then
+    flyheight := 5; // note that the actual flyheight will be twice this
+
+  if cmd_fly < 0 then
+    flyheight := -5;
+
+  if (cmd_fly = 0) and (cmd.jump <> 0) then
+    flyheight := TOCENTER;
+
+  if flyheight < 0 then
+    flyheight := flyheight + 16;
+
+  cmd.fly := flyheight;
   if sendsave then
   begin
     sendsave := false;
@@ -2342,6 +2360,7 @@ begin
     cmd.lookleftright := 0;
     cmd.jump := 0;
     cmd.crouch := 0; // JVAL: 20211101 - Crouch
+    cmd.fly := 0; // JVAL: 20211109 - Fly (Jet pack)
   end
   else
   begin
@@ -2366,9 +2385,15 @@ begin
     begin
       cmd.crouch := demo_p[0];
       demo_p := @demo_p[1];
+      // JVAL: 20211109 - Fly (Jet pack)
+      cmd.fly := demo_p[0];
+      demo_p := @demo_p[1];
     end
     else
+    begin
       cmd.crouch := 0;
+      cmd.fly := 0;
+    end; // JVAL: 20211109 - Fly (Jet pack)
   end;
 end;
 
@@ -2448,6 +2473,10 @@ begin
   demo_p := @demo_p[1];
   // JVAL: 20211101 - Crouch
   demo_p[0] := cmd.crouch;
+  // JVAL: 20211109 - Fly (Jet pack)
+  demo_p := @demo_p[1];
+  // JVAL: 20211109 - Fly (Jet pack)
+  demo_p[0] := cmd.fly;
 
   demo_p := demo_start;
 

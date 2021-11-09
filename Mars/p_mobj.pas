@@ -250,6 +250,7 @@ end;
 const
   STOPSPEED = $1000;
   FRICTION = $e800;
+  FRICTION_FLY = $eb00; // JVAL: 20211109 - Fly (Jet pack)
 
 procedure P_XYMovement(mo: Pmobj_t);
 var
@@ -448,8 +449,17 @@ begin
   end
   else
   begin
-    mo.momx := FixedMul(mo.momx, FRICTION);
-    mo.momy := FixedMul(mo.momy, FRICTION);
+    if (mo.flags4_ex and MF4_EX_FLY <> 0) and (mo.z > mo.floorz) and  // JVAL: 20211109 - Fly (Jet pack)
+       (mo.flags2_ex and MF2_EX_ONMOBJ = 0) then
+    begin
+      mo.momx := FixedMul(mo.momx, FRICTION_FLY);
+      mo.momy := FixedMul(mo.momy, FRICTION_FLY);
+    end
+    else
+    begin
+      mo.momx := FixedMul(mo.momx, FRICTION);
+      mo.momy := FixedMul(mo.momy, FRICTION);
+    end;
   end;
 end;
 
@@ -516,6 +526,9 @@ begin
     end;
   end;
 
+  if (player <> nil) and (mo.flags4_ex and MF4_EX_FLY <> 0) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then  // JVAL: 20211109 - Fly (Jet pack)
+    mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 4) and FINEMASK];
+
   // clip movement
   if mo.z <= mo.floorz then
   begin
@@ -569,7 +582,7 @@ begin
     momomz := mo.momz;
     if mo.momz < 0 then
     begin
-      if (player <> nil) and (mo.momz < -P_GetMobjGravity(mo) * 8) then
+      if (player <> nil) and (mo.momz < -P_GetMobjGravity(mo) * 8) and (mo.flags4_ex and MF4_EX_FLY = 0) then // JVAL: 20211109 - Fly (Jet pack)
       begin
         // Squat down.
         // Decrease viewheight for a moment

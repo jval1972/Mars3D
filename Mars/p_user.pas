@@ -127,12 +127,17 @@ begin
   // Note: a LUT allows for effects
   //  like a ramp with low health.
 
-  player.bob := FixedMul(player.mo.momx, player.mo.momx) +
-                FixedMul(player.mo.momy, player.mo.momy);
-  player.bob := player.bob div 4;
+  if (player.mo.flags4_ex and MF4_EX_FLY <> 0) and not onground then  // JVAL: 20211109 - Fly (Jet pack)
+    player.bob := FRACUNIT div 2
+  else
+  begin
+    player.bob := FixedMul(player.mo.momx, player.mo.momx) +
+                  FixedMul(player.mo.momy, player.mo.momy);
+    player.bob := player.bob div 4;
 
-  if player.bob > MAXBOB then
-    player.bob := MAXBOB;
+    if player.bob > MAXBOB then
+      player.bob := MAXBOB;
+  end;
 
   player.oldviewz := player.viewz;  // JVAL: Slopes
 
@@ -374,6 +379,8 @@ var
   look: integer;
   look16: integer; // JVAL Smooth Look Up/Down
   look2: integer;
+  fly: integer; // JVAL: 20211109 - Fly (Jet pack)
+  onair: boolean; // JVAL: 20211109 - Fly (Jet pack)
   movefactor: fixed_t;
 begin
   cmd := @player.cmd;
@@ -391,9 +398,10 @@ begin
   if onground then
     player.lastongroundtime := leveltime; // JVAL: 20211101 - Crouch
 
+  onair := (player.cheats and CF_LOWGRAVITY <> 0) or (player.mo.flags4_ex and MF4_EX_FLY <> 0); // JVAL: 20211109 - Fly (Jet pack)
   // villsa [STRIFE] allows player to climb over things by jumping
   // haleyjd 20110205: air control thrust should be 256, not cmd.forwardmove
-  if (G_PlayingEngineVersion >= VERSION121) and not onground and (player.cheats and CF_LOWGRAVITY = 0) and (cmd.forwardmove <> 0) then
+  if (G_PlayingEngineVersion >= VERSION121) and not onground and not onair and (cmd.forwardmove <> 0) then  // JVAL: 20211109 - Fly (Jet pack)
   begin
     P_Thrust(player, player.mo.angle, 256);
   end
@@ -410,12 +418,12 @@ begin
     if cmd.crouch > 0 then
       movefactor := FixedMul(FixedDiv(CROUCH_FRICTION_FACTOR, ORIG_FRICTION_FACTOR), movefactor);
 
-    if (player.cheats and CF_LOWGRAVITY <> 0) or
+    if onair or // JVAL: 20211109 - Fly (Jet pack)
       ((cmd.forwardmove <> 0) and
        (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
       P_Thrust(player, player.mo.angle, cmd.forwardmove * movefactor);
 
-    if (player.cheats and CF_LOWGRAVITY <> 0) or
+    if onair or // JVAL: 20211109 - Fly (Jet pack)
       ((cmd.sidemove <> 0) and
        (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
       P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * movefactor);
@@ -424,7 +432,7 @@ begin
   if G_PlayingEngineVersion >= VERSION115 then
   begin
     // JVAL: Adjust speed while flying
-    if (player.cheats and CF_LOWGRAVITY <> 0) and (player.mo.z > player.mo.floorz) then
+    if onair and (player.mo.z > player.mo.floorz) then  // JVAL: 20211109 - Fly (Jet pack)
     begin
       if player.mo.momx > 18 * FRACUNIT then
         player.mo.momx := 18 * FRACUNIT
@@ -621,6 +629,37 @@ begin
   end
   else
     player.lookdir2 := 0;
+
+  // JVAL: 20211109 - Fly (Jet pack)
+  fly := cmd.fly;
+  if fly > 7 then
+    fly := fly - 16;
+
+  if (fly <> 0) and (player.powers[Ord(pw_jetpack)] <> 0) then
+  begin
+    if fly <> TOCENTER then
+    begin
+      player.flyheight := fly * 2;
+      if player.mo.flags4_ex and MF4_EX_FLY = 0 then
+      begin
+        player.mo.flags4_ex := player.mo.flags4_ex or MF4_EX_FLY;
+        player.mo.flags := player.mo.flags or MF_NOGRAVITY;
+      end;
+    end
+    else
+    begin
+      player.mo.flags4_ex := player.mo.flags4_ex and not MF4_EX_FLY;
+      player.mo.flags := player.mo.flags and not MF_NOGRAVITY;
+    end;
+  end;
+
+  if player.mo.flags4_ex and MF4_EX_FLY <> 0 then
+  begin
+    player.mo.momz := player.flyheight * FRACUNIT;
+    if player.flyheight <> 0 then
+      player.flyheight := player.flyheight div 2;
+  end;
+
 end;
 
 //

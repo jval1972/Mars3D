@@ -111,6 +111,9 @@ type
     lastautocrouchtime: integer;
     crouchheight: fixed_t;
 
+    // JVAL: 20211109 - Fly (Jet pack)
+    flyheight: integer;
+
     // This is only used between levels,
     // mo->health is used during levels.
     health: integer;

@@ -848,6 +848,8 @@ begin
         Pplayer_t(target.player).frags[pDiff(target.player, @players[0], SizeOf(players[0]))] + 1;
 
     target.flags := target.flags and not MF_SOLID;
+    target.flags4_ex := target.flags4_ex and not MF4_EX_FLY;  // JVAL: 20211109 - Fly (Jet pack)
+    Pplayer_t(target.player).powers[Ord(pw_jetpack)] := 0;
     Pplayer_t(target.player).playerstate := PST_DEAD;
 
     // JVAL

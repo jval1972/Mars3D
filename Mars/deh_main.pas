@@ -2085,6 +2085,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_SHOCKGUNDAMAGERESIST');
   mobj_flags4_ex.Add('MF4_EX_THRUMONSTERS');
   mobj_flags4_ex.Add('MF4_EX_VIEWZCALCED');
+  mobj_flags4_ex.Add('MF4_EX_FLY'); // JVAL: 20211109 - Fly (Jet pack)
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
