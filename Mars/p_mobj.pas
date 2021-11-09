@@ -877,6 +877,10 @@ begin
   mobj.oldy := mobj.y;
   mobj.oldz := mobj.z;
 
+  mobj.soundorg1.x := mobj.x;
+  mobj.soundorg1.y := mobj.y;
+  mobj.soundorg1.z := mobj.z;
+
   // JVAL: Clear just spawned flag
   mobj.flags := mobj.flags and not MF_JUSTAPPEARED;
 

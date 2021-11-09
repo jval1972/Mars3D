@@ -416,6 +416,17 @@ const
   // fly mode is active
   MF4_EX_FLY = $40; // JVAL: 20211109 - Fly (Jet pack)
 
+
+type
+  // Same as degenmobj_t
+  soundorg_t = packed record
+    thinker: thinker_t; // not used for anything
+    x: fixed_t;
+    y: fixed_t;
+    z: fixed_t;
+  end;
+  Psoundorg_t = ^soundorg_t;
+
 type
 // Map Object definition.
   Pmobj_t = ^mobj_t;
@@ -572,9 +583,12 @@ type
     WeaveIndexXY: integer;
     WeaveIndexZ: integer;
     painchance: integer;
+
+    // MARS
     friendtics: integer;
     friendticstime: integer;
     spawntime: integer;
+    soundorg1: soundorg_t;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;
