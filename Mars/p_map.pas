@@ -324,6 +324,10 @@ begin
   thing.oldy := thing.y;
   thing.oldz := thing.z;
 
+  thing.soundorg1.x := thing.x;
+  thing.soundorg1.y := thing.y;
+  thing.soundorg1.z := thing.z;
+
   if thing.player = viewplayer then
     R_SetInterpolateSkipTicks(1);
 

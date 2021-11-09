@@ -877,14 +877,14 @@ begin
   mobj.oldy := mobj.y;
   mobj.oldz := mobj.z;
 
-  mobj.soundorg1.x := mobj.x;
-  mobj.soundorg1.y := mobj.y;
-  mobj.soundorg1.z := mobj.z;
-
   // JVAL: Clear just spawned flag
   mobj.flags := mobj.flags and not MF_JUSTAPPEARED;
 
   P_DoMobjThinker(mobj);
+
+  mobj.soundorg1.x := mobj.x;
+  mobj.soundorg1.y := mobj.y;
+  mobj.soundorg1.z := mobj.z;
 
   if not Assigned(mobj.thinker._function.acv) then
     exit; // mobj was removed
@@ -1066,6 +1066,10 @@ begin
   mobj.prevangle := mobj.angle;
   mobj.nextangle := mobj.angle;
   mobj.intrplcnt := 0;
+
+  mobj.soundorg1.x := mobj.x;
+  mobj.soundorg1.y := mobj.y;
+  mobj.soundorg1.z := mobj.z;
 
   result := mobj;
 end;
