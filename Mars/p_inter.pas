@@ -581,6 +581,12 @@ begin
       exit;
     player._message := GOTSUIT;
   end
+  else if s_spr = 'RGLA' then // MT_NIGHTVISOR
+  begin
+    if not P_GivePower(player, Ord(pw_infrared)) then
+      exit;
+    player._message := GOTVISOR;
+  end
   else if s_spr = 'FILY' then // MT_ALLMAP
   begin
     if not P_GivePower(player, Ord(pw_jetpack)) then
