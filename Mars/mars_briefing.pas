@@ -86,27 +86,54 @@ begin
   br_lumps.Free;
 end;
 
-function MARS_BriefingResponder(ev: Pevent_t): boolean;
+var
+  br_key_down: boolean;
+
+procedure MARS_BriefingAdvance;
 begin
-  if ev._type <> ev_keydown then
-  begin
-    result := false;
-    exit;
-  end;
-
-  result := true;
-
   if br_lumps.Count > 0 then
     br_lumps.Delete(0);
   if br_lumps.Count = 0 then
     gamestate := GS_LEVEL;
 end;
 
+function MARS_BriefingResponder(ev: Pevent_t): boolean;
+begin
+  if ev._type <> ev_keydown then
+  begin
+    if ev._type = ev_keyup then
+      br_key_down := false;
+    result := false;
+    exit;
+  end;
+
+  result := true;
+  br_key_down := true;
+
+  MARS_BriefingAdvance;
+end;
+
+var
+  br_music_changed: boolean;
+
 procedure MARS_Briefing_Ticker;
 begin
   inc(br_tic);
   if br_tic = 1 then
-    P_LevelInfoChangeMusic;
+    if not br_music_changed then
+    begin
+      P_LevelInfoChangeMusic;
+      br_music_changed := true;
+    end;
+
+  if not br_key_down then
+    br_tic := 0;
+
+  if br_tic >= TICRATE then
+  begin
+    MARS_BriefingAdvance; // Briefing screens accelerated 
+    br_tic := TICRATE - 10;
+  end;
 end;
 
 procedure MARS_Briefing_Drawer;
@@ -131,6 +158,8 @@ begin
       br_lumps.Add(lump);
   end;
   br_tic := 0;
+  br_music_changed := false;
+  br_key_down := false;
   if br_lumps.Count = 0 then
     gamestate := GS_LEVEL;
 end;
