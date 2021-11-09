@@ -1015,7 +1015,7 @@ const
     (text: 'Grenade launcher'; shorttext: ''; pkey: @key_weapon6),
     (text: 'Boomerang'; shorttext: ''; pkey: @key_weapon7),
     (text: 'Missile launcher'; shorttext: ''; pkey: @key_weapon8),
-    (text: 'Tracking missile launcher'; shorttext: ''; pkey: @key_weapon9),
+    (text: 'Tracking missile launcher'; shorttext: 'Tracking missiles'; pkey: @key_weapon9),
 
     (text: 'Automap max zoom'; shorttext: 'Max Zoom'; pkey: @AM_GOBIGKEY),
     (text: 'Automap follow on/off'; shorttext: 'Follow On/Off'; pkey: @AM_FOLLOWKEY),
