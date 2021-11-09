@@ -48,6 +48,7 @@ implementation
 
 uses
   d_delphi,
+  doomdef,
   i_system,
   p_aaptr,
   p_common;
@@ -184,6 +185,8 @@ begin
   SC_AddConst('AMF_TARGETEMITTER', AMF_TARGETEMITTER);
   SC_AddConst('AMF_TARGETNONPLAYER', AMF_TARGETNONPLAYER);
   SC_AddConst('AMF_EMITFROMTARGET', AMF_EMITFROMTARGET);
+
+  SC_AddConst('TICRATE', TICRATE);
 end;
 
 procedure SC_ShutDownConsts;
