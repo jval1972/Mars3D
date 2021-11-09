@@ -45,6 +45,7 @@ uses
 // is buffered within the player data struct,
 // as commands per game tick.
   d_ticcmd,
+  r_defs,
   m_fixed,
   doomdef;
 
@@ -204,6 +205,9 @@ type
 
     plinetarget: Pmobj_t; // JVAL: For the crosshair target
     pcrosstic: integer;
+
+    jetpacksoundorg: degenmobj_t;
+    jetpacksoundtic: integer;
   end;
   Pplayer_t = ^player_t;
 

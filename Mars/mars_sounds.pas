@@ -99,6 +99,7 @@ type
     snd_TELEPORT,
     snd_WATERIN,
     snd_WATERIN1,
+    snd_JET,
     NUM_MARS_SOUNDS
   );
 
@@ -107,69 +108,71 @@ type
     name: string[8];
     path: string[255];
     sound_id: integer;
+    duration: integer;
   end;
 
 const
   marssounds: array[0..Ord(NUM_MARS_SOUNDS) - 1] of marssoundinfo_t = (
-    (name: 'ARM1HURT'; path: ''; sound_id: -1; ),
-    (name: 'BAL2ACT';  path: ''; sound_id: -1; ),
-    (name: 'BAL2ATT';  path: ''; sound_id: -1; ),
-    (name: 'BARLEXP';  path: ''; sound_id: -1; ),
-    (name: 'BUBBLE';   path: ''; sound_id: -1; ),
-    (name: 'CHEMHURT'; path: ''; sound_id: -1; ),
-    (name: 'DEATH';    path: ''; sound_id: -1; ),
-    (name: 'DEATH1';   path: ''; sound_id: -1; ),
-    (name: 'DEATH2';   path: ''; sound_id: -1; ),
-    (name: 'DEF2ACT';  path: ''; sound_id: -1; ),
-    (name: 'DEF2ATT';  path: ''; sound_id: -1; ),
-    (name: 'DEF2DTH';  path: ''; sound_id: -1; ),
-    (name: 'DROPEN';   path: ''; sound_id: -1; ),
-    (name: 'FIR1ACT';  path: ''; sound_id: -1; ),
-    (name: 'FIR1ATT';  path: ''; sound_id: -1; ),
-    (name: 'FIR1EXP';  path: ''; sound_id: -1; ),
-    (name: 'FISHATT';  path: ''; sound_id: -1; ),
-    (name: 'FISHDTH';  path: ''; sound_id: -1; ),
-    (name: 'FISHHURT'; path: ''; sound_id: -1; ),
-    (name: 'FISTEXP';  path: ''; sound_id: -1; ),
-    (name: 'FISTSHT';  path: ''; sound_id: -1; ),
-    (name: 'GLASEXP';  path: ''; sound_id: -1; ),
-    (name: 'GUN1SHT';  path: ''; sound_id: -1; ),
-    (name: 'GUN2ACT';  path: ''; sound_id: -1; ),
-    (name: 'GUN2SHT';  path: ''; sound_id: -1; ),
-    (name: 'GUN3EXP';  path: ''; sound_id: -1; ),
-    (name: 'GUN5EXP';  path: ''; sound_id: -1; ),
-    (name: 'GUN6SHT';  path: ''; sound_id: -1; ),
-    (name: 'GUN7SHT';  path: ''; sound_id: -1; ),
-    (name: 'GUN8SHT';  path: ''; sound_id: -1; ),
-    (name: 'ITEMUP';   path: ''; sound_id: -1; ),
-    (name: 'LAKEACT';  path: ''; sound_id: -1; ),
-    (name: 'LAKEAPP';  path: ''; sound_id: -1; ),
-    (name: 'LAKEATT';  path: ''; sound_id: -1; ),
-    (name: 'LAKEDTH';  path: ''; sound_id: -1; ),
-    (name: 'LAKEHURT'; path: ''; sound_id: -1; ),
-    (name: 'MEC1ACT';  path: ''; sound_id: -1; ),
-    (name: 'MEC2ACT';  path: ''; sound_id: -1; ),
-    (name: 'MECHAPP';  path: ''; sound_id: -1; ),
-    (name: 'MECHATT';  path: ''; sound_id: -1; ),
-    (name: 'MECHDTH';  path: ''; sound_id: -1; ),
-    (name: 'MECHHURT'; path: ''; sound_id: -1; ),
-    (name: 'MECXDTH';  path: ''; sound_id: -1; ),
-    (name: 'MIS1ACT';  path: ''; sound_id: -1; ),
-    (name: 'MIS1EXP';  path: ''; sound_id: -1; ),
-    (name: 'MIS1SHT';  path: ''; sound_id: -1; ),
-    (name: 'MONSDTH';  path: ''; sound_id: -1; ),
-    (name: 'MOS1DTH';  path: ''; sound_id: -1; ),
-    (name: 'MOUSAPP';  path: ''; sound_id: -1; ),
-    (name: 'MOUSATT';  path: ''; sound_id: -1; ),
-    (name: 'MOUSDTH';  path: ''; sound_id: -1; ),
-    (name: 'MOUSHURT'; path: ''; sound_id: -1; ),
-    (name: 'ROLEDTH';  path: ''; sound_id: -1; ),
-    (name: 'ROLEHURT'; path: ''; sound_id: -1; ),
-    (name: 'SRAGATT';  path: ''; sound_id: -1; ),
-    (name: 'SWON';     path: ''; sound_id: -1; ),
-    (name: 'TELEPORT'; path: ''; sound_id: -1; ),
-    (name: 'WATERIN';  path: ''; sound_id: -1; ),
-    (name: 'WATERIN1'; path: ''; sound_id: -1; )
+    (name: 'ARM1HURT'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'BAL2ACT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'BAL2ATT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'BARLEXP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'BUBBLE';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'CHEMHURT'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DEATH';    path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DEATH1';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DEATH2';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DEF2ACT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DEF2ATT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DEF2DTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DROPEN';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'FIR1ACT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'FIR1ATT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'FIR1EXP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'FISHATT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'FISHDTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'FISHHURT'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'FISTEXP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'FISTSHT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GLASEXP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GUN1SHT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GUN2ACT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GUN2SHT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GUN3EXP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GUN5EXP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GUN6SHT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GUN7SHT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'GUN8SHT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'ITEMUP';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'LAKEACT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'LAKEAPP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'LAKEATT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'LAKEDTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'LAKEHURT'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MEC1ACT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MEC2ACT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MECHAPP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MECHATT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MECHDTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MECHHURT'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MECXDTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MIS1ACT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MIS1EXP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MIS1SHT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MONSDTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MOS1DTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MOUSAPP';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MOUSATT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MOUSDTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'MOUSHURT'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'ROLEDTH';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'ROLEHURT'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'SRAGATT';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'SWON';     path: ''; sound_id: -1; duration: -1; ),
+    (name: 'TELEPORT'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'WATERIN';  path: ''; sound_id: -1; duration: -1; ),
+    (name: 'WATERIN1'; path: ''; sound_id: -1; duration: -1; ),
+    (name: 'SNDJET';   path: ''; sound_id: -1; duration: -1; )
   );
 
 procedure MARS_InitSounds;
@@ -180,17 +183,21 @@ function S_AmbientSound(const x, y: integer; const sndname: string): Pmobj_t;
 
 function MARS_AmbientSound(const x, y: integer; const soundid: marssound_t): Pmobj_t;
 
+function S_MARSSoundDuration(const mars_snd: integer): integer;
+
 implementation
 
 uses
   d_delphi,
+  doomdef,
   info_common,
   mars_files,
   p_local,
   p_mobj,
   sounds,
   s_sound,
-  w_wad;
+  w_wad,
+  z_zone;
 
 procedure MARS_InitSounds;
 var
@@ -266,6 +273,110 @@ begin
 
   result := P_SpawnMobj(x, y, ONFLOATZ, MT_AMBIENTSOUND);
   MARS_StartSound(result, soundid);
+end;
+
+type
+  char4_t = packed array[0..3] of char;
+
+function char4tostring(const c4: char4_t): string;
+var
+  i: integer;
+begin
+  result := '';
+  for i := 0 to 3 do
+  begin
+    if c4[i] in [#0, ' '] then
+      exit;
+    result := result + c4[i];
+  end;
+end;
+
+function S_GetWaveLength(const wavename: string): integer;
+var
+  groupID: char4_t;
+  riffType: char4_t;
+  BytesPerSec: integer;
+  Stream: TAttachableMemoryStream;
+  dataSize: integer;
+  lump: integer;
+  p: pointer;
+  size: integer;
+  // chunk seeking function,
+  // -1 means: chunk not found
+
+  function GotoChunk(const ID: string): Integer;
+  var
+    chunkID: char4_t;
+    chunkSize: integer;
+  begin
+    result := -1;
+
+    Stream.Seek(12, sFromBeginning);
+    repeat
+      // read next chunk
+      Stream.Read(chunkID, 4);
+      Stream.Read(chunkSize, 4);
+      if char4tostring(chunkID) <> ID then
+      // skip chunk
+        Stream.Seek(Stream.Position + chunkSize, sFromBeginning);
+    until (char4tostring(chunkID) = ID) or (Stream.Position >= Stream.Size);
+    if char4tostring(chunkID) = ID then
+      result := chunkSize;
+  end;
+
+begin
+  Result := -1;
+
+  lump := W_CheckNumForName(wavename);
+  if lump < 0 then
+    exit;
+
+  size := W_LumpLength(lump);
+  if size < 12 then
+    exit;
+
+  p := W_CacheLumpNum(lump, PU_STATIC);
+
+  Stream := TAttachableMemoryStream.Create;
+  Stream.Attach(p, size);
+  Stream.Read(groupID, 4);
+  Stream.Seek(8, sFromBeginning); // skip four bytes (file size)
+  Stream.Read(riffType, 4);
+
+  if (char4tostring(groupID) = 'RIFF') and (char4tostring(riffType) = 'WAVE') then
+  begin
+    // search for format chunk
+    if GotoChunk('fmt') <> -1 then
+    begin
+      // found it
+      Stream.Seek(Stream.Position + 8, sFromBeginning);
+      Stream.Read(BytesPerSec, 4);
+      //search for data chunk
+      dataSize := GotoChunk('data');
+
+      if dataSize > 0 then
+        result := round(dataSize / BytesPerSec * TICRATE);
+    end;
+  end;
+  Stream.Free;
+  Z_ChangeTag(p, PU_CACHE);
+end;
+
+// Returns duration of sound in tics
+function S_MARSSoundDuration(const mars_snd: integer): integer;
+begin
+  if (mars_snd < Ord(snd_ARM1HURT)) or (mars_snd >= Ord(NUM_MARS_SOUNDS)) then
+  begin
+    result := -1;
+    exit;
+  end;
+
+  result := marssounds[mars_snd].duration;
+  if result < 0 then
+  begin
+    result := S_GetWaveLength(marssounds[mars_snd].name);
+    marssounds[mars_snd].duration := result;
+  end;
 end;
 
 end.
