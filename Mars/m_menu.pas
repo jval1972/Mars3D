@@ -992,9 +992,9 @@ const
     (text: 'Turn right'; shorttext: ''; pkey: @key_right),
     (text: 'Strafe left'; shorttext: ''; pkey: @key_strafeleft),
     (text: 'Strafe right'; shorttext: ''; pkey: @key_straferight),
-    (text: 'Jump'; shorttext: ''; pkey: @key_jump),
+    (text: 'Jump/Fly up'; shorttext: ''; pkey: @key_jump),
     // JVAL: 20211101 - Crouch
-    (text: 'Crouch'; shorttext: ''; pkey: @key_crouch),
+    (text: 'Crouch/Fly down'; shorttext: ''; pkey: @key_crouch),
     (text: 'Fire'; shorttext: ''; pkey: @key_fire),
     (text: 'Use'; shorttext: ''; pkey: @key_use),
     (text: 'Strafe'; shorttext: ''; pkey: @key_strafe),
