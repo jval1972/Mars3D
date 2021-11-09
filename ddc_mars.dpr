@@ -414,7 +414,8 @@ uses
   xmi_iff in 'XMILIB\xmi_iff.pas',
   xmi_lib in 'XMILIB\xmi_lib.pas',
   mars_briefing in 'Mars\mars_briefing.pas',
-  mars_dialog in 'Mars\mars_dialog.pas';
+  mars_dialog in 'Mars\mars_dialog.pas',
+  mars_player in 'Mars\mars_player.pas';
 
 exports
   dd_compile_doom,

@@ -65,7 +65,7 @@ uses
   i_io,
 {$ENDIF}
   g_game,
-  mars_sounds,
+  mars_player,
   p_genlin,
   p_mobj,
   p_tick,
@@ -806,8 +806,9 @@ var
   cmd: Pticcmd_t;
   newweapon: weapontype_t;
   sec: Psector_t; // JVAL: 3d Floors
-  needsjetsound: boolean;
 begin
+  MARS_PlayerThink(player);
+
   // fixme: do this in the cheat code
   if player.mo = nil then
     exit;
@@ -816,31 +817,6 @@ begin
     player.mo.flags := player.mo.flags or MF_NOCLIP
   else
     player.mo.flags := player.mo.flags and not MF_NOCLIP;
-
-  // JVAL: MARS - Retrieve Linetarget
-  P_AimLineAttack(player.mo, player.mo.angle, 16 * 64 * FRACUNIT);
-  if (player.plinetarget = nil) and (linetarget <> nil) then
-    player.pcrosstic := leveltime;
-  player.plinetarget := linetarget;
-
-  // JVAL: MARS - Jet sound
-  player.jetpacksoundorg.x := player.mo.x;
-  player.jetpacksoundorg.y := player.mo.y;
-  player.jetpacksoundorg.z := player.mo.z;
-  needsjetsound := (player.mo.z > player.mo.floorz) and (player.mo.flags4_ex or MF4_EX_FLY <> 0);
-  if needsjetsound then
-  begin
-    if player.jetpacksoundtic <= leveltime then
-    begin
-      player.jetpacksoundtic := leveltime + S_MARSSoundDuration(Ord(snd_JET));
-      MARS_StartSound(@player.jetpacksoundorg, snd_JET);
-    end;
-  end
-  else
-  begin
-    if player.jetpacksoundtic > leveltime then
-      S_StopSound(@player.jetpacksoundorg);
-  end;
 
   // chain saw run forward
   cmd := @player.cmd;

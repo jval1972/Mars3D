@@ -411,7 +411,8 @@ uses
   mn_textwrite in 'Mars\mn_textwrite.pas',
   mars_wipe in 'Mars\mars_wipe.pas',
   mars_briefing in 'Mars\mars_briefing.pas',
-  mars_dialog in 'Mars\mars_dialog.pas';
+  mars_dialog in 'Mars\mars_dialog.pas',
+  mars_player in 'Mars\mars_player.pas';
 
 var
   Saved8087CW: Word;
