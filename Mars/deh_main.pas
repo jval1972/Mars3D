@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 371;
+  DEHNUMACTIONS = 372;
 
 type
   deh_action_t = record
@@ -3228,7 +3228,9 @@ begin
   deh_actions[370].action.acp1 := @A_Dialog;
   deh_actions[370].originalname := strupper('Dialog');
   {$IFDEF DLL}deh_actions[370].decl := 'A_Dialog(dlg1, [dlg2, ...])';{$ENDIF}
-
+  deh_actions[371].action.acp1 := @A_Playsound1;
+  deh_actions[371].originalname := 'Playsound1';
+  {$IFDEF DLL}deh_actions[371].decl := 'A_Playsound1(sound: string)';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin

@@ -483,6 +483,8 @@ procedure A_SetPushable(actor: Pmobj_t);
 
 procedure A_UnSetPushable(actor: Pmobj_t);
 
+procedure A_Playsound1(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -6128,6 +6130,29 @@ end;
 procedure A_UnSetPushable(actor: Pmobj_t);
 begin
   actor.flags2_ex := actor.flags2_ex and not MF2_EX_PUSHABLE;
+end;
+
+//
+// JVAL
+// Play a sound using the secondary sound org
+// A_Playsound1(soundname)
+//
+procedure A_Playsound1(actor: Pmobj_t);
+var
+  sndidx: integer;
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    sndidx := actor.state.params.IntVal[0]
+  else
+  begin
+    sndidx := S_GetSoundNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := sndidx;
+  end;
+
+  S_StartSound(@actor.soundorg1, sndidx);
 end;
 
 end.
