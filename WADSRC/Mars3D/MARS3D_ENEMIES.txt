@@ -48,8 +48,12 @@ ACTOR MT_ENEMYSOLDIER 7
     }
     Pain:
     {
-      ARM1 G 3
-      ARM1 G 3 A_Pain
+      ARM1 G 3 A_JumpIf(LEVELTIME < CUSTOMPARAM("kiss_sound"), PainNoSound)
+      TNT1 A 0 A_SetCustomParam("kiss_sound", LEVELTIME + 3 * TICRATE)
+      ARM1 G 3 A_PlaySound1("ARM1HURT")
+      Goto See
+    PainNoSound:
+      ARM1 G 6
       Goto See
     }
     Death:
