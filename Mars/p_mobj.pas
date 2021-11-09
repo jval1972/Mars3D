@@ -1067,6 +1067,10 @@ begin
   mobj.nextangle := mobj.angle;
   mobj.intrplcnt := 0;
 
+  mobj.oldx := mobj.x;
+  mobj.oldy := mobj.y;
+  mobj.oldz := mobj.z;
+
   mobj.soundorg1.x := mobj.x;
   mobj.soundorg1.y := mobj.y;
   mobj.soundorg1.z := mobj.z;
