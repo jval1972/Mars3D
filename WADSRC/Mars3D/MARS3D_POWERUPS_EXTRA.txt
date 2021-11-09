@@ -1,0 +1,21 @@
+///////////////////////////////
+// MT_RADIATIONSUIT
+///////////////////////////////
+ACTOR MT_RADIATIONSUIT 2026
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      DFK4 A -1
+      Stop
+    }
+  }
+}
+
