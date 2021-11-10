@@ -119,16 +119,9 @@ begin
   result := bestcolor;
 end;
 
-procedure MARS_CreateDoomPalette(const inppal: PByteArray; const outpal: PByteArray; const colormap: PByteArray);
-const
-  NUMLIGHTS = 32;
+procedure MARS_FullRangePalette(const inppal: PByteArray);
 var
-  lightpalette: packed array[0..NUMLIGHTS + 1, 0..255] of byte;
-  i, l, c: integer;
-  red, green, blue: integer;
-  palsrc: PByte;
-  gray: double;
-  mx: integer;
+  i, mx: integer;
 begin
   mx := inppal[0];
   for i := 1 to 767 do
@@ -138,6 +131,19 @@ begin
   if mx < 64 then
     for i := 0 to 767 do
       inppal[i] := 4 * inppal[i];
+end;
+
+procedure MARS_CreateDoomPalette(const inppal: PByteArray; const outpal: PByteArray; const colormap: PByteArray);
+const
+  NUMLIGHTS = 32;
+var
+  lightpalette: packed array[0..NUMLIGHTS + 1, 0..255] of byte;
+  i, l, c: integer;
+  red, green, blue: integer;
+  palsrc: PByte;
+  gray: double;
+begin
+  MARS_FullRangePalette(inppal);
 
   MARS_CopyPalette(inppal, outpal);
 
@@ -195,6 +201,8 @@ var
   i: integer;
   r, g, b: byte;
 begin
+  MARS_FullRangePalette(frompal);
+  MARS_FullRangePalette(topal);
   for i := 0 to 255 do
   begin
     r := topal[i * 3];
