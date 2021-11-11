@@ -221,6 +221,7 @@ type
     floorvisslope: integer;
     ceilingvisslope: integer;
 {$ENDIF}
+    fog: boolean; // JVAL: 20211111 - Mars fog sectors
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;

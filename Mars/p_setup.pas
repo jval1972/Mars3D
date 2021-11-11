@@ -702,7 +702,8 @@ begin
     ss.ceilingheight := ms.ceilingheight * FRACUNIT;
     ss.floorpic := R_FlatNumForName(ms.floorpic);
     ss.ceilingpic := R_FlatNumForName(ms.ceilingpic);
-    ss.lightlevel := ms.lightlevel;
+    ss.lightlevel := ms.lightlevel and $FF; // JVAL: Mars fog sectors
+    ss.fog := ms.lightlevel > $FF; // JVAL: Mars fog sectors
     ss.special := ms.special;
     ss.tag := ms.tag;
     ss.thinglist := nil;
