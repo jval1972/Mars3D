@@ -972,21 +972,21 @@ begin
   for i := 0 to 9 do
   begin
     sprintf(namebuf, 'STTNUM%d', [i]);
-    tallnum[i] := Ppatch_t(W_CacheLumpName(namebuf, PU_STATIC));
+    tallnum[i] := W_CacheLumpName(namebuf, PU_STATIC);
 
     sprintf(namebuf, 'STYSNUM%d', [i]);
-    shortnum[i] := Ppatch_t(W_CacheLumpName(namebuf, PU_STATIC));
+    shortnum[i] := W_CacheLumpName(namebuf, PU_STATIC);
   end;
 
   // Load percent key.
   //Note: why not load STMINUS here, too?
-  tallpercent := Ppatch_t(W_CacheLumpName('STTPRCNT', PU_STATIC));
+  tallpercent := W_CacheLumpName('STTPRCNT', PU_STATIC);
 
   // key cards
   for i := 0 to Ord(NUMCARDS) - 1 do
   begin
     sprintf(namebuf, 'STKEYS%d', [i]);
-    keys[i] := Ppatch_t(W_CacheLumpName(namebuf, PU_STATIC));
+    keys[i] := W_CacheLumpName(namebuf, PU_STATIC);
   end;
 end;
 
