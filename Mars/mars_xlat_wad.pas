@@ -141,7 +141,9 @@ var
   p: pointer;
   pal: PByteArray;
   size: integer;
-  playpal: packed array[0..768 * 14 - 1] of byte;
+  playpal1: packed array[0..768 * 14 - 1] of byte;
+  playpal2: packed array[0..768 * 14 - 1] of byte;
+  playpal: packed array[0..768 * 28 - 1] of byte;
   colormap: packed array[0..34 * 256 - 1] of byte;
   i: integer;
   r, g, b: LongWord;
@@ -151,7 +153,9 @@ begin
     exit;
 
   pal := p;
-  MARS_CreateDoomPalette(pal, @playpal, @colormap);
+  MARS_CreateDoomPalette(pal, @playpal1, @colormap);
+  wadwriter.AddData('PLAYPAL1', @playpal1, SizeOf(playpal1));
+  wadwriter.AddData('COLORMAP', @colormap, SizeOf(colormap));
 
   // Keep def_pal AFTER SH_CreateDoomPalette call
   for i := 0 to 767 do
@@ -167,8 +171,6 @@ begin
     def_palL[i] := (r shl 16) + (g shl 8) + (b);
   end;
 
-  wadwriter.AddData('PLAYPAL', @playpal, SizeOf(playpal));
-  wadwriter.AddData('COLORMAP', @colormap, SizeOf(colormap));
   memfree(p, size);
 
   result := ReadFile('WATER.PAL', p, size);
@@ -176,11 +178,22 @@ begin
     exit;
 
   pal := p;
-  MARS_CreateDoomPalette(pal, @playpal, @colormap);
+  MARS_CreateDoomPalette(pal, @playpal2, @colormap);
 
-  wadwriter.AddData('WATERPAL', @playpal, SizeOf(playpal));
+  wadwriter.AddData('WATERPAL', @playpal2, SizeOf(playpal2));
   wadwriter.AddData('WATERMAP', @colormap, SizeOf(colormap));
   memfree(p, size);
+
+  if ReadFile('FOGTABLE.DAT', p, size) then
+  begin
+    memcpy(@colormap, p, size);
+    wadwriter.AddData('FOGMAP', @colormap, SizeOf(colormap));
+  end;
+  memfree(p, size);
+
+  memcpy(@playpal[0], @playpal1[0], 768 * 14);
+  memcpy(@playpal[768 * 14], @playpal2[0], 768 * 14);
+  wadwriter.AddData('PLAYPAL', @playpal, SizeOf(playpal));
 end;
 
 function TMarsToWADConverter.GenerateTranslationTables: boolean;
