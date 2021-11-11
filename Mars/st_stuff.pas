@@ -1217,7 +1217,7 @@ begin
   if st_stopped then
     exit;
 
-  pal := PByteArray(W_CacheLumpNum(lu_palette, PU_STATIC));
+  pal := W_CacheLumpNum(lu_palette, PU_STATIC);
   {$IFDEF OPENGL}
   I_SetPalette(pal);
   V_SetPalette(pal);
