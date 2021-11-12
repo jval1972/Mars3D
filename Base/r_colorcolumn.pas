@@ -95,7 +95,7 @@ begin
 
   if dc_lightlevel >= 0 then
   begin
-    R_GetPrecalc32Tables(dc_lightlevel, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(dc_lightlevel, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     c := pal[dc_color];
     PLongWord(@((ylookup[y]^)[columnofs[x]]))^ := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
   end
@@ -911,7 +911,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     c := pal[dc_color];
     ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 
@@ -968,7 +968,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     c := pal[dc_color];
     ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 
@@ -1041,7 +1041,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     c := pal[dc_color];
     ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 
@@ -1098,7 +1098,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     c := pal[dc_color];
     ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 
@@ -1159,7 +1159,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     c := pal[dc_color];
     ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 
@@ -1224,7 +1224,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     c := pal[dc_color];
     ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 
@@ -1333,7 +1333,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     c := pal[dc_color];
     ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 

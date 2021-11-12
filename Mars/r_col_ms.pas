@@ -84,7 +84,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF CUSTOMCOLORMAP}
       {$I R_DrawMaskedColumnNormal.inc}
@@ -100,7 +100,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
       {$UNDEF INVERSECOLORMAPS}
       {$DEFINE CUSTOMCOLORMAP}
       {$I R_DrawMaskedColumnNormal.inc}
@@ -146,7 +146,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     {$UNDEF INVERSECOLORMAPS}
     {$I R_DrawMaskedColumnHi.inc}
   end
@@ -192,7 +192,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     {$UNDEF INVERSECOLORMAPS}
     {$DEFINE MASKEDCOLUMN}
     {$UNDEF SMALLSTEPOPTIMIZER}
@@ -247,7 +247,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     {$UNDEF INVERSECOLORMAPS}
     {$DEFINE MASKEDCOLUMN}
     {$I R_DrawColumnUltra.inc}

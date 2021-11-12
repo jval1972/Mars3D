@@ -40,6 +40,7 @@ uses
 var
   ds_lightlevel: fixed_t;
   ds_llzindex: fixed_t; // Lightlevel index for z axis
+  ds_fog: boolean; // JVAL: Mars fog sectors
 
 // start of a WxW tile image
   ds_source32: PLongWordArray;
@@ -88,7 +89,7 @@ begin
 
   if lfactor >= 0 then // Use hi detail lightlevel
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, ds_fog);  // JVAL: Mars fog sectors
     {$UNDEF RIPPLE}
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF TRANSPARENTFLAT}

@@ -362,7 +362,16 @@ begin
   else if lightnum >= LIGHTLEVELS then
     lightnum := LIGHTLEVELS - 1;
 
-  walllights := @scalelight[lightnum];
+  if curline.sidedef.sector.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+  begin
+    walllights := @fog_scalelight[lightnum];
+    dc_fog := true;
+  end
+  else
+  begin
+    walllights := @scalelight[lightnum];
+    dc_fog := false;
+  end;
 
   dc_llindex := lightnum;
 
@@ -578,6 +587,7 @@ var
   rw_scale_dbl2: Double;
   worldtop_dbl: Double;
   worldbottom_dbl: Double;
+  sec2: Psector_t;
 begin
   // calculate scale at both ends and step
   rw_scale_dbl := R_ScaleFromGlobalAngle_DBL(viewangle + xtoviewangle[start]);
@@ -846,7 +856,8 @@ begin
     // OPTIMIZE: get rid of LIGHTSEGSHIFT globally
     if fixedcolormap = nil then
     begin
-      lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
+      sec2 := frontsector;
+      lightnum := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
 
       if r_fakecontrast then
       begin
@@ -860,14 +871,25 @@ begin
         lightnum := 0
       else if lightnum >= LIGHTLEVELS then
         lightnum := LIGHTLEVELS - 1;
-      walllights := @scalelight[lightnum];
+
+      if sec2.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+      begin
+        walllights := @fog_scalelight[lightnum];
+        dc_fog := true;
+      end
+      else
+      begin
+        walllights := @scalelight[lightnum];
+        dc_fog := false;
+      end;
 
       dc_llindex := lightnum;
 
       // JVAL: 3d Floors
       if frontsector.midsec >= 0 then
       begin
-        lightnum2 := _SHR(sectors[frontsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
+        sec2 := @sectors[frontsector.midsec];
+        lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         if curline.v1.y = curline.v2.y then
           dec(lightnum2)
         else if curline.v1.x = curline.v2.x then
@@ -878,13 +900,23 @@ begin
         else if lightnum2 >= LIGHTLEVELS then
           lightnum2 := LIGHTLEVELS - 1;
 
-        walllights2 := @scalelight[lightnum2];
+        if sec2.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+        begin
+          walllights2 := @fog_scalelight[lightnum2];
+          dc_fog2 := true;
+        end
+        else
+        begin
+          walllights2 := @scalelight[lightnum2];
+          dc_fog2 := false;
+        end;
 
         dc_llindex2 := lightnum2;
       end
       else if pds.midsec <> nil then
       begin
-        lightnum2 := _SHR(pds.midsec.lightlevel, LIGHTSEGSHIFT) + extralight;
+        sec2 := pds.midsec;
+        lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         if curline.v1.y = curline.v2.y then
           dec(lightnum2)
         else if curline.v1.x = curline.v2.x then
@@ -895,7 +927,16 @@ begin
         else if lightnum2 >= LIGHTLEVELS then
           lightnum2 := LIGHTLEVELS - 1;
 
-        walllights2 := @scalelight[lightnum2];
+        if sec2.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+        begin
+          walllights2 := @fog_scalelight[lightnum2];
+          dc_fog2 := true;
+        end
+        else
+        begin
+          walllights2 := @scalelight[lightnum2];
+          dc_fog2 := false;
+        end;
 
         dc_llindex2 := lightnum2;
       end
@@ -904,12 +945,21 @@ begin
         if backsector <> nil then
         begin
           if backsector.midsec >= 0 then
-            lightnum2 := _SHR(sectors[backsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight
+          begin
+            sec2 := @sectors[backsector.midsec];
+            lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight
+          end
           else
-            lightnum2 := _SHR(backsector.lightlevel, LIGHTSEGSHIFT) + extralight;
+          begin
+            sec2 := backsector;
+            lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
+          end;
         end
         else
-          lightnum2 := _SHR(Psector_t(pds.midvis).lightlevel, LIGHTSEGSHIFT) + extralight;
+        begin
+          sec2 := PSubsector_t(pds.midvis.ssector).sector; // JVAL: 20211112 - Fix lightlevel
+          lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
+        end;
         if curline.v1.y = curline.v2.y then
           dec(lightnum2)
         else if curline.v1.x = curline.v2.x then
@@ -920,7 +970,16 @@ begin
         else if lightnum2 >= LIGHTLEVELS then
           lightnum2 := LIGHTLEVELS - 1;
 
-        walllights2 := @scalelight[lightnum2];
+        if sec2.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+        begin
+          walllights2 := @fog_scalelight[lightnum2];
+          dc_fog2 := true;
+        end
+        else
+        begin
+          walllights2 := @scalelight[lightnum2];
+          dc_fog2 := false;
+        end;
 
         dc_llindex2 := lightnum2;
       end;
@@ -1120,6 +1179,7 @@ var
   lightnum2: integer; // JVAL: 3d Floors
   pds: Pdrawseg_t;
   overflow: boolean;
+  sec2: Psector_t;
 begin
   if curline.linedef.renderflags and LRF_SLOPED <> 0 then
   begin
@@ -1426,7 +1486,8 @@ begin
     // OPTIMIZE: get rid of LIGHTSEGSHIFT globally
     if fixedcolormap = nil then
     begin
-      lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
+      sec2 := frontsector;
+      lightnum := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
 
       if r_fakecontrast then
       begin
@@ -1440,13 +1501,25 @@ begin
         lightnum := 0
       else if lightnum >= LIGHTLEVELS then
         lightnum := LIGHTLEVELS - 1;
-      walllights := @scalelight[lightnum];
+
+      if sec2.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+      begin
+        walllights := @fog_scalelight[lightnum];
+        dc_fog := true;
+      end
+      else
+      begin
+        walllights := @scalelight[lightnum];
+        dc_fog := false;
+      end;
 
       dc_llindex := lightnum;
 
+      // JVAL: 3d Floors
       if frontsector.midsec >= 0 then
       begin
-        lightnum2 := _SHR(sectors[frontsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
+        sec2 := @sectors[frontsector.midsec];
+        lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         if curline.v1.y = curline.v2.y then
           dec(lightnum2)
         else if curline.v1.x = curline.v2.x then
@@ -1457,7 +1530,16 @@ begin
         else if lightnum2 >= LIGHTLEVELS then
           lightnum2 := LIGHTLEVELS - 1;
 
-        walllights2 := @scalelight[lightnum2];
+        if sec2.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+        begin
+          walllights2 := @fog_scalelight[lightnum2];
+          dc_fog2 := true;
+        end
+        else
+        begin
+          walllights2 := @scalelight[lightnum2];
+          dc_fog2 := false;
+        end;
 
         dc_llindex2 := lightnum2;
       end
@@ -1466,7 +1548,8 @@ begin
       // JVAL: 3d Floors
       if pds.midsec <> nil then
       begin
-        lightnum2 := _SHR(pds.midsec.lightlevel, LIGHTSEGSHIFT) + extralight;
+        sec2 := pds.midsec;
+        lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         if curline.v1.y = curline.v2.y then
           dec(lightnum2)
         else if curline.v1.x = curline.v2.x then
@@ -1477,7 +1560,16 @@ begin
         else if lightnum2 >= LIGHTLEVELS then
           lightnum2 := LIGHTLEVELS - 1;
 
-        walllights2 := @scalelight[lightnum2];
+        if sec2.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+        begin
+          walllights2 := @fog_scalelight[lightnum2];
+          dc_fog2 := true;
+        end
+        else
+        begin
+          walllights2 := @scalelight[lightnum2];
+          dc_fog2 := false;
+        end;
 
         dc_llindex2 := lightnum2;
       end
@@ -1486,12 +1578,21 @@ begin
         if backsector <> nil then
         begin
           if backsector.midsec >= 0 then
-            lightnum2 := _SHR(sectors[backsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight
+          begin
+            sec2 := @sectors[backsector.midsec];
+            lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight
+          end
           else
-            lightnum2 := _SHR(backsector.lightlevel, LIGHTSEGSHIFT) + extralight;
+          begin
+            sec2 := backsector;
+            lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
+          end;
         end
         else
-          lightnum2 := _SHR(Psector_t(pds.midvis).lightlevel, LIGHTSEGSHIFT) + extralight;
+        begin
+          sec2 := PSubsector_t(pds.midvis.ssector).sector; // JVAL: 20211112 - Fix lightlevel
+          lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
+        end;
         if curline.v1.y = curline.v2.y then
           dec(lightnum2)
         else if curline.v1.x = curline.v2.x then
@@ -1502,7 +1603,16 @@ begin
         else if lightnum2 >= LIGHTLEVELS then
           lightnum2 := LIGHTLEVELS - 1;
 
-        walllights2 := @scalelight[lightnum2];
+        if sec2.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+        begin
+          walllights2 := @fog_scalelight[lightnum2];
+          dc_fog2 := true;
+        end
+        else
+        begin
+          walllights2 := @scalelight[lightnum2];
+          dc_fog2 := false;
+        end;
 
         dc_llindex2 := lightnum2;
       end;
@@ -1514,8 +1624,8 @@ begin
   //  of the view plane, it is definitely invisible
   //  and doesn't need to be marked.
 
-  // killough 3/7/98: add deep water check
   {$IFDEF DOOM_OR_STRIFE}
+  // killough 3/7/98: add deep water check
   if frontsector.heightsec = -1 then
   {$ENDIF}
   begin
@@ -1597,7 +1707,7 @@ begin
 
   if pds.midvis <> nil then
   begin
-    if (pds.midsec <> nil) then
+    if pds.midsec <> nil then
     begin
       f_RenderSegLoop_3dFloors_Vis(pds); // version 205
     end
@@ -1608,7 +1718,7 @@ begin
   end
   else
   begin
-    if (pds.midsec <> nil) then
+    if pds.midsec <> nil then
     begin
       f_RenderSegLoop_3dFloors(pds); // version 205
     end

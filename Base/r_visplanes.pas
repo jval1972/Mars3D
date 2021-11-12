@@ -123,6 +123,7 @@ type
     vis: Pvisplane_t;
     realtop: PSmallIntArray;      // JVAL: 3d Floors
     realbottom: PSmallIntArray;   // JVAL: 3d Floors
+    ssector: pointer;
   end;
   Pvisplane3d_t = ^visplane3d_t;
 {$ENDIF}

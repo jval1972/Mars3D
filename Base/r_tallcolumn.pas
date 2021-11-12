@@ -356,7 +356,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF FOG}
       {$UNDEF MASKEDCOLUMN}
@@ -378,7 +378,7 @@ begin
     ldest := 0;
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF FOG}
       {$UNDEF MASKEDCOLUMN}
@@ -443,7 +443,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF FOG}
     {$UNDEF MASKEDCOLUMN}

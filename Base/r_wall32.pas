@@ -48,6 +48,7 @@ type
     dc_iscale: fixed_t;
     dc_texturemid: fixed_t;
     dc_lightlevel: fixed_t;
+    dc_fog: boolean;  // JVAL: Mars fog sectors
   end;
   Pwallrenderinfo32_t = ^wallrenderinfo32_t;
 
@@ -159,6 +160,7 @@ begin
   dc_iscale := w.dc_iscale;
   dc_texturemid := w.dc_texturemid;
   dc_lightlevel := w.dc_lightlevel;
+  dc_fog := w.dc_fog; // JVAL: Mars fog sectors
   wallcolfunc;
 end;
 
@@ -317,6 +319,7 @@ begin
   w.dc_iscale := dc_iscale;
   w.dc_texturemid := dc_texturemid;
   w.dc_lightlevel := dc_lightlevel;
+  w.dc_fog := dc_fog; // JVAL: Mars fog sectors
   walls.dc_height := w_height;
   inc(walls.numwalls);
   if walls.numwalls = MAXBATCHWALLS then

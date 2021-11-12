@@ -55,6 +55,8 @@ var
   dc_colormap32: PLongWordArray;
   dc_lightlevel: fixed_t;
   dc_llindex: integer;
+  dc_fog: boolean;  // JVAL: Mars fog sectors
+  dc_fog2: boolean;  // JVAL: Mars fog sectors
 
   dc_iscale: fixed_t;
   dc_texturemid: fixed_t;
@@ -382,7 +384,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF SMALLSTEPOPTIMIZER}
@@ -402,7 +404,7 @@ begin
     ldest := 0;
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
@@ -423,7 +425,7 @@ begin
     fraclimit := frac + count * fracstep;
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
@@ -492,7 +494,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
     {$I R_DrawColumnUltra.inc}

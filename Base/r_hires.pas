@@ -768,7 +768,10 @@ begin
   R_Reset32Cache;
 
   for i := 0 to NUMCOLORMAPS * 256 - 1 do
+  begin
     colormaps32[i] := curpal[colormaps[i]];
+    fog_colormaps32[i] := curpal[fog_colormaps[i]]; // JVAL: Mars fog sectors
+  end;
 
   hrtp := @hirestable[0, 0, 0];
 
@@ -950,7 +953,10 @@ begin
   R_Reset32Cache;
 
   for i := 0 to NUMCOLORMAPS * 256 - 1 do
+  begin
     colormaps32[i] := curpal[colormaps[i]];
+    fog_colormaps32[i] := curpal[fog_colormaps[i]]; // JVAL: Mars fog sectors
+  end;
 
   hrtp := @hirestable[0, 0, 0];
 

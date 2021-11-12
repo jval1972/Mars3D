@@ -51,6 +51,7 @@ type
     dc_texturemid: integer;
     dc_source: PByteArray;
     dc_alpha: integer;
+    dc_fog: boolean;  // JVAL: Mars fog sectors
     num_batch_columns: integer;
     dc_colormap32: PLongWordArray;
     proc: spritefunc_t;
@@ -139,7 +140,7 @@ begin
   {$ENDIF}
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, p.dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF CUSTOMCOLORMAP}
       {$I R_DrawMaskedColumnNormalMT.inc}
@@ -156,7 +157,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, p.dc_fog);  // JVAL: Mars fog sectors
       {$UNDEF INVERSECOLORMAPS}
       {$DEFINE CUSTOMCOLORMAP}
       {$I R_DrawMaskedColumnNormalMT.inc}
@@ -1255,7 +1256,7 @@ begin
     deststopX4 := PLongWord(integer(deststop) - 4 * SizeOf(pointer));
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, p.dc_fog);  // JVAL: Mars fog sectors
       while count >= 0 do
       begin
         spot := (LongWord(frac) shr FRACBITS) and 127;
@@ -1332,7 +1333,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, p.dc_fog);  // JVAL: Mars fog sectors
       while count >= 0 do
       begin
         spot := (LongWord(frac) shr FRACBITS) and 127;

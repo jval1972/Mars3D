@@ -53,6 +53,7 @@ uses
   mars_bitmap,
   mars_font,
   mars_sounds,
+  r_data,
   sc_engine,
   v_video,
   w_wadwriter,
@@ -153,6 +154,7 @@ begin
     exit;
 
   pal := p;
+
   MARS_CreateDoomPalette(pal, @playpal1, @colormap);
   wadwriter.AddData('PLAYPAL1', @playpal1, SizeOf(playpal1));
   wadwriter.AddData('COLORMAP', @colormap, SizeOf(colormap));
@@ -178,6 +180,7 @@ begin
     exit;
 
   pal := p;
+
   MARS_CreateDoomPalette(pal, @playpal2, @colormap);
 
   wadwriter.AddData('WATERPAL', @playpal2, SizeOf(playpal2));

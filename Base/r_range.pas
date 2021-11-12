@@ -44,6 +44,7 @@ type
     floorheight: array[0..1] of integer;
     ceilingheight: array[0..1] of integer;
     lightlevel: array[0..1] of integer;
+    fog: array[0..1] of boolean;  // JVAL: Mars fog sectors
   end;
   Pmidsiderange_t = ^midsiderange_t;
 
@@ -54,7 +55,8 @@ procedure R_SubtractRange(const floorheight1, ceilingheight1, lightlevel1: integ
 implementation
 
 uses
-  d_delphi;
+  d_delphi,
+  r_column; // JVAL: Mars fog sectors
 
 // Subtract range ceil2 - floor2 from range ceil1 - floor1
 // Note floor is greater from ceiling :)
@@ -65,11 +67,13 @@ begin
   r.floorheight[0] := MinI(ceilingheight2, floorheight1);
   r.ceilingheight[0] := ceilingheight1;
   r.lightlevel[0] := lightlevel1;
+  r.fog[0] := dc_fog; // JVAL: Mars fog sectors
   if ceilingheight2 > floorheight2 then
   begin
     r.floorheight[1] := 0;
     r.ceilingheight[1] := 1;
     r.lightlevel[1] := lightlevel1;
+    r.fog[1] := dc_fog; // JVAL: Mars fog sectors
     totalclip := true;
   end
   else
@@ -77,6 +81,7 @@ begin
     r.floorheight[1] := floorheight1;
     r.ceilingheight[1] := MaxI(ceilingheight1, floorheight2);
     r.lightlevel[1] := lightlevel2;
+    r.fog[1] := dc_fog2;  // JVAL: Mars fog sectors
     totalclip := r.ceilingheight[1] > r.floorheight[1];
   end;
   r.count := 2;

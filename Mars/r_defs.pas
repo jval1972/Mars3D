@@ -221,7 +221,6 @@ type
     floorvisslope: integer;
     ceilingvisslope: integer;
 {$ENDIF}
-    fog: boolean; // JVAL: 20211111 - Mars fog sectors
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;
@@ -338,6 +337,7 @@ const
   SRF_INTERPOLATE_ROTATE = 512; 
   SRF_INTERPOLATE_FLOORSLOPE = 1024;
   SRF_INTERPOLATE_CEILINGSLOPE = 2048;
+  SRF_FOG = 4096;
 
 const
   // Vissprite render flags
@@ -547,6 +547,7 @@ type
     flip: boolean;
 {$ENDIF}
     infoscale: fixed_t;
+    fog: boolean; // JVAL: Mars fog sectors
   end;
   visspritebuffer_t = array[0..$FFFF] of Pvissprite_t;
   visspritebuffer_p = ^visspritebuffer_t;
