@@ -76,6 +76,9 @@ const
   // Low gravity cheat
   CF_LOWGRAVITY = 8;
 
+const
+  LONGTICS_FACTOR = 16;  // JVAL: for underwater tics interpolation (MARS)
+
 type
 //
 // Extended player object info: player_t
@@ -208,6 +211,8 @@ type
 
     jetpacksoundorg: degenmobj_t;
     jetpacksoundtic: integer;
+
+    underwatertics: integer;  // JVAL: For underwater
   end;
   Pplayer_t = ^player_t;
 

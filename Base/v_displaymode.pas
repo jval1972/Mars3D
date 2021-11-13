@@ -57,6 +57,7 @@ uses
   r_fake3d,
   r_things,
   r_plane,
+  r_underwater,
   v_video;
 
 function V_SetDisplayMode(const newwidth, newheight: integer): boolean;
@@ -95,6 +96,7 @@ begin
   R_ClearVisSlopes;        // Clear vissplopes (free screenleft, screenright, ds_zleft & ds_zright arrays)
   R_ClearVisPlanes3d;      // Clear arrays
   R_ShutDownFake3D;        // Clear fake 3d planes
+  R_ShutDownUnderwater;    // clear underwater tables
   R_Clear32Cache;          // JVAL: unneeded ?
   AM_Stop;                 // Stop the automap
 
@@ -111,6 +113,7 @@ begin
   C_AdjustScreenSize;      // Notify console for screen resolution change
   setsizeneeded := true;   // Set-up new SCREENWIDTH & SCREENHEIGHT
   R_InitDepthBuffer;       // Initialize the depth-buffer
+  R_InitUnderwater;        // Initialize underwater tables
   R_InitFake3D;            // Initialize fake 3d
   {$IFNDEF STRIFE}
   R_InitFuzzTable;         // Re-calculate fuzz tabble offsets

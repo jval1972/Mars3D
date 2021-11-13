@@ -413,7 +413,8 @@ uses
   mars_briefing in 'Mars\mars_briefing.pas',
   mars_dialog in 'Mars\mars_dialog.pas',
   mars_player in 'Mars\mars_player.pas',
-  p_underwater in 'Mars\p_underwater.pas';
+  p_underwater in 'Mars\p_underwater.pas',
+  r_underwater in 'Mars\r_underwater.pas';
 
 var
   Saved8087CW: Word;

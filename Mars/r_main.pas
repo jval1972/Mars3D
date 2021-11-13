@@ -370,6 +370,7 @@ uses
 {$IFNDEF OPENGL}
   r_cache_main,
   r_fake3d,
+  r_underwater,
   r_ripple,
   r_trans8,
   r_voxels,
@@ -2092,6 +2093,8 @@ begin
   printf('R_InitTranslationsTables'#13#10);
   R_InitTranslationTables;
 {$IFNDEF OPENGL}
+  printf('R_InitUnderwater'#13#10); // JVAL: Must be called after R_InitTables!
+  R_InitUnderwater;
   printf('R_InitTransparency8Tables'#13#10);
   R_InitTransparency8Tables;
 {$ENDIF}
@@ -2151,6 +2154,8 @@ begin
   R_ShutDownLightTexture;
   printf(#13#10 + 'R_ShutDownFake3D');
   R_ShutDownFake3D;
+  printf(#13#10 + 'R_ShutDownUnderwater');
+  R_ShutDownUnderwater;
   printf(#13#10 + 'R_ShutDown32Cache');
   R_ShutDown32Cache;
 {$ENDIF}
@@ -2511,6 +2516,8 @@ begin
 
   R_Execute3DTransform;
 
+  R_UnderwaterExecute(player);
+
   R_DrawPlayer;
 
   // Check for new console commands.
@@ -2566,6 +2573,8 @@ begin
   NetUpdate;
 
   R_Execute3DTransform;
+
+  R_UnderwaterExecute(player);
 
   R_DrawPlayer;
 
@@ -2639,6 +2648,8 @@ begin
   R_DrawMasked_SingleThread;
 
   R_Execute3DTransform;
+
+  R_UnderwaterExecute(player);
 
   R_DrawPlayer;
 {$ENDIF}

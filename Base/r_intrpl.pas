@@ -366,6 +366,7 @@ begin
       R_AddInterpolationItem(@player.viewz, iinteger);
     R_AddInterpolationItem(@player.teleporttics, iinteger);
     R_AddInterpolationItem(@player.quaketics, iinteger);
+    R_AddInterpolationItem(@player.underwatertics, iinteger); // JVAL: For underwater
   end;
 
   // Interpolate Sectors

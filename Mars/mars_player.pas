@@ -50,6 +50,7 @@ uses
   p_map,
   p_mobj_h,
   p_tick,
+  r_defs,
   s_sound;
 
 procedure MARS_PlayerThink(player: Pplayer_t);
@@ -58,6 +59,15 @@ var
 begin
   if player.mo = nil then
     exit;
+
+  if player.mo.player = player then
+  begin
+    // JVAL: For underwater
+    if Psubsector_t(player.mo.subsector).sector.renderflags and SRF_UNDERWATER <> 0 then
+      player.underwatertics := player.underwatertics + LONGTICS_FACTOR
+    else
+      player.underwatertics := 0;
+  end;
 
   // JVAL: MARS - Retrieve Linetarget
   P_AimLineAttack(player.mo, player.mo.angle, 16 * 64 * FRACUNIT);

@@ -3238,6 +3238,7 @@ begin
     end
   end
   else if ev._type = ev_keydown then
+
     ch := ev.data1;
 
   if ch = -1 then
