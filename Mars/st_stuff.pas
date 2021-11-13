@@ -943,6 +943,9 @@ begin
     if (palette >= STARTREDPALS) and (palette < STARTREDPALS + NUMREDPALS) then
       palette := RADIATIONPAL;
 
+  if Psubsector_t(plyr.mo.subsector).sector.renderflags and SRF_UNDERWATER <> 0 then
+    palette := palette + 14;
+
   if palette <> st_palette then
   begin
     st_palette := palette;

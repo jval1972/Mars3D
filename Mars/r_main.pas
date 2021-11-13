@@ -2093,7 +2093,7 @@ begin
   printf('R_InitTranslationsTables'#13#10);
   R_InitTranslationTables;
 {$IFNDEF OPENGL}
-  printf('R_InitUnderwater'#13#10); // JVAL: Must be called after R_InitTables!
+  printf('R_InitUnderwater'#13#10); // JVAL: Must be called AFTER R_InitTables & R_InitCustomColormaps!
   R_InitUnderwater;
   printf('R_InitTransparency8Tables'#13#10);
   R_InitTransparency8Tables;
@@ -2336,6 +2336,9 @@ begin
     else
       cm := sec.midmap;
   end;
+
+  if Psubsector_t(player.mo.subsector).sector.renderflags and SRF_UNDERWATER <> 0 then
+    cm := cm_underwater;
 
   if cm >= 0 then
   begin

@@ -184,7 +184,9 @@ begin
   MARS_CreateDoomPalette(pal, @playpal2, @colormap);
 
   wadwriter.AddData('WATERPAL', @playpal2, SizeOf(playpal2));
+  wadwriter.AddSeparator('C_START');  // JVAL: Needed to be detected by custom colormaps
   wadwriter.AddData('WATERMAP', @colormap, SizeOf(colormap));
+  wadwriter.AddSeparator('C_END');
   memfree(p, size);
 
   if ReadFile('FOGTABLE.DAT', p, size) then
