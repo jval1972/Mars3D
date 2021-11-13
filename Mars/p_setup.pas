@@ -201,6 +201,7 @@ uses
   p_affectees,
   p_musinfo,
   p_animdefs,
+  p_underwater, // JVAL: 2021113 - Underwater sectors (MARS)
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
@@ -2126,6 +2127,8 @@ begin
   P_SlopesSetup;// JVAL: Slopes
 
   P_SetupSectorAffectees;
+
+  P_SetUpUnderwaterSectors; // JVAL: 2021113 - Setup underwater sectors (MARS)
 
   if autoadjustmissingtextures then
     P_AdjustMissingTextures;

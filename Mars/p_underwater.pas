@@ -35,7 +35,7 @@ unit p_underwater;
 
 interface
 
-procedure P_SetUpUnderwaterSectors;
+procedure P_SetupUnderwaterSectors;
 
 implementation
 
@@ -64,7 +64,7 @@ begin
   end;
 end;
 
-procedure P_SetUpUnderwaterSectors;
+procedure P_SetupUnderwaterSectors;
 var
   i: integer;
   sec: Psector_t;
@@ -79,4 +79,3 @@ begin
 end;
 
 end.
- 
