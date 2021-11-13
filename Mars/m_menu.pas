@@ -324,7 +324,7 @@ end;
 const
   FRAME_COLOR_UP = 161;
   FRAME_COLOR_DOWN = 163;
-  FRAME_COLOR_FILL = 247;
+  FRAME_COLOR_FILL = 8;
   FRAME_COLOR_BRIGHT = 160;
 
 procedure M_DrawHeadLine(const y: integer; const str: string);
