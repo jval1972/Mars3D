@@ -928,6 +928,7 @@ var
   ds_xstep: fixed_t;
   ds_ystep: fixed_t;
   ds_scale: dsscale_t;
+  ds_size: integer;
   xfrac: fixed_t;
   yfrac: fixed_t;
   xstep: fixed_t;
@@ -968,6 +969,7 @@ var
   ds_xstep: fixed_t;
   ds_ystep: fixed_t;
   ds_scale: dsscale_t;
+  ds_size: integer;
   xfrac: fixed_t;
   yfrac: fixed_t;
   xstep: fixed_t;
