@@ -44,12 +44,20 @@ procedure R_ShutDownUnderwater;
 
 procedure R_UnderwaterExecute(const p: Pplayer_t);
 
+const
+  UNDERWATER_COLORMAP = 'WATERMAP';
+
+var
+  cm_underwater: integer = -1;
+
 implementation
 
 uses
   d_delphi,
   doomdef,
+  i_system,
   m_fixed,
+  r_colormaps,
   r_draw,
   r_hires,
   tables,
@@ -69,7 +77,7 @@ var
   uviewwidth: integer;
 
 const
-  DISP_STRENGTH_PCT = 1; // SOS: For value > 2 R_UnderwaterCalcX & R_UnderwaterCalcY will overflow in 4k
+  DISP_STRENGTH_PCT = 2; // SOS: For value > 2 R_UnderwaterCalcX & R_UnderwaterCalcY will overflow in 4k unless we use floating point
   U_CALC_INTERVAL = FRACUNIT div LONGTICS_FACTOR;
 
 procedure R_UnderwaterCalcX;
@@ -77,7 +85,7 @@ var
   i: integer;
 begin
   for i := 0 to LONGTICS_FACTOR * uviewwidth - 1 do
-    u.XDisp[i] := fixedsine[(i * U_CALC_INTERVAL) div uviewwidth] * DISP_STRENGTH_PCT * uviewwidth div 100;
+    u.XDisp[i] := Trunc(fixedsine[(i * U_CALC_INTERVAL) div uviewwidth] / FRACUNIT * DISP_STRENGTH_PCT * uviewwidth / 100);
 end;
 
 procedure R_UnderwaterCalcY;
@@ -85,7 +93,7 @@ var
   i: integer;
 begin
   for i := 0 to LONGTICS_FACTOR * uviewheight - 1 do
-    u.YDisp[i] := fixedcosine[(i * U_CALC_INTERVAL) div uviewheight] * DISP_STRENGTH_PCT * uviewheight div 100;
+    u.YDisp[i] := Trunc(fixedcosine[(i * U_CALC_INTERVAL) div uviewheight] / FRACUNIT * DISP_STRENGTH_PCT * uviewheight / 100);
 end;
 
 procedure R_InitUnderwater;
@@ -98,12 +106,15 @@ begin
   R_UnderwaterCalcY;
   u.screen8 := malloc(SCREENWIDTH * SCREENHEIGHT * SizeOf(byte));
   u.screen32 := malloc(SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
+  cm_underwater := R_CustomColorMapForName(UNDERWATER_COLORMAP);
+  if cm_underwater < 0 then
+    I_Error('R_InitUnderwater(): Underwater palette not found');
 end;
 
 procedure R_ShutDownUnderwater;
 begin
-  memfree(pointer(u.XDisp), SCREENWIDTH * SizeOf(integer));
-  memfree(pointer(u.YDisp), SCREENHEIGHT * SizeOf(integer));
+  memfree(pointer(u.XDisp), SCREENWIDTH * LONGTICS_FACTOR * SizeOf(integer));
+  memfree(pointer(u.YDisp), SCREENHEIGHT * LONGTICS_FACTOR * SizeOf(integer));
   memfree(pointer(u.screen8), SCREENWIDTH * SCREENHEIGHT * SizeOf(byte));
   memfree(pointer(u.screen32), SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
 end;
@@ -134,17 +145,23 @@ begin
   end;
 end;
 
+const
+  INTERVAL_FACTOR = 3;
+
 procedure R_UnderwaterExecute(const p: Pplayer_t);
 var
+  tic64: int64;
   tic: integer;
   pL: PLongWordArray;
   pB: PByteArray;
   x, y: integer;
   newx, newy: integer;
 begin
-  tic := p.underwatertics;
-  if tic = 0 then
+  tic64 := p.underwatertics;
+  if tic64 = 0 then
     Exit;
+  tic64 := INTERVAL_FACTOR * tic64 * uviewwidth div (LONGTICS_FACTOR * TICRATE);
+  tic := tic64;
 
   if uviewwidth <> viewwidth then
   begin
@@ -165,10 +182,10 @@ begin
       pL := @ylookupl[y][viewwindowx];
       for x := 0 to uviewwidth - 1 do
       begin
-        newx := x + u.XDisp[2 * (y * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewwidth)] div FRACUNIT;
+        newx := x + u.XDisp[(y * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewwidth)];
         if newx < 0 then newx := 0;
         if newx >= uviewwidth then newx := uviewwidth - 1;
-        newy := y + u.YDisp[3 * (x * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewheight)] div FRACUNIT;
+        newy := y + u.YDisp[(x * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewheight)];
         if newy < 0 then newy := 0;
         if newy >= uviewheight then newy := uviewheight - 1;
         pL[x] := u.screen32[newy * uviewwidth + newx];
@@ -183,10 +200,10 @@ begin
       pB := @ylookup[y][viewwindowx];
       for x := 0 to uviewwidth - 1 do
       begin
-        newx := x + u.XDisp[2 * (y * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewwidth)] div FRACUNIT;
+        newx := x + u.XDisp[(y * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewwidth)];
         if newx < 0 then newx := 0;
         if newx >= uviewwidth then newx := uviewwidth - 1;
-        newy := y + u.YDisp[3 * (x * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewheight)] div FRACUNIT;
+        newy := y + u.YDisp[(x * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewheight)];
         if newy < 0 then newy := 0;
         if newy >= uviewheight then newy := uviewheight - 1;
         pB[x] := u.screen8[newy * uviewwidth + newx];
