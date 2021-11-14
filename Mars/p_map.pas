@@ -1248,6 +1248,7 @@ var
   oldonfloorz: boolean;
   dropoffmargin: fixed_t;
   jumpupmargin: fixed_t;
+  sec: Psector_t;
 begin
   floatok := false;
   if not P_CheckPosition(thing, x, y) then
@@ -1378,7 +1379,8 @@ begin
   // JVAL: Slopes - 3d Floors SOS -> Get right P_GetThingFloorType()
   if thing.flags2_ex and MF2_EX_FLOORCLIP <> 0 then
   begin
-    if (thing.z = Psubsector_t(thing.subsector).sector.floorheight) and
+    sec := Psubsector_t(thing.subsector).sector;
+    if (thing.z = sec.floorheight) and
        (P_GetThingFloorType(thing) > FLOOR_SOLID) then
       thing.floorclip := FOOTCLIPSIZE
     else
