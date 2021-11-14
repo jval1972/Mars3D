@@ -37,6 +37,12 @@ interface
 
 procedure P_SetupUnderwaterSectors;
 
+const
+  UNDERWATER_COLORMAP = 'WATERMAP';
+
+var
+  cm_underwater: integer = -1;
+
 implementation
 
 uses

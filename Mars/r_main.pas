@@ -344,6 +344,7 @@ uses
   p_sight,
   p_map,
   p_3dfloors,  // JVAL: 3d floors
+  p_underwater,
   {$IFNDEF OPENGL}
   i_video,
   i_system,

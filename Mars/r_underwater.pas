@@ -44,12 +44,6 @@ procedure R_ShutDownUnderwater;
 
 procedure R_UnderwaterExecute(const p: Pplayer_t);
 
-const
-  UNDERWATER_COLORMAP = 'WATERMAP';
-
-var
-  cm_underwater: integer = -1;
-
 implementation
 
 uses
@@ -58,6 +52,7 @@ uses
   i_system,
   m_fixed,
   mt_utils,
+  p_underwater,
   r_colormaps,
   r_draw,
   r_hires,
