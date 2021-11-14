@@ -172,7 +172,7 @@ begin
     begin
       if y mod numlthreads = threadid then
       begin
-        lx := tic;
+        lx := tic mod llheight;
         pL := @ylookupl[y][viewwindowx];
         xstart := u.XDisp[ly mod llwidth];
         xend := xstart + uviewwidth - 1;
@@ -184,15 +184,17 @@ begin
           else if newx >= uviewwidth then
             newx := uviewwidth - 1;
 
-          newy := y + u.YDisp[lx mod llheight];
+          newy := y + u.YDisp[lx];
           if newy < 0 then
             newy := 0
           else if newy >= uviewheight then
             newy := uviewheight - 1;
-            
+
           pL^ := u.screen32[newy * uviewwidth + newx];
           Inc(pL);
           Inc(lx, LONGTICS_FACTOR);
+          if lx >= llheight then
+            lx := lx - llheight;
         end;
       end;
       Inc(ly, LONGTICS_FACTOR);
@@ -205,7 +207,7 @@ begin
     begin
       if y mod numlthreads = threadid then
       begin
-        lx := tic;
+        lx := tic mod llheight;
         pB := @ylookup[y][viewwindowx];
         xstart := u.XDisp[ly mod llwidth];
         xend := xstart + uviewwidth - 1;
@@ -217,7 +219,7 @@ begin
           else if newx >= uviewwidth then
             newx := uviewwidth - 1;
 
-          newy := y + u.YDisp[lx mod llheight];
+          newy := y + u.YDisp[lx];
           if newy < 0 then
             newy := 0
           else if newy >= uviewheight then
@@ -226,6 +228,8 @@ begin
           pB^ := u.screen8[newy * uviewwidth + newx];
           Inc(pB);
           Inc(lx, LONGTICS_FACTOR);
+          if lx >= llheight then
+            lx := lx - llheight;
         end;
       end;
       Inc(ly, LONGTICS_FACTOR);
