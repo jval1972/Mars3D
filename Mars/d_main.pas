@@ -126,6 +126,9 @@ var
   showfullhdlogo: boolean = false;
 {$ENDIF}
 
+var
+  mars_main_mad: string;
+
 implementation
 
 uses
@@ -1070,10 +1073,12 @@ begin
     D_AddFile(marsmad);
     mars_crc32 := strupper(W_WadFastCrc32(marsmad));
     marsdirectory := fpath(marsmad);
+    mars_main_mad := marsmad;
     D_AddFile(GAME_CNV_FILE); // Must be called after setting the marsdirectory variable
   end
   else
   begin
+    mars_main_mad := '';
     if marsmad = '' then
       I_Warning('D_AddMarsMad(): No data file found.'#13#10)
     else
