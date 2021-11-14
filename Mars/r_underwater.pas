@@ -57,6 +57,7 @@ uses
   doomdef,
   i_system,
   m_fixed,
+  mt_utils,
   r_colormaps,
   r_draw,
   r_hires,
@@ -148,20 +149,105 @@ end;
 const
   INTERVAL_FACTOR = 3;
 
+var
+  underwatertic: integer;
+
+procedure R_UnderwaterDoExecute(const threadid, numlthreads: integer);
+var
+  tic: integer;
+  pL: PLongWord;
+  pB: PByte;
+  x, xstart, xend, y: integer;
+  newx, newy: integer;
+  llwidth, llheight: integer;
+  lx, ly: integer;
+begin
+  tic := underwatertic;
+  llwidth := LONGTICS_FACTOR * uviewwidth;
+  llheight := LONGTICS_FACTOR * uviewheight;
+  if videomode = vm32bit then
+  begin
+    ly := tic;
+    for y := 0 to uviewheight - 1 do
+    begin
+      if y mod numlthreads = threadid then
+      begin
+        lx := tic;
+        pL := @ylookupl[y][viewwindowx];
+        xstart := u.XDisp[ly mod llwidth];
+        xend := xstart + uviewwidth - 1;
+        for x := xstart to xend do
+        begin
+          newx := x;
+          if newx < 0 then
+            newx := 0
+          else if newx >= uviewwidth then
+            newx := uviewwidth - 1;
+
+          newy := y + u.YDisp[lx mod llheight];
+          if newy < 0 then
+            newy := 0
+          else if newy >= uviewheight then
+            newy := uviewheight - 1;
+            
+          pL^ := u.screen32[newy * uviewwidth + newx];
+          Inc(pL);
+          Inc(lx, LONGTICS_FACTOR);
+        end;
+      end;
+      Inc(ly, LONGTICS_FACTOR);
+    end;
+  end
+  else
+  begin
+    ly := tic;
+    for y := 0 to uviewheight - 1 do
+    begin
+      if y mod numlthreads = threadid then
+      begin
+        lx := tic;
+        pB := @ylookup[y][viewwindowx];
+        xstart := u.XDisp[ly mod llwidth];
+        xend := xstart + uviewwidth - 1;
+        for x := xstart to xend do
+        begin
+          newx := x;
+          if newx < 0 then
+            newx := 0
+          else if newx >= uviewwidth then
+            newx := uviewwidth - 1;
+
+          newy := y + u.YDisp[lx mod llheight];
+          if newy < 0 then
+            newy := 0
+          else if newy >= uviewheight then
+            newy := uviewheight - 1;
+
+          pB^ := u.screen8[newy * uviewwidth + newx];
+          Inc(pB);
+          Inc(lx, LONGTICS_FACTOR);
+        end;
+      end;
+      Inc(ly, LONGTICS_FACTOR);
+    end;
+  end;
+end;
+
+function _UnderwaterExecute_thr(p: iterator_p): integer; stdcall;
+begin
+  R_UnderwaterDoExecute(p.idx, p.numidxs);
+  result := 0;
+end;
+
 procedure R_UnderwaterExecute(const p: Pplayer_t);
 var
   tic64: int64;
-  tic: integer;
-  pL: PLongWordArray;
-  pB: PByteArray;
-  x, y: integer;
-  newx, newy: integer;
 begin
   tic64 := p.underwatertics;
   if tic64 = 0 then
     Exit;
   tic64 := INTERVAL_FACTOR * tic64 * uviewwidth div (LONGTICS_FACTOR * TICRATE);
-  tic := tic64;
+  underwatertic := tic64;
 
   if uviewwidth <> viewwidth then
   begin
@@ -175,42 +261,14 @@ begin
   end;
 
   if videomode = vm32bit then
-  begin
-    R_UnderwaterReadScreen32;
-    for y := 0 to uviewheight - 1 do
-    begin
-      pL := @ylookupl[y][viewwindowx];
-      for x := 0 to uviewwidth - 1 do
-      begin
-        newx := x + u.XDisp[(y * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewwidth)];
-        if newx < 0 then newx := 0;
-        if newx >= uviewwidth then newx := uviewwidth - 1;
-        newy := y + u.YDisp[(x * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewheight)];
-        if newy < 0 then newy := 0;
-        if newy >= uviewheight then newy := uviewheight - 1;
-        pL[x] := u.screen32[newy * uviewwidth + newx];
-      end;
-    end;
-  end
+    R_UnderwaterReadScreen32
   else
-  begin
     R_UnderwaterReadScreen8;
-    for y := 0 to uviewheight - 1 do
-    begin
-      pB := @ylookup[y][viewwindowx];
-      for x := 0 to uviewwidth - 1 do
-      begin
-        newx := x + u.XDisp[(y * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewwidth)];
-        if newx < 0 then newx := 0;
-        if newx >= uviewwidth then newx := uviewwidth - 1;
-        newy := y + u.YDisp[(x * LONGTICS_FACTOR + tic) mod (LONGTICS_FACTOR * uviewheight)];
-        if newy < 0 then newy := 0;
-        if newy >= uviewheight then newy := uviewheight - 1;
-        pB[x] := u.screen8[newy * uviewwidth + newx];
-      end;
-    end;
-  end;
 
+  if usemultithread then
+    MT_Iterate(@_UnderwaterExecute_thr, nil)
+  else
+    R_UnderwaterDoExecute(0, 1);
 end;
 
 end.
