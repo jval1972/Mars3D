@@ -46,6 +46,7 @@ implementation
 
 uses
   Math,
+  d_main,
   m_fixed,
   mars_files,
   mars_palette,
@@ -53,9 +54,11 @@ uses
   mars_bitmap,
   mars_font,
   mars_sounds,
+  mars_level,
   r_data,
   sc_engine,
   v_video,
+  w_wadreader,
   w_wadwriter,
   w_wad,
   xmi_lib;
@@ -78,6 +81,7 @@ type
     function GenerateMarsFonts: boolean;
     function GenerateMusic: boolean;
     function GenerateSounds: boolean;
+    function GenerateLevels: boolean;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -742,6 +746,33 @@ begin
   end;
 end;
 
+function TMarsToWADConverter.GenerateLevels: boolean;
+var
+  wadreader: TWadReader;
+  i, j: integer;
+  b: boolean;
+begin
+  result := false;
+
+  if not fexists(mars_main_mad) then
+    exit;
+
+  if strtrim(mars_main_mad) = '' then
+    exit;
+
+  wadreader := TWadReader.Create;
+  wadreader.OpenWadFile(mars_main_mad);
+
+  for i := 1 to 4 do
+    for j := 1 to 9 do
+    begin
+      b := MARS_PreprocessLevel('E' + itoa(i) + 'M' + itoa(j), wadreader, wadwriter);
+      result := result or b;
+    end;
+
+  wadreader.Free;
+end;
+
 procedure TMarsToWADConverter.ConvertGame;
 begin
   Clear;
@@ -756,6 +787,7 @@ begin
   GenerateMarsFonts;
   GenerateMusic;
   GenerateSounds;
+  GenerateLevels;
 end;
 
 procedure TMarsToWADConverter.SavetoFile(const fname: string);

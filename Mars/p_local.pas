@@ -53,6 +53,9 @@ const
 // JVAL: 20211101 - Crouch
   PMAXCROUCHHEIGHT = 28 * FRACUNIT; //18 * FRACUNIT;
 
+// JVAL: 20211101 - Underwater portal critical point
+  PUNDERWATERHEIGHT = 40 * FRACUNIT;
+
 // mapblocks are used to check movement
 // against lines and things
   MAPBLOCKUNITS = 128;
