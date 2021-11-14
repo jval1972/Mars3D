@@ -77,7 +77,7 @@ const
   CF_LOWGRAVITY = 8;
 
 const
-  LONGTICS_FACTOR = 16;  // JVAL: for underwater tics interpolation (MARS)
+  LONGTICS_FACTOR = 8;  // JVAL: for underwater tics interpolation (MARS)
 
 type
 //
