@@ -133,6 +133,7 @@ uses
   gl_clipper,
   gl_shadows,
   gl_slopes,
+  gl_underwater,
   p_3dfloors,
   p_maputl,
   p_mobj_h,
@@ -608,6 +609,7 @@ begin
   gld_InitVoxels;
   gld_InitLightmap;
   gld_InitAmbient;
+  gld_InitUnderwater;
 end;
 
 
@@ -1912,6 +1914,7 @@ begin
   glViewport(0, 0, SCREENWIDTH, SCREENHEIGHT);
   gld_Set2DMode;
 
+  gld_UnderwaterExecute(player);
  // gld_AmbientExecute;
 
   R_DrawPlayer;
@@ -5199,6 +5202,7 @@ begin
     gld_ClipperDone;
     gld_AmbientDone;
     gld_ShutDownAutomap;
+    gld_ShutDownUnderwater;
   end;
 end;
 

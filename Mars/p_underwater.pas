@@ -43,6 +43,10 @@ const
 var
   cm_underwater: integer = -1;
 
+const
+  U_INTERVAL_FACTOR = 3;
+  U_DISP_STRENGTH_PCT = 2; // SOS: For value > 2 R_UnderwaterCalcX & R_UnderwaterCalcY will overflow in 4k unless we use floating point
+
 implementation
 
 uses

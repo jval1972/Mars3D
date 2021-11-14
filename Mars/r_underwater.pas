@@ -73,7 +73,6 @@ var
   uviewwidth: integer;
 
 const
-  DISP_STRENGTH_PCT = 2; // SOS: For value > 2 R_UnderwaterCalcX & R_UnderwaterCalcY will overflow in 4k unless we use floating point
   U_CALC_INTERVAL = FRACUNIT div LONGTICS_FACTOR;
 
 procedure R_UnderwaterCalcX;
@@ -81,7 +80,7 @@ var
   i: integer;
 begin
   for i := 0 to LONGTICS_FACTOR * uviewwidth - 1 do
-    u.XDisp[i] := Trunc(fixedsine[(i * U_CALC_INTERVAL) div uviewwidth] / FRACUNIT * DISP_STRENGTH_PCT * uviewwidth / 100);
+    u.XDisp[i] := Trunc(fixedsine[(i * U_CALC_INTERVAL) div uviewwidth] / FRACUNIT * U_DISP_STRENGTH_PCT * uviewwidth / 100);
 end;
 
 procedure R_UnderwaterCalcY;
@@ -89,7 +88,7 @@ var
   i: integer;
 begin
   for i := 0 to LONGTICS_FACTOR * uviewheight - 1 do
-    u.YDisp[i] := Trunc(fixedcosine[(i * U_CALC_INTERVAL) div uviewheight] / FRACUNIT * DISP_STRENGTH_PCT * uviewheight / 100);
+    u.YDisp[i] := Trunc(fixedcosine[(i * U_CALC_INTERVAL) div uviewheight] / FRACUNIT * U_DISP_STRENGTH_PCT * uviewheight / 100);
 end;
 
 procedure R_InitUnderwater;
@@ -146,9 +145,6 @@ begin
       p := @p[uviewwidth];
     end;
 end;
-
-const
-  INTERVAL_FACTOR = 3;
 
 var
   underwatertic: integer;
@@ -251,7 +247,7 @@ begin
   tic64 := p.underwatertics;
   if tic64 = 0 then
     Exit;
-  tic64 := INTERVAL_FACTOR * tic64 * uviewwidth div (LONGTICS_FACTOR * TICRATE);
+  tic64 := U_INTERVAL_FACTOR * tic64 * uviewwidth div (LONGTICS_FACTOR * TICRATE);
   underwatertic := tic64;
 
   if uviewwidth <> viewwidth then
