@@ -514,6 +514,8 @@ const
   SF_LADDER = 1;
 // Slip while descenting if sloped
   SF_SLIPSLOPEDESCENT = 2;
+// JVAL: 2021114 - Underwater portal (sector type 14) (Mars)
+  SF_WATERPORTAL = 4;
 
 // A_SpawnItemEx Flags
 const

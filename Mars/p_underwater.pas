@@ -50,6 +50,7 @@ const
 implementation
 
 uses
+  p_common,
   p_setup,
   r_defs;
 
@@ -74,6 +75,11 @@ begin
   end;
 end;
 
+procedure P_WaterPortal(const sec: Psector_t);
+begin
+  sec.flags := sec.flags or SF_WATERPORTAL;
+end;
+
 procedure P_SetupUnderwaterSectors;
 var
   i: integer;
@@ -83,7 +89,9 @@ begin
   for i := 0 to numsectors - 1 do
   begin
     if sec.special = 10 then
-      P_RecursiveUnderwaterSector(sec);
+      P_RecursiveUnderwaterSector(sec)
+    else if sec.special = 14 then
+      P_WaterPortal(sec);
     Inc(sec);
   end;
 end;
