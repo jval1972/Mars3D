@@ -1622,12 +1622,13 @@ begin
     exit;
   end;
 
+  // JVAL: 20211114 - Take floorclip into account
   if source.info.missileheight = 0 then
-    th := P_SpawnMobj(source.x, source.y, source.z + 4 * 8 * FRACUNIT, _type)
+    th := P_SpawnMobj(source.x, source.y, source.z + 4 * 8 * FRACUNIT - source.floorclip, _type)
   else if source.info.missileheight < FRACUNIT div 2 then
-    th := P_SpawnMobj(source.x, source.y, source.z + source.info.missileheight * FRACUNIT, _type)
+    th := P_SpawnMobj(source.x, source.y, source.z + source.info.missileheight * FRACUNIT - source.floorclip, _type)
   else
-    th := P_SpawnMobj(source.x, source.y, source.z + source.info.missileheight, _type);
+    th := P_SpawnMobj(source.x, source.y, source.z + source.info.missileheight - source.floorclip, _type);
 
   A_SeeSound(th, th);
 
@@ -1691,7 +1692,7 @@ begin
       z := ONCEILINGZ;
   end
   else if z <> ONFLOORZ then
-    z := z - source.floorz;
+    z := z - source.floorz - source.floorclip;  // JVAL: 20211114 - Take floorclip into account
 
   th := P_SpawnMobj(x, y, z, _type);
 
@@ -1763,7 +1764,7 @@ begin
       z := ONCEILINGZ;
   end
   else if z <> ONFLOORZ then
-    z := z - source.floorz;
+    z := z - source.floorz - source.floorclip;
 
   mo := P_SpawnMobj(source.x, source.y, z, _type);
 
@@ -1856,10 +1857,11 @@ begin
   x := source.x;
   y := source.y;
   // Also z axis shift calculation
+  // JVAL: 20211114 - Take floorclip into account
   if zaxisshift then
-    z := source.z + 4 * 8 * FRACUNIT + (Pplayer_t(source.player).lookdir * FRACUNIT) div 173
+    z := source.z + 4 * 8 * FRACUNIT + (Pplayer_t(source.player).lookdir * FRACUNIT) div 173  - source.floorclip
   else
-    z := source.z + 4 * 8 * FRACUNIT;
+    z := source.z + 4 * 8 * FRACUNIT  - source.floorclip;
 
   th := P_SpawnMobj(x, y, z, _type);
 
