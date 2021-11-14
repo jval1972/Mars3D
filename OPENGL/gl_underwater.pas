@@ -167,8 +167,6 @@ begin
   glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0);
 
   glColor4f(0.5, 0.5, 1.0, 1.0);
-  glEnable(GL_ALPHA_TEST);
-  glAlphaFunc(GL_NOTEQUAL, 0);
 
   glBegin(GL_QUADS);
   for i := 0 to UMATRIX_SIZE - 1 do
@@ -180,6 +178,8 @@ begin
       _uvert(i / UMATRIX_SIZE * viewwidth, (j + 1) / UMATRIX_SIZE * viewheight, i, j + 1);
     end;
   glEnd;
+
+  glColor4f(1.0, 1.0, 1.0, 1.0);
 end;
 
 end.
