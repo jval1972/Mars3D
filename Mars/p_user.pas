@@ -208,6 +208,12 @@ begin
   else
     player.mo.flags4_ex := player.mo.flags4_ex or MF4_EX_VIEWZCALCED;
 
+  // JVAL: 20211114 - For underwater
+  if (player.mo.floorclip <> 0) and
+     (player.playerstate <> PST_DEAD) and
+     (player.mo.z <= player.mo.floorz) then
+    player.viewz := player.viewz - player.mo.floorclip;
+
   if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
   if player.viewz < player.mo.floorz + 4 * FRACUNIT then
