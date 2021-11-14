@@ -126,11 +126,14 @@ var
   p: PByteArray;
 begin
   p := @u.screen8[0];
-  for i := 0 to uviewheight - 1 do
-  begin
-    memcpy(p, @ylookup[i][viewwindowx], uviewwidth * SizeOf(byte));
-    p := @p[uviewwidth];
-  end;
+  if (viewwindowx = 0) and (viewwindowy = 0) and (uviewwidth = SCREENWIDTH) then
+      memcpy(p, @ylookup[0][0], uviewheight * uviewwidth * SizeOf(byte))
+  else
+    for i := 0 to uviewheight - 1 do
+    begin
+      memcpy(p, @ylookup[i][viewwindowx], uviewwidth * SizeOf(byte));
+      p := @p[uviewwidth];
+    end;
 end;
 
 procedure R_UnderwaterReadScreen32;
@@ -139,11 +142,14 @@ var
   p: PLongWordArray;
 begin
   p := @u.screen32[0];
-  for i := 0 to uviewheight - 1 do
-  begin
-    memcpy(p, @ylookupl[i][viewwindowx], uviewwidth * SizeOf(LongWord));
-    p := @p[uviewwidth];
-  end;
+  if (viewwindowx = 0) and (viewwindowy = 0) and (uviewwidth = SCREENWIDTH) then
+      memcpy(p, @ylookupl[0][0], uviewheight * uviewwidth * SizeOf(LongWord))
+  else
+    for i := 0 to uviewheight - 1 do
+    begin
+      memcpy(p, @ylookupl[i][viewwindowx], uviewwidth * SizeOf(LongWord));
+      p := @p[uviewwidth];
+    end;
 end;
 
 const
