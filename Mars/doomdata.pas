@@ -157,6 +157,8 @@ const
   ML_TRIGGERSCRIPTS = 1024;
 //
   ML_NOCLIP = 2048;
+// Stub line - ignoged in automap
+  ML_AUTOMAPIGNOGE = 4096;
 
 type
 // Sector definition, from editing.

@@ -594,7 +594,20 @@ begin
       continue;
 
     if am_cheating <> 0 then
-      drawit := true
+    begin
+      drawit := true;
+      seg := @segs[ssector.firstline];
+      for j := 0 to ssector.numlines - 1 do
+      begin
+        if not seg.miniseg then
+          if seg.linedef.flags and ML_AUTOMAPIGNOGE <> 0 then
+          begin
+            drawit := False;
+            Break;
+          end;
+        inc(seg);
+      end;
+    end
     else
     begin
       drawit := false;
@@ -603,10 +616,11 @@ begin
       begin
         if not seg.miniseg then
           if seg.linedef.flags and ML_MAPPED <> 0 then
-          begin
-            drawit := True;
-            Break;
-          end;
+            if seg.linedef.flags and ML_AUTOMAPIGNOGE = 0 then
+            begin
+              drawit := True;
+              Break;
+            end;
         inc(seg);
       end;
     end;
@@ -674,10 +688,11 @@ begin
       begin
         if not seg.miniseg then
           if seg.linedef.flags and ML_MAPPED <> 0 then
-          begin
-            wasdrawned := True;
-            Break;
-          end;
+            if seg.linedef.flags and ML_AUTOMAPIGNOGE = 0 then
+            begin
+              wasdrawned := True;
+              Break;
+            end;
         inc(seg);
       end;
       if wasdrawned then
