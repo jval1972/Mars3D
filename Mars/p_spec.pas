@@ -3271,6 +3271,15 @@ begin
             sectors[s].heightsec := sec;
         end;
 
+      293:  // JVAL: 2021114 - Water Portal (Mars)
+        begin
+          sec := pDiff(sides[lines[i].sidenum[0]].sector, sectors, SizeOf(sector_t));
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            if sectors[s].special = 14 then
+              sectors[s].heightsec := sec;
+        end;
+
       // killough 3/16/98: Add support for setting
       // floor lighting independently (e.g. lava)
       213:
