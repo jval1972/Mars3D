@@ -1030,7 +1030,7 @@ ACTOR "MT_FISH" 3002
     {
       FISH I 5 A_SetPushable
       FISH J 5 A_Scream
-      FISH K 5
+      FISH K 5 A_ThrustZ(1.0)
       FISH L 5 
       FISH M 5
       FISH N 350
