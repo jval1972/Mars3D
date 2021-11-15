@@ -252,7 +252,6 @@ begin
         end;
       {$ENDIF}
 
-
         if dc_32bittexturepaletteeffects and (pal_color <> 0) then
         begin
           r1 := pal_color;
