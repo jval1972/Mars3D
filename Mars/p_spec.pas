@@ -835,7 +835,7 @@ begin
   if G_PlayingEngineVersion <= VERSION115 then
   begin
     oldcompatibility := true;
-    if (line.flags and ML_TWOSIDED) = 0 then
+    if line.flags and ML_TWOSIDED = 0 then
     begin
       result := nil;
       exit;
