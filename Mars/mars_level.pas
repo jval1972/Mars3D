@@ -68,6 +68,8 @@ var
   numdoomsectors: integer;
   minx, maxx, miny, maxy: integer;
   stubx, stuby: integer;
+  changed: boolean;
+  sz: integer;
 
   function AddThingToWad(const x, y: integer; const angle: smallint; const mtype: word; const options: smallint): integer;
   var
@@ -211,6 +213,40 @@ var
     doomlinedefs[l1].tag := sec.tag;
 
     sec.floorheight := sec.floorheight - PUNDERWATERPORTALHEIGHT div FRACUNIT;
+
+    changed := true;
+  end;
+
+  procedure _do_underwater_sector(const secid: integer);
+  var
+    newsecid: integer;
+    sec, newsec: Pmapsector_t;
+    l1, l2, l3: integer;
+  begin
+    sec := @doomsectors[secid];
+    newsecid := AddSectorToWAD(sec.floorheight, sec.ceilingheight, sec.floorpic, sec.ceilingpic);
+    newsec := @doomsectors[newsecid];
+    newsec.lightlevel := sec.lightlevel; // Completely black
+
+    l1 := AddLineToWAD(stubx, stuby, stubx + 16, stuby + 16);
+    l2 := AddLineToWAD(stubx + 16, stuby + 16, stubx + 16, stuby);
+    l3 := AddLineToWAD(stubx + 16, stuby, stubx, stuby);
+    stubx := stubx + 32;
+
+    doomlinedefs[l1].flags := doomlinedefs[l1].flags or ML_AUTOMAPIGNOGE;
+    doomlinedefs[l2].flags := doomlinedefs[l1].flags or ML_AUTOMAPIGNOGE;
+    doomlinedefs[l3].flags := doomlinedefs[l1].flags or ML_AUTOMAPIGNOGE;
+
+    doomlinedefs[l1].sidenum[0] := AddSidedefToWAD('', '', 'WALL3-22', newsecid);
+    doomlinedefs[l2].sidenum[0] := AddSidedefToWAD('', '', 'WALL3-22', newsecid);
+    doomlinedefs[l3].sidenum[0] := AddSidedefToWAD('', '', 'WALL3-22', newsecid);
+
+    doomlinedefs[l1].special := 294; // Fake flat for underwaster sector
+    doomlinedefs[l1].tag := sec.tag;
+
+    sec.ceilingheight := sec.ceilingheight + PUNDERWATERSECTORCHEIGHT div FRACUNIT;
+
+    changed := true;
   end;
 
 begin
@@ -220,6 +256,8 @@ begin
     Result := False;
     Exit;
   end;
+
+  changed := false;
 
   doomthings := nil;
   numdoomthings := 0;
@@ -236,33 +274,33 @@ begin
   begin
     if (wadreader.EntryName(i) = 'THINGS') and (numdoomthings = 0) then
     begin
-      wadreader.ReadEntry(i, p, numdoomthings);
+      wadreader.ReadEntry(i, p, sz);
       doomthings := p;
-      numdoomthings := numdoomthings div SizeOf(mapthing_t);
+      numdoomthings := sz div SizeOf(mapthing_t);
     end
     else if (wadreader.EntryName(i) = 'LINEDEFS') and (numdoomlinedefs = 0) then
     begin
-      wadreader.ReadEntry(i, p, numdoomlinedefs);
+      wadreader.ReadEntry(i, p, sz);
       doomlinedefs := p;
-      numdoomlinedefs := numdoomlinedefs div SizeOf(maplinedef_t);
+      numdoomlinedefs := sz div SizeOf(maplinedef_t);
     end
     else if (wadreader.EntryName(i) = 'SIDEDEFS') and (numdoomsidedefs = 0) then
     begin
-      wadreader.ReadEntry(i, p, numdoomsidedefs);
+      wadreader.ReadEntry(i, p, sz);
       doomsidedefs := p;
-      numdoomsidedefs := numdoomsidedefs div SizeOf(mapsidedef_t);
+      numdoomsidedefs := sz div SizeOf(mapsidedef_t);
     end
     else if (wadreader.EntryName(i) = 'VERTEXES') and (numdoomvertexes = 0) then
     begin
-      wadreader.ReadEntry(i, p, numdoomvertexes);
+      wadreader.ReadEntry(i, p, sz);
       doomvertexes := p;
-      numdoomvertexes := numdoomvertexes div SizeOf(mapvertex_t);
+      numdoomvertexes := sz div SizeOf(mapvertex_t);
     end
     else if (wadreader.EntryName(i) = 'SECTORS') and (numdoomsectors = 0) then
     begin
-      wadreader.ReadEntry(i, p, numdoomsectors);
+      wadreader.ReadEntry(i, p, sz);
       doomsectors := p;
-      numdoomsectors := numdoomsectors div SizeOf(mapsector_t);
+      numdoomsectors := sz div SizeOf(mapsector_t);
     end;
   end;
 
@@ -287,20 +325,27 @@ begin
   stuby := maxy + 256;
 
   for i := 0 to numdoomsectors - 1 do
+  begin
     if doomsectors[i].special = 14 then
-      _do_underwater_portal(i);
+      _do_underwater_portal(i)
+    else if doomsectors[i].special = 10 then
+    _do_underwater_sector(i);
+  end;
 
-  wadwriter.AddSeparator(levelname);
-  wadwriter.AddData('THINGS', doomthings, numdoomthings * SizeOf(mapthing_t));
-  wadwriter.AddData('LINEDEFS', doomlinedefs, numdoomlinedefs * SizeOf(maplinedef_t));
-  wadwriter.AddData('SIDEDEFS', doomsidedefs, numdoomsidedefs * SizeOf(mapsidedef_t));
-  wadwriter.AddData('VERTEXES', doomvertexes, numdoomvertexes * SizeOf(mapvertex_t));
-  wadwriter.AddSeparator('SEGS');
-  wadwriter.AddSeparator('SSECTORS');
-  wadwriter.AddSeparator('NODES');
-  wadwriter.AddData('SECTORS', doomsectors, numdoomsectors * SizeOf(mapsector_t));
-  wadwriter.AddSeparator('REJECT');
-  wadwriter.AddSeparator('BLOCKMAP');
+  if changed then
+  begin
+    wadwriter.AddSeparator(levelname);
+    wadwriter.AddData('THINGS', doomthings, numdoomthings * SizeOf(mapthing_t));
+    wadwriter.AddData('LINEDEFS', doomlinedefs, numdoomlinedefs * SizeOf(maplinedef_t));
+    wadwriter.AddData('SIDEDEFS', doomsidedefs, numdoomsidedefs * SizeOf(mapsidedef_t));
+    wadwriter.AddData('VERTEXES', doomvertexes, numdoomvertexes * SizeOf(mapvertex_t));
+    wadwriter.AddSeparator('SEGS');
+    wadwriter.AddSeparator('SSECTORS');
+    wadwriter.AddSeparator('NODES');
+    wadwriter.AddData('SECTORS', doomsectors, numdoomsectors * SizeOf(mapsector_t));
+    wadwriter.AddSeparator('REJECT');
+    wadwriter.AddSeparator('BLOCKMAP');
+  end;
 
   // Free map data
   memfree(pointer(doomthings), numdoomthings * SizeOf(mapthing_t));
