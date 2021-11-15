@@ -139,6 +139,7 @@ uses
   p_params,
   p_ladder,
   p_musinfo,
+  p_underwater, // JVAL: 20211115 - Swimm level
   r_defs,
   r_sky,
   r_main,
@@ -1008,6 +1009,8 @@ begin
   end
   else
     msec := nil;
+
+  P_ResolveSwimmSurface(mobj);
 
   if z = ONFLOORZ then
     mobj.z := mobj.floorz

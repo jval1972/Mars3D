@@ -82,6 +82,7 @@ uses
   m_vectors,
   p_gravity,
   p_map,
+  p_underwater, // JVAL: 20211115 - Swimm level
   p_setup,
   p_mobj_h,
   p_spec,
@@ -343,6 +344,7 @@ begin
       grav := FixedMul(P_GetSectorGravity(s), mo.gravity);
 
     mo.floorz := P_FloorHeight(s, mo.x, mo.y);
+    P_ResolveSwimmSurface(mo);
     mo.ceilingz := P_CeilingHeight(s, mo.x, mo.y);
 
     if mo.z - grav < mo.floorz then

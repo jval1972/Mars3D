@@ -415,6 +415,8 @@ const
   MF4_EX_VIEWZCALCED = $20;
   // fly mode is active
   MF4_EX_FLY = $40; // JVAL: 20211109 - Fly (Jet pack)
+  // Can swimm on surface of fake floor
+  MF4_EX_CANSWIMMONFAKESURFACE = $80; // JVAL: 20211115 - Underwater portal
 
 
 type

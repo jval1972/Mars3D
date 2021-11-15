@@ -69,6 +69,7 @@ uses
   p_map,
   p_maputl,
   p_spec,
+  p_underwater, // JVAL: 20211115 - Swimm level
   p_user,
   r_main,
   s_sound,
@@ -172,6 +173,8 @@ begin
           thing.ceilingz := m.ceilingz;
           thing.z := thing.floorz + dz;
         end;
+
+        P_ResolveSwimmSurface(thing);
 
         p := Pplayer_t(thing.player);
         if p <> nil then

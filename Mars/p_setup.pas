@@ -2168,6 +2168,12 @@ begin
     printf('P_SpawnSpecials()'#13#10);
   P_SpawnSpecials;
 
+  // JVAL: 20211115 - Globally adjust swimming monsters
+  // Must be called after P_SpawnSpecials (fake flats must be activated)
+  if devparm then
+    printf('P_GlobalAdjustSwimming()'#13#10);
+  P_GlobalAdjustSwimming;
+
   {$IFNDEF OPENGL}
   if devparm then
     printf('R_Clear32Cache()'#13#10);

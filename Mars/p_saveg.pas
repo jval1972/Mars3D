@@ -108,6 +108,7 @@ uses
   p_scroll,
   p_params,
   p_levelinfo,
+  p_underwater, // JVAL: 20211115 - Swimm level
   ps_main,
   psi_globals,
   psi_overlay,
@@ -739,6 +740,7 @@ begin
           P_SetThingPosition(mobj);
           mobj.floorz := P_3dFloorHeight(mobj); // JVAL: 3d floors
           mobj.ceilingz := P_3dCeilingHeight(mobj); // JVAL: 3d floors
+          P_ResolveSwimmSurface(mobj);
           @mobj.thinker._function.acp1 := @P_MobjThinker;
           P_AddThinker(@mobj.thinker);
         end;

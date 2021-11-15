@@ -148,6 +148,7 @@ uses
   p_switch,
   p_tick,
   p_terrain,
+  p_underwater, // JVAL: 20211115 - Swimm level
   ps_main,  // JVAL: Script Events
   r_main,
   r_sky,
@@ -275,6 +276,7 @@ begin
   // will adjust them.
   //**tmdropoffz := newsubsec.sector.floorheight;
   tmdropoffz := P_FloorHeight(newsec, x, y); // JVAL: Slopes
+  tmdropoffz := P_ResolveSwimmFloorHeight(thing, tmdropoffz);
   tmfloorz := tmdropoffz;
 
   //**tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector);
@@ -318,6 +320,7 @@ begin
   thing.y := y;
 
   P_SetThingPosition(thing);
+  P_ResolveSwimmSurface(thing);
 
   // JVAL: 20200507 - Do not report false velocity
   thing.oldx := thing.x;
@@ -924,6 +927,7 @@ begin
   // will adjust them.
   // JVAL 20191209 - Fix 3d floor problems with A_SpawnItem & A_SpawnItemEx
   tmdropoffz := P_3dFloorHeight(newsec, x, y, thing.z); // JVAL: Slopes
+  tmdropoffz := P_ResolveSwimmFloorHeight(thing, tmdropoffz);
   tmfloorz := tmdropoffz;
   tmceilingz := P_3dCeilingHeight(newsec, x, y, thing.z) + P_SectorJumpOverhead(newsec);
 
@@ -1356,6 +1360,7 @@ begin
   thing.y := y;
 
   P_SetThingPosition(thing);
+  P_ResolveSwimmSurface(thing);
 
   // JVAL: Slopes
   if Psubsector_t(thing.subsector).sector.renderflags and SRF_SLOPED <> 0 then
@@ -1446,6 +1451,8 @@ begin
     if thing.z + thing.height > thing.ceilingz then
       thing.z := thing.ceilingz - thing.height;
   end;
+
+  P_ResolveSwimmSurface(thing);
 
   result := thing.ceilingz - thing.floorz >= thing.height;
 end;

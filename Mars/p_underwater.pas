@@ -35,7 +35,17 @@ unit p_underwater;
 
 interface
 
+uses
+  m_fixed,
+  p_mobj_h;
+
 procedure P_SetupUnderwaterSectors;
+
+procedure P_ResolveSwimmSurface(const thing: Pmobj_t);
+
+function P_ResolveSwimmFloorHeight(const thing: Pmobj_t; const oldfloorz: fixed_t): fixed_t;
+
+procedure P_GlobalAdjustSwimming;
 
 const
   UNDERWATER_COLORMAP = 'WATERMAP';
@@ -50,8 +60,11 @@ const
 implementation
 
 uses
+  d_think,
   p_common,
+  p_mobj,
   p_setup,
+  p_tick,
   r_defs;
 
 procedure P_RecursiveUnderwaterSector(const sec: Psector_t);
@@ -86,6 +99,74 @@ begin
     if sec.special = 10 then
       P_RecursiveUnderwaterSector(sec);
     Inc(sec);
+  end;
+end;
+
+//
+// P_ResolveSwimmSurface
+// JVAL: 20211115 - New function, checks the MF4_EX_CANSWIMMONFAKESURFACE flag
+//
+procedure P_ResolveSwimmSurface(const thing: Pmobj_t);
+var
+  sec, hsec: Psector_t;
+begin
+  if thing.flags4_ex and MF4_EX_CANSWIMMONFAKESURFACE = 0 then
+    exit;
+
+  sec := Psubsector_t(thing.subsector).sector;
+  if sec.heightsec < 0 then
+    exit;
+
+  hsec := @sectors[sec.heightsec];
+  if hsec.floorheight > sec.floorheight then
+  begin
+    thing.floorz := hsec.floorheight;
+    if thing.z < thing.floorz then
+      thing.z := thing.floorz;
+  end;
+end;
+
+//
+// P_ResolveSwimmFloorHeight
+// JVAL: 20211115 - New function, checks the MF4_EX_CANSWIMMONFAKESURFACE flag
+//
+function P_ResolveSwimmFloorHeight(const thing: Pmobj_t; const oldfloorz: fixed_t): fixed_t;
+var
+  sec, hsec: Psector_t;
+begin
+  result := oldfloorz;
+
+  if thing.flags4_ex and MF4_EX_CANSWIMMONFAKESURFACE = 0 then
+    exit;
+
+  sec := Psubsector_t(thing.subsector).sector;
+  if sec.heightsec < 0 then
+    exit;
+
+  hsec := @sectors[sec.heightsec];
+  if hsec.floorheight > oldfloorz then
+    result := hsec.floorheight;
+end;
+
+//
+// P_GlobalAdjustSwimming
+// JVAL: 20211115 - New function, checks the MF4_EX_CANSWIMMONFAKESURFACE flag
+//       for all mobj's at loading level
+//
+procedure P_GlobalAdjustSwimming;
+var
+  th: Pthinker_t;
+  mo: Pmobj_t;
+begin
+  th := thinkercap.next;
+  while th <> @thinkercap do
+  begin
+    if @th._function.acp1 = @P_MobjThinker then
+    begin
+      mo := Pmobj_t(th);
+      P_ResolveSwimmSurface(mo);
+    end;
+    th := th.next;
   end;
 end;
 
