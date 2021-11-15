@@ -121,11 +121,12 @@ var
 
 procedure R_InitHiRes;
 
-procedure R_SetPalette(palette: integer);
+procedure R_SetPalette(pal: integer);
 
 var
   pal_color: LongWord;
 {$IFNDEF OPENGL}
+  pal_underwater: boolean = false;
   cur_pal_index: integer;
 {$ENDIF}
 
@@ -1232,15 +1233,20 @@ begin
 {$ENDIF}
 end;
 
-procedure R_SetPalette(palette: integer);
+procedure R_SetPalette(pal: integer);
 var
   r_extra_red: LongWord;
   r_extra_green: LongWord;
   r_extra_blue: LongWord;
+  palette: integer;
 begin
 {$IFNDEF OPENGL}
-  cur_pal_index := palette;
-{$ENDIF}  
+  cur_pal_index := pal;
+  pal_underwater := pal > 14;
+{$ENDIF}
+  palette := pal;
+  if palette > 14 then
+    palette := palette - 14;
   if palette > 0 then
   begin
     if palette <= 8 then

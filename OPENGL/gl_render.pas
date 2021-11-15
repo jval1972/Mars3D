@@ -72,7 +72,7 @@ procedure gld_DrawWeapon(weaponlump: integer; vis: Pvissprite_t; lightlevel: int
 
 procedure gld_Init(width, height: integer);
 
-procedure gld_SetPalette(palette: integer);
+procedure gld_SetPalette(pal: integer);
 
 procedure gld_DrawNumPatch(x, y: integer; lump: integer; cm: integer; flags: integer;
   const zoomx: float = 1.0; const zoomy: float = 1.0);
@@ -863,14 +863,18 @@ end;
 var
   last_palette: integer = 0;
 
-procedure gld_SetPalette(palette: integer);
+procedure gld_SetPalette(pal: integer);
 var
   playpal: PByteArray;
   plpal: PByteArray;
   pal: array[0..1023] of byte;
   i: integer;
   col, pcol: integer;
+  palette: integer;
 begin
+  palette := pal;
+  if palette > 14 then
+    palette := palette - 14;
   extra_red := 0.0;
   extra_green := 0.0;
   extra_blue := 0.0;
