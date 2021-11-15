@@ -707,6 +707,7 @@ ACTOR MT_WATERFEAR 3001
   Attacksound LAKEATT
   Painsound LAKEHURT
   Deathsound LAKEDTH
+  spriteDY -2.0
   +MF_SOLID
   +MF_SHOOTABLE
   +MF_COUNTKILL
