@@ -1083,6 +1083,15 @@ begin
     player.attacker := source;
     player.damagecount := player.damagecount + damage;  // add damage after armor / invuln
 
+    player.damagetype := DAMAGE_BLOOD;
+
+    if source <> nil then
+      if source.flags4_ex and MF4_EX_POISONDAMAGE <> 0 then
+        player.damagetype := DAMAGE_POISON;
+    if inflictor <> nil then
+      if inflictor.flags4_ex and MF4_EX_POISONDAMAGE <> 0 then
+        player.damagetype := DAMAGE_POISON;
+
     if player.damagecount > 100 then
       player.damagecount := 100;  // teleport stomp does 10k points...
 

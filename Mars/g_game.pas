@@ -1223,6 +1223,7 @@ begin
   p.extralight := 0;    // cancel gun flashes
   p.fixedcolormap := 0; // cancel ir gogles
   p.damagecount := 0;   // no palette changes
+  p.damagetype := 0;  // JVAL: Posion damage
   p.bonuscount := 0;
 end;
 

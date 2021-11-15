@@ -155,6 +155,9 @@ begin
 
   MARS_ColorShiftPalette(inppal, @outpal[768 * 13], 0, 256, 0, 1, 8);
 
+  for i := 1 to 8 do
+    MARS_ColorShiftPalette(inppal, @outpal[768 * (i + 13)], 0, 255, 0, i, 9);
+
   for l := 0 to NUMLIGHTS - 1 do
   begin
     palsrc := @inppal[0];

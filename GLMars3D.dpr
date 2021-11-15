@@ -389,7 +389,8 @@ uses
   mars_dialog in 'Mars\mars_dialog.pas',
   mars_player in 'Mars\mars_player.pas',
   p_underwater in 'Mars\p_underwater.pas',
-  gl_underwater in 'OPENGL\gl_underwater.pas';
+  gl_underwater in 'OPENGL\gl_underwater.pas',
+  mars_level in 'Mars\mars_level.pas';
 
 var
   Saved8087CW: Word;

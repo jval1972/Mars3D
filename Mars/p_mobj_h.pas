@@ -417,6 +417,8 @@ const
   MF4_EX_FLY = $40; // JVAL: 20211109 - Fly (Jet pack)
   // Can swimm on surface of fake floor
   MF4_EX_CANSWIMMONFAKESURFACE = $80; // JVAL: 20211115 - Underwater portal
+  // Enemy causes poison damage
+  MF4_EX_POISONDAMAGE = $100; // JVAL: 20211115 - POISON DAMAGE (Mars)
 
 
 type

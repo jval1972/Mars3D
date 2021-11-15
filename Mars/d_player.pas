@@ -79,6 +79,10 @@ const
 const
   LONGTICS_FACTOR = 8;  // JVAL: for underwater tics interpolation (MARS)
 
+const
+  DAMAGE_BLOOD = 0;
+  DAMAGE_POISON = 1;
+
 type
 //
 // Extended player object info: player_t
@@ -213,6 +217,7 @@ type
     jetpacksoundtic: integer;
 
     underwatertics: integer;  // JVAL: For underwater
+    damagetype: integer; // JVAL - Poison damage (MARS)
   end;
   Pplayer_t = ^player_t;
 

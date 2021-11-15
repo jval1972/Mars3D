@@ -146,9 +146,9 @@ var
   p: pointer;
   pal: PByteArray;
   size: integer;
-  playpal1: packed array[0..768 * 14 - 1] of byte;
-  playpal2: packed array[0..768 * 14 - 1] of byte;
-  playpal: packed array[0..768 * 28 - 1] of byte;
+  playpal1: packed array[0..768 * 22 - 1] of byte;
+  playpal2: packed array[0..768 * 22 - 1] of byte;
+  playpal: packed array[0..768 * 44 - 1] of byte;
   colormap: packed array[0..34 * 256 - 1] of byte;
   i: integer;
   r, g, b: LongWord;
@@ -200,8 +200,8 @@ begin
   end;
   memfree(p, size);
 
-  memcpy(@playpal[0], @playpal1[0], 768 * 14);
-  memcpy(@playpal[768 * 14], @playpal2[0], 768 * 14);
+  memcpy(@playpal[0], @playpal1[0], 768 * 22);
+  memcpy(@playpal[768 * 22], @playpal2[0], 768 * 22);
   wadwriter.AddData('PLAYPAL', @playpal, SizeOf(playpal));
 end;
 

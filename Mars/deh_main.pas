@@ -2087,6 +2087,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_VIEWZCALCED');
   mobj_flags4_ex.Add('MF4_EX_FLY'); // JVAL: 20211109 - Fly (Jet pack)
   mobj_flags4_ex.Add('MF4_EX_CANSWIMMONFAKESURFACE'); // JVAL: 20211115 - Underwater portal
+  mobj_flags4_ex.Add('MF4_EX_POISONDAMAGE');  // JVAL: 20211115 - POISON DAMAGE (Mars)
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);

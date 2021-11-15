@@ -155,6 +155,9 @@ const
   NUMBONUSPALS = 4;
 // Radiation suit, green shift.
   RADIATIONPAL = 13;
+// Green palettes (Poison damage) - Mars
+  STARTGREENPALS = 14;
+  NUMGREENPALS = 8;
 
 // N/256*100% probability
 //  that the normal face state will change
@@ -919,10 +922,20 @@ begin
   begin
     palette := _SHR(cnt + 7, 3);
 
-    if palette >= NUMREDPALS then
-      palette := NUMREDPALS - 1;
+    if plyr.damagetype = DAMAGE_POISON then
+    begin
+      if palette >= NUMGREENPALS then
+        palette := NUMGREENPALS - 1;
 
-    palette := palette + STARTREDPALS;
+      palette := palette + STARTGREENPALS;
+    end
+    else
+    begin
+      if palette >= NUMREDPALS then
+        palette := NUMREDPALS - 1;
+
+      palette := palette + STARTREDPALS;
+    end;
   end
   else if plyr.bonuscount <> 0 then
   begin

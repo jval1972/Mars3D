@@ -72,7 +72,7 @@ procedure gld_DrawWeapon(weaponlump: integer; vis: Pvissprite_t; lightlevel: int
 
 procedure gld_Init(width, height: integer);
 
-procedure gld_SetPalette(pal: integer);
+procedure gld_SetPalette(fpal: integer);
 
 procedure gld_DrawNumPatch(x, y: integer; lump: integer; cm: integer; flags: integer;
   const zoomx: float = 1.0; const zoomy: float = 1.0);
@@ -863,7 +863,7 @@ end;
 var
   last_palette: integer = 0;
 
-procedure gld_SetPalette(pal: integer);
+procedure gld_SetPalette(fpal: integer);
 var
   playpal: PByteArray;
   plpal: PByteArray;
@@ -872,9 +872,9 @@ var
   col, pcol: integer;
   palette: integer;
 begin
-  palette := pal;
-  if palette > 14 then
-    palette := palette - 14;
+  palette := fpal;
+  if palette > 22 then
+    palette := palette - 22;
   extra_red := 0.0;
   extra_green := 0.0;
   extra_blue := 0.0;
@@ -945,6 +945,14 @@ begin
         extra_green := 1.0;
         extra_blue := 0.0;
         extra_alpha := 0.2;
+      end
+      else
+      begin
+        // JVAL: 20211115 - Posion damage
+        extra_red := 0.0;
+        extra_green := (palette - 13) / 2.0;
+        extra_blue := 0.0;
+        extra_alpha := (palette - 13) / 10.0;
       end;
     end;
     if extra_red > 1.0 then
