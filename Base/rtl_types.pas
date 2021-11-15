@@ -154,6 +154,8 @@ type
     maxtargetrange: integer;
     WeaveIndexXY: integer;
     WeaveIndexZ: integer;
+    spriteDX: float;
+    spriteDY: float;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

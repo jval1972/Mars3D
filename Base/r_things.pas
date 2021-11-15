@@ -1477,7 +1477,7 @@ begin
   end;
 
   infoscale := thing.scale;
-  soffset := FixedMul(spriteoffset[lump], infoscale);
+  soffset := FixedMul(spriteoffset[lump] + thing.spriteDX, infoscale);
   tx := tx - soffset;
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
 {$IFNDEF OPENGL}
@@ -1520,7 +1520,7 @@ begin
   if x2 < x1 then
     exit; // SOS
 {$IFNDEF OPENGL}
-  scaledtop := FixedMul(spritetopoffset[lump], infoscale);
+  scaledtop := FixedMul(spritetopoffset[lump] + thing.spriteDY, infoscale);
   gzt := thing.z + scaledtop;
   {$IFDEF DOOM_OR_STRIFE}
   heightsec := Psubsector_t(thing.subsector).sector.heightsec;
@@ -1587,8 +1587,8 @@ begin
   {$ELSE}
   vis.footclip := thing.floorclip;
   {$ENDIF}
-  vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip, infoscale) + spritetopoffset[lump];
-  vis.texturemid2 := vis.texturemid + spritetopoffset[lump];
+  vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip, infoscale) + spritetopoffset[lump] + thing.spriteDY;
+  vis.texturemid2 := vis.texturemid + spritetopoffset[lump] + thing.spriteDY;
   if x1 <= 0 then
     vis.x1 := 0
   else
@@ -1899,6 +1899,8 @@ begin
   tx := psp.sx - 160 * FRACUNIT;
 
   tx := tx - spriteoffset[lump];
+  if viewplayer.mo <> nil then
+    tx := tx - viewplayer.mo.spriteDX;
   x1 := FixedInt(centerxfrac + centerxshift + FixedMul(tx, pspritescalep));
 
   // off the right side
@@ -1923,6 +1925,8 @@ begin
   vis.mo := viewplayer.mo;
 
   vis.texturemid := (BASEYCENTER * FRACUNIT) {+ FRACUNIT div 2} - (psp.sy - spritetopoffset[lump]);
+  if viewplayer.mo <> nil then
+    vis.texturemid := vis.texturemid + viewplayer.mo.spriteDY;
 
   if screenblocks > 10 then
     vis.texturemid := vis.texturemid - R_PSpriteSY(lump);
