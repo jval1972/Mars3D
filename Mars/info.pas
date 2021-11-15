@@ -138,7 +138,7 @@ begin
     exit;
 
   ////////////////////////////////////////////////////////////////////////////////
-  // mobjinfo
+  // DO_mobjinfo
   ////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -206,6 +206,8 @@ begin
   DO_mobjinfo[Ord(MT_PLAYER)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_PLAYER)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_PLAYER)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_PLAYER)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_PLAYER)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_POSSESSED
@@ -272,6 +274,8 @@ begin
   DO_mobjinfo[Ord(MT_POSSESSED)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_POSSESSED)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_POSSESSED)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_POSSESSED)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_POSSESSED)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SHOTGUY
@@ -338,6 +342,8 @@ begin
   DO_mobjinfo[Ord(MT_SHOTGUY)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SHOTGUY)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SHOTGUY)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SHOTGUY)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SHOTGUY)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_VILE
@@ -404,6 +410,8 @@ begin
   DO_mobjinfo[Ord(MT_VILE)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_VILE)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_VILE)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_VILE)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_VILE)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_FIRE
@@ -470,6 +478,8 @@ begin
   DO_mobjinfo[Ord(MT_FIRE)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_FIRE)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_FIRE)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_FIRE)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_FIRE)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_UNDEAD
@@ -536,6 +546,8 @@ begin
   DO_mobjinfo[Ord(MT_UNDEAD)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_UNDEAD)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_UNDEAD)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_UNDEAD)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_UNDEAD)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_TRACER
@@ -602,6 +614,8 @@ begin
   DO_mobjinfo[Ord(MT_TRACER)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_TRACER)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_TRACER)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_TRACER)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_TRACER)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SMOKE
@@ -668,6 +682,8 @@ begin
   DO_mobjinfo[Ord(MT_SMOKE)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SMOKE)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SMOKE)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SMOKE)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SMOKE)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_FATSO
@@ -734,6 +750,8 @@ begin
   DO_mobjinfo[Ord(MT_FATSO)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_FATSO)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_FATSO)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_FATSO)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_FATSO)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_FATSHOT
@@ -800,6 +818,8 @@ begin
   DO_mobjinfo[Ord(MT_FATSHOT)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_FATSHOT)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_FATSHOT)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_FATSHOT)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_FATSHOT)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_CHAINGUY
@@ -866,6 +886,8 @@ begin
   DO_mobjinfo[Ord(MT_CHAINGUY)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_CHAINGUY)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_CHAINGUY)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_CHAINGUY)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_CHAINGUY)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_TROOP
@@ -932,6 +954,8 @@ begin
   DO_mobjinfo[Ord(MT_TROOP)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_TROOP)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_TROOP)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_TROOP)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_TROOP)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SERGEANT
@@ -998,6 +1022,8 @@ begin
   DO_mobjinfo[Ord(MT_SERGEANT)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SERGEANT)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SERGEANT)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SERGEANT)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SERGEANT)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SHADOWS
@@ -1064,6 +1090,8 @@ begin
   DO_mobjinfo[Ord(MT_SHADOWS)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SHADOWS)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SHADOWS)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SHADOWS)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SHADOWS)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_HEAD
@@ -1130,6 +1158,8 @@ begin
   DO_mobjinfo[Ord(MT_HEAD)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_HEAD)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_HEAD)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_HEAD)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_HEAD)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BRUISER
@@ -1196,6 +1226,8 @@ begin
   DO_mobjinfo[Ord(MT_BRUISER)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BRUISER)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BRUISER)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BRUISER)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BRUISER)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BRUISERSHOT
@@ -1262,6 +1294,8 @@ begin
   DO_mobjinfo[Ord(MT_BRUISERSHOT)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BRUISERSHOT)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BRUISERSHOT)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BRUISERSHOT)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BRUISERSHOT)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_KNIGHT
@@ -1328,6 +1362,8 @@ begin
   DO_mobjinfo[Ord(MT_KNIGHT)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_KNIGHT)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_KNIGHT)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_KNIGHT)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_KNIGHT)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SKULL
@@ -1394,6 +1430,8 @@ begin
   DO_mobjinfo[Ord(MT_SKULL)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SKULL)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SKULL)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SKULL)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SKULL)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SPIDER
@@ -1460,6 +1498,8 @@ begin
   DO_mobjinfo[Ord(MT_SPIDER)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SPIDER)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SPIDER)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SPIDER)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SPIDER)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BABY
@@ -1526,6 +1566,8 @@ begin
   DO_mobjinfo[Ord(MT_BABY)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BABY)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BABY)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BABY)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BABY)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_CYBORG
@@ -1592,6 +1634,8 @@ begin
   DO_mobjinfo[Ord(MT_CYBORG)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_CYBORG)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_CYBORG)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_CYBORG)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_CYBORG)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_PAIN
@@ -1658,6 +1702,8 @@ begin
   DO_mobjinfo[Ord(MT_PAIN)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_PAIN)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_PAIN)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_PAIN)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_PAIN)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_WOLFSS
@@ -1724,6 +1770,8 @@ begin
   DO_mobjinfo[Ord(MT_WOLFSS)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_WOLFSS)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_WOLFSS)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_WOLFSS)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_WOLFSS)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_KEEN
@@ -1790,6 +1838,8 @@ begin
   DO_mobjinfo[Ord(MT_KEEN)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_KEEN)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_KEEN)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_KEEN)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_KEEN)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BOSSBRAIN
@@ -1856,6 +1906,8 @@ begin
   DO_mobjinfo[Ord(MT_BOSSBRAIN)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BOSSBRAIN)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BOSSBRAIN)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BOSSBRAIN)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BOSSBRAIN)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BOSSSPIT
@@ -1922,6 +1974,8 @@ begin
   DO_mobjinfo[Ord(MT_BOSSSPIT)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BOSSSPIT)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BOSSSPIT)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BOSSSPIT)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BOSSSPIT)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BOSSTARGET
@@ -1988,6 +2042,8 @@ begin
   DO_mobjinfo[Ord(MT_BOSSTARGET)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BOSSTARGET)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BOSSTARGET)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BOSSTARGET)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BOSSTARGET)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SPAWNSHOT
@@ -2054,6 +2110,8 @@ begin
   DO_mobjinfo[Ord(MT_SPAWNSHOT)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SPAWNSHOT)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SPAWNSHOT)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SPAWNSHOT)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SPAWNSHOT)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SPAWNFIRE
@@ -2120,6 +2178,8 @@ begin
   DO_mobjinfo[Ord(MT_SPAWNFIRE)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SPAWNFIRE)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SPAWNFIRE)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SPAWNFIRE)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SPAWNFIRE)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BARREL
@@ -2186,6 +2246,8 @@ begin
   DO_mobjinfo[Ord(MT_BARREL)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BARREL)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BARREL)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BARREL)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BARREL)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_TROOPSHOT
@@ -2252,6 +2314,8 @@ begin
   DO_mobjinfo[Ord(MT_TROOPSHOT)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_TROOPSHOT)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_TROOPSHOT)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_TROOPSHOT)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_TROOPSHOT)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_HEADSHOT
@@ -2318,6 +2382,8 @@ begin
   DO_mobjinfo[Ord(MT_HEADSHOT)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_HEADSHOT)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_HEADSHOT)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_HEADSHOT)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_HEADSHOT)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_ROCKET
@@ -2384,6 +2450,8 @@ begin
   DO_mobjinfo[Ord(MT_ROCKET)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_ROCKET)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_ROCKET)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_ROCKET)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_ROCKET)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_PLASMA
@@ -2450,6 +2518,8 @@ begin
   DO_mobjinfo[Ord(MT_PLASMA)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_PLASMA)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_PLASMA)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_PLASMA)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_PLASMA)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BFG
@@ -2516,6 +2586,8 @@ begin
   DO_mobjinfo[Ord(MT_BFG)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BFG)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BFG)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BFG)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BFG)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_ARACHPLAZ
@@ -2582,6 +2654,8 @@ begin
   DO_mobjinfo[Ord(MT_ARACHPLAZ)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_ARACHPLAZ)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_ARACHPLAZ)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_ARACHPLAZ)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_ARACHPLAZ)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_PUFF
@@ -2648,6 +2722,8 @@ begin
   DO_mobjinfo[Ord(MT_PUFF)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_PUFF)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_PUFF)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_PUFF)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_PUFF)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BLOOD
@@ -2714,6 +2790,8 @@ begin
   DO_mobjinfo[Ord(MT_BLOOD)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BLOOD)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BLOOD)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BLOOD)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BLOOD)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_TFOG
@@ -2780,6 +2858,8 @@ begin
   DO_mobjinfo[Ord(MT_TFOG)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_TFOG)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_TFOG)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_TFOG)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_TFOG)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_IFOG
@@ -2846,6 +2926,8 @@ begin
   DO_mobjinfo[Ord(MT_IFOG)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_IFOG)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_IFOG)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_IFOG)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_IFOG)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_TELEPORTMAN
@@ -2912,6 +2994,8 @@ begin
   DO_mobjinfo[Ord(MT_TELEPORTMAN)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_TELEPORTMAN)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_TELEPORTMAN)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_TELEPORTMAN)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_TELEPORTMAN)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_EXTRABFG
@@ -2978,6 +3062,8 @@ begin
   DO_mobjinfo[Ord(MT_EXTRABFG)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_EXTRABFG)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_EXTRABFG)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_EXTRABFG)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_EXTRABFG)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC0
@@ -3044,6 +3130,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC0)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC0)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC0)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC0)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC0)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC1
@@ -3110,6 +3198,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC1)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC1)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC1)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC1)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC1)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC2
@@ -3176,6 +3266,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC2)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC2)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC2)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC2)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC2)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC3
@@ -3242,6 +3334,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC3)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC3)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC3)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC3)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC3)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC4
@@ -3308,6 +3402,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC4)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC4)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC4)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC4)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC4)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC5
@@ -3374,6 +3470,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC5)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC5)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC5)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC5)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC5)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC6
@@ -3440,6 +3538,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC6)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC6)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC6)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC6)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC6)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC7
@@ -3506,6 +3606,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC7)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC7)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC7)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC7)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC7)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC8
@@ -3572,6 +3674,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC8)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC8)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC8)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC8)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC8)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC9
@@ -3638,6 +3742,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC9)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC9)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC9)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC9)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC9)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC10
@@ -3704,6 +3810,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC10)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC10)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC10)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC10)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC10)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC11
@@ -3770,6 +3878,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC11)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC11)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC11)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC11)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC11)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC12
@@ -3836,6 +3946,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC12)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC12)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC12)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC12)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC12)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_INV
@@ -3902,6 +4014,8 @@ begin
   DO_mobjinfo[Ord(MT_INV)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_INV)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_INV)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_INV)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_INV)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC13
@@ -3968,6 +4082,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC13)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC13)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC13)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC13)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC13)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_INS
@@ -4034,6 +4150,8 @@ begin
   DO_mobjinfo[Ord(MT_INS)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_INS)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_INS)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_INS)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_INS)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC14
@@ -4100,6 +4218,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC14)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC14)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC14)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC14)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC14)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC15
@@ -4166,6 +4286,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC15)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC15)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC15)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC15)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC15)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC16
@@ -4232,6 +4354,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC16)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC16)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC16)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC16)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC16)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MEGA
@@ -4298,6 +4422,8 @@ begin
   DO_mobjinfo[Ord(MT_MEGA)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MEGA)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MEGA)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MEGA)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MEGA)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_CLIP
@@ -4364,6 +4490,8 @@ begin
   DO_mobjinfo[Ord(MT_CLIP)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_CLIP)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_CLIP)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_CLIP)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_CLIP)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC17
@@ -4430,6 +4558,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC17)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC17)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC17)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC17)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC17)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC18
@@ -4496,6 +4626,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC18)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC18)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC18)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC18)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC18)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC19
@@ -4562,6 +4694,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC19)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC19)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC19)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC19)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC19)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC20
@@ -4628,6 +4762,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC20)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC20)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC20)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC20)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC20)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC21
@@ -4694,6 +4830,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC21)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC21)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC21)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC21)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC21)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC22
@@ -4760,6 +4898,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC22)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC22)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC22)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC22)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC22)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC23
@@ -4826,6 +4966,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC23)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC23)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC23)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC23)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC23)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC24
@@ -4892,6 +5034,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC24)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC24)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC24)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC24)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC24)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC25
@@ -4958,6 +5102,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC25)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC25)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC25)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC25)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC25)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_CHAINGUN
@@ -5024,6 +5170,8 @@ begin
   DO_mobjinfo[Ord(MT_CHAINGUN)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_CHAINGUN)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_CHAINGUN)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_CHAINGUN)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_CHAINGUN)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC26
@@ -5090,6 +5238,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC26)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC26)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC26)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC26)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC26)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC27
@@ -5156,6 +5306,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC27)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC27)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC27)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC27)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC27)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC28
@@ -5222,6 +5374,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC28)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC28)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC28)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC28)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC28)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SHOTGUN
@@ -5288,6 +5442,8 @@ begin
   DO_mobjinfo[Ord(MT_SHOTGUN)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SHOTGUN)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SHOTGUN)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SHOTGUN)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SHOTGUN)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SUPERSHOTGUN
@@ -5354,6 +5510,8 @@ begin
   DO_mobjinfo[Ord(MT_SUPERSHOTGUN)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SUPERSHOTGUN)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SUPERSHOTGUN)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SUPERSHOTGUN)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SUPERSHOTGUN)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC29
@@ -5420,6 +5578,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC29)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC29)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC29)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC29)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC29)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC30
@@ -5486,6 +5646,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC30)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC30)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC30)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC30)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC30)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC31
@@ -5552,6 +5714,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC31)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC31)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC31)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC31)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC31)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC32
@@ -5618,6 +5782,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC32)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC32)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC32)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC32)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC32)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC33
@@ -5684,6 +5850,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC33)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC33)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC33)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC33)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC33)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC34
@@ -5750,6 +5918,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC34)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC34)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC34)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC34)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC34)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC35
@@ -5816,6 +5986,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC35)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC35)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC35)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC35)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC35)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC36
@@ -5882,6 +6054,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC36)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC36)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC36)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC36)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC36)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC37
@@ -5948,6 +6122,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC37)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC37)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC37)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC37)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC37)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC38
@@ -6014,6 +6190,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC38)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC38)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC38)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC38)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC38)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC39
@@ -6080,6 +6258,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC39)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC39)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC39)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC39)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC39)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC40
@@ -6146,6 +6326,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC40)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC40)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC40)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC40)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC40)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC41
@@ -6212,6 +6394,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC41)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC41)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC41)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC41)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC41)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC42
@@ -6278,6 +6462,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC42)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC42)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC42)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC42)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC42)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC43
@@ -6344,6 +6530,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC43)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC43)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC43)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC43)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC43)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC44
@@ -6410,6 +6598,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC44)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC44)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC44)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC44)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC44)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC45
@@ -6476,6 +6666,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC45)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC45)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC45)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC45)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC45)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC46
@@ -6542,6 +6734,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC46)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC46)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC46)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC46)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC46)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC47
@@ -6608,6 +6802,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC47)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC47)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC47)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC47)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC47)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC48
@@ -6674,6 +6870,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC48)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC48)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC48)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC48)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC48)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC49
@@ -6740,6 +6938,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC49)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC49)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC49)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC49)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC49)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC50
@@ -6806,6 +7006,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC50)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC50)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC50)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC50)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC50)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC51
@@ -6872,6 +7074,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC51)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC51)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC51)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC51)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC51)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC52
@@ -6938,6 +7142,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC52)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC52)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC52)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC52)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC52)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC53
@@ -7004,6 +7210,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC53)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC53)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC53)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC53)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC53)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC54
@@ -7070,6 +7278,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC54)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC54)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC54)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC54)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC54)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC55
@@ -7136,6 +7346,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC55)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC55)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC55)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC55)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC55)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC56
@@ -7202,6 +7414,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC56)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC56)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC56)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC56)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC56)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC57
@@ -7268,6 +7482,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC57)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC57)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC57)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC57)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC57)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC58
@@ -7334,6 +7550,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC58)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC58)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC58)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC58)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC58)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC59
@@ -7400,6 +7618,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC59)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC59)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC59)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC59)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC59)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC60
@@ -7466,6 +7686,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC60)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC60)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC60)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC60)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC60)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC61
@@ -7532,6 +7754,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC61)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC61)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC61)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC61)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC61)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC62
@@ -7598,6 +7822,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC62)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC62)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC62)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC62)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC62)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC63
@@ -7664,6 +7890,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC63)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC63)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC63)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC63)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC63)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC64
@@ -7730,6 +7958,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC64)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC64)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC64)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC64)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC64)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC65
@@ -7796,6 +8026,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC65)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC65)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC65)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC65)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC65)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC66
@@ -7862,6 +8094,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC66)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC66)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC66)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC66)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC66)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC67
@@ -7928,6 +8162,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC67)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC67)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC67)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC67)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC67)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC68
@@ -7994,6 +8230,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC68)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC68)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC68)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC68)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC68)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC69
@@ -8060,6 +8298,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC69)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC69)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC69)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC69)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC69)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC70
@@ -8126,6 +8366,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC70)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC70)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC70)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC70)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC70)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC71
@@ -8192,6 +8434,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC71)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC71)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC71)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC71)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC71)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC72
@@ -8258,6 +8502,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC72)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC72)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC72)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC72)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC72)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC73
@@ -8324,6 +8570,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC73)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC73)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC73)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC73)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC73)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC74
@@ -8390,6 +8638,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC74)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC74)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC74)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC74)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC74)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC75
@@ -8456,6 +8706,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC75)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC75)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC75)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC75)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC75)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC76
@@ -8522,6 +8774,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC76)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC76)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC76)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC76)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC76)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC77
@@ -8588,6 +8842,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC77)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC77)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC77)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC77)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC77)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC78
@@ -8654,6 +8910,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC78)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC78)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC78)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC78)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC78)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC79
@@ -8720,6 +8978,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC79)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC79)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC79)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC79)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC79)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC80
@@ -8786,6 +9046,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC80)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC80)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC80)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC80)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC80)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC81
@@ -8852,6 +9114,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC81)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC81)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC81)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC81)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC81)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC82
@@ -8918,6 +9182,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC82)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC82)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC82)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC82)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC82)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC83
@@ -8984,6 +9250,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC83)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC83)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC83)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC83)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC83)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC84
@@ -9050,6 +9318,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC84)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC84)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC84)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC84)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC84)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC85
@@ -9116,6 +9386,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC85)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC85)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC85)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC85)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC85)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_MISC86
@@ -9182,6 +9454,8 @@ begin
   DO_mobjinfo[Ord(MT_MISC86)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_MISC86)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_MISC86)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_MISC86)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_MISC86)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_PUSH
@@ -9248,6 +9522,8 @@ begin
   DO_mobjinfo[Ord(MT_PUSH)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_PUSH)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_PUSH)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_PUSH)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_PUSH)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_PULL
@@ -9314,6 +9590,8 @@ begin
   DO_mobjinfo[Ord(MT_PULL)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_PULL)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_PULL)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_PULL)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_PULL)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_DOGS
@@ -9380,6 +9658,8 @@ begin
   DO_mobjinfo[Ord(MT_DOGS)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_DOGS)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_DOGS)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_DOGS)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_DOGS)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_PLASMA1
@@ -9446,6 +9726,8 @@ begin
   DO_mobjinfo[Ord(MT_PLASMA1)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_PLASMA1)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_PLASMA1)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_PLASMA1)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_PLASMA1)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_PLASMA2
@@ -9512,6 +9794,8 @@ begin
   DO_mobjinfo[Ord(MT_PLASMA2)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_PLASMA2)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_PLASMA2)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_PLASMA2)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_PLASMA2)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_SCEPTRE
@@ -9578,6 +9862,8 @@ begin
   DO_mobjinfo[Ord(MT_SCEPTRE)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_SCEPTRE)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_SCEPTRE)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_SCEPTRE)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_SCEPTRE)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_BIBLE
@@ -9644,6 +9930,8 @@ begin
   DO_mobjinfo[Ord(MT_BIBLE)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_BIBLE)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_BIBLE)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_BIBLE)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_BIBLE)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // MT_NONE
@@ -9710,6 +9998,8 @@ begin
   DO_mobjinfo[Ord(MT_NONE)].maxtargetrange := 0;
   DO_mobjinfo[Ord(MT_NONE)].WeaveIndexXY := 0;
   DO_mobjinfo[Ord(MT_NONE)].WeaveIndexZ := 0;
+  DO_mobjinfo[Ord(MT_NONE)].spriteDX := 0;
+  DO_mobjinfo[Ord(MT_NONE)].spriteDY := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // states
