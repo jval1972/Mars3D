@@ -210,7 +210,7 @@ var
     doomlinedefs[l1].special := 293; // Fake flat for Water Portal
     doomlinedefs[l1].tag := sec.tag;
 
-    sec.floorheight := sec.floorheight - PUNDERWATERHEIGHT div FRACUNIT;
+    sec.floorheight := sec.floorheight - PUNDERWATERPORTALHEIGHT div FRACUNIT;
   end;
 
 begin
