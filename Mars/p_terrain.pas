@@ -56,7 +56,15 @@ type
   end;
 
 var
-  terraintypedefs: array[0..23] of terraintypedef_t = (
+  terraintypedefs: array[0..36] of terraintypedef_t = (
+    (name: 'BLOOD1'; _type: FLOOR_WATER),
+    (name: 'BLOOD2'; _type: FLOOR_WATER),
+    (name: 'BLOOD3'; _type: FLOOR_WATER),
+    (name: 'BLOOD4'; _type: FLOOR_WATER),
+    (name: 'BLOOD5'; _type: FLOOR_WATER),
+    (name: 'BLOOD6'; _type: FLOOR_WATER),
+    (name: 'BLOOD7'; _type: FLOOR_WATER),
+    (name: 'BLOOD8'; _type: FLOOR_WATER),
     (name: 'FWATER1'; _type: FLOOR_WATER),
     (name: 'FWATER2'; _type: FLOOR_WATER),
     (name: 'FWATER3'; _type: FLOOR_WATER),
@@ -80,6 +88,11 @@ var
     (name: 'NUKAGE1'; _type: FLOOR_NUKAGE),
     (name: 'NUKAGE2'; _type: FLOOR_NUKAGE),
     (name: 'NUKAGE3'; _type: FLOOR_NUKAGE),
+    (name: 'NUKAGE4'; _type: FLOOR_NUKAGE),
+    (name: 'NUKAGE5'; _type: FLOOR_NUKAGE),
+    (name: 'NUKAGE6'; _type: FLOOR_NUKAGE),
+    (name: 'NUKAGE7'; _type: FLOOR_NUKAGE),
+    (name: 'NUKAGE8'; _type: FLOOR_NUKAGE),
     (name: 'END'; _type: -1)
   );
 
