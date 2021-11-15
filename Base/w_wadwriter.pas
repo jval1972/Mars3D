@@ -90,9 +90,14 @@ procedure TWadWriter.AddData(const lumpname: string; const data: pointer; const 
 var
   m: TDMemoryStream;
 begin
-  m := TDMemoryStream.Create;
-  m.Write(data^, size);
-  lumps.AddObject(strupper(lumpname), m);
+  if (data = nil) or (size = 0) then
+    AddSeparator(lumpname)
+  else
+  begin
+    m := TDMemoryStream.Create;
+    m.Write(data^, size);
+    lumps.AddObject(strupper(lumpname), m);
+  end;
 end;
 
 procedure TWadWriter.AddFile(const lumpname: string; const fname: string);
