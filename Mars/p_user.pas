@@ -77,6 +77,7 @@ uses
   p_spec,
   p_map,
   p_maputl,
+  p_underwater,
   r_main,
   r_defs,
   sounds,
@@ -166,8 +167,10 @@ begin
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT - player.crouchheight;
 
-    if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
-      player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+    if player.viewz > player.mo.ceilingz - NEARVIEWZ then
+      player.viewz := player.mo.ceilingz - NEARVIEWZ;
+    if player.viewz < player.mo.floorz + NEARVIEWZ then
+      player.viewz := player.mo.floorz + NEARVIEWZ;
 
 //    player.viewz := player.mo.z + player.viewheight;  JVAL removed!
     exit;
@@ -214,10 +217,10 @@ begin
      (player.mo.z <= player.mo.floorz) then
     player.viewz := player.viewz - player.mo.floorclip;
 
-  if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
-    player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
-  if player.viewz < player.mo.floorz + 4 * FRACUNIT then
-    player.viewz := player.mo.floorz + 4 * FRACUNIT;
+  if player.viewz > player.mo.ceilingz - NEARVIEWZ then
+    player.viewz := player.mo.ceilingz - NEARVIEWZ;
+  if player.viewz < player.mo.floorz + NEARVIEWZ then
+    player.viewz := player.mo.floorz + NEARVIEWZ;
 
   {$IFDEF DEBUG}
   printf('leveltime=%5d,viewz=%6d,viewheight=%6d,viewbob=%6d,deltaviewheight=%6d,crouchheight=%6d,z=%6d'#13#10, [
@@ -388,7 +391,10 @@ var
   look2: integer;
   fly: integer; // JVAL: 20211109 - Fly (Jet pack)
   onair: boolean; // JVAL: 20211109 - Fly (Jet pack)
+  onwater: boolean; // JVAL: 20211116 - Swimming mode (Underwater sectors)
   movefactor: fixed_t;
+  an: angle_t;
+  xyspeed: fixed_t;
 begin
   cmd := @player.cmd;
 
@@ -406,15 +412,19 @@ begin
     player.lastongroundtime := leveltime; // JVAL: 20211101 - Crouch
 
   onair := (player.cheats and CF_LOWGRAVITY <> 0) or (player.mo.flags4_ex and MF4_EX_FLY <> 0); // JVAL: 20211109 - Fly (Jet pack)
+  onwater := player.mo.flags4_ex and MF4_EX_SWIM <> 0; // JVAL: 20211109 - Swim mode (Underwater sectors)
   // villsa [STRIFE] allows player to climb over things by jumping
   // haleyjd 20110205: air control thrust should be 256, not cmd.forwardmove
-  if (G_PlayingEngineVersion >= VERSION121) and not onground and not onair and (cmd.forwardmove <> 0) then  // JVAL: 20211109 - Fly (Jet pack)
+  if (G_PlayingEngineVersion >= VERSION121) and not onground and not onair and not onwater and (cmd.forwardmove <> 0) then  // JVAL: 20211109 - Fly (Jet pack)
   begin
     P_Thrust(player, player.mo.angle, 256);
   end
   else
   begin
-    movefactor := ORIG_FRICTION_FACTOR;
+    if onwater then
+      movefactor := SWIM_FRICTION_FACTOR  // JVAL: 20211109 - Swim mode (Underwater sectors)
+    else
+      movefactor := ORIG_FRICTION_FACTOR;
 
     if player.cheats and CF_LOWGRAVITY = 0 then
       if G_PlayingEngineVersion >= VERSION120 then
@@ -426,11 +436,13 @@ begin
       movefactor := FixedMul(FixedDiv(CROUCH_FRICTION_FACTOR, ORIG_FRICTION_FACTOR), movefactor);
 
     if onair or // JVAL: 20211109 - Fly (Jet pack)
+       onwater or // JVAL: 20211109 - Swim mode (Underwater sectors)
       ((cmd.forwardmove <> 0) and
        (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
       P_Thrust(player, player.mo.angle, cmd.forwardmove * movefactor);
 
     if onair or // JVAL: 20211109 - Fly (Jet pack)
+       onwater or // JVAL: 20211109 - Swim mode (Underwater sectors)
       ((cmd.sidemove <> 0) and
        (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
       P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * movefactor);
@@ -439,21 +451,60 @@ begin
   if G_PlayingEngineVersion >= VERSION115 then
   begin
     // JVAL: Adjust speed while flying
-    if onair and (player.mo.z > player.mo.floorz) then  // JVAL: 20211109 - Fly (Jet pack)
+    if onair and not onwater and (player.mo.z > player.mo.floorz) then  // JVAL: 20211109 - Fly (Jet pack)
     begin
-      if player.mo.momx > 18 * FRACUNIT then
-        player.mo.momx := 18 * FRACUNIT
-      else if player.mo.momx < -18 * FRACUNIT then
-        player.mo.momx := -18 * FRACUNIT;
-      if player.mo.momy > 18 * FRACUNIT then
-        player.mo.momy := 18 * FRACUNIT
-      else if player.mo.momy < -18 * FRACUNIT then
-        player.mo.momy := -18 * FRACUNIT;
+      if player.mo.momx > MAX_PLAYERAIRMOVE then
+        player.mo.momx := MAX_PLAYERAIRMOVE
+      else if player.mo.momx < -MAX_PLAYERAIRMOVE then
+        player.mo.momx := -MAX_PLAYERAIRMOVE;
+      if player.mo.momy > MAX_PLAYERAIRMOVE then
+        player.mo.momy := MAX_PLAYERAIRMOVE
+      else if player.mo.momy < -MAX_PLAYERAIRMOVE then
+        player.mo.momy := -MAX_PLAYERAIRMOVE;
 
       if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
       begin
         player.mo.momx := player.mo.momx * 15 div 16;
         player.mo.momy := player.mo.momy * 15 div 16;
+      end;
+    end
+    else if onwater then
+    begin
+      if cmd.swim <> 0 then
+        player.mo.momz := player.mo.momz + cmd.swim * FRACUNIT; // JVAL: 20211116 - Swim mode (Underwater sectors)
+
+      if player.mo.momz > MAX_PLAYERSWIMZMOVE then
+        player.mo.momz := MAX_PLAYERSWIMZMOVE
+      else if player.mo.momz < -MAX_PLAYERSWIMZMOVE then
+        player.mo.momz := -MAX_PLAYERSWIMZMOVE;
+
+      if player.mo.z > player.mo.floorz then  // JVAL: 20211116 - Swim mode (Underwater sectors)
+      begin
+        if player.mo.momx > MAX_PLAYERSWIMMOVE then
+          player.mo.momx := MAX_PLAYERSWIMMOVE
+        else if player.mo.momx < -MAX_PLAYERSWIMMOVE then
+          player.mo.momx := -MAX_PLAYERSWIMMOVE;
+        if player.mo.momy > MAX_PLAYERSWIMMOVE then
+          player.mo.momy := MAX_PLAYERSWIMMOVE
+        else if player.mo.momy < -MAX_PLAYERSWIMMOVE then
+          player.mo.momy := -MAX_PLAYERSWIMMOVE;
+      end
+      else
+      begin
+        if player.mo.momx > MAX_PLAYERWATERMOVE then
+          player.mo.momx := MAX_PLAYERWATERMOVE
+        else if player.mo.momx < -MAX_PLAYERWATERMOVE then
+          player.mo.momx := -MAX_PLAYERWATERMOVE;
+        if player.mo.momy > MAX_PLAYERWATERMOVE then
+          player.mo.momy := MAX_PLAYERWATERMOVE
+        else if player.mo.momy < -MAX_PLAYERWATERMOVE then
+          player.mo.momy := -MAX_PLAYERWATERMOVE;
+      end;
+
+      if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
+      begin
+        player.mo.momx := player.mo.momx * 11 div 12;
+        player.mo.momy := player.mo.momy * 11 div 12;
       end;
     end
     else if (G_PlayingEngineVersion >= VERSION205) and (player.mo.flags2_ex and MF2_EX_ONMOBJ <> 0) then
@@ -561,6 +612,23 @@ begin
     end;
   end;
 
+  // JVAL: 20211116 - z momentum by forward/backward move when flying or swimming (algorithm from RAD)
+  player.mo.momz :=  player.mo.momz - player.thrustmomz;
+  player.thrustmomz := 0;
+
+  player.mo.momz := player.mo.momz * 15 div 16;
+
+  if player.lookdir16 <> 0 then
+  begin
+    an := (R_PointToAngle2(0, 0, player.mo.momx, player.mo.momy) - player.mo.angle) shr FRACBITS;
+    xyspeed := FixedMul(FixedSqrt(FixedMul(player.mo.momx, player.mo.momx) + FixedMul(player.mo.momy, player.mo.momy)), fixedcosine[an]);
+    if xyspeed <> 0 then
+    begin
+      player.thrustmomz := ((xyspeed div 16) * player.lookdir16) div 256; //ORIG_FRICTION_FACTOR;
+      player.mo.momz :=  player.mo.momz + player.thrustmomz;
+    end;
+  end;
+
   if not G_NeedsCompatibilityMode then
   begin
   // JVAL Look LEFT and RIGHT
@@ -609,6 +677,8 @@ begin
       // JVAL: 20211101 - Crouch
       if cmd.crouch > 0 then
         player.mo.momz := 4 * FRACUNIT
+      else if Psubsector_t(player.mo.subsector).sector.special = 14 then  // JVAL: Underwater portal sector
+        player.mo.momz := 12 * FRACUNIT
       else
         player.mo.momz := 8 * FRACUNIT;
     end;
@@ -873,6 +943,9 @@ begin
   if sec.midsec >= 0 then
     if sectors[sec.midsec].special <> 0 then
       P_PlayerInSpecialSector(player, @sectors[sec.midsec], sectors[sec.midsec].ceilingheight);  // JVAL: 3d Floors
+
+  // JVAL: Check water portal (MARS)
+  P_CheckPlayerWaterSector(player);
 
   // Check for weapon change.
 

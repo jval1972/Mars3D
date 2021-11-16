@@ -1535,7 +1535,6 @@ var
   pss: Psubsector_t;
   seg: Pseg_t;
   vanillaseg: Pvanillaseg_t;
-  bbox: array[0..3] of fixed_t;
   block: integer;
 begin
   // look up sector number for each subsector - vanilla nodes
@@ -1614,7 +1613,7 @@ begin
   sector := @sectors[0];
   for i := 0 to numsectors - 1 do
   begin
-    M_ClearBox(@bbox);
+    M_ClearBox(@sector.bbox);
     sector.lines := linebuffer;
     li := @lines[0];
     for j := 0 to numlines - 1 do
@@ -1623,8 +1622,8 @@ begin
       begin
         linebuffer[0] := li;
         linebuffer := @linebuffer[1];
-        M_AddToBox(@bbox, li.v1.x, li.v1.y);
-        M_AddToBox(@bbox, li.v2.x, li.v2.y);
+        M_AddToBox(@sector.bbox, li.v1.x, li.v1.y);
+        M_AddToBox(@sector.bbox, li.v2.x, li.v2.y);
       end;
       inc(li);
     end;
@@ -1634,44 +1633,44 @@ begin
     // set the degenmobj_t to the middle of the bounding box
     if largemap then
     begin
-      sector.soundorg.x := bbox[BOXRIGHT] div 2 + bbox[BOXLEFT] div 2;
-      sector.soundorg.y := bbox[BOXTOP] div 2 + bbox[BOXBOTTOM] div 2;
+      sector.soundorg.x := sector.bbox[BOXRIGHT] div 2 + sector.bbox[BOXLEFT] div 2;
+      sector.soundorg.y := sector.bbox[BOXTOP] div 2 + sector.bbox[BOXBOTTOM] div 2;
     end
     else
     begin
-      sector.soundorg.x := (bbox[BOXRIGHT] + bbox[BOXLEFT]) div 2;
-      sector.soundorg.y := (bbox[BOXTOP] + bbox[BOXBOTTOM]) div 2;
+      sector.soundorg.x := (sector.bbox[BOXRIGHT] + sector.bbox[BOXLEFT]) div 2;
+      sector.soundorg.y := (sector.bbox[BOXTOP] + sector.bbox[BOXBOTTOM]) div 2;
     end;
 
     // adjust bounding box to map blocks
     if internalblockmapformat then
-      block := MapBlockIntY(int64(bbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS)
+      block := MapBlockIntY(int64(sector.bbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS)
     else
-      block := MapBlockInt(bbox[BOXTOP] - bmaporgy + MAXRADIUS);
+      block := MapBlockInt(sector.bbox[BOXTOP] - bmaporgy + MAXRADIUS);
     if block >= bmapheight then
       block  := bmapheight - 1;
     sector.blockbox[BOXTOP] := block;
 
     if internalblockmapformat then
-      block := MapBlockIntY(int64(bbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS)
+      block := MapBlockIntY(int64(sector.bbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS)
     else
-      block := MapBlockInt(bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
+      block := MapBlockInt(sector.bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
     if block < 0 then
       block  := 0;
     sector.blockbox[BOXBOTTOM] := block;
 
     if internalblockmapformat then
-      block := MapBlockIntX(int64(bbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS)
+      block := MapBlockIntX(int64(sector.bbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS)
     else
-      block := MapBlockInt(bbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
+      block := MapBlockInt(sector.bbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
     if block >= bmapwidth then
       block := bmapwidth - 1;
     sector.blockbox[BOXRIGHT] := block;
 
     if internalblockmapformat then
-      block := MapBlockIntX(int64(bbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS)
+      block := MapBlockIntX(int64(sector.bbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS)
     else
-      block := MapBlockInt(bbox[BOXLEFT] - bmaporgx - MAXRADIUS);
+      block := MapBlockInt(sector.bbox[BOXLEFT] - bmaporgx - MAXRADIUS);
     if block < 0 then
       block := 0;
     sector.blockbox[BOXLEFT] := block;

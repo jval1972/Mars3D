@@ -252,6 +252,7 @@ const
   STOPSPEED = $1000;
   FRICTION = $e800;
   FRICTION_FLY = $eb00; // JVAL: 20211109 - Fly (Jet pack)
+  FRICTION_SWIM = $d800; // JVAL: 20211116 - Swimming mode (Underwater sectors)
 
 procedure P_XYMovement(mo: Pmobj_t);
 var
@@ -296,6 +297,14 @@ begin
       mo.momy := MAXMOVE
     else if mo.momy < -MAXMOVE then
       mo.momy := -MAXMOVE;
+
+  end;
+
+  // JVAL: 20211116 - Swimming mode (Underwater sectors)
+  if mo.flags4_ex and MF4_EX_SWIM <> 0 then
+  begin
+//    mo.momx := mo.momx div 2;
+//    mo.momy := mo.momy div 2;
   end;
 
   xmove := mo.momx;
@@ -456,6 +465,12 @@ begin
       mo.momx := FixedMul(mo.momx, FRICTION_FLY);
       mo.momy := FixedMul(mo.momy, FRICTION_FLY);
     end
+    else if (mo.flags4_ex and MF4_EX_SWIM <> 0) and (mo.z > mo.floorz) and  // JVAL: 20211115 - Swimming mode (Underwater sectors)
+       (mo.flags2_ex and MF2_EX_ONMOBJ = 0) then
+    begin
+      mo.momx := FixedMul(mo.momx, FRICTION_SWIM);
+      mo.momy := FixedMul(mo.momy, FRICTION_SWIM);
+    end
     else
     begin
       mo.momx := FixedMul(mo.momx, FRICTION);
@@ -527,8 +542,30 @@ begin
     end;
   end;
 
-  if (player <> nil) and (mo.flags4_ex and MF4_EX_FLY <> 0) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then  // JVAL: 20211109 - Fly (Jet pack)
-    mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 4) and FINEMASK];
+  if player <> nil then
+  begin
+    if (mo.flags4_ex and (MF4_EX_FLY or MF4_EX_SWIM) = MF4_EX_FLY) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then // JVAL: 20211109 - Fly (Jet pack)
+      mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 4) and FINEMASK]
+    else if (mo.flags4_ex and MF4_EX_SWIM <> 0) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then // JVAL: 20211116 - Swim mode (Underwater sectors)
+      mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 8) and FINEMASK] div 4;
+
+    // Z friction while swimming 
+    if mo.flags4_ex and MF4_EX_SWIM <> 0 then
+    begin
+      if mo.momz > 0 then
+      begin
+        mo.momz := mo.momz - FRACUNIT div 16;
+        if mo.momz < 0 then
+          mo.momz := 0;
+      end
+      else if mo.momz < 0 then
+      begin
+        mo.momz := mo.momz + FRACUNIT div 16;
+        if mo.momz > 0 then
+          mo.momz := 0;
+      end;
+    end;
+  end;
 
   // clip movement
   if mo.z <= mo.floorz then

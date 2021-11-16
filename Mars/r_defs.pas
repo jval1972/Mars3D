@@ -221,6 +221,7 @@ type
     floorvisslope: integer;
     ceilingvisslope: integer;
 {$ENDIF}
+    bbox: array[0..3] of integer; // JVAL: Bounding box of sector (MARS)
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;

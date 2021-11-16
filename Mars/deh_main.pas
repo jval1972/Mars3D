@@ -2096,6 +2096,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_POISONDAMAGE');  // JVAL: 20211115 - POISON DAMAGE (Mars)
   mobj_flags4_ex.Add('MF4_EX_NOPOISONDAMAGE');
   mobj_flags4_ex.Add('MF4_EX_POISONDAMAGERESIST');
+  mobj_flags4_ex.Add('MF4_EX_SWIM');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);

@@ -61,6 +61,7 @@ type
     jump: byte;           // JVAL Jump!
     crouch: byte;         // JVAL: 20211101 - Crouch
     fly: byte;            // JVAL: 20211109 - Fly (Jet pack)
+    swim: ShortInt;       // JVAL: 20211116 - Swim (Underwater sectors)
     lookupdown16: word;   // JVAL Smooth Look Up/Down
   end;
   Pticcmd_t = ^ticcmd_t;

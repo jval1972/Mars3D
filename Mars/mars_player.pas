@@ -91,8 +91,17 @@ begin
   else
   begin
     if player.jetpacksoundtic > leveltime then
+    begin
       S_StopSound(@player.jetpacksoundorg);
+    end;
   end;
+
+  if player.mo.z <= player.mo.floorz then
+    if player.jetpacksoundtic <= leveltime then
+    begin
+      player.mo.flags4_ex := player.mo.flags4_ex and not MF4_EX_FLY;
+      player.mo.flags := player.mo.flags and not MF_NOGRAVITY;
+    end;
 end;
 
 end.

@@ -763,6 +763,14 @@ begin
     else
       cmd.crouch := 0;
     players[consoleplayer].oldcrouch := cmd.crouch;
+
+    // JVAL: 20211116 - Swim (Underwater sectors)
+    // The swim cmd is build by a compination of jump & crouch
+    cmd.swim := 0;
+    if gamekeydown[key_jump] or (usejoystick and joybuttons[joybjump]) then
+      cmd.swim := cmd.swim + 1;
+    if gamekeydown[key_crouch] or (usejoystick and joybuttons[joybcrouch]) then
+      cmd.swim := cmd.swim - 1;
   end;
 
   // special buttons

@@ -36,6 +36,7 @@ unit p_underwater;
 interface
 
 uses
+  d_player,
   m_fixed,
   p_mobj_h;
 
@@ -46,6 +47,8 @@ procedure P_ResolveSwimmSurface(const thing: Pmobj_t);
 function P_ResolveSwimmFloorHeight(const thing: Pmobj_t; const oldfloorz: fixed_t): fixed_t;
 
 procedure P_GlobalAdjustSwimming;
+
+procedure P_CheckPlayerWaterSector(const p: Pplayer_t);
 
 const
   UNDERWATER_COLORMAP = 'WATERMAP';
@@ -60,12 +63,24 @@ const
 implementation
 
 uses
+  doomdef,
   d_think,
+  info_common,
+  info_rnd,
+  m_bbox,
+  p_3dfloors,
   p_common,
+  p_local,
+  p_inter,
+  p_map,
+  p_maputl,
   p_mobj,
   p_setup,
+  p_slopes,
   p_tick,
-  r_defs;
+  r_defs,
+  r_intrpl,
+  r_main;
 
 procedure P_RecursiveUnderwaterSector(const sec: Psector_t);
 var
@@ -168,6 +183,258 @@ begin
     end;
     th := th.next;
   end;
+end;
+
+//
+// PIT_CheckWaterPortalThing
+//
+function PIT_CheckWaterPortalThing(thing: Pmobj_t): boolean;
+var
+  blockdist: fixed_t;
+begin
+// Can't shoot it? Can't stomp it!
+  if thing.flags and MF_SHOOTABLE = 0 then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // JVAL: 20210209 - MF3_EX_THRUACTORS flag - does not colide with actors
+  if (tmthing.flags3_ex and MF3_EX_THRUACTORS <> 0) or (thing.flags3_ex and MF3_EX_THRUACTORS <> 0) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // JVAL: 20211031 - MF4_EX_THRUMONSTERS flag - does not colide with monsters
+  if (tmthing.flags4_ex and MF4_EX_THRUMONSTERS <> 0) and Info_IsMonster(thing._type) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // JVAL: 20211031 - MF4_EX_THRUMONSTERS flag - does not colide with monsters
+  if (thing.flags4_ex and MF4_EX_THRUMONSTERS <> 0) and Info_IsMonster(tmthing._type) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // JVAL: 20210209 - MF3_EX_THRUSPECIES flag - does not colide with same species (also inheritance)
+  if tmthing.flags3_ex and MF3_EX_THRUSPECIES <> 0 then
+  begin
+    if tmthing._type = thing._type then
+    begin
+      result := true;
+      exit;
+    end;
+    if Info_GetInheritance(tmthing.info) = Info_GetInheritance(thing.info) then
+    begin
+      result := true;
+      exit;
+    end;
+  end;
+
+  blockdist := thing.radius + tmthing.radius;
+
+  if (abs(thing.x - tmx) >= blockdist) or (abs(thing.y - tmy) >= blockdist) then
+  begin
+    // didn't hit it
+    result := true;
+    exit;
+  end;
+
+  // don't clip against self
+  if thing = tmthing then
+  begin
+    result := true;
+    exit;
+  end;
+
+  P_DamageMobj(thing, tmthing, tmthing, 10000);
+
+  result := true;
+end;
+
+//
+// P_WaterPortalMove
+//
+function P_WaterPortalMove(thing: Pmobj_t; newsec: Psector_t; x, y, z: fixed_t): boolean;
+var
+  xl: integer;
+  xh: integer;
+  yl: integer;
+  yh: integer;
+  bx: integer;
+  by: integer;
+  r: fixed_t;
+begin
+  // kill anything occupying the position
+  tmthing := thing;
+
+  tmx := x;
+  tmy := y;
+
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
+
+  ceilingline := nil;
+
+  // The base floor/ceiling is from the subsector
+  // that contains the point.
+  // Any contacted lines the step closer together
+  // will adjust them.
+  //**tmdropoffz := newsubsec.sector.floorheight;
+  tmdropoffz := P_FloorHeight(newsec, x, y); // JVAL: Slopes
+  tmdropoffz := P_ResolveSwimmFloorHeight(thing, tmdropoffz);
+  tmfloorz := tmdropoffz;
+
+  //**tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector);
+  tmceilingz := P_CeilingHeight(newsec, x, y) + P_SectorJumpOverhead(newsec);  // JVAL: Slopes
+  tmfloorpic := newsec.floorpic;
+
+  inc(validcount);
+  numspechit := 0;
+
+  // stomp on any things contacted
+  if internalblockmapformat then
+  begin
+    xl := MapBlockIntX(int64(tmbbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
+    xh := MapBlockIntX(int64(tmbbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
+    yl := MapBlockIntY(int64(tmbbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
+    yh := MapBlockIntY(int64(tmbbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
+  end
+  else
+  begin
+    xl := MapBlockInt(tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS);
+    xh := MapBlockInt(tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
+    yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
+    yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy + MAXRADIUS);
+  end;
+
+  for bx := xl to xh do
+    for by := yl to yh do
+      if not P_BlockThingsIterator(bx, by, PIT_CheckWaterPortalThing) then
+      begin
+        result := false;
+        exit;
+      end;
+
+  // the move is ok,
+  // so link the thing into its new position
+  P_UnsetThingPosition(thing);
+
+  thing.floorz := tmfloorz;
+  thing.ceilingz := tmceilingz;
+  thing.x := x;
+  thing.y := y;
+  thing.z := z;
+
+  P_SetThingPosition(thing);
+  P_ResolveSwimmSurface(thing);
+
+  // JVAL: 20200507 - Do not report false velocity
+  thing.oldx := thing.x;
+  thing.oldy := thing.y;
+  thing.oldz := thing.z;
+
+  thing.soundorg1.x := thing.x;
+  thing.soundorg1.y := thing.y;
+  thing.soundorg1.z := thing.z;
+
+  if thing.player = viewplayer then
+    R_SetInterpolateSkipTicks(1);
+
+  thing.flags := thing.flags or MF_JUSTAPPEARED;
+  thing.intrplcnt := 0;
+
+  result := true;
+end;
+
+procedure P_PlayerSwimFlag(const p: Pplayer_t);
+begin
+  if Psubsector_t(p.mo.subsector).sector.renderflags and SRF_UNDERWATER <> 0 then
+    p.mo.flags4_ex := p.mo.flags4_ex or MF4_EX_SWIM
+  else
+    p.mo.flags4_ex := p.mo.flags4_ex and not MF4_EX_SWIM;
+end;
+
+procedure P_CheckPlayerWaterSector(const p: Pplayer_t);
+var
+  pmo: Pmobj_t;
+  sec1, sec2: Psector_t;
+  i: integer;
+  cheight: fixed_t;
+  newx, newy, newz: fixed_t;
+begin
+  pmo := p.mo;
+  if pmo = nil then
+    exit;
+
+  P_PlayerSwimFlag(p);
+
+  if p.nextunderwaterportaltic > leveltime then
+    exit; // not allowed to jump yet
+
+  sec1 := Psubsector_t(pmo.subsector).sector;
+  sec2 := nil;
+
+  if sec1.special = 14 then // Player is in upwater portal
+  begin
+    if p.viewz <= P_3DFloorHeight(pmo) + PUNDERWATERPORTALHEIGHT then
+      for i := 0 to numsectors - 1 do
+        if sectors[i].tag = sec1.tag then
+          if sectors[i].special = 10 then
+          begin
+            sec2 := @sectors[i];
+            break;
+          end;
+  end
+  else if sec1.special = 10 then // Player is in underwater portal
+  begin
+    cheight := P_3DCeilingHeight(pmo);
+    if (p.viewz >= cheight - PUNDERWATERSECTORCHEIGHT) or
+       (pmo.z + pmo.height >= cheight) then
+      for i := 0 to numsectors - 1 do
+        if sectors[i].tag = sec1.tag then
+          if sectors[i].special = 14 then
+          begin
+            sec2 := @sectors[i];
+            break;
+          end;
+  end;
+
+  if sec2 = nil then
+    exit; // No matching sector to move
+
+
+  newx := pmo.x - sec1.bbox[BOXLEFT] + sec2.bbox[BOXLEFT];
+  newy := pmo.y - sec1.bbox[BOXTOP] + sec2.bbox[BOXTOP];
+
+  if sec1.special = 14 then
+  // Player is upwater, newz is at the top of sec2
+    newz := P_CeilingHeight(sec2, newx, newy) - pmo.height
+  else
+  // Player is underwater, newz is at the bottom of sec2
+    newz := P_FloorHeight(sec2, newx, newy);
+
+  if not P_WaterPortalMove(pmo, sec2, newx, newy, newz) then
+    exit;
+
+  p.deltaviewheight := 0;
+  p.crouchheight := 0;
+
+  P_PlayerSwimFlag(p);
+
+  if pmo.flags4_ex and MF4_EX_SWIM <> 0 then
+    pmo.momz := - MAX_PLAYERSWIMZMOVE div 2
+  else
+    pmo.momz := MAX_PLAYERSWIMZMOVE div 2;
+
+  p.nextunderwaterportaltic := leveltime + TICRATE div 2;
 end;
 
 end.

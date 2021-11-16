@@ -1058,8 +1058,12 @@ begin
     end;
   end;
   if G_PlayingEngineVersion <= VERSION204 then
-    if (mo.player <> nil) and (mo.flags4_ex and MF4_EX_FLY <> 0) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then // JVAL: 20211109 - Fly (Jet pack)
-      mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 4) and FINEMASK];
+  begin
+    if (mo.player <> nil) and (mo.flags4_ex and (MF4_EX_FLY or MF4_EX_SWIM) = MF4_EX_FLY) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then // JVAL: 20211109 - Fly (Jet pack)
+      mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 4) and FINEMASK]
+    else if (mo.player <> nil) and (mo.flags4_ex and MF4_EX_SWIM <> 0) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then // JVAL: 20211116 - Swim mode (Underwater sectors)
+      mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 8) and FINEMASK] div 4;
+  end;
 
 //
 // clip movement

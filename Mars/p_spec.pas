@@ -549,6 +549,7 @@ const
   ORIG_FRICTION = $E800;          // original value
   ORIG_FRICTION_FACTOR = 2048;    // original value
   CROUCH_FRICTION_FACTOR = 1536;  // JVAL: 20211101 - Crouch
+  SWIM_FRICTION_FACTOR = 1024;    // JVAL: 20211116 - Swimming mode (Underwater sectors)
 
 procedure P_SpawnFriction;
 

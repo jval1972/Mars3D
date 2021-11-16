@@ -59,6 +59,8 @@ const
 // JVAL: 20211115 - Underwater sector ceiling critical point
   PUNDERWATERSECTORCHEIGHT = 4 * FRACUNIT;
 
+  NEARVIEWZ = 3 * FRACUNIT; // JVAL: Must be less than PUNDERWATERSECTORCHEIGHT
+
 // mapblocks are used to check movement
 // against lines and things
   MAPBLOCKUNITS = 128;
@@ -75,6 +77,10 @@ const
 
   GRAVITY = FRACUNIT;
   MAXMOVE = 30 * FRACUNIT;
+  MAX_PLAYERAIRMOVE = 18 * FRACUNIT; // JVAL: Fly mode (Mars)
+  MAX_PLAYERSWIMMOVE = 12 * FRACUNIT;  // JVAL: Swimming mode - Underwater sectors (Mars)
+  MAX_PLAYERSWIMZMOVE = 4 * FRACUNIT;  // JVAL: Swimming mode - Underwater sectors (Mars)
+  MAX_PLAYERWATERMOVE = 14 * FRACUNIT;  // JVAL: Swimming mode - Underwater sectors (Mars)
 
   USERANGEINT = 64;
   USERANGE = USERANGEINT * FRACUNIT;

@@ -423,6 +423,8 @@ const
   MF4_EX_NOPOISONDAMAGE = $200;
   // Half damage in poison damage
   MF4_EX_POISONDAMAGERESIST = $400;
+  // swimming mode is active
+  MF4_EX_SWIM = $800; // JVAL: 20211116 - Swimming mode (Underwater sectors)
 
 
 type
