@@ -59,6 +59,7 @@ var
   sprnames: PIntegerArray = nil;
   numsprites: integer = Ord(DO_NUMSPRITES);
   mobjinfo: PmobjinfoArray_t = nil;
+  pDO_mobjinfo: PmobjinfoArray_t = nil;
   nummobjtypes: integer = Ord(DO_NUMMOBJTYPES);
 
 procedure Info_Init(const usethinkers: boolean);
@@ -137,6 +138,7 @@ begin
   if init_buildin then
     exit;
 
+  pDO_mobjinfo := @DO_mobjinfo;
   ////////////////////////////////////////////////////////////////////////////////
   // DO_mobjinfo
   ////////////////////////////////////////////////////////////////////////////////
