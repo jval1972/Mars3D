@@ -79,7 +79,7 @@ begin
   player.jetpacksoundorg.x := player.mo.x;
   player.jetpacksoundorg.y := player.mo.y;
   player.jetpacksoundorg.z := player.mo.z;
-  needsjetsound := (player.mo.z > player.mo.floorz) and (player.mo.flags4_ex or MF4_EX_FLY <> 0);
+  needsjetsound := (player.mo.z > player.mo.floorz) and (player.mo.flags4_ex and MF4_EX_FLY <> 0);
   if needsjetsound then
   begin
     if player.jetpacksoundtic <= leveltime then
