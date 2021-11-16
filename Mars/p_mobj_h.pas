@@ -419,6 +419,10 @@ const
   MF4_EX_CANSWIMMONFAKESURFACE = $80; // JVAL: 20211115 - Underwater portal
   // Enemy causes poison damage
   MF4_EX_POISONDAMAGE = $100; // JVAL: 20211115 - POISON DAMAGE (Mars)
+  // No poison damage
+  MF4_EX_NOPOISONDAMAGE = $200;
+  // Half damage in poison damage
+  MF4_EX_POISONDAMAGERESIST = $400;
 
 
 type
