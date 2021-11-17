@@ -612,22 +612,27 @@ begin
     end;
   end;
 
-  // JVAL: 20211116 - z momentum by forward/backward move when flying or swimming (algorithm from RAD)
-  player.mo.momz :=  player.mo.momz - player.thrustmomz;
-  player.thrustmomz := 0;
-
-  player.mo.momz := player.mo.momz * 15 div 16;
-
-  if player.lookdir16 <> 0 then
+  if onair or onwater then
   begin
-    an := (R_PointToAngle2(0, 0, player.mo.momx, player.mo.momy) - player.mo.angle) shr FRACBITS;
-    xyspeed := FixedMul(FixedSqrt(FixedMul(player.mo.momx, player.mo.momx) + FixedMul(player.mo.momy, player.mo.momy)), fixedcosine[an]);
-    if xyspeed <> 0 then
+    // JVAL: 20211116 - z momentum by forward/backward move when flying or swimming (algorithm from RAD)
+    player.mo.momz :=  player.mo.momz - player.thrustmomz;
+    player.thrustmomz := 0;
+
+    player.mo.momz := player.mo.momz * 15 div 16;
+
+    if player.lookdir16 <> 0 then
     begin
-      player.thrustmomz := ((xyspeed div 16) * player.lookdir16) div 256; //ORIG_FRICTION_FACTOR;
-      player.mo.momz :=  player.mo.momz + player.thrustmomz;
+      an := (R_PointToAngle2(0, 0, player.mo.momx, player.mo.momy) - player.mo.angle) shr FRACBITS;
+      xyspeed := FixedMul(FixedSqrt(FixedMul(player.mo.momx, player.mo.momx) + FixedMul(player.mo.momy, player.mo.momy)), fixedcosine[an]);
+      if xyspeed <> 0 then
+      begin
+        player.thrustmomz := ((xyspeed div 16) * player.lookdir16) div 256; //ORIG_FRICTION_FACTOR;
+        player.mo.momz :=  player.mo.momz + player.thrustmomz;
+      end;
     end;
-  end;
+  end
+  else
+    player.thrustmomz := 0;
 
   if not G_NeedsCompatibilityMode then
   begin
