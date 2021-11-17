@@ -78,6 +78,7 @@ uses
   p_setup,
   p_slopes,
   p_tick,
+  p_user,
   r_defs,
   r_intrpl,
   r_main;
@@ -349,6 +350,10 @@ begin
     R_SetInterpolateSkipTicks(1);
 
   thing.flags := thing.flags or MF_JUSTAPPEARED;
+
+  if thing.player <> nil then
+    thing.flags4_ex := thing.flags4_ex and not MF4_EX_VIEWZCALCED;
+
   thing.intrplcnt := 0;
 
   result := true;
