@@ -60,6 +60,7 @@ const
   PUNDERWATERSECTORCHEIGHT = 4 * FRACUNIT;
 
   NEARVIEWZ = 3 * FRACUNIT; // JVAL: Must be less than PUNDERWATERSECTORCHEIGHT
+  VERYNEARVIEWZ = FRACUNIT div 2; // JVAL: 20211117 - Prevent underwater view when underwater portal not allowed
 
 // mapblocks are used to check movement
 // against lines and things

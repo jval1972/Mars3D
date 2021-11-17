@@ -437,7 +437,10 @@ begin
   if pmo.flags4_ex and MF4_EX_SWIM <> 0 then
     pmo.momz := - MAX_PLAYERSWIMZMOVE div 2
   else
+  begin
     pmo.momz := MAX_PLAYERSWIMZMOVE div 2;
+    p.deltaviewheight := pmo.momz;
+  end;
 
   p.nextunderwaterportaltic := leveltime + TICRATE div 2;
 end;
