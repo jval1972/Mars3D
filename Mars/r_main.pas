@@ -2673,6 +2673,9 @@ begin
   // new render validcount
   Inc(rendervalidcount);
 
+{$IFDEF  DEBUG}
+  printf('rendervalidcount=%6d,viewx=%7d,viewy=%7d,viewz=%7d'#13#10, [rendervalidcount,viewx, viewy, viewz]);
+{$ENDIF}
 {$IFNDEF OPENGL}
   MT_WaitTask(task_clearplanes);
   zbufferactive := r_uselightmaps;

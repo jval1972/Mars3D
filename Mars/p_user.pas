@@ -223,8 +223,8 @@ begin
     player.viewz := player.mo.floorz + NEARVIEWZ;
 
   {$IFDEF DEBUG}
-  printf('leveltime=%5d,viewz=%6d,viewheight=%6d,viewbob=%6d,deltaviewheight=%6d,crouchheight=%6d,z=%6d'#13#10, [
-    leveltime, player.viewz, player.viewheight, player.viewbob, player.deltaviewheight, player.crouchheight, player.mo.z]);
+  printf('leveltime=%5d,viewz=%6d,viewheight=%6d,viewbob=%6d,deltaviewheight=%6d,crouchheight=%6d,x=%6d,y=%6d,z=%6d'#13#10, [
+    leveltime, player.viewz, player.viewheight, player.viewbob, player.deltaviewheight, player.crouchheight, player.mo.x, player.mo.y, player.mo.z]);
   {$ENDIF}
 end;
 
