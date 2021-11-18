@@ -568,6 +568,54 @@ ACTOR "MT_MANWITHMASK" 43
 
 
 ///////////////////////////////
+// MT_CEILINGDEFENDER_SHOT
+///////////////////////////////
+ACTOR "MT_CEILINGDEFENDER_SHOT"
+{
+  Health 1000
+  Radius 14
+  Height 14
+  Speed 1310720
+  Damage 2
+  Mass 100
+  Reactiontime 8
+  Seesound "GUN2SHT"
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  +MF_EX_REDLIGHT
+  +DEFAULTTRANSPARENT
+  +MF3_EX_ABSOLUTEDAMAGE
+  States
+  {
+    Spawn:
+    {
+      GUNS A 1 BRIGHT
+      GUNS A 5 BRIGHT
+      TNT1 A 0 A_GlowLight "NONE"
+    SpawnLoop:
+      GUNS B 5 BRIGHT
+      GUNS A 5 BRIGHT
+      GoTo SpawnLoop
+    }
+    Death:
+    {
+      TNT1 A 0 A_SetScale(RANDOMPICK(9,10,11)/10)
+      TNT1 A 0 A_Jump(128, 2)
+      TNT1 A 0 A_FlipSprite
+      TNT1 A 0 A_PlayerHurtExplode(RANDOMPICK(1,2,3), 20)
+      GUNS C RANDOMRANGE(3,6) BRIGHT A_GlowLight "RED"
+      GUNS D RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      GUNS E RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      GUNS F RANDOMRANGE(3,6) BRIGHT A_FadeOut10
+      Stop
+    }
+  }
+}
+
+
+///////////////////////////////
 // MT_CEILINGDEFENDER
 ///////////////////////////////
 ACTOR MT_CEILINGDEFENDER 49
@@ -607,7 +655,7 @@ ACTOR MT_CEILINGDEFENDER 49
     Missile:
     {
       DEF2 B 3 A_FaceTarget
-      DEF2 C 3 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 3, -2)
+      DEF2 C 3 BRIGHT A_CustomMissile("MT_CEILINGDEFENDER_SHOT", 3, -2)
       TNT1 A 0 A_Jump(240, -2)
       Goto See
     }
