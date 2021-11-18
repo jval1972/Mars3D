@@ -21,7 +21,7 @@ ACTOR MT_UNKNOWN54 54
 
 ///////////////////////////////
 // MT_UNKNOWN35
-// Thinker, possible related with breakable glass
+// Thinker, possibly related with breakable glass
 ///////////////////////////////
 ACTOR MT_UNKNOWN35 35
 {
