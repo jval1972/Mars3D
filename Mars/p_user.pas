@@ -219,9 +219,16 @@ begin
 
   // JVAL: 20211117 - Prevent underwater view when underwater portal not allowed
   if player.nextunderwaterportaltic > leveltime then
+  begin
     if Psubsector_t(player.mo.subsector).sector.special = 14 then
       if player.viewz < player.mo.floorz + PUNDERWATERPORTALHEIGHT + VERYNEARVIEWZ then
         player.viewz := player.mo.floorz + PUNDERWATERPORTALHEIGHT + VERYNEARVIEWZ;
+    // JVAL: 20211118 - Prevent upwater view when underwater portal not allowed
+    // (actually this is prevented by the NEARVIEWZ, but in case that some consts are changed...
+    if Psubsector_t(player.mo.subsector).sector.special = 10 then
+      if player.viewz > player.mo.ceilingz - PUNDERWATERSECTORCHEIGHT - VERYNEARVIEWZ then
+        player.viewz := player.mo.ceilingz - PUNDERWATERSECTORCHEIGHT - VERYNEARVIEWZ;
+  end;
 
   if player.viewz > player.mo.ceilingz - NEARVIEWZ then
     player.viewz := player.mo.ceilingz - NEARVIEWZ;
