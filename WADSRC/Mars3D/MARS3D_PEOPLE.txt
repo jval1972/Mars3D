@@ -64,3 +64,37 @@ ACTOR MT_MALESCIENTIST 94
     }
   }
 }
+
+
+///////////////////////////////
+// MT_FEMALESCIENTIST
+///////////////////////////////
+ACTOR MT_FEMALESCIENTIST 95
+{
+  Health 50
+  Width 20
+  Height 56
+  Speed 8
+  Mass 80 // Females are lighter :)
+  Reactiontime 8
+  +MF_SOLID
+  +MF2_EX_INTERACTIVE
+  +MF2_EX_CANTLEAVEFLOORPIC
+  States
+  {
+    Spawn:
+    {
+      SISW A 10 
+      SISW B 10 
+      SISW C 10 
+      SISW D 10 A_Wander
+      Loop
+    }
+    Interact:
+    {
+      SISW A 10 A_FaceTarget
+      SISW A 10 A_Dialog("DIALOG_E1M2_A.txt")
+      GoTo Spawn
+    }
+  }
+}
