@@ -52,13 +52,14 @@ uses
   g_game;
 
 function P_GetMobjGravity(const mo: Pmobj_t): fixed_t;
+var
+  sec: Psector_t;
 begin
-  if G_PlayingEngineVersion > VERSION204 then
-    result := FixedMul(Psubsector_t(mo.subsector).sector.gravity, mo.gravity)
-  else if G_PlayingEngineVersion = VERSION204 then
-    result := Psubsector_t(mo.subsector).sector.gravity
+  sec := Psubsector_t(mo.subsector).sector;
+  if (mo.flags and MF_DROPPED <> 0) and (sec.renderflags and SRF_UNDERWATER <> 0) then
+    result := GRAVITY div 2
   else
-    result := GRAVITY;
+    result := FixedMul(sec.gravity, mo.gravity);
 end;
 
 function P_GetSectorGravity(const sec: Psector_t): fixed_t;
