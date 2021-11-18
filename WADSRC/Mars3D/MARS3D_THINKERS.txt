@@ -1,6 +1,6 @@
 ///////////////////////////////
 // MT_UNKNOWN54
-// Thinker, possible related with water ambient sound
+// Thinker, possibly related with water ambient sound or flat animation
 ///////////////////////////////
 ACTOR MT_UNKNOWN54 54
 {
