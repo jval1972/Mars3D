@@ -4239,7 +4239,7 @@ var
   sarg: string;
   offset: integer;
 begin
-  if not P_CheckStateParams(actor, 2) then
+  if not P_CheckStateParams(actor) then
     exit;
 
   if not actor.state.params.IsComputed[0] then
@@ -4261,9 +4261,29 @@ begin
   if not IsIntegerInRange(arg, 0, 4) then
     exit;
 
-  offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
-  if @states[offset] <> actor.state then
-    P_SetMobjState(actor, statenum_t(offset));
+  if actor.args[arg] = 0 then
+    Exit;
+
+  Dec(actor.args[arg]);
+  if actor.args[arg] = 0 then
+  begin
+    if actor.state.params.Count = 1 then
+      offset := -1
+    else
+      offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+    if offset = -1 then
+    begin
+      if actor.flags and MF_MISSILE <> 0 then
+      begin
+        P_ExplodeMissile(actor);
+        Exit;
+      end
+      else
+        offset := actor.info.deathstate;
+    end;
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
 end;
 
 //
