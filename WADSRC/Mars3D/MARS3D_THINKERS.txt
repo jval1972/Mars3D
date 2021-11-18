@@ -60,3 +60,24 @@ ACTOR MT_UNKNOWN36 36
   }
 }
 
+
+///////////////////////////////
+// MT_UNKNOWN2025
+// Thinker, possibly related with breakable glass
+///////////////////////////////
+ACTOR MT_UNKNOWN2025 2025
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  States
+  {
+    Spawn:
+    {
+      TNT1 A 1
+    }
+  }
+}
+
