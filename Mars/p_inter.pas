@@ -932,7 +932,7 @@ begin
     P_SpawnDroppedMobj(target.x, target.y, target.z, item)
   else if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors
   begin
-    zpos := P_3dFloorHeight(targer);
+    zpos := P_3dFloorHeight(target);
     P_SpawnDroppedMobj(target.x, target.y, zpos, item)
   end
   else
