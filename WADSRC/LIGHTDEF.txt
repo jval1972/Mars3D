@@ -899,3 +899,48 @@ object MT_ROCKETMISSILE
     frame MISEG { light ROCKETMISSILE_XG }
 }
 
+// MT_ROBOT_SHOT & MT_CEILINGDEFENDER_SHOT
+pulselight REDSHOT_LIGHT
+{
+    color 1.0 0.1 0.0 
+    size 32
+    secondarySize 40
+    interval 2.0
+}
+
+flickerlight REDSHOT_LIGHT_CD
+{
+    color 1.0 0.3 0.0 
+    size 32
+    secondarySize 40
+    chance 0.3
+}
+
+flickerlight REDSHOT_LIGHT_EF
+{
+    color 1.0 0.5 0.0 
+    size 24
+    secondarySize 32
+    chance 0.3
+}
+
+object MT_ROBOT_SHOT
+{
+    frame GUNSA { light REDSHOT_LIGHT    }
+    frame GUNSB { light REDSHOT_LIGHT    }
+    frame GUNSC { light REDSHOT_LIGHT_CD }
+    frame GUNSD { light REDSHOT_LIGHT_CD }
+    frame GUNSE { light REDSHOT_LIGHT_EF }
+    frame GUNSF { light REDSHOT_LIGHT_EF }
+}
+
+object MT_CEILINGDEFENDER_SHOT
+{
+    frame GUNSA { light REDSHOT_LIGHT    }
+    frame GUNSB { light REDSHOT_LIGHT    }
+    frame GUNSC { light REDSHOT_LIGHT_CD }
+    frame GUNSD { light REDSHOT_LIGHT_CD }
+    frame GUNSE { light REDSHOT_LIGHT_EF }
+    frame GUNSF { light REDSHOT_LIGHT_EF }
+}
+
