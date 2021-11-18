@@ -883,7 +883,7 @@ begin
     P_SetMobjState(target, statenum_t(target.info.xdeathstate))
   else
     P_SetMobjState(target, statenum_t(target.info.deathstate));
-  target.tics := target.tics - (P_Random and 3);
+  target.tics := target.tics - P_Random and 3;
 
   if target.tics < 1 then
     target.tics := 1;
