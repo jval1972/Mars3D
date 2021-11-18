@@ -30,3 +30,37 @@ ACTOR MT_RESISTANCETROOPER 93
     }
   }
 }
+
+
+///////////////////////////////
+// MT_MALESCIENTIST
+///////////////////////////////
+ACTOR MT_MALESCIENTIST 94
+{
+  Health 50
+  Width 20
+  Height 56
+  Speed 8
+  Mass 100
+  Reactiontime 8
+  +MF_SOLID
+  +MF2_EX_INTERACTIVE
+  +MF2_EX_CANTLEAVEFLOORPIC
+  States
+  {
+    Spawn:
+    {
+      SISM A 10 
+      SISM B 10 
+      SISM C 10 
+      SISM D 10 A_Wander
+      Loop
+    }
+    Interact:
+    {
+      SISM A 10 A_FaceTarget
+      SISM A 10 A_Dialog("DIALOG_E1M4_A.txt")
+      GoTo Spawn
+    }
+  }
+}
