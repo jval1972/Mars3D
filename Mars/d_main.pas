@@ -472,7 +472,7 @@ begin
         if borderdrawcount > 0 then
         begin
           R_DrawViewBorder; // erase old menu stuff
-          if gamestate = gs_level then
+          if gamestate = GS_LEVEL then
             MARS_HudDrawer;
           redrawbkscn := true;
           dec(borderdrawcount);
