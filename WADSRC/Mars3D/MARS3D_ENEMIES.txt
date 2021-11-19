@@ -1272,3 +1272,52 @@ ACTOR "MT_BOSSSHOCKMISSILE"
   }
 }
 
+
+///////////////////////////////
+// MT_BOSSFLAMEMISSILE
+///////////////////////////////
+ACTOR "MT_BOSSFLAMEMISSILE"
+{
+  Health 1000
+  Width 12
+  Height 12
+  Speed 1310720
+  Damage 5
+  Mass 100
+  Reactiontime 8
+  Seesound GUN2ACT
+  Deathsound GUN5EXP
+  DEFAULTTRANSPARENT
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  +MF3_EX_ABSOLUTEDAMAGE
+  +MF3_EX_FLAMEDAMAGE
+  States
+  {
+    Spawn:
+    {
+      FLAS A 3 BRIGHT
+      FLAS B 3 BRIGHT A_FlipSprite
+      FLAS A 3 BRIGHT
+      FLAS B 3 BRIGHT A_NoFlipSprite
+      Loop
+    }
+    Death:
+    {
+      FLAE A 3 BRIGHT
+      FLAE B 3 BRIGHT
+      FLAE C 3 BRIGHT
+      FLAE D 3 BRIGHT
+      FLAE E 3 BRIGHT A_Explode
+      FLAE F 3 BRIGHT
+      FLAE G 3 BRIGHT 
+      FLAE H 3 BRIGHT
+      FLAE I 3 BRIGHT
+      FLAE J 3 BRIGHT
+      FLAE KKKKK 1 BRIGHT A_FadeOut10
+      Stop
+    }
+  }
+}
