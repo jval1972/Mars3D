@@ -195,6 +195,9 @@ begin
   if thing.health <= 0 then
     Exit;
 
+  if thing.flags2_ex and MF_EX_BOSS <> 0 then
+      Exit; // No nerve damage for bosses
+
   if thing.flags2_ex and MF2_EX_FRIEND <> 0 then
     if thing.friendtics = 0 then
       Exit;
