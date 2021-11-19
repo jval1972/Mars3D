@@ -1222,3 +1222,53 @@ ACTOR MT_DEFENDER 3006
     }
   }
 }
+
+
+///////////////////////////////
+// MT_BOSSSHOCKMISSILE
+///////////////////////////////
+ACTOR "MT_BOSSSHOCKMISSILE"
+{
+  Health 1000
+  Width 12
+  Height 12
+  Speed 1572864
+  Damage 5
+  Mass 100
+  Reactiontime 8
+  Seesound GUN2SHT
+  Deathsound BAREXP
+  RenderStyle TRANSLUCENT
+  Alpha 0.8
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  +MF3_EX_ABSOLUTEDAMAGE
+  +MF4_EX_SHOCKGUNDAMAGE
+  States
+  {
+    Spawn:
+    {
+      ELES A 3 BRIGHT
+      ELES B 3 BRIGHT
+      ELES C 3 BRIGHT
+      Loop
+    }
+    Death:
+    {
+      ELEE A 3 BRIGHT
+      ELEE B 3 BRIGHT A_Explode 
+      ELEE C 3 BRIGHT
+      ELEE D 3 BRIGHT
+      ELEE E 3 BRIGHT
+      ELEE F 3 BRIGHT
+      ELEE GGG 1 BRIGHT A_FadeOut(0.05)
+      ELEE HHH 1 BRIGHT A_FadeOut(0.05)
+      ELEE III 1 BRIGHT A_FadeOut(0.05)
+      ELEE JJJ 1 BRIGHT A_FadeOut(0.1)
+      Stop
+    }
+  }
+}
+
