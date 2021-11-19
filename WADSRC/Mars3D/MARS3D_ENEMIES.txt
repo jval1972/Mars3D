@@ -1348,8 +1348,8 @@ ACTOR MT_ALIENBOSS 2051
   {
     Spawn:
     {
-      UFO1 A 4 A_Look
-      UFO1 B 4 A_Look
+      UFO1 ABABABABAB 10 A_Look
+      TNT1 A 0 A_ChangeFlag("MF_SHADOW", RANDOMPICK("TRUE","FALSE"))
       Loop
     }
     See:
