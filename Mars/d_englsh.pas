@@ -179,17 +179,17 @@ var
 var
   PD_BLUEO: string = 'You need a blue key to activate this object';
   PD_REDO: string = 'You need a red key to activate this object';
-  PD_YELLOWO: string = 'You need a yellow key to activate this object';
+  PD_YELLOWO: string = 'You need a gold key to activate this object';
   PD_BLUEK: string = 'You need a blue key to open this door';
   PD_REDK: string = 'You need a red key to open this door';
-  PD_YELLOWK: string = 'You need a yellow key to open this door';
+  PD_YELLOWK: string = 'You need a gold key to open this door';
 //jff 02/05/98 Create messages specific to card and skull keys
   PD_BLUEC: string = 'You need a blue card to open this door';
   PD_REDC: string = 'You need a red card to open this door';
-  PD_YELLOWC: string = 'You need a yellow card to open this door';
+  PD_YELLOWC: string = 'You need a gold card to open this door';
   PD_BLUES: string = 'You need a blue skull to open this door';
   PD_REDS: string = 'You need a red skull to open this door';
-  PD_YELLOWS: string = 'You need a yellow skull to open this door';
+  PD_YELLOWS: string = 'You need a gold skull to open this door';
   PD_ANY: string = 'Any key will open this door';
   PD_ALL3: string = 'You need all three keys to open this door';
   PD_ALL6: string = 'You need all six keys to open this door';
