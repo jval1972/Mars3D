@@ -150,13 +150,15 @@ var
   lump: integer;
 begin
   br_lumps.Clear;
-  for i := 0 to MAX_BRIEFING_SCREENS - 1 do
-  begin
-    sprintf(pg, '%s%d%s', [Char(gameepisode + Ord('A') - 1), gamemap, IntToStrZfill(2, i)]);
-    lump := W_CheckNumForName(pg);
-    if lump >= 0 then
-      br_lumps.Add(lump);
-  end;
+  // Only for episode 1 briefing screens
+  if gameepisode = 1 then
+    for i := 0 to MAX_BRIEFING_SCREENS - 1 do
+    begin
+      sprintf(pg, 'A%d%s', [gamemap, IntToStrZfill(2, i)]);
+      lump := W_CheckNumForName(pg);
+      if lump >= 0 then
+        br_lumps.Add(lump);
+    end;
   br_tic := 0;
   br_music_changed := false;
   br_key_down := false;
