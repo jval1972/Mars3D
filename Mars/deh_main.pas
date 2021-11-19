@@ -1715,9 +1715,6 @@ begin
     else
       result.Add('%s = %s', [capitalizedstring(state_tokens[7]), str]);
 
-    if i = 1 then
-      result.Add('# Flags_ex is DelphiDoom specific and declares transparency and light effects');
-
     result.Add('');
   end;
 
