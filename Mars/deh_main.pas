@@ -1506,7 +1506,7 @@ begin
 
   result.Add('');
 
-  result.Add('# Note: Use the ''#'' or ''//'' (DelphiDoom specific) sign to start comment lines.');
+  result.Add('# Note: Use the ''#'' or ''//'' sign to start comment lines.');
   result.Add('');
 
   result.Add('# General version information');
@@ -1563,12 +1563,6 @@ begin
       result.Add('%s = 0', [capitalizedstring(mobj_tokens[21])])
     else
       result.Add('%s = %s', [capitalizedstring(mobj_tokens[21]), str]);
-
-    if i = 0 then
-    begin
-      result.Add('');
-      result.Add('# The following fields are DelphiDoom specific enhancements');
-    end;
 
     str := '';
     for j := 0 to mobj_flags_ex.Count - 1 do
