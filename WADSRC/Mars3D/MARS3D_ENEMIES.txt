@@ -992,7 +992,7 @@ ACTOR MT_CHEMICAL 3003
     }
     Pain:
     {
-      CHEM F 8
+      CHEM F 8 A_Pain
       Goto See
     }
     Death:
