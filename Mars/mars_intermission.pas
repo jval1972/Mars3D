@@ -276,7 +276,6 @@ begin
   if in_stage in [IN_STAGE_STATS1..IN_STAGE_ANIM] then
     if anm_frametics < MAXINT then
       Inc(anm_frame);
-  printf('%d'#13#10, [anm_frame]);
   if anm_autoadvance then
     if in_stage = IN_STAGE_ANIM then
       if anm_frame >= anm_frametics then
