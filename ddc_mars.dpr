@@ -417,7 +417,10 @@ uses
   mars_dialog in 'Mars\mars_dialog.pas',
   mars_player in 'Mars\mars_player.pas',
   p_underwater in 'Mars\p_underwater.pas',
-  anm_info in 'Base\anm_info.pas';
+  mars_intermission in 'Mars\mars_intermission.pas',
+  anm_info in 'Base\anm_info.pas',
+  r_underwater in 'Mars\r_underwater.pas',
+  mars_level in 'Mars\mars_level.pas';
 
 exports
   dd_compile_doom,
