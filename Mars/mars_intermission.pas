@@ -67,6 +67,7 @@ uses
   hu_stuff,
   mn_textwrite,
   mars_files,
+  r_data,
   sounds,
   s_sound,
   v_data,
@@ -96,7 +97,8 @@ var
   anmfile: string;
   anm_frame: integer;
   anm_inrepeat: boolean;
-  anm_nframes: integer;
+  anm_autoadvance: boolean;
+  anm_frametics: integer;
 
 procedure MARS_InitIntermission;
 begin
@@ -111,18 +113,41 @@ end;
 var
   in_key_down: boolean;
 
+const
+  MAXEPISODES = 6;
+
+var
+  animnames: array[0..6] of string = (
+    'CHAP1.ANM',
+    'CHAP2.ANM',
+    'CHAP3.ANM',
+    'CHAP4.ANM',
+    'TIME.ANM',
+    'CHAP6.ANM',
+    'CHAP7.ANM'
+  );
+
+var
+  animautoadvance: array[0..6] of boolean = (
+    false,
+    false,
+    false,
+    false,
+    true,
+    false,
+    false
+  );
+
 procedure MARS_IntermissionAdvanceStage;
 begin
   inc(in_stage);
   anm_frame := -1;
-  anm_nframes := MAXINT;
+  anm_frametics := MAXINT;
   anmfile := '';
   anm_inrepeat := false;
+  anm_autoadvance := false;
   if in_stage = IN_STAGE_END then
-  begin
-    gamestate := GS_LEVEL;
     G_WorldDone;
-  end;
 end;
 
 procedure MARS_IntermissionAdvance;
@@ -142,7 +167,7 @@ begin
             MARS_IntermissionAdvance;
           end
           else
-            anm_nframes := ANM_QueryNumFrames(anmfile);
+            anm_frametics := (ANM_QueryNumFrames(anmfile) - 1) * ANM_GetInfo(anmfile).tic;
         end;
       end;
     IN_STAGE_STATS1:
@@ -155,7 +180,7 @@ begin
           MARS_IntermissionAdvance;
         end
         else
-          anm_nframes := ANM_QueryNumFrames(anmfile);
+          anm_frametics := (ANM_QueryNumFrames(anmfile) - 1) * ANM_GetInfo(anmfile).tic;
       end;
     IN_STAGE_STATS2:
       begin
@@ -167,7 +192,7 @@ begin
           MARS_IntermissionAdvance;
         end
         else
-          anm_nframes := ANM_QueryNumFrames(anmfile);
+          anm_frametics := (ANM_QueryNumFrames(anmfile) - 1) * ANM_GetInfo(anmfile).tic;
       end;
     IN_STAGE_STATS3:
       begin
@@ -179,7 +204,7 @@ begin
           MARS_IntermissionAdvance;
         end
         else
-          anm_nframes := ANM_QueryNumFrames(anmfile);
+          anm_frametics := (ANM_QueryNumFrames(anmfile) - 1) * ANM_GetInfo(anmfile).tic;
       end;
     IN_STAGE_STATS4:
       begin
@@ -188,24 +213,23 @@ begin
         begin
           if gamemap < 7 then
           begin
-            anmfile := MARS_FindFile('CHAP' + itoa(gamemap + 1) + '.ANM');
+            anmfile := MARS_FindFile(animnames[gamemap]);
+            anm_autoadvance := animautoadvance[gamemap];
             if not fexists(anmfile) then
             begin
               anmfile := '';
               MARS_IntermissionAdvance;
             end
             else
-              anm_nframes := ANM_QueryNumFrames(anmfile);
+              anm_frametics := (ANM_QueryNumFrames(anmfile) - 1) * ANM_GetInfo(anmfile).tic;
           end;
         end;
       end;
     IN_STAGE_ANIM:
       begin
-        gamestate := GS_LEVEL;
-        G_WorldDone;
+        MARS_IntermissionAdvanceStage;
       end;
   else
-    gamestate := GS_LEVEL;
     G_WorldDone;
   end;
 end;
@@ -250,8 +274,13 @@ begin
     end;
 
   if in_stage in [IN_STAGE_STATS1..IN_STAGE_ANIM] then
-    if anm_nframes < MAXINT then
+    if anm_frametics < MAXINT then
       Inc(anm_frame);
+  printf('%d'#13#10, [anm_frame]);
+  if anm_autoadvance then
+    if in_stage = IN_STAGE_ANIM then
+      if anm_frame >= anm_frametics then
+        MARS_IntermissionAdvance;
 end;
 
 procedure MARS_Intermission_Drawer1;
@@ -402,6 +431,8 @@ begin
       MARS_Intermission_Drawer2;
     IN_STAGE_STATS1..IN_STAGE_STATS4:
       MARS_Intermission_Drawer3;
+  else
+    memset(screens[SCN_TMP], aprox_black, 320 * 200);
   end;
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
 
@@ -430,7 +461,7 @@ begin
   in_music_changed := false;
   in_key_down := false;
   anm_frame := -1;
-  anm_nframes := MAXINT;
+  anm_frametics := MAXINT;
   anmfile := '';
   anm_inrepeat := false;
   if in_lumps.Count = 0 then
