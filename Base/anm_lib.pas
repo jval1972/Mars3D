@@ -229,7 +229,7 @@ begin
   for i := 0 to frm do
     drawframe(i);
 
-  memcpy(scn8, screen, SizeOf(Panmscreen8_t));
+  memcpy(scn8, screen, SizeOf(anmscreen8_t));
 
   Result := True;
 end;
