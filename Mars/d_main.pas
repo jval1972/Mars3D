@@ -181,6 +181,7 @@ uses
   p_mobj,
   ps_main,
   psi_overlay,
+  anm_info,
   mars_briefing,
   mars_version,
   mars_hud,
@@ -2183,6 +2184,11 @@ begin
   printf('D_CheckNetGame: Checking network game status.'#13#10);
   D_CheckNetGame;
 
+  SUC_Progress(86);
+
+  printf('ANM_InfoInit: Parsing ANMINFO lumps.'#13#10);
+  ANM_InfoInit;
+
   SUC_Progress(87);
 
   printf('S_Init: Setting up sound.'#13#10);
@@ -2323,6 +2329,8 @@ begin
   MARS_ShutDownHud;
   printf('MARS_ShutDownBriefing: Shut down MARS briefing screens.'#13#10);
   MARS_ShutDownBriefing;
+  printf('ANM_InfoShutDown: Shut down ANMINFO lumps.'#13#10);
+  ANM_InfoShutDown;
   printf('P_ShutDown: Shut down Playloop state.'#13#10);
   P_ShutDown;
   printf('R_ShutDown: Shut down Rendering Engine.');

@@ -415,7 +415,8 @@ uses
   mars_player in 'Mars\mars_player.pas',
   p_underwater in 'Mars\p_underwater.pas',
   r_underwater in 'Mars\r_underwater.pas',
-  mars_level in 'Mars\mars_level.pas';
+  mars_level in 'Mars\mars_level.pas',
+  anm_info in 'Base\anm_info.pas';
 
 var
   Saved8087CW: Word;

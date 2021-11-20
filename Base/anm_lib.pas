@@ -23,7 +23,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-// Deluxe paint animation library (ANM files)
+//  Deluxe paint animation library (ANM files)
 //
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/mars3d/

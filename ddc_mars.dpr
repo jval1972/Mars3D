@@ -416,7 +416,8 @@ uses
   mars_briefing in 'Mars\mars_briefing.pas',
   mars_dialog in 'Mars\mars_dialog.pas',
   mars_player in 'Mars\mars_player.pas',
-  p_underwater in 'Mars\p_underwater.pas';
+  p_underwater in 'Mars\p_underwater.pas',
+  anm_info in 'Base\anm_info.pas';
 
 exports
   dd_compile_doom,
