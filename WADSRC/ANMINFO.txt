@@ -75,3 +75,10 @@ ANIMFILE "PASS4.ANM"
   tic 1
 }
 
+ANIMFILE "TIME.ANM"
+{
+  maxframe 60
+  repeatframe 60
+  tic 3
+}
+
