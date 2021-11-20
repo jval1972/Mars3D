@@ -141,6 +141,8 @@ begin
   if br_lumps.Count > 0 then
     V_DrawPatchFullScreenTMP320x200(br_lumps.Numbers[0]);
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+
+  V_FullScreenStretch;
 end;
 
 procedure MARS_Briefing_Start;
