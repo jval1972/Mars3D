@@ -427,6 +427,8 @@ const
   MF4_EX_SWIM = $800; // JVAL: 20211116 - Swimming mode (Underwater sectors)
   // Drop item in actual z
   MF4_EX_ABSOLUTEDROPITEMPOS = $1000;
+  // Force gravity in underwater sectors
+  MF4_EX_FORCEUNDERWATERGRAVITY = $2000;
 
 
 type

@@ -56,7 +56,9 @@ var
   sec: Psector_t;
 begin
   sec := Psubsector_t(mo.subsector).sector;
-  if (mo.flags and MF_DROPPED <> 0) and (sec.renderflags and SRF_UNDERWATER <> 0) then
+  if (sec.renderflags and SRF_UNDERWATER <> 0) and (mo.flags4_ex and MF4_EX_FORCEUNDERWATERGRAVITY <> 0) then
+    result := mo.gravity div 2
+  else if (mo.flags and MF_DROPPED <> 0) and (sec.renderflags and SRF_UNDERWATER <> 0) then
     result := mo.gravity div 2
   else
     result := FixedMul(sec.gravity, mo.gravity);
