@@ -164,6 +164,8 @@ type
     property FrameCount: integer read GetFrameCount;
   end;
 
+function ANM_QueryNumFrames(const anmfile: string): integer;
+
 implementation
 
 constructor TANMFile.Create(const astream: TDStream);
@@ -428,6 +430,30 @@ begin
 
   // read in large page descriptors
   fstream.Read(LpArray, 256 * SizeOf(anmdescriptor_t));
+end;
+
+function ANM_QueryNumFrames(const anmfile: string): integer;
+var
+  anm: TANMFile;
+  anmstrm: TFile;
+begin
+  if anmfile = '' then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  if not fexists(anmfile) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  anmstrm := TFile.Create(anmfile, fOpenReadOnly);
+  anm := TANMFile.Create(anmstrm);
+  Result := anm.FrameCount;
+  anm.Free;
+  anmstrm.Free;
 end;
 
 end.
