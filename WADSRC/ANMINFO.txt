@@ -1,0 +1,77 @@
+ANIMFILE "CHAP1.ANM" 
+{
+  maxframe 8
+  repeatframe 0
+  tic 2
+}
+
+ANIMFILE "CHAP2.ANM"
+{
+  maxframe 16
+  repeatframe 9
+  tic 2
+}
+
+ANIMFILE "CHAP3.ANM"
+{
+  maxframe 31
+  repeatframe 24
+  tic 2
+}
+
+ANIMFILE "CHAP4.ANM"
+{
+  maxframe 17
+  repeatframe 10
+  tic 2
+}
+
+ANIMFILE "CHAP5.ANM"
+{
+  maxframe 17
+  repeatframe 10
+  tic 2
+}
+
+ANIMFILE "CHAP6.ANM"
+{
+  maxframe 14
+  repeatframe 7
+  tic 2
+}
+
+ANIMFILE "CHAP7.ANM"
+{
+  maxframe 23
+  repeatframe 18
+  tic 2
+}
+
+ANIMFILE "PASS1.ANM"
+{
+  maxframe 20
+  repeatframe 19
+  tic 1
+}
+
+ANIMFILE "PASS2.ANM"
+{
+  maxframe 20
+  repeatframe 19
+  tic 1
+}
+
+ANIMFILE "PASS3.ANM"
+{
+  maxframe 20
+  repeatframe 19
+  tic 1
+}
+
+ANIMFILE "PASS4.ANM"
+{
+  maxframe 20
+  repeatframe 19
+  tic 1
+}
+
