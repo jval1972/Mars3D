@@ -842,21 +842,23 @@ begin
   p.lastbreath := leveltime;
 
   if allowplayerbreath then
-  begin
-    if p.hardbreathtics > 0 then
+    if p.mo.flags4_ex and MF4_EX_SWIM = 0 then
     begin
-      if brsnd2 < 0 then
-        brsnd2 := S_GetSoundNumForName('player/breath2');
-      sndidx := brsnd2;
-    end
-    else
-    begin
-      if brsnd < 0 then
-        brsnd := S_GetSoundNumForName('player/breath');
-      sndidx := brsnd;
+      if p.hardbreathtics > 0 then
+      begin
+        if brsnd2 < 0 then
+          brsnd2 := S_GetSoundNumForName('player/breath2');
+        sndidx := brsnd2;
+      end
+      else
+      begin
+        if brsnd < 0 then
+          brsnd := S_GetSoundNumForName('player/breath');
+        sndidx := brsnd;
+      end;
+      if sndidx > 0 then
+        S_StartSound(p.mo, sndidx);
     end;
-    if sndidx > 0 then
-      S_StartSound(p.mo, sndidx);
   end;
 end;
 
