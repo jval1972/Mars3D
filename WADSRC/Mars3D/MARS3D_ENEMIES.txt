@@ -499,7 +499,7 @@ ACTOR MT_FLYINGROBOT 20
 ///////////////////////////////
 // MT_MANWITHMASK
 ///////////////////////////////
-ACTOR "MT_MANWITHMASK" 43
+ACTOR MT_MANWITHMASK 43
 {
   Health 150
   Width 30
