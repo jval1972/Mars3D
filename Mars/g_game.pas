@@ -2973,12 +2973,12 @@ initialization
 
   ZeroMemory(@pars, SizeOf(pars));
 
-  pars[1, 1] := 30;
-  pars[1, 2] := 75;
-  pars[1, 3] := 120;
-  pars[1, 4] := 90;
-  pars[1, 5] := 165;
-  pars[1, 6] := 180;
+  pars[1, 1] := 20 * 60 + 29;
+  pars[1, 2] := 23 * 60 + 3;
+  pars[1, 3] := 20 * 60 + 58;
+  pars[1, 4] := 14 * 60 + 10;
+  pars[1, 5] := 17 * 60 + 22;
+  pars[1, 6] := 10 * 60;
   pars[1, 7] := 180;
   pars[1, 8] := 30;
   pars[1, 9] := 165;
