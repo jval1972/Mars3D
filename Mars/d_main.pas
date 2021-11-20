@@ -173,7 +173,6 @@ uses
   nd_main,
   g_game,
   hu_stuff,
-  wi_stuff,
   st_stuff,
   am_map,
   p_setup,
@@ -183,6 +182,7 @@ uses
   psi_overlay,
   anm_info,
   mars_briefing,
+  mars_intermission,
   mars_version,
   mars_hud,
   mars_files,
@@ -418,7 +418,7 @@ begin
         end;
       end;
     GS_INTERMISSION:
-      WI_Drawer;
+      MARS_Intermission_Drawer;
     GS_FINALE:
       F_Drawer;
     GS_DEMOSCREEN:
@@ -2229,6 +2229,9 @@ begin
   printf('MARS_InitBriefing: Init MARS briefing screens.'#13#10);
   MARS_InitBriefing;
 
+  printf('MARS_InitIntermission: Init MARS intermission screens.'#13#10);
+  MARS_InitIntermission;
+
   // start the apropriate game based on parms
   p := M_CheckParm('-record');
 
@@ -2329,6 +2332,8 @@ begin
   MARS_ShutDownHud;
   printf('MARS_ShutDownBriefing: Shut down MARS briefing screens.'#13#10);
   MARS_ShutDownBriefing;
+  printf('MARS_ShutDownIntermission: Shut down MARS intermision screens.'#13#10);
+  MARS_ShutDownIntermission;
   printf('ANM_InfoShutDown: Shut down ANMINFO lumps.'#13#10);
   ANM_InfoShutDown;
   printf('P_ShutDown: Shut down Playloop state.'#13#10);

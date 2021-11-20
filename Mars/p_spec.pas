@@ -602,7 +602,6 @@ uses
 
 //
 // Animating textures and planes
-// There is another anim_t used in wi_stuff, unrelated.
 //
 type
   anim_t = record

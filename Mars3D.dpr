@@ -247,7 +247,6 @@ uses
   w_pak in 'Base\w_pak.pas',
   w_utils in 'Base\w_utils.pas',
   w_wad in 'Base\w_wad.pas',
-  wi_stuff in 'Mars\wi_stuff.pas',
   z_zone in 'Base\z_zone.pas',
   r_trans8 in 'Base\r_trans8.pas',
   i_exec in 'Base\i_exec.pas',
@@ -416,6 +415,7 @@ uses
   p_underwater in 'Mars\p_underwater.pas',
   r_underwater in 'Mars\r_underwater.pas',
   mars_level in 'Mars\mars_level.pas',
+  mars_intermission in 'Mars\mars_intermission.pas',
   anm_info in 'Base\anm_info.pas';
 
 var

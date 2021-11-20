@@ -298,6 +298,7 @@ uses
   info,
   info_rnd,
   mars_briefing,
+  mars_intermission,
   mars_version,
   m_rnd,
   i_system,
@@ -319,7 +320,6 @@ uses
   p_map,
   p_levelinfo,
   ps_main,
-  wi_stuff,
   hu_stuff,
   st_stuff,
   w_wad,
@@ -920,6 +920,11 @@ begin
     result := MARS_BriefingResponder(ev);
     exit;
   end;
+  if gamestate = GS_INTERMISSION then
+  begin
+    result := MARS_IntermissionResponder(ev);
+    exit;
+  end;
   // allow spy mode changes even during the demo
   if (gamestate = GS_LEVEL) and (ev._type = ev_keydown) and
      (ev.data1 = KEY_F12) and (singledemo or (deathmatch = 0)) then
@@ -1195,7 +1200,7 @@ begin
       end;
     GS_INTERMISSION:
       begin
-        WI_Ticker;
+        MARS_Intermission_Ticker;
       end;
     GS_FINALE:
       begin
@@ -1667,7 +1672,7 @@ begin
   if statcopy <> nil then
     memcpy(statcopy, @wminfo, SizeOf(wminfo));
 
-  WI_Start(@wminfo);
+  MARS_Intermission_Start(@wminfo);
 end;
 
 //
