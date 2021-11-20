@@ -55,6 +55,7 @@ ACTOR MT_BULLETCARTRIDGE
   Mass 10
   Scale 0.5
   Reactiontime 8
+  +MF4_EX_FORCEUNDERWATERGRAVITY
   States
   {
     Spawn:
