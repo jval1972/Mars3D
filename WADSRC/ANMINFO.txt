@@ -2,49 +2,49 @@ ANIMFILE "CHAP1.ANM"
 {
   maxframe 8
   repeatframe 0
-  tic 2
+  tic 4
 }
 
 ANIMFILE "CHAP2.ANM"
 {
   maxframe 16
   repeatframe 9
-  tic 2
+  tic 4
 }
 
 ANIMFILE "CHAP3.ANM"
 {
   maxframe 31
   repeatframe 24
-  tic 2
+  tic 4
 }
 
 ANIMFILE "CHAP4.ANM"
 {
   maxframe 17
   repeatframe 10
-  tic 2
+  tic 4
 }
 
 ANIMFILE "CHAP5.ANM"
 {
   maxframe 17
   repeatframe 10
-  tic 2
+  tic 4
 }
 
 ANIMFILE "CHAP6.ANM"
 {
   maxframe 14
   repeatframe 7
-  tic 2
+  tic 4
 }
 
 ANIMFILE "CHAP7.ANM"
 {
   maxframe 23
   repeatframe 18
-  tic 2
+  tic 4
 }
 
 ANIMFILE "PASS1.ANM"
