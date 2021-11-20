@@ -859,7 +859,6 @@ begin
       if sndidx > 0 then
         S_StartSound(p.mo, sndidx);
     end;
-  end;
 end;
 
 procedure P_AngleTarget(player: Pplayer_t);
