@@ -137,7 +137,7 @@ begin
   if not drawcrosshair then
     exit;
 
-  if amstate = am_only then
+  if (amstate = am_only) or (amstate = am_overlay) then
     exit;
 
   if hud_player.playerstate = PST_DEAD then
