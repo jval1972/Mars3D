@@ -143,12 +143,13 @@ begin
   if num = 0 then
     num := 1;
 
-  if (gameskill = sk_baby) or (gameskill = sk_nightmare) then
-  begin
-    // give double ammo in trainer mode,
-    // you'll need in nightmare
-    num := num * 2
-  end;
+  if not excact then
+    if (gameskill = sk_baby) or (gameskill = sk_nightmare) then
+    begin
+      // give double ammo in trainer mode,
+      // you'll need in nightmare
+      num := num * 2
+    end;
 
   oldammo := player.ammo[Ord(ammo)];
   player.ammo[Ord(ammo)] := player.ammo[Ord(ammo)] + num;
@@ -563,9 +564,15 @@ begin
       exit;
     player._message := GOTGRENADES;
   end
-  else if (s_spr = 'CDR1') or (s_spr = 'CDCS') then // Boomerang disk
+  else if s_spr = 'CDR1' then // Boomerang disk
   begin
     if not P_GiveAmmo(player, am_disk, 1) then
+      exit;
+    player._message := GOTDISK;
+  end
+  else if s_spr = 'CDCS' then // Boomerang disk - dropper by player
+  begin
+    if not P_GiveAmmo(player, am_disk, 1, true) then
       exit;
     player._message := GOTDISK;
   end
