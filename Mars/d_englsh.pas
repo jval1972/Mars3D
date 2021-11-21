@@ -160,7 +160,7 @@ var
   // Ammo
   GOTBULLETS: string = 'Pistol Clip';
   GOTTRACKINGMISSILES: string = 'Tracking Missiles';
-  GOTTRACKINGMISSILESBOX: string = 'Box of Tracking Missiles';
+  GOTMISSILESBOX: string = 'Box of Missiles';
   GOTBOXOFBULLETS: string = 'Box of bullets';
   GOTGRENADES: string = 'Grenades';
   GOTDISK: string = 'Boomerang disk';

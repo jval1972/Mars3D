@@ -54,9 +54,9 @@ ACTOR MT_BOOMERANGDISKPACK 2102
 
 
 ///////////////////////////////
-// MT_TRACKINGMISSILESBOX
+// MT_MISSILESBOX
 ///////////////////////////////
-ACTOR MT_TRACKINGMISSILESBOX 2103
+ACTOR MT_MISSILESBOX 2103
 {
   Health 1000
   Width 24

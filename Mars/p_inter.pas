@@ -535,9 +535,9 @@ begin
   end
   else if s_spr = 'MIS2' then // Tracking missiles BOX
   begin
-    if not P_GiveAmmo(player, am_trackingmisl, 4) then
+    if not P_GiveAmmo(player, am_misl, 4) then
       exit;
-    player._message := GOTTRACKINGMISSILESBOX;
+    player._message := GOTMISSILESBOX;
   end
   else if s_spr = 'FRES' then // Freezegun ammo
   begin
