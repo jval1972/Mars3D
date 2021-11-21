@@ -52,3 +52,24 @@ ACTOR MT_BOOMERANGDISKPACK 2102
   }
 }
 
+
+///////////////////////////////
+// MT_TRACKINGMISSILESBOX
+///////////////////////////////
+ACTOR MT_TRACKINGMISSILESBOX 2103
+{
+  Health 1000
+  Width 24
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      MIS2 A -1
+      Stop
+    }
+  }
+}
