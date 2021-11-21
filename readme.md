@@ -1,5 +1,5 @@
 # Mars3D
-Engine Recreation of the 1997 game Mars.
+Engine Recreation of the 1997 game "Mars - The Ultimate Fighter".
 
 To run the game you need the "mars.mad" file as well as aditional resources of the original game. 
 The first time you launch Mars3D it asks for the location of "mars.mad" file. The additional resources are automatically detected.
