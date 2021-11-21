@@ -539,6 +539,13 @@ begin
       exit;
     player._message := GOTTRACKINGMISSILESBOX;
   end
+  else if s_spr = 'FRES' then // Freezegun ammo
+  begin
+    if not P_GiveAmmo(player, am_freezegunammo, 1) then
+      exit;
+    player._message := GOTFREEZEGUNAMMO;
+  end
+
   else if s_spr = 'GUN2' then // Box of bullets
   begin
     if not P_GiveAmmo(player, am_bullet, 3) then

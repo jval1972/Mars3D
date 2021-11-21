@@ -3474,6 +3474,7 @@ begin
   DEH_AddString(@deh_strings, @GOTDISK, 'GOTDISK');
   DEH_AddString(@deh_strings, @GOTDISKS, 'GOTDISKS');
   DEH_AddString(@deh_strings, @RETURNDISK, 'RETURNDISK');
+  DEH_AddString(@deh_strings, @GOTFREEZEGUNAMMO, 'GOTFREEZEGUNAMMO');
 
   DEH_AddString(@deh_strings, @DETAILULTRA, 'DETAILULTRA');
   DEH_AddString(@deh_strings, @DETAILHI, 'DETAILHI');

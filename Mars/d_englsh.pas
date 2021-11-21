@@ -166,6 +166,7 @@ var
   GOTDISK: string = 'Boomerang disk';
   GOTDISKS: string = 'Box of boomerang disks';
   RETURNDISK: string = 'Boomerang disk returned!';
+  GOTFREEZEGUNAMMO: string = 'Freeze gun ammo';
 
   // Health
   GOTHEALTH15: string = 'Got the Medkit pack';
