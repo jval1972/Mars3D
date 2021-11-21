@@ -545,7 +545,12 @@ begin
       exit;
     player._message := GOTFREEZEGUNAMMO;
   end
-
+  else if s_spr = 'ELEES' then // Shockgun ammo
+  begin
+    if not P_GiveAmmo(player, am_shockgunammo, 1) then
+      exit;
+    player._message := GOTSCHOCKGUNAMMO;
+  end
   else if s_spr = 'GUN2' then // Box of bullets
   begin
     if not P_GiveAmmo(player, am_bullet, 3) then
