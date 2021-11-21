@@ -1,0 +1,26 @@
+//////////////////////////////////////////////////////////////
+// Armor pick ups using the MAD file patches
+// !! Not present in the original game
+//////////////////////////////////////////////////////////////
+
+///////////////////////////////
+// MT_ARMORSHIELD
+///////////////////////////////
+ACTOR MT_ARMORSHIELD 2015
+{
+  Health 1000
+  Width 24
+  Height 24
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      DFK1 A -1
+      Stop
+    }
+  }
+}
+
