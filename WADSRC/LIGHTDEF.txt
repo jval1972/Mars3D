@@ -127,6 +127,18 @@ object MT_REDMECH_SHOT
     frame FISSF { light REDMECH_SHOT_BF }
 }
 
+object MT_SUBMARINE_SHOT
+{
+    frame FISSA { light REDMECH_SHOT }
+
+    frame FISSB { light REDMECH_SHOT_BF }
+    frame FISSC { light REDMECH_SHOT_CE }
+    frame FISSD { light REDMECH_SHOT_D  }
+    frame FISSE { light REDMECH_SHOT_CE }
+    frame FISSF { light REDMECH_SHOT_BF }
+}
+
+
 // MT_BARREL
 pulselight BARREL_A
 {
