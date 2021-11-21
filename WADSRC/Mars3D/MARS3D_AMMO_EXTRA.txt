@@ -73,3 +73,26 @@ ACTOR MT_TRACKINGMISSILESBOX 2103
     }
   }
 }
+
+
+///////////////////////////////
+// MT_FREEZEGUNAMMO
+///////////////////////////////
+ACTOR MT_FREEZEGUNAMMO 2104
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      FRES A 4
+      FRES B 4
+      Loop
+    }
+  }
+}
