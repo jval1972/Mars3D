@@ -384,7 +384,8 @@ begin
   P_PlayerSwimFlag(p);
 
   if p.nextunderwaterportaltic > leveltime then
-    exit; // not allowed to jump yet
+    if p.playerstate <> PST_DEAD then
+      exit; // not allowed to jump yet
 
   sec1 := Psubsector_t(pmo.subsector).sector;
   sec2 := nil;

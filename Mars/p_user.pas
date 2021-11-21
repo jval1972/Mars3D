@@ -791,6 +791,9 @@ begin
   onground := player.mo.z <= player.mo.floorz;
   P_SlopesCalcHeight(player); // JVAL: Slopes
 
+  // JVAL: Check water portal (MARS)
+  P_CheckPlayerWaterSector(player);
+
   if (player.attacker <> nil) and (player.attacker <> player.mo) then
   begin
 
