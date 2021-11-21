@@ -2127,7 +2127,7 @@ end;
 
 procedure A_Pain(actor: Pmobj_t);
 begin
-  A_PainSound(actor);
+  A_PainSound1(actor);
 end;
 
 //
