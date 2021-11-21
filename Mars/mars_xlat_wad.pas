@@ -721,6 +721,7 @@ begin
   _convert_music_track(5, 'D_E1M5');
   _convert_music_track(6, 'D_E1M6');
   _convert_music_track(7, 'D_E1M7');
+  _convert_music_track(9, 'D_VICTOR');
   _convert_music_track(14, 'D_INTER');
 
   wadwriter.AddSeparator('M_END');
