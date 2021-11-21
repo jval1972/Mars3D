@@ -261,7 +261,7 @@ var
 
 var
   p_initialbullets: integer = 100;
-  allowvanillademos: boolean = true;
+  allowvanillademos: boolean = false;
   vanilla_demo_off: boolean = false;
 
 var
