@@ -793,8 +793,8 @@ begin
   onground := player.mo.z <= player.mo.floorz;
   P_SlopesCalcHeight(player); // JVAL: Slopes
 
-  // Sink in water when dead
-  player.mo.flags4_ex := player.mo.flags4_ex or MF4_EX_FORCEUNDERWATERGRAVITY;
+  // Sink slowly in water when dead
+  player.mo.flags4_ex := player.mo.flags4_ex or MF4_EX_FORCELOWUNDERWATERGRAVITY;
 
   // JVAL: Check water portal (MARS)
   P_CheckPlayerWaterSector(player);
