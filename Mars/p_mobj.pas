@@ -119,6 +119,7 @@ uses
   i_system,
   z_zone,
   mars_map_extra,
+  mars_sounds,
   m_rnd,
   m_vectors,
   doomdef,
@@ -633,6 +634,8 @@ begin
           S_StartSound(mo, Ord(sfx_oof));
           player.nextoof := leveltime + 4 * TICRATE;
         end;
+        if Psubsector_t(mo.subsector).sector.special = 14 then
+          MARS_AmbientSound(mo.x, mo.y, snd_WATERIN1);
       end;
       mo.momz := 0;
     end;
