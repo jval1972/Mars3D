@@ -113,7 +113,7 @@ const
 // not the individual count (0= 1/2 clip).
 // Returns false if the ammo can't be picked up at all
 //
-function P_GiveAmmo(player: Pplayer_t; ammo: ammotype_t; num: integer): boolean;
+function P_GiveAmmo(player: Pplayer_t; ammo: ammotype_t; num: integer; const excact: boolean = false): boolean;
 var
   oldammo: integer;
 begin
@@ -132,10 +132,16 @@ begin
     exit;
   end;
 
-  if num <> 0 then
-    num := num * clipammo[Ord(ammo)]
-  else
-    num := clipammo[Ord(ammo)] div 2;
+  if not excact then
+  begin
+    if num <> 0 then
+      num := num * clipammo[Ord(ammo)]
+    else
+      num := clipammo[Ord(ammo)] div 2;
+  end;
+
+  if num = 0 then
+    num := 1;
 
   if (gameskill = sk_baby) or (gameskill = sk_nightmare) then
   begin
@@ -143,7 +149,6 @@ begin
     // you'll need in nightmare
     num := num * 2
   end;
-
 
   oldammo := player.ammo[Ord(ammo)];
   player.ammo[Ord(ammo)] := player.ammo[Ord(ammo)] + num;
