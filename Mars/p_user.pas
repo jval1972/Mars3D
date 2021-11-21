@@ -770,6 +770,8 @@ procedure P_DeathThink(player: Pplayer_t);
 var
   angle: angle_t;
   delta: angle_t;
+  attackeratwater: boolean;
+  playeratwater: boolean;
 begin
   P_MovePsprites(player);
 
@@ -797,7 +799,14 @@ begin
   // JVAL: Check water portal (MARS)
   P_CheckPlayerWaterSector(player);
 
-  if (player.attacker <> nil) and (player.attacker <> player.mo) then
+  if player.attacker <> nil then
+    attackeratwater := Psubsector_t(player.attacker.subsector).sector.renderflags and SRF_UNDERWATER <> 0
+  else
+    attackeratwater := false;
+
+  playeratwater := Psubsector_t(player.mo.subsector).sector.renderflags and SRF_UNDERWATER <> 0;
+
+  if (player.attacker <> nil) and (player.attacker <> player.mo) and (playeratwater = attackeratwater) then
   begin
 
     angle := R_PointToAngle2(
