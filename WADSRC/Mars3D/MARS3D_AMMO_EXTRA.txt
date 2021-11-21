@@ -96,3 +96,27 @@ ACTOR MT_FREEZEGUNAMMO 2104
     }
   }
 }
+
+
+///////////////////////////////
+// MT_SHOCKGUNAMMO
+///////////////////////////////
+ACTOR MT_SHOCKGUNAMMO 2105
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      ELES A 4
+      ELES B 4
+      ELES C 4
+      Loop
+    }
+  }
+}
