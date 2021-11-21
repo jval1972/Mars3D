@@ -46,3 +46,29 @@ ACTOR MT_ARMORVEST 2016
   }
 }
 
+
+///////////////////////////////
+// MT_ARMORBONUS
+///////////////////////////////
+ACTOR MT_ARMORBONUS 2017
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      DFK3 A 6
+      DFK3 B 6
+      DFK3 C 6
+      DFK3 B 6
+      Loop
+    }
+  }
+}
+
+
