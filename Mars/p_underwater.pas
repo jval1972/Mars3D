@@ -68,6 +68,7 @@ uses
   info_common,
   info_rnd,
   m_bbox,
+  mars_sounds,
   p_3dfloors,
   p_common,
   p_local,
@@ -373,6 +374,7 @@ var
   sec1, sec2: Psector_t;
   i: integer;
   cheight: fixed_t;
+  oldx, oldy: fixed_t;
   newx, newy, newz: fixed_t;
 begin
   pmo := p.mo;
@@ -426,6 +428,9 @@ begin
   // Player is underwater, newz is at the bottom of sec2
     newz := P_FloorHeight(sec2, newx, newy);
 
+  oldx := pmo.x;
+  oldy := pmo.y;
+
   if not P_WaterPortalMove(pmo, sec2, newx, newy, newz) then
     exit;
 
@@ -441,6 +446,9 @@ begin
     pmo.momz := MAX_PLAYERSWIMZMOVE div 2;
     p.deltaviewheight := pmo.momz;
   end;
+
+  MARS_AmbientSound(oldx, oldy, snd_WATERIN1);
+  MARS_AmbientSound(pmo.x, pmo.y, snd_WATERIN1);
 
   p.nextunderwaterportaltic := leveltime + TICRATE div 2;
 end;
