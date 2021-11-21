@@ -77,6 +77,23 @@ var
   compass: array[0..7] of Ppatch_t;
   crosshairs: array[0..4] of Ppatch_t;
 
+const
+  AMMOIMGNAMES: array[0..Ord(NUMAMMO) - 1] of string = (
+    'GUN1A0',
+    'ELESA0',
+    'FUZSA0',
+    'FRESA0',
+    'FLASA0',
+    'BOMSA0',
+    'CDR1A0',
+    'MIS2A0',
+    'MIS1A0'
+  );
+
+var
+  ammoimglumps: array[0..Ord(NUMAMMO) - 1] of integer;
+  healthimglump: integer;
+
 type
   weaponpos_t = record
     x, y: integer;
@@ -117,6 +134,11 @@ begin
 
   for i := 0 to 4 do
     crosshairs[i] := W_CacheLumpName('CROSS' + itoa(i), PU_STATIC);
+
+  for i := 0 to Ord(NUMAMMO) - 1 do
+    ammoimglumps[i] := W_GetNumForName(AMMOIMGNAMES[i]);
+
+  healthimglump := W_GetNumForName('HSP1A0');
 end;
 
 procedure MARS_ShutDownHud;
@@ -170,7 +192,7 @@ begin
   MARS_HudDrawPatch(x, y, compass[an]);
 end;
 
-procedure MARS_HudDrawBigNumber(const x, y: integer; const num: integer);
+function MARS_HudDrawBigNumberR(const x, y: integer; const num: integer): integer;
 var
   num1: integer;
   xpos, ypos: integer;
@@ -190,12 +212,70 @@ begin
     xpos := xpos - p.width - 1;
     num1 := num1 div 10;
   until num1 = 0;
+
+  Result := x - xpos;
 end;
+
+function MARS_HudDrawBigNumberL(const x, y: integer; const num: integer): integer;
+var
+  num1: integer;
+  xpos, ypos: integer;
+  p: Ppatch_t;
+  s: string;
+  i: integer;
+begin
+  num1 := num;
+  if num1 < 0 then
+    num1 := 0;
+
+  xpos := x;
+  ypos := y;
+
+  s := itoa(num1);
+
+  // Draw the number (left justified)
+  for i := 1 to Length(s) do
+  begin
+    p := bignums[Ord(s[i]) - Ord('0')];
+    MARS_HudDrawPatch(xpos, ypos, p);
+    xpos := xpos + p.width + 1;
+  end;
+
+  Result := xpos - x;
+end;
+
+procedure MARS_HudDrawerSmallHealth;
+var
+  p: Ppatch_t;
+begin
+  p := W_CacheLumpNum(healthimglump, PU_STATIC);
+  V_DrawPatch(1 + p.leftoffset, 200 - p.height - 1 + p.topoffset, SCN_HUD, p, false);
+  MARS_HudDrawBigNumberL(1 + p.width + 1, 200 - bignums[0].height - 1, hud_player.health);
+end;
+
+procedure MARS_HudDrawerSmallAmmo;
+var
+  p: Ppatch_t;
+begin
+  if weaponinfo[Ord(hud_player.readyweapon)].ammo < NUMAMMO then
+  begin
+    p := W_CacheLumpNum(ammoimglumps[Ord(weaponinfo[Ord(hud_player.readyweapon)].ammo)], PU_STATIC);
+    V_DrawPatch(319 - p.width + p.leftoffset, 200 - p.height - 1 + p.topoffset, SCN_HUD, p, false);
+    MARS_HudDrawBigNumberR(319 - p.width - 1, 200 - bignums[0].height - 1, hud_player.ammo[Ord(weaponinfo[Ord(hud_player.readyweapon)].ammo)]);
+  end;
+end;
+
 
 procedure MARS_HudDrawerSmall;
 begin
   // Draw crosshair
   MARS_HudDrawCrossHair;
+
+  // Health (bottom left)
+  MARS_HudDrawerSmallHealth;
+
+  // Ammo (bottom right)
+  MARS_HudDrawerSmallAmmo;
 end;
 
 procedure MARS_HudDrawerStatusBar;
@@ -221,12 +301,12 @@ begin
         MARS_HudDrawPatch(x, y, WeaponNumOff[i]);
 
       if weaponinfo[Ord(hud_player.readyweapon)].ammo <> am_noammo then
-        MARS_HudDrawBigNumber(100, 200 + 15 - STATUSBAR_HEIGHT, hud_player.ammo[Ord(weaponinfo[Ord(hud_player.readyweapon)].ammo)]);
+        MARS_HudDrawBigNumberR(100, 200 + 15 - STATUSBAR_HEIGHT, hud_player.ammo[Ord(weaponinfo[Ord(hud_player.readyweapon)].ammo)]);
     end;
 
   MARS_HudDrawCompass(132, 200 + 7 - STATUSBAR_HEIGHT);
 
-  MARS_HudDrawBigNumber(292, 200 + 22 - STATUSBAR_HEIGHT, hud_player.mo.health);
+  MARS_HudDrawBigNumberR(292, 200 + 22 - STATUSBAR_HEIGHT, hud_player.mo.health);
 
   if hud_player.cards[0] then
     MARS_HudDrawPatch(198, 200 + 21 - STATUSBAR_HEIGHT, stkeys[0]);
@@ -248,7 +328,9 @@ begin
     if (amstate = am_only) or (screenblocks <= 10) then
       MARS_HudDrawerStatusBar
     else if screenblocks = 11 then
-      MARS_HudDrawerSmall;
+      MARS_HudDrawerSmall
+    else if screenblocks = 12 then
+      MARS_HudDrawCrossHair;
   end;
 
   V_CopyRectTransparent(0, 0, SCN_HUD, 320, 200, 0, 0, SCN_FG, true);
