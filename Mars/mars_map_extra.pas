@@ -121,7 +121,7 @@ begin
     CalculateReflect2(d, wall, reflect);
     mo.momx := Round(reflect[0] * FRACUNIT);
     mo.momy := Round(reflect[1] * FRACUNIT);
-    mo.angle := R_PointToAngle(mo.momx, mo.momy);
+    mo.angle := R_PointToAngle2(0, 0, mo.momx, mo.momy);
   end;
   newx := mo.x + mo.momx;
   newy := mo.y + mo.momy;
@@ -143,7 +143,7 @@ begin
   CalculateReflect2(d, wall, reflect);
   mo.momx := Round(reflect[0] * FRACUNIT);
   mo.momy := Round(reflect[1] * FRACUNIT);
-  mo.angle := R_PointToAngle(mo.momx, mo.momy);
+  mo.angle := R_PointToAngle2(0, 0, mo.momx, mo.momy);
 end;
 
 
