@@ -588,7 +588,7 @@ begin
       exit;
     player._message := GOTVISOR;
   end
-  else if s_spr = 'FILY' then // MT_ALLMAP
+  else if s_spr = 'FILY' then // MT_JETPACK
   begin
     if not P_GivePower(player, Ord(pw_jetpack)) then
       exit;
