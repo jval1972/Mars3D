@@ -599,6 +599,27 @@ begin
       exit;
     player._message := GOTJETPACK;
   end
+  else if s_spr = 'DFK1' then // MT_ARMORSHIELD
+  begin
+    if not P_GiveArmor(player, p_greenarmorclass) then
+      exit;
+    player._message := GOTARMOR;
+  end
+  else if s_spr = 'DFK2' then // MT_ARMORVEST
+  begin
+    if not P_GiveArmor(player, p_bluearmorclass) then
+      exit;
+     player._message := GOTMEGA;
+  end
+  else if s_spr = 'DFK3' then // MT_ARMORBONUS
+  begin
+    player.armorpoints := player.armorpoints + 1; // can go over 100%
+    if player.armorpoints > p_maxarmor then
+      player.armorpoints := p_maxarmor;
+    if player.armortype = 0 then
+      player.armortype := 1;
+    player._message := GOTARMBONUS;
+  end
   else
   begin
 

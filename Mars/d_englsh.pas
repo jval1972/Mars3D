@@ -125,8 +125,8 @@ var
 //  P_inter.C
 //
 var
-  GOTARMOR: string = 'Picked up the armor.';
-  GOTMEGA: string = 'Picked up the MegaArmor!';
+  GOTARMOR: string = 'Picked up the armor shield.';
+  GOTMEGA: string = 'Picked up the bulletproof vest!';
   GOTARMBONUS: string = 'Picked up an armor bonus.';
   GOTSUPER: string = 'Supercharge!';
 
