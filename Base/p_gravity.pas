@@ -58,6 +58,8 @@ begin
   sec := Psubsector_t(mo.subsector).sector;
   if (sec.renderflags and SRF_UNDERWATER <> 0) and (mo.flags4_ex and MF4_EX_FORCEUNDERWATERGRAVITY <> 0) then
     result := mo.gravity div 2
+  else if (sec.renderflags and SRF_UNDERWATER <> 0) and (mo.flags4_ex and MF4_EX_FORCELOWUNDERWATERGRAVITY <> 0) then
+    result := mo.gravity div 4
   else if (mo.flags and MF_DROPPED <> 0) and (sec.renderflags and SRF_UNDERWATER <> 0) then
     result := mo.gravity div 2
   else

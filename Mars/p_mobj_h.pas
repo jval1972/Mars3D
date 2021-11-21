@@ -429,6 +429,8 @@ const
   MF4_EX_ABSOLUTEDROPITEMPOS = $1000;
   // Force gravity in underwater sectors
   MF4_EX_FORCEUNDERWATERGRAVITY = $2000;
+  // Force low gravity in underwater sectors
+  MF4_EX_FORCELOWUNDERWATERGRAVITY = $4000;
 
 
 type
