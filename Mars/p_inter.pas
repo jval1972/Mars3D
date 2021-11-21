@@ -537,7 +537,7 @@ begin
   begin
     if not P_GiveAmmo(player, am_trackingmisl, 4) then
       exit;
-    player._message := GOTTRACKINGMISSILES;
+    player._message := GOTTRACKINGMISSILESBOX;
   end
   else if s_spr = 'GUN2' then // Box of bullets
   begin
