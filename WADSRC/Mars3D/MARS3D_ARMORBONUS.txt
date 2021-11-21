@@ -24,3 +24,25 @@ ACTOR MT_ARMORSHIELD 2015
   }
 }
 
+
+///////////////////////////////
+// MT_ARMORVEST
+///////////////////////////////
+ACTOR MT_ARMORVEST 2016
+{
+  Health 1000
+  Width 24
+  Height 24
+  Mass 100
+  Reactiontime 8
+  +MF_SPECIAL
+  States
+  {
+    Spawn:
+    {
+      DFK2 A -1
+      Stop
+    }
+  }
+}
+
