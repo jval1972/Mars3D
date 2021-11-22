@@ -566,6 +566,7 @@ type
   optionsdisplayappearance_e = (
     od_drawfps,
     od_drawcrosshair,
+    od_extendedstatusbar,
     od_shademenubackground,
     od_displaydiskbusyicon,
     od_displayendscreen,
@@ -4578,6 +4579,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @drawcrosshair;
   pmi.alphaKey := 'c';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Extended Statusbar';
+  pmi.cmd := 'extendedstatusbar';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @extendedstatusbar;
+  pmi.alphaKey := 'e';
 
   inc(pmi);
   pmi.status := 1;

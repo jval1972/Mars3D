@@ -43,6 +43,7 @@ procedure MARS_HudDrawer;
 
 var
   drawcrosshair: boolean = true;
+  extendedstatusbar: boolean = true;
 
 implementation
 
@@ -77,6 +78,11 @@ var
   stkeys: array[0..2] of Ppatch_t;
   compass: array[0..7] of Ppatch_t;
   crosshairs: array[0..4] of Ppatch_t;
+  st_extra: Ppatch_t;
+  st_jet: Ppatch_t;
+  st_glass: Ppatch_t;
+  st_suit: Ppatch_t;
+  st_map: Ppatch_t;
 
 const
   AMMOIMGNAMES: array[0..Ord(NUMAMMO) - 1] of string = (
@@ -148,6 +154,12 @@ begin
   for i := 0 to 255 do
     hud_translation[i] := i;
   hud_translation[0] := aprox_black;
+
+  st_extra := W_CacheLumpName('ST_EXTRA', PU_STATIC);
+  st_jet := W_CacheLumpName('ST_JET', PU_STATIC);
+  st_glass := W_CacheLumpName('ST_GLASS', PU_STATIC);
+  st_suit := W_CacheLumpName('ST_SUIT', PU_STATIC);
+  st_map := W_CacheLumpName('ST_MAP', PU_STATIC);
 end;
 
 procedure MARS_ShutDownHud;
@@ -323,6 +335,20 @@ begin
     MARS_HudDrawPatch(209, 200 + 21 - STATUSBAR_HEIGHT, stkeys[1]);
   if hud_player.cards[2] then
     MARS_HudDrawPatch(220, 200 + 21 - STATUSBAR_HEIGHT, stkeys[2]);
+
+  if extendedstatusbar then
+    if amstate <> am_only then
+    begin
+      MARS_HudDrawPatch(22, 139, st_extra);
+      if hud_player.powers[Ord(pw_ironfeet)] <> 0 then
+        MARS_HudDrawPatch(24, 141, st_suit);
+      if hud_player.powers[Ord(pw_allmap)] <> 0 then
+        MARS_HudDrawPatch(44, 141, st_map);
+      if hud_player.powers[Ord(pw_infrared)] <> 0 then
+        MARS_HudDrawPatch(64, 141, st_glass);
+      if hud_player.powers[Ord(pw_jetpack)] <> 0 then
+        MARS_HudDrawPatch(84, 141, st_jet);
+    end;
 end;
 
 procedure MARS_HudDrawer;
