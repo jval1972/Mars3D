@@ -5,14 +5,13 @@ ACTOR MT_BUBBLE
 {
   Health 1000
   Width 8
-  Height 16
+  Height 4
   Mass 10
   Reactiontime 8
   Vspeed 2
   RenderStyle TRANSLUCENT
   Alpha 0.99
   +MF_NOGRAVITY
-  +MF_NOBLOCKMAP
   States
   {
     Spawn:
