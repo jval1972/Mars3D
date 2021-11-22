@@ -56,6 +56,7 @@ uses
   g_game,
   mt_utils,
   p_tick,
+  r_data,
   r_defs,
   r_main,
   tables,
@@ -113,6 +114,9 @@ const
     (x: 55; y: 30)
   );
 
+var
+  hud_translation: PByteArray;
+
 procedure MARS_InitHud;
 var
   i: integer;
@@ -139,11 +143,16 @@ begin
     ammoimglumps[i] := W_GetNumForName(AMMOIMGNAMES[i]);
 
   healthimglump := W_GetNumForName('HSP1A0');
+
+  hud_translation := malloc(256 * SizeOf(Byte));
+  for i := 0 to 255 do
+    hud_translation[i] := i;
+  hud_translation[0] := aprox_black;
 end;
 
 procedure MARS_ShutDownHud;
 begin
-
+  memfree(Pointer(hud_translation), 256 * SizeOf(Byte));
 end;
 
 procedure MARS_HudDrawPatch(const x, y: integer; const patch: Ppatch_t);
@@ -317,6 +326,8 @@ begin
 end;
 
 procedure MARS_HudDrawer;
+var
+  oldtr: PByteArray;
 begin
   hud_player := @players[consoleplayer];
 
@@ -325,12 +336,15 @@ begin
     // Clear screen
     MT_ZeroMemory(screens[SCN_HUD], 320 * 200);
 
+    oldtr := v_translation;
+    v_translation := hud_translation;
     if (amstate = am_only) or (screenblocks <= 10) then
       MARS_HudDrawerStatusBar
     else if screenblocks = 11 then
       MARS_HudDrawerSmall
     else if screenblocks = 12 then
       MARS_HudDrawCrossHair;
+    v_translation := oldtr;
   end;
 
   V_CopyRectTransparent(0, 0, SCN_HUD, 320, 200, 0, 0, SCN_FG, true);
