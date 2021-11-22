@@ -67,6 +67,8 @@ procedure A_FireRocketMissile(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_FireTrackingMissile(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_RestoreReadyWeapon(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -734,6 +736,11 @@ begin
     Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
 
   P_SpawnPlayerMissile(player.mo, MT_TRACKINGROCKETMISSILE);
+end;
+
+procedure A_RestoreReadyWeapon(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  player.pendingweapon := player.oldreadyweapon;
 end;
 
 end.

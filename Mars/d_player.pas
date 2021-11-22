@@ -220,6 +220,8 @@ type
     damagetype: integer; // JVAL - Poison damage (MARS)
     nextunderwaterportaltic: integer; // JVAL: Time to allow next underwater portal pass
     thrustmomz: fixed_t;  // JVAL: 20211116 - z momentum by forward/backward move when flying or swimming (from RAD)
+
+    oldreadyweapon: weapontype_t; // For keycard sequence
   end;
   Pplayer_t = ^player_t;
 
