@@ -45,17 +45,28 @@ procedure MARS_PlayerThink(player: Pplayer_t);
 implementation
 
 uses
+  info_common,
   mars_sounds,
   m_fixed,
+  m_rnd,
+  tables,
   p_map,
   p_mobj_h,
+  p_mobj,
   p_tick,
   r_defs,
   s_sound;
 
+var
+  MT_BUBBLE: integer = -2;
+
 procedure MARS_PlayerThink(player: Pplayer_t);
 var
   needsjetsound: boolean;
+  an: angle_t;
+  dist: fixed_t;
+  x, y, z: integer;
+  mo: Pmobj_t;
 begin
   if player.mo = nil then
     exit;
@@ -102,6 +113,28 @@ begin
       player.mo.flags4_ex := player.mo.flags4_ex and not MF4_EX_FLY;
       player.mo.flags := player.mo.flags and not MF_NOGRAVITY;
     end;
+
+  // Bubbles in water
+  if player.playerstate <> PST_DEAD then
+    if player.underwatertics > 0 then
+      if P_Random < 4 then
+      begin
+        an := (Sys_Random - Sys_Random) * ANG1 div 3 + player.mo.angle;
+        dist := (Sys_Random mod 16 + 24) * FRACUNIT;
+
+        if MT_BUBBLE = -2 then
+          MT_BUBBLE := Info_GetMobjNumForName('MT_BUBBLE');
+        if MT_BUBBLE >= 0 then
+        begin
+          x := player.mo.x + FixedMul(dist, finecosine[an div ANGLETOFINEUNIT]);
+          y := player.mo.y + FixedMul(dist, finesine[an div ANGLETOFINEUNIT]);
+          z := player.mo.z + player.mo.height div 2;
+          mo := P_SpawnMobj(x, y, z, MT_BUBBLE);
+          mo.angle := an;
+          mo.momx := player.mo.momx;
+          mo.momy := player.mo.momy;
+        end;
+      end;
 end;
 
 end.
