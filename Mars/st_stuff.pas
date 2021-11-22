@@ -1307,7 +1307,7 @@ begin
   st_stopped := true;
 ////////////////////////////////////////////////////////////////////////////////
 
-//  ST_LoadData;
+  ST_LoadData;
   C_AddCmd('god, iddqd', @ST_CmdGod);
   C_AddCmd('massacre', @ST_CmdMassacre);
   C_AddCmd('givefullammo, rambo, idfa', @ST_CmdIDFA);
