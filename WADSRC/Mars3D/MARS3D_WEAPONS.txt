@@ -31,6 +31,7 @@ WEAPON WP_FIST
       Goto Ready
     }
     Hold:
+    {
       HADE B 4
       HADE C 4 A_PunchAndKick
       HADE B 4
