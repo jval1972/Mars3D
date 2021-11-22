@@ -44,7 +44,7 @@ uses
 // Size of statusbar.
 // Now sensitive for scaling.
 const
-  ST_HEIGHT = 32;
+  ST_HEIGHT = 31;
   ST_WIDTH = 320;
   ST_Y = 200 - ST_HEIGHT;
 
@@ -1307,7 +1307,7 @@ begin
   st_stopped := true;
 ////////////////////////////////////////////////////////////////////////////////
 
-  ST_LoadData;
+//  ST_LoadData;
   C_AddCmd('god, iddqd', @ST_CmdGod);
   C_AddCmd('massacre', @ST_CmdMassacre);
   C_AddCmd('givefullammo, rambo, idfa', @ST_CmdIDFA);
