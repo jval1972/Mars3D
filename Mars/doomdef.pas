@@ -229,6 +229,9 @@ type
     wp_boomerang,       // Boomerang gun
     wp_missile,         // Missile launcher
     wp_trackingmissile, // Tracking Missile launcher
+    wp_redcard,
+    wp_bluecard,
+    wp_yellowcard,
     NUMWEAPONS,
     // No pending weapon change.
     wp_nochange

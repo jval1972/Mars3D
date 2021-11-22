@@ -69,6 +69,8 @@ procedure A_FireTrackingMissile(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_RestoreReadyWeapon(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_DoPendingDoor(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -87,6 +89,7 @@ uses
   m_rnd,
   tables,
   p_common,
+  p_doors,
   p_inter,
   p_map,
   p_maputl,
@@ -95,7 +98,10 @@ uses
   p_pspr,
   p_setup,
   p_sight,
+  p_spec,
+  p_switch,
   p_tick,
+  r_defs,
   r_main,
   s_sound;
 
@@ -741,6 +747,18 @@ end;
 procedure A_RestoreReadyWeapon(player: Pplayer_t; psp: Ppspdef_t);
 begin
   player.pendingweapon := player.oldreadyweapon;
+end;
+
+procedure A_DoPendingDoor(player: Pplayer_t; psp: Ppspdef_t);
+var
+  line: Pline_t;
+begin
+  if (player.pendingline >= 0) and (player.pendingline < numlines) then
+  begin
+    line := @lines[player.pendingline];
+    if EV_DoDoor(line, vldoor_e(player.pendinglinetype)) <> 0 then
+      P_ChangeSwitchTexture(line, player.pendinglineuseagain);
+  end;
 end;
 
 end.

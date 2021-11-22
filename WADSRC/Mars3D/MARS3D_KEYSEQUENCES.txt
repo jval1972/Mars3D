@@ -1,0 +1,92 @@
+///////////////////////////////
+// WP_REDCARD
+///////////////////////////////
+WEAPON WP_REDCARD
+{
+  Ammo AM_NOAMMO
+  States
+  {
+    Up:
+    {
+      RFIF B 1 A_Raise
+      TNT1 A 0 A_RestoreReadyWeapon
+    Up1:
+      RFIF B 1 A_Raise
+      GoTo Up1
+    }
+    Down:
+    {
+      RFIF C 1 A_Lower
+      Loop
+    }
+    Ready:
+    {
+      RFIF B 1 A_DoPendingDoor
+      RFIF C 1 A_WeaponReady
+      GoTo Down
+    }
+  }
+}
+
+
+///////////////////////////////
+// WP_BLUECARD
+///////////////////////////////
+WEAPON WP_BLUECARD
+{
+  Ammo AM_NOAMMO
+  States
+  {
+    Up:
+    {
+      BFIF B 1 A_Raise
+      TNT1 A 0 A_RestoreReadyWeapon
+    Up1:
+      BFIF B 1 A_Raise
+      GoTo Up1
+    }
+    Down:
+    {
+      BFIF C 1 A_Lower
+      Loop
+    }
+    Ready:
+    {
+      BFIF B 1 A_DoPendingDoor
+      BFIF C 1 A_WeaponReady
+      GoTo Down
+    }
+  }
+}
+
+
+///////////////////////////////
+// WP_YELLOWCARD
+///////////////////////////////
+WEAPON WP_YELLOWCARD
+{
+  Ammo AM_NOAMMO
+  States
+  {
+    Up:
+    {
+      GFIF B 1 A_Raise
+      TNT1 A 0 A_RestoreReadyWeapon
+    Up1:
+      GFIF B 1 A_Raise
+      GoTo Up1
+    }
+    Down:
+    {
+      GFIF C 1 A_Lower
+      Loop
+    }
+    Ready:
+    {
+      GFIF B 1 A_DoPendingDoor
+      GFIF C 1 A_WeaponReady
+      GoTo Down
+    }
+  }
+}
+

@@ -221,7 +221,11 @@ type
     nextunderwaterportaltic: integer; // JVAL: Time to allow next underwater portal pass
     thrustmomz: fixed_t;  // JVAL: 20211116 - z momentum by forward/backward move when flying or swimming (from RAD)
 
-    oldreadyweapon: weapontype_t; // For keycard sequence
+    // JVAL: 20211122 - For keycard sequence (MARS)
+    oldreadyweapon: weapontype_t;
+    pendingline: integer;
+    pendinglinetype: integer;
+    pendinglineuseagain: boolean;
   end;
   Pplayer_t = ^player_t;
 

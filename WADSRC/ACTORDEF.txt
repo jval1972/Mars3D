@@ -18,3 +18,4 @@
 #include "MARS3D\MARS3D_OTHER.txt"
 #include "MARS3D\MARS3D_PEOPLE.txt"
 #include "MARS3D\MARS3D_ITEMS.txt"
+#include "MARS3D\MARS3D_KEYSEQUENCES.txt"

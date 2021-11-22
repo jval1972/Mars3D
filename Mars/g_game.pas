@@ -289,6 +289,7 @@ uses
   z_zone,
   doomstat,
   doomdata,
+  d_items,
   am_map,
   d_net,
   d_net_h,
@@ -591,12 +592,13 @@ begin
 
   // chainsaw overrides
   for i := 0 to Ord(NUMWEAPONS) - 1 do
-    if gamekeydown[KEY_WEAPONS[i]^] then
-    begin
-      cmd.buttons := cmd.buttons or BT_CHANGE;
-      cmd.buttons := cmd.buttons or _SHL(i, BT_WEAPONSHIFT);
-      break;
-    end;
+    if weaponinfo[i].flags and WF_WEAPON <> 0 then
+      if gamekeydown[KEY_WEAPONS[i]^] then
+      begin
+        cmd.buttons := cmd.buttons or BT_CHANGE;
+        cmd.buttons := cmd.buttons or _SHL(i, BT_WEAPONSHIFT);
+        break;
+      end;
 
   // mouse
   if (usemouse and mousebuttons[mousebforward]) then
@@ -1364,6 +1366,7 @@ begin
   p.health := mobjinfo[Ord(MT_PLAYER)].spawnhealth;
   p.readyweapon := wp_pistol;
   p.pendingweapon := wp_pistol;
+  p.oldreadyweapon := wp_pistol;
   p.weaponowned[Ord(wp_fist)] := 1;
   p.weaponowned[Ord(wp_pistol)] := 1;
   p.ammo[Ord(am_bullet)] := p_initialbullets;

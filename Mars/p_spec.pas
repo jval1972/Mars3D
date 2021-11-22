@@ -1460,6 +1460,7 @@ begin
           result := false;
           exit;
         end;
+        // player.pendingweapon := wp_redcard; // JVAL: 20211122 - No sequence for generalized locks
       end;
 
     Ord(BCard):
@@ -1475,6 +1476,7 @@ begin
           result := false;
           exit;
         end;
+        // player.pendingweapon := wp_bluecard; // JVAL: 20211122 - No sequence for generalized locks
       end;
       
     Ord(YCard):
@@ -1490,6 +1492,7 @@ begin
           result := false;
           exit;
         end;
+        // player.pendingweapon := wp_yellowcard; // JVAL: 20211122 - No sequence for generalized locks
       end;
 
     Ord(RSkull):
@@ -1505,6 +1508,7 @@ begin
           result := false;
           exit;
         end;
+        // player.pendingweapon := wp_redcard; // JVAL: 20211122 - No sequence for generalized locks
       end;
 
     Ord(BSkull):
@@ -1520,6 +1524,7 @@ begin
           result := false;
           exit;
         end;
+        // player.pendingweapon := wp_bluecard; // JVAL: 20211122 - No sequence for generalized locks
       end;
 
     Ord(YSkull):
@@ -1535,6 +1540,7 @@ begin
           result := false;
           exit;
         end;
+        // player.pendingweapon := wp_yellowcard; // JVAL: 20211122 - No sequence for generalized locks
       end;
 
     Ord(AllKeys):

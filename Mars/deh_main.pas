@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 381;
+  DEHNUMACTIONS = 382;
 
 type
   deh_action_t = record
@@ -3262,8 +3262,11 @@ begin
   deh_actions[379].originalname := 'ActiveSound';
   {$IFDEF DLL}deh_actions[379].decl := 'A_ActiveSound()';{$ENDIF}
   deh_actions[380].action.acp1 := @A_RestoreReadyWeapon;
-  deh_actions[380].originalname := 'A_RestoreReadyWeapon';
+  deh_actions[380].originalname := 'RestoreReadyWeapon';
   {$IFDEF DLL}deh_actions[380].decl := 'A_RestoreReadyWeapon()';{$ENDIF}
+  deh_actions[381].action.acp1 := @A_DoPendingDoor;
+  deh_actions[381].originalname := 'DoPendingDoor';
+  {$IFDEF DLL}deh_actions[381].decl := 'A_DoPendingDoor()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin

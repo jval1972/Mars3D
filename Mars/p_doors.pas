@@ -48,7 +48,7 @@ uses
 
 procedure T_VerticalDoor(door: Pvldoor_t);
 
-function EV_DoLockedDoor(line: Pline_t; _type: vldoor_e; thing: Pmobj_t): integer;
+function EV_DoLockedDoor(line: Pline_t; _type: vldoor_e; thing: Pmobj_t; useagain: boolean): integer;
 
 function EV_DoDoor(line: Pline_t; _type: vldoor_e): integer;
 
@@ -61,6 +61,7 @@ procedure P_SpawnDoorRaiseIn5Mins(sec: Psector_t; secnum: integer);
 implementation
 
 uses
+  d_delphi,
   d_player,
   g_game,
   m_fixed,
@@ -273,8 +274,7 @@ end;
 // EV_DoLockedDoor
 // Move a locked door up/down
 //
-
-function EV_DoLockedDoor(line: Pline_t; _type: vldoor_e; thing: Pmobj_t): integer;
+function EV_DoLockedDoor(line: Pline_t; _type: vldoor_e; thing: Pmobj_t; useagain: boolean): integer;
 var
   p: Pplayer_t;
 begin
@@ -299,6 +299,7 @@ begin
           result := 0;
           exit;
         end;
+        p.pendingweapon := wp_bluecard;
       end;
 
    134, // Red Lock
@@ -312,6 +313,7 @@ begin
           result := 0;
           exit;
         end;
+        p.pendingweapon := wp_redcard;
       end;
 
    136,  // Yellow Lock
@@ -325,10 +327,14 @@ begin
           result := 0;
           exit;
         end;
+        p.pendingweapon := wp_yellowcard;
       end;
   end;
 
-  result := EV_DoDoor(line, _type);
+  p.pendingline := pDiff(line, @lines[0], SizeOf(line_t));
+  p.pendinglinetype := Ord(_type);
+  p.pendinglineuseagain := useagain;
+  result := 1; 
 end;
 
 function EV_DoDoor(line: Pline_t; _type: vldoor_e): integer;

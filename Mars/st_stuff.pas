@@ -587,7 +587,8 @@ begin
   plyr.armortype := p_idfaarmorclass;
 
   for i := 0 to Ord(NUMWEAPONS) - 1 do
-    plyr.weaponowned[i] := 1;
+    if weaponinfo[i].flags and WF_WEAPON <> 0 then
+      plyr.weaponowned[i] := 1;
 
   for i := 0 to Ord(NUMAMMO) - 1 do
     plyr.ammo[i] := plyr.maxammo[i];
@@ -606,7 +607,8 @@ begin
   plyr.armortype := p_idkfaarmorclass;
 
   for i := 0 to Ord(NUMWEAPONS) - 1 do
-    plyr.weaponowned[i] := 1;
+    if weaponinfo[i].flags and WF_WEAPON <> 0 then
+      plyr.weaponowned[i] := 1;
 
   for i := 0 to Ord(NUMAMMO) - 1 do
     plyr.ammo[i] := plyr.maxammo[i];

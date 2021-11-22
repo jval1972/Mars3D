@@ -935,6 +935,7 @@ implementation
 uses
   doomdef,
   doomdata,
+  d_items,
   d_player,
   d_event,
   d_think,
@@ -5206,7 +5207,8 @@ begin
   if (weapon < 0) or (weapon >= Ord(NUMWEAPONS)) then
     Exit;
 
-  players[plnum].weaponowned[weapon] := {$IFDEF DOOM_OR_HERETIC}1{$ELSE}true{$ENDIF};
+  if weaponinfo[weapon].flags and WF_WEAPON <> 0 then
+    players[plnum].weaponowned[weapon] := {$IFDEF DOOM_OR_HERETIC}1{$ELSE}true{$ENDIF};
 end;
 
 function PS_GetPlayerHasWeapon(const plnum: Integer; const weapon: Integer): Boolean;
@@ -5223,7 +5225,10 @@ begin
     Exit;
   end;
 
-  Result := players[plnum].weaponowned[weapon]{$IFDEF DOOM_OR_HERETIC} <> 0{$ENDIF};
+  if weaponinfo[weapon].flags and WF_WEAPON <> 0 then
+    Result := players[plnum].weaponowned[weapon]{$IFDEF DOOM_OR_HERETIC} <> 0{$ENDIF}
+  else
+    Result := False;
 end;
 
 {$IFNDEF HEXEN}

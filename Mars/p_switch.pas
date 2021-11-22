@@ -723,8 +723,7 @@ begin
    135, // BlzOpenDoor RED
    137: // BlzOpenDoor YELLOW
       begin
-        if EV_DoLockedDoor(line, blazeOpen, thing) <> 0 then
-          P_ChangeSwitchTexture(line, false);
+        EV_DoLockedDoor(line, blazeOpen, thing, false);
       end;
 
    140:
@@ -872,8 +871,7 @@ begin
    134, // BlzOpenDoor RED
    136: // BlzOpenDoor YELLOW
       begin
-        if EV_DoLockedDoor(line, blazeOpen, thing) <> 0 then
-          P_ChangeSwitchTexture(line, true);
+        EV_DoLockedDoor(line, blazeOpen, thing, true);
       end;
 
    138:

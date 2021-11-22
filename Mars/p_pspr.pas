@@ -313,8 +313,10 @@ begin
     P_SetMobjState(player.mo, S_PLAY_ATK1);
     if (player.refire > 0) and (weaponinfo[Ord(player.readyweapon)].holdatkstate > 0) then
       newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].holdatkstate)
+    else if weaponinfo[Ord(player.readyweapon)].atkstate > 0 then
+      newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].atkstate)  // JVAL: 20211122 - Key sequences do not have attack state
     else
-      newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].atkstate);
+      exit;
     P_SetPsprite(player, Ord(ps_weapon), newstate);
     P_NoiseAlert(player.mo, player.mo);
   end;
@@ -442,6 +444,7 @@ begin
     exit;
   end;
 
+  player.oldreadyweapon := player.readyweapon;
   player.readyweapon := player.pendingweapon;
 
   P_BringUpWeapon(player);
