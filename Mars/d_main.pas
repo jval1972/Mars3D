@@ -1015,6 +1015,8 @@ var
   p: integer;
 begin
   p := M_CheckParm('-imad');
+  if p = 0 then
+    p := M_CheckParm('-iwad');
   if (p > 0) and (p < myargc) then
     tmpmad := myargv[p + 1]
   else
