@@ -427,17 +427,10 @@ type
 
 type
   state_t = record
-{$IFDEF OPTIMIZE_FOR_SIZE}
-    sprite: smallint;
-    frame: integer;
-    tics: smallint;
-    tics2: smallint;
-{$ELSE}
     sprite: integer;
     frame: integer;
     tics: integer;
     tics2: integer;
-{$ENDIF}
     action: actionf_t;
     nextstate: statenum_t;
     misc1: integer;
