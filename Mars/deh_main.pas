@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 382;
+  DEHNUMACTIONS = 383;
 
 type
   deh_action_t = record
@@ -3267,6 +3267,9 @@ begin
   deh_actions[381].action.acp1 := @A_DoPendingDoor;
   deh_actions[381].originalname := 'DoPendingDoor';
   {$IFDEF DLL}deh_actions[381].decl := 'A_DoPendingDoor()';{$ENDIF}
+  deh_actions[382].action.acp1 := @A_MatchTargetZ;
+  deh_actions[382].originalname := 'MatchTargetZ';
+  {$IFDEF DLL}deh_actions[382].decl := 'A_MatchTargetZ(zspeed: integer; threshold: integer)';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin
