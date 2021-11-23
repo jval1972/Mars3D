@@ -713,7 +713,7 @@ begin
         sndidx := brsnd;
       end;
       if sndidx > 0 then
-        S_StartSound(p.mo, sndidx);
+        S_StartSound(@p.mo.soundorg1, sndidx);
     end;
 end;
 
