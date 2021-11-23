@@ -101,10 +101,6 @@ const
 function V_ReadPalette(tag: integer): PByteArray;
 
 var
-  pg_CREDIT: string = 'CREDIT';
-  pg_HELP: string = 'HELP';
-  pg_HELP1: string = 'HELP1';
-  pg_HELP2: string = 'HELP2';
   pg_TITLE: string = 'TITLEPIC';
 
 implementation

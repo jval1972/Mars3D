@@ -3303,10 +3303,6 @@ begin
   DEH_AddString(@deh_strings, @castorder[15].name, 'CC_CYBER');
   DEH_AddString(@deh_strings, @castorder[16].name, 'CC_HERO');
 
-  DEH_AddString(@deh_strings, @pg_CREDIT, 'PAGE_CREDIT');
-  DEH_AddString(@deh_strings, @pg_HELP, 'PAGE_HELP');
-  DEH_AddString(@deh_strings, @pg_HELP1, 'PAGE_HELP1');
-  DEH_AddString(@deh_strings, @pg_HELP2, 'PAGE_HELP2');
   DEH_AddString(@deh_strings, @pg_TITLE, 'PAGE_TITLE');
 
   DEH_AddString(@deh_strings, @bgflatE1, 'BGFLATE1');
