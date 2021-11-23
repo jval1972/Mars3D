@@ -402,10 +402,6 @@ var
 // holds key-type for each key box on bar
   keyboxes: array[0..2] of integer;
 
-// a random number per tick
-  st_randomnumber: integer;
-
-
 const
 // Massive bunches of cheat shit
 //  to keep it from being easy to figure them out.
@@ -893,7 +889,6 @@ end;
 procedure ST_Ticker;
 begin
   inc(st_clock);
-  st_randomnumber := M_Random;
   if plyr <> nil then
     st_oldhealth := plyr.health;
 end;
