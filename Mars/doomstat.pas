@@ -40,8 +40,8 @@ uses
 var
 // Game Mode - identify IWAD as shareware, retail etc.
   gamemode: GameMode_t = indetermined;
-  gamemission: GameMission_t = doom;
-  gameversion: GameVersion_t = exe_final2;
+  gamemission: GameMission_t = gm_mars;
+  gameversion: GameVersion_t = gv_mars;
   customgame: CustomGame_t = cg_none;
 
 // Language.

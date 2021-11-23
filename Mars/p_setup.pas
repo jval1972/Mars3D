@@ -851,27 +851,6 @@ begin
     result := false;
     exit;
   end;
-  // Do not spawn cool, new monsters if !commercial
-  if gamemode <> commercial then
-  begin
-    case doomdnum of
-      68, // Arachnotron
-      64, // Archvile
-      88, // Boss Brain
-      89, // Boss Shooter
-      69, // Hell Knight
-      67, // Mancubus
-      71, // Pain Elemental
-      65, // Former Human Commando
-      66, // Revenant
-      84: // Wolf SS
-        begin
-          result := false;
-          exit;
-        end;
-    end;
-  end;
-
   result := true;
 end;
 
@@ -1708,15 +1687,7 @@ end;
 function P_GetMapName(const episode, map: integer): string;
 begin
   // find map name
-  if gamemode = commercial then
-  begin
-    if map < 10 then
-      sprintf(result,'map0%d', [map])
-    else
-      sprintf(result,'map%d', [map]);
-  end
-  else
-    sprintf(result, 'E%dM%d', [episode, map]);
+  sprintf(result, 'E%dM%d', [episode, map]);
 end;
 
 //

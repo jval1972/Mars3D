@@ -740,24 +740,15 @@ begin
   paused := false;
   gameaction := ga_nothing;
 
-  if gamemode = retail then
-    demosequence := (demosequence + 1) mod 7
-  else
-    demosequence := (demosequence + 1) mod 6;
+  demosequence := (demosequence + 1) mod 6;
 
   case demosequence of
     0:
       begin
-        if gamemode = commercial then
-          pagetic := TICRATE * 11
-        else
-          pagetic := (TICRATE * 170) div 35;
+        pagetic := (TICRATE * 170) div 35;
         gamestate := GS_DEMOSCREEN;
         pagename := pg_TITLE;
-        if gamemode = commercial then
-          S_StartMusic(Ord(mus_dm2ttl))
-        else
-          S_StartMusic(Ord(mus_intro));
+        S_StartMusic(Ord(mus_intro));
       end;
     1:
       begin
@@ -767,7 +758,7 @@ begin
       begin
         pagetic := (TICRATE * 200) div 35;
         gamestate := GS_DEMOSCREEN;
-        pagename := pg_CREDIT;
+        pagename := pg_TITLE;
       end;
     3:
       begin
@@ -776,29 +767,11 @@ begin
     4:
       begin
         gamestate := GS_DEMOSCREEN;
-        if gamemode = commercial then
-        begin
-          pagetic := TICRATE * 11;
-          pagename := pg_TITLE;
-          S_StartMusic(Ord(mus_dm2ttl));
-        end
-        else
-        begin
-          pagetic := (TICRATE * 200) div 35;
-          if gamemode = retail then
-            pagename := pg_CREDIT
-          else
-            pagename := pg_HELP2;
-        end;
+        pagename := pg_TITLE;
       end;
     5:
       begin
         G_DeferedPlayDemo('3');
-      end;
-    // THE DEFINITIVE DOOM Special Edition demo
-    6:
-      begin
-        G_DeferedPlayDemo('4');
       end;
   end;
 end;

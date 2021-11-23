@@ -157,15 +157,6 @@ begin
           exit;
         end;
 
-        // fraggle: this was changed in final doom,
-        // problem between normal doom2 1.9 and final doom
-        //
-        // Note that although chex.exe is based on Final Doom,
-        // it does not have this quirk.
-
-        if (gameversion < exe_final) or (gameversion = exe_chex) or (G_PlayingEngineVersion in [VERSION111..VERSION118]) then
-          thing.z := thing.floorz;  //fixme: not needed?
-
         // JVAL: 3d Floors
         if (G_PlayingEngineVersion >= VERSION122) and (P_3dFloorNumber(m) > 0) then
         begin

@@ -132,13 +132,7 @@ var
   wad_switchlist: Pwad_switchlist_tArray;
   tex1, tex2: integer;
 begin
-
-  if (gamemode = registered) or (gamemode = retail) then
-    episode := 2
-  else if gamemode = commercial then
-    episode := 3
-  else
-    episode := 1;
+  episode := 1;
 
   // JVAL: Check for 'SWITCHES' lump (BOOM compatibility)
   lump := W_CheckNumForName('SWITCHES');

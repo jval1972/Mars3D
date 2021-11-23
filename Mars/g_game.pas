@@ -256,9 +256,6 @@ var
 // DOOM Par Times
   pars: array[1..3, 1..9] of integer;
 
-// DOOM II Par Times
-  cpars: array[0..31] of integer;
-
 var
   p_initialbullets: integer = 100;
   allowvanillademos: boolean = false;
@@ -826,28 +823,9 @@ begin
 
   // DOOM determines the sky texture to be used
   // depending on the current episode, and the game version.
-  if (gamemode = commercial) or
-     (gamemission = pack_tnt) or
-     (gamemission = pack_plutonia) then
-  begin
-    if gamemap < 12 then
-      skytexture := R_TextureNumForName('SKY1')
-    else if gamemap < 21 then
-      skytexture := R_TextureNumForName('SKY2')
-    else
-      skytexture := R_TextureNumForName('SKY3');
-  end
-  else
-  begin
-    if gameepisode < 5 then
-    begin
-      skytexture := R_CheckTextureNumForName('SKY' + Chr(Ord('0') + gameepisode));
-      if skytexture < 0 then
-        skytexture := R_TextureNumForName('SKY1');
-    end
-    else
-      skytexture := R_TextureNumForName('SKY1');
-  end;
+  skytexture := R_CheckTextureNumForName('SKY' + Chr(Ord('0') + gameepisode));
+  if skytexture < 0 then
+    skytexture := R_TextureNumForName('SKY1');
 
   if demoplayback or demorecording or netgame or not showbriefingscreen then
     gamestate := GS_LEVEL
@@ -1548,11 +1526,7 @@ end;
 // Here's for the german edition.
 procedure G_SecretExitLevel;
 begin
-  // IF NO WOLF3D LEVELS, NO SECRET EXIT!
-  if (gamemode = commercial) and (W_CheckNumForName('map31') < 0) then
-    secretexit := false
-  else
-    secretexit := true;
+  secretexit := false;
   gameaction := ga_completed;
 end;
 
@@ -1613,10 +1587,7 @@ begin
   wminfo.maxitems := totalitems;
   wminfo.maxsecret := totalsecret;
   wminfo.maxfrags := 0;
-  if gamemode = commercial then
-    wminfo.partime := TICRATE * cpars[gamemap - 1]
-  else
-    wminfo.partime := TICRATE * pars[gameepisode][gamemap];
+  wminfo.partime := TICRATE * pars[gameepisode][gamemap];
   wminfo.pnum := consoleplayer;
 
   for i := 0 to MAXPLAYERS - 1 do
@@ -1656,17 +1627,6 @@ begin
 
   if secretexit then
     players[consoleplayer].didsecret := true;
-
-  if gamemode = commercial then
-  begin
-    if secretexit then
-    begin
-      if gamemap in [15, 31, 6, 11, 20, 30] then
-        F_StartFinale
-    end
-    else if gamemap in [6, 11, 20, 30] then
-      F_StartFinale;
-  end;
 end;
 
 procedure G_DoWorldDone;
@@ -2062,29 +2022,16 @@ begin
 
   mapname := strupper(parm1);
 
-  if gamemode = commercial then
-  begin
-    epsd := 0;
-    map := atoi(parm1);
-    if (mapname[1] = 'M') then
-      if length(mapname) = 5 then
-        if (mapname[2] = 'A') and
-           (mapname[3] = 'P') then
-          map := atoi(mapname[4] + mapname[5]);
-  end
-  else
-  begin
-    epsd := atoi(parm1);
-    map := atoi(parm2);
-    if parm2 = '' then
-      if (mapname[1] = 'E') then
-        if length(mapname) = 4 then
-          if (mapname[3] = 'M') then
-          begin
-            epsd := atoi(mapname[2]);
-            map := atoi(mapname[4]);
-          end;
-  end;
+  epsd := atoi(parm1);
+  map := atoi(parm2);
+  if parm2 = '' then
+    if (mapname[1] = 'E') then
+      if length(mapname) = 4 then
+        if (mapname[3] = 'M') then
+        begin
+          epsd := atoi(mapname[2]);
+          map := atoi(mapname[4]);
+        end;
 
   if W_CheckNumForName(P_GetMapName(epsd, map)) > -1 then
   begin
@@ -2106,16 +2053,8 @@ begin
     exit;
   end;
 
-  if gamemode = commercial then
-  begin
-    epsd := 0;
-    map := 99;
-  end
-  else
-  begin
-    epsd := 9;
-    map := 9;
-  end;
+  epsd := 9;
+  map := 9;
 
   if W_CheckNumForName(P_GetMapName(epsd, map)) > -1 then
   begin
@@ -2952,42 +2891,6 @@ initialization
   pars[3, 7] := 165;
   pars[3, 8] := 30;
   pars[3, 9] := 135;
-
-
-  ZeroMemory(@cpars, SizeOf(cpars));
-
-  cpars[0] := 30;
-  cpars[1] := 90;
-  cpars[2] := 120;
-  cpars[3] := 120;
-  cpars[4] := 90;
-  cpars[5] := 150;
-  cpars[6] := 120;
-  cpars[7] := 120;
-  cpars[8] := 270;
-  cpars[9] := 90;
-  cpars[10] := 210;
-  cpars[11] := 150;
-  cpars[12] := 150;
-  cpars[13] := 150;
-  cpars[14] := 210;
-  cpars[15] := 150;
-  cpars[16] := 420;
-  cpars[17] := 150;
-  cpars[18] := 210;
-  cpars[19] := 150;
-  cpars[20] := 240;
-  cpars[21] := 150;
-  cpars[22] := 180;
-  cpars[23] := 150;
-  cpars[24] := 150;
-  cpars[25] := 300;
-  cpars[26] := 330;
-  cpars[27] := 420;
-  cpars[28] := 300;
-  cpars[29] := 180;
-  cpars[30] := 120;
-  cpars[31] := 30;
 
   precache := true;
 

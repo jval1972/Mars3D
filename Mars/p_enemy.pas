@@ -2172,58 +2172,27 @@ var
   junk: line_t;
   i: integer;
 begin
-  if gamemode = commercial then
-  begin
-    if gamemap <> 7 then
-      exit;
-
-    if (mo._type <> Ord(MT_FATSO)) and (mo._type <> Ord(MT_BABY)) then
-      exit;
-  end
-  else
-  begin
-    case gameepisode of
-      1:
-        begin
-          if gamemap <> 8 then
-            exit;
-          if mo._type <> Ord(MT_BRUISER) then
-            exit;
-        end;
-      2:
-        begin
-          if gamemap <> 8 then
-            exit;
-          if mo._type <> Ord(MT_CYBORG) then
-            exit;
-        end;
-      3:
-        begin
-          if gamemap <> 8 then
-            exit;
-          if mo._type <> Ord(MT_SPIDER) then
-            exit;
-        end;
-      4:
-        begin
-          case gamemap of
-            6: if mo._type <> Ord(MT_CYBORG) then
-                 exit;
-            8: if mo._type <> Ord(MT_SPIDER) then
-                 exit;
-          else  // JVAL 21/9/2007 Fixed bug that ended E4M2 after cyberdeamon death
-            begin
-              if not majorbossdeathendsdoom1level then
-                exit;
-            end;
-          end;
-        end;
-    else
+  case gameepisode of
+    1:
       begin
-        if gamemap <> 8 then
-          exit;
+        if gamemap <> 7 then
+          if not majorbossdeathendsdoom1level then
+            exit;
       end;
-    end;
+    2:
+      begin
+        if gamemap <> 9 then
+          if not majorbossdeathendsdoom1level then
+            exit;
+      end;
+    3:
+      begin
+        if gamemap <> 4 then
+          if not majorbossdeathendsdoom1level then
+            exit;
+      end;
+  else
+    exit;
   end;
 
   // make sure there is a player alive for victory
@@ -2246,60 +2215,19 @@ begin
     if @th._function.acp1 = @P_MobjThinker then
     begin
       mo2 := Pmobj_t(th);
-      if (mo2 <> mo) and (mo2._type = mo._type) and (mo2.health > 0) then
+      if (mo2 <> mo) and (mo2.health > 0) then
       begin
         // other boss not dead
-        exit;
+        if mo2._type = mo._type then
+          exit;
+        if mo2.flags_ex and MF_EX_BOSS <> 0 then
+          exit;
       end;
     end;
     th := th.next;
   end;
 
   // victory!
-  if gamemode = commercial then
-  begin
-    if gamemap = 7 then
-    begin
-      if mo._type = Ord(MT_FATSO) then
-      begin
-        junk.tag := 666;
-        EV_DoFloor(@junk, lowerFloorToLowest);
-        exit;
-      end;
-      if mo._type = Ord(MT_BABY) then
-      begin
-        junk.tag := 667;
-        EV_DoFloor(@junk, raiseToTexture);
-        exit;
-      end;
-    end;
-  end
-  else
-  begin
-    case gameepisode of
-      1:
-        begin
-          junk.tag := 666;
-          EV_DoFloor(@junk, lowerFloorToLowest);
-          exit;
-        end;
-      4:
-        begin
-          if gamemap = 6 then
-          begin
-            junk.tag := 666;
-            EV_DoDoor(@junk, blazeOpen);
-            exit;
-          end
-          else if gamemap = 8 then
-          begin
-            junk.tag := 666;
-            EV_DoFloor(@junk, lowerFloorToLowest);
-            exit;
-          end;
-        end;
-    end;
-  end;
   G_ExitLevel;
 end;
 
@@ -2553,17 +2481,8 @@ procedure A_PlayerScream(mo: Pmobj_t);
 var
   sound: integer;
 begin
-  if (gamemode = commercial) and (mo.health < -50) then
-  begin
-    // IF THE PLAYER DIES
-    // LESS THAN -50% WITHOUT GIBBING
-    sound := Ord(sfx_pdiehi);
-  end
-  else
-  begin
-    // Default death sound.
-    sound := Ord(sfx_pldeth);
-  end;
+  // Default death sound.
+  sound := Ord(sfx_pldeth);
 
   S_StartSound(mo, sound);
 end;

@@ -1257,16 +1257,7 @@ begin
             if par_map in [1..9] then
               if par_time >= 0 then // JVAL =0 ????
                 pars[par_episode, par_map] := par_time;
-        end
-        else
-        begin // Doom2, Plutonia, TNT
-          par_map := atoi(token2, -1);
-          par_time := atoi(token3, -1);
-          if par_map in [1..32] then
-            if par_time >= 0 then // JVAL =0 ????
-              cpars[par_map - 1] := par_time;
         end;
-
       end;
     end
 
@@ -1778,13 +1769,10 @@ begin
   result.Add('# Par times');
   result.Add('');
   result.Add('[PARS]');
-  result.Add('# Doom 1');
+  result.Add('# Mars');
   for i := 1 to 3 do
     for j := 1 to 9 do
       result.Add('PAR %d %d %d', [i, j, pars[i, j]]);
-  result.Add('# Doom 2 (commercial)');
-  for i := 0 to 31 do
-    result.Add('PAR %d %d', [i + 1, cpars[i]]);
 
   result.Add('');
 
@@ -3297,33 +3285,6 @@ begin
       inc(k);
     end;
 
-  for i := 0 to 8 do
-    DEH_AddString(@deh_strings, @mapnames2[i], 'HUSTR_' + itoa(i + 1));
-
-  for i := 0 to 8 do
-    DEH_AddString(@deh_strings, @mapnames2[i], 'HUSTR_' + IntToStrZFill(2, i + 1));
-
-  for i := 9 to 32 do // Doom2 BFG
-    DEH_AddString(@deh_strings, @mapnames2[i], 'HUSTR_' + itoa(i + 1));
-
-  for i := 0 to 8 do
-    DEH_AddString(@deh_strings, @mapnamesp[i], 'PHUSTR_' + itoa(i + 1));
-
-  for i := 0 to 8 do
-    DEH_AddString(@deh_strings, @mapnamesp[i], 'PHUSTR_' + IntToStrZFill(2, i + 1));
-
-  for i := 9 to 31 do
-    DEH_AddString(@deh_strings, @mapnamesp[i], 'PHUSTR_' + itoa(i + 1));
-
-  for i := 0 to 8 do
-    DEH_AddString(@deh_strings, @mapnamest[i], 'THUSTR_' + itoa(i + 1));
-
-  for i := 0 to 8 do
-    DEH_AddString(@deh_strings, @mapnamest[i], 'THUSTR_' + IntToStrZFill(2, i + 1));
-
-  for i := 9 to 31 do
-    DEH_AddString(@deh_strings, @mapnamest[i], 'THUSTR_' + itoa(i + 1));
-
   DEH_AddString(@deh_strings, @castorder[0].name, 'CC_ZOMBIE');
   DEH_AddString(@deh_strings, @castorder[1].name, 'CC_SHOTGUN');
   DEH_AddString(@deh_strings, @castorder[2].name, 'CC_HEAVY');
@@ -3346,21 +3307,11 @@ begin
   DEH_AddString(@deh_strings, @pg_HELP, 'PAGE_HELP');
   DEH_AddString(@deh_strings, @pg_HELP1, 'PAGE_HELP1');
   DEH_AddString(@deh_strings, @pg_HELP2, 'PAGE_HELP2');
-  DEH_AddString(@deh_strings, @pg_VICTORY2, 'PAGE_VICTORY2');
-  DEH_AddString(@deh_strings, @pg_ENDPIC, 'PAGE_ENDPIC');
   DEH_AddString(@deh_strings, @pg_TITLE, 'PAGE_TITLE');
-  DEH_AddString(@deh_strings, @pg_DMENUPIC, 'PAGE_TITLE_BFG2');
 
   DEH_AddString(@deh_strings, @bgflatE1, 'BGFLATE1');
   DEH_AddString(@deh_strings, @bgflatE2, 'BGFLATE2');
   DEH_AddString(@deh_strings, @bgflatE3, 'BGFLATE3');
-  DEH_AddString(@deh_strings, @bgflatE4, 'BGFLATE4');
-  DEH_AddString(@deh_strings, @bgflat06, 'BGFLAT06');
-  DEH_AddString(@deh_strings, @bgflat11, 'BGFLAT11');
-  DEH_AddString(@deh_strings, @bgflat20, 'BGFLAT20');
-  DEH_AddString(@deh_strings, @bgflat30, 'BGFLAT30');
-  DEH_AddString(@deh_strings, @bgflat15, 'BGFLAT15');
-  DEH_AddString(@deh_strings, @bgflat31, 'BGFLAT31');
   DEH_AddString(@deh_strings, @bgcastcall, 'BGCASTCALL');
   DEH_AddString(@deh_strings, @EndLumpName, 'END_TEXT_LUMP');
   for i := 0 to 9 do
@@ -3436,25 +3387,6 @@ begin
   DEH_AddString(@deh_strings, @E1TEXT, 'E1TEXT');
   DEH_AddString(@deh_strings, @E2TEXT, 'E2TEXT');
   DEH_AddString(@deh_strings, @E3TEXT, 'E3TEXT');
-  DEH_AddString(@deh_strings, @E4TEXT, 'E4TEXT');
-  DEH_AddString(@deh_strings, @C1TEXT, 'C1TEXT');
-  DEH_AddString(@deh_strings, @C2TEXT, 'C2TEXT');
-  DEH_AddString(@deh_strings, @C3TEXT, 'C3TEXT');
-  DEH_AddString(@deh_strings, @C4TEXT, 'C4TEXT');
-  DEH_AddString(@deh_strings, @C5TEXT, 'C5TEXT');
-  DEH_AddString(@deh_strings, @C6TEXT, 'C6TEXT');
-  DEH_AddString(@deh_strings, @P1TEXT, 'P1TEXT');
-  DEH_AddString(@deh_strings, @P2TEXT, 'P2TEXT');
-  DEH_AddString(@deh_strings, @P3TEXT, 'P3TEXT');
-  DEH_AddString(@deh_strings, @P4TEXT, 'P4TEXT');
-  DEH_AddString(@deh_strings, @P5TEXT, 'P5TEXT');
-  DEH_AddString(@deh_strings, @P6TEXT, 'P6TEXT');
-  DEH_AddString(@deh_strings, @T1TEXT, 'T1TEXT');
-  DEH_AddString(@deh_strings, @T2TEXT, 'T2TEXT');
-  DEH_AddString(@deh_strings, @T3TEXT, 'T3TEXT');
-  DEH_AddString(@deh_strings, @T4TEXT, 'T4TEXT');
-  DEH_AddString(@deh_strings, @T5TEXT, 'T5TEXT');
-  DEH_AddString(@deh_strings, @T6TEXT, 'T6TEXT');
 
   DEH_AddString(@deh_strings, @MSG_MODIFIEDGAME, 'MSG_MODIFIEDGAME');
   DEH_AddString(@deh_strings, @MSG_SHAREWARE, 'MSG_SHAREWARE');

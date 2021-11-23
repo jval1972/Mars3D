@@ -456,7 +456,6 @@ type
     ep1,
     ep2,
     ep3,
-    ep4,
     ep_end
   );
 
@@ -2414,14 +2413,7 @@ begin
     exit;
   end;
 
-  if gamemode = commercial then
-  begin
-    if oldsharewareversion then
-      NewDef.numitems := Ord(newg_nightmare); // No nightmare in old shareware
-    M_SetupNextMenu(@NewDef);
-  end
-  else
-    M_SetupNextMenu(@EpiDef);
+  M_SetupNextMenu(@EpiDef);
 end;
 
 //
@@ -3361,10 +3353,7 @@ begin
       KEY_F1:      // Help key
         begin
           M_StartControlPanel;
-          if gamemode = retail then
-            currentMenu := @ReadDef2
-          else
-            currentMenu := @ReadDef1;
+          currentMenu := @ReadDef1;
 
           itemOn := 0;
           M_MenuSound;
@@ -3958,36 +3947,8 @@ begin
   // Here we could catch other version dependencies,
   //  like HELP1/2, and four episodes.
 
-  case gamemode of
-    commercial:
-      begin
-        // This is used because DOOM 2 had only one HELP
-        //  page. I use CREDIT as second page now, but
-        //  kept this hack for educational purposes.
-        MainMenu[Ord(mm_readthis)] := MainMenu[Ord(mm_quitmars)];
-        dec(MainDef.numitems);
-        MainDef.y := MainDef.y + 8;
-        NewDef.prevMenu := @MainDef;
-        ReadDef1.drawproc := M_DrawReadThis1;
-        ReadDef1.x := 330;
-        ReadDef1.y := 165;
-        ReadMenu1[0].routine := @M_FinishReadThis;
-      end;
-    shareware:
-      begin
-        ReadDef2.x := 280;
-        ReadDef2.y := 185; // x,y of menu
-        // We need to remove the fourth episode.
-        // Episode 2 and 3 are handled,
-        // branching to an ad screen.
-        dec(EpiDef.numitems);
-      end;
-    registered:
-      begin
-        // We need to remove the fourth episode.
-        dec(EpiDef.numitems);
-      end;
-  end;
+  if gamemode = shareware then
+    dec(EpiDef.numitems);
 
   // JVAL 20200122 - Extended help screens
   extrahelpscreens := TDNumberList.Create;
@@ -4142,14 +4103,6 @@ begin
   pmi.routine := @M_Episode;
   pmi.pBoolVal := nil;
   pmi.alphaKey := '3';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := 'Episode 4';
-  pmi.cmd := '';
-  pmi.routine := @M_Episode;
-  pmi.pBoolVal := nil;
-  pmi.alphaKey := '4';
 
 ////////////////////////////////////////////////////////////////////////////////
 //EpiDef

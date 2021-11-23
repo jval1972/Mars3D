@@ -71,13 +71,6 @@ var
   bgflatE1: string = 'FLOOR4_8';  // end of DOOM Episode 1
   bgflatE2: string = 'SFLR6_1';   // end of DOOM Episode 2
   bgflatE3: string = 'MFLR8_4';   // end of DOOM Episode 3
-  bgflatE4: string = 'MFLR8_3';   // end of DOOM Episode 4
-  bgflat06: string = 'SLIME16';   // DOOM2 after MAP06
-  bgflat11: string = 'RROCK14';   // DOOM2 after MAP11
-  bgflat20: string = 'RROCK07';   // DOOM2 after MAP20
-  bgflat30: string = 'RROCK17';   // DOOM2 after MAP30
-  bgflat15: string = 'RROCK13';   // DOOM2 going MAP15 to MAP31
-  bgflat31: string = 'RROCK19';   // DOOM2 going MAP31 to MAP32
   bgcastcall: string = 'BOSSBACK';// Panel behind cast call
 
 implementation
@@ -143,8 +136,7 @@ begin
   case gamemode of
     // DOOM 1 - E1, E3 or E4, but each nine missions
     shareware,
-    registered,
-    retail:
+    registered:
       begin
         S_ChangeMusic(Ord(mus_victor), true);
         case gameepisode of
@@ -163,89 +155,15 @@ begin
               finaleflat := bgflatE3;
               finaletext := E3TEXT;
             end;
-          4:
-            begin
-              finaleflat := bgflatE4;
-              finaletext := E4TEXT;
-            end;
         else
           // Ouch.
         end;
       end;
-    // DOOM II and missions packs with E1, M34
-    commercial:
-      begin
-        S_ChangeMusic(Ord(mus_read_m), true);
-        case gamemap of
-          6:
-            begin
-              finaleflat := bgflat06;
-              case gamemission of
-                pack_tnt: finaletext := T1TEXT;
-                pack_plutonia: finaletext := P1TEXT;
-              else
-                finaletext := C1TEXT;
-              end;
-            end;
-         11:
-            begin
-              finaleflat := bgflat11;
-              case gamemission of
-                pack_tnt: finaletext := T2TEXT;
-                pack_plutonia: finaletext := P2TEXT;
-              else
-                finaletext := C2TEXT;
-              end;
-            end;
-         20:
-            begin
-              finaleflat := bgflat20;
-              case gamemission of
-                pack_tnt: finaletext := T3TEXT;
-                pack_plutonia: finaletext := P3TEXT;
-              else
-                finaletext := C3TEXT;
-              end;
-            end;
-         30:
-            begin
-              finaleflat := bgflat30;
-              case gamemission of
-                pack_tnt: finaletext := T4TEXT;
-                pack_plutonia: finaletext := P4TEXT;
-              else
-                finaletext := C4TEXT;
-              end;
-            end;
-         15:
-            begin
-              finaleflat := bgflat15;
-              case gamemission of
-                pack_tnt: finaletext := T5TEXT;
-                pack_plutonia: finaletext := P5TEXT;
-              else
-                finaletext := C5TEXT;
-              end;
-            end;
-         31:
-            begin
-              finaleflat := bgflat31;
-              case gamemission of
-                pack_tnt: finaletext := T6TEXT;
-                pack_plutonia: finaletext := P6TEXT;
-              else
-                finaletext := C6TEXT;
-              end;
-            end;
-        else
-        // Ouch.
-        end;
-      end;
   else
     begin
-      S_ChangeMusic(Ord(mus_read_m), true);
+      S_ChangeMusic(Ord(mus_e1m1), true);
       finaleflat := 'F_SKY1'; // Not used anywhere else.
-      finaletext := C1TEXT;   // FIXME - other text, music?
+      finaletext := '?';   // FIXME - other text, music?
     end;
   end;
   finalestage := 0;
@@ -268,7 +186,7 @@ var
   i: integer;
 begin
   // check for skipping
-  if (gamemode = commercial) and (finalecount > 50) then
+  if {(gamemode = commercial) and} (finalecount > 50) then
   begin
     // go on to the next level
     i := 0;
@@ -296,8 +214,8 @@ begin
     exit;
   end;
 
-  if gamemode = commercial then
-    exit;
+//  if gamemode = commercial then
+//    exit;
 
   if (finalestage = 0) and (finalecount > Length(finaletext) * TEXTSPEED + TEXTWAIT) then
   begin
@@ -418,7 +336,7 @@ begin
   castframes := 0;
   castonmelee := 0;
   castattacking := false;
-  S_ChangeMusic(Ord(mus_evil), true);
+  S_ChangeMusic(Ord(mus_e1m1), true);
 end;
 
 //
@@ -771,28 +689,7 @@ begin
     exit;
   end;
 
-  case gameepisode of
-    1:
-      begin
-        if gamemode = retail then
-          V_PageDrawer(pg_CREDIT)
-        else
-          V_PageDrawer(pg_HELP2);
-      end;
-    2:
-      begin
-        V_PageDrawer(pg_VICTORY2);
-      end;
-    3:
-      begin
-        F_BunnyScroll;
-      end;
-    4:
-      begin
-        V_PageDrawer(pg_ENDPIC);
-      end;
-  end;
-
+  V_PageDrawer(pg_TITLE); // ? Mars?
 end;
 
 initialization

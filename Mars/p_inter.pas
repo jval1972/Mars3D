@@ -687,7 +687,7 @@ begin
           sound := Ord(sfx_getpow);
       end;
 
-    Ord(SPR_MEGA):
+{    Ord(SPR_MEGA):
       begin
         if gamemode <> commercial then
           exit;
@@ -697,7 +697,7 @@ begin
         player._message := GOTMSPHERE;
         if not oldsharewareversion then
           sound := Ord(sfx_getpow);
-      end;
+      end;}
 
   // cards
   // leave cards for everyone

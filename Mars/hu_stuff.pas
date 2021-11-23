@@ -113,22 +113,10 @@ var
 
 const
   NUM_MAPNAMES = 45;
-  NUM_MAPNAMES2 = 33;
-  NUM_MAPNAMESP = 32;
-  NUM_MAPNAMEST = 32;
 
 var
 // DOOM shareware/registered/retail (Ultimate) names.
   mapnames: array[0..NUM_MAPNAMES - 1] of string;
-
-// DOOM 2 map names.
-  mapnames2: array[0..NUM_MAPNAMES2 - 1] of string;
-
-// Plutonia WAD map names.
-  mapnamesp: array[0..NUM_MAPNAMESP - 1] of string;
-
-// TNT WAD map names.
-  mapnamest: array[0..NUM_MAPNAMEST - 1] of string;
 
   player_names: array[0..3] of string;
 
@@ -234,30 +222,6 @@ begin
     result := mapnames[x];
   if result = '' then
     sprintf(result, 'Episode %d - Mission %d', [gameepisode, gamemap]);
-end;
-
-function HU_TITLE2: string;
-begin
-  if IsIntegerInRange(gamemap, 1, NUM_MAPNAMES2) then
-    result := mapnames2[gamemap - 1]
-  else
-    sprintf(result, 'Map %d', [gamemap]);
-end;
-
-function HU_TITLEP: string;
-begin
-  if IsIntegerInRange(gamemap, 1, NUM_MAPNAMESP) then
-    result := mapnamesp[gamemap - 1]
-  else
-    sprintf(result, 'Map %d', [gamemap]);
-end;
-
-function HU_TITLET: string;
-begin
-  if IsIntegerInRange(gamemap, 1, NUM_MAPNAMEST) then
-    result := mapnamest[gamemap - 1]
-  else
-    sprintf(result, 'Map %d', [gamemap]);
 end;
 
 var
@@ -523,20 +487,7 @@ begin
     @hu_fontG,
     Ord(HU_FONTSTART));
 
-  case gamemode of
-    shareware,
-    registered,
-    retail: s := HU_TITLE;
-  else
-    begin
-      case gamemission of
-        pack_tnt: s := HU_TITLET;
-        pack_plutonia: s := HU_TITLEP;
-      else
-        s := HU_TITLE2;
-      end;
-    end;
-  end;
+  s := HU_TITLE;
 
   for i := 1 to Length(s) do
     HUlib_addCharToTextLine(@w_title, s[i]);
@@ -768,10 +719,7 @@ begin
               message_nottobefuckedwith := true;
               message_on := true;
               message_counter := HU_MSGTIMEOUT;
-              if gamemode = commercial then
-                S_StartSound(nil, Ord(sfx_radio))
-              else
-                S_StartSound(nil, Ord(sfx_tink));
+              S_StartSound(nil, Ord(sfx_tink));
             end;
             HUlib_resetIText(@w_inputbuffer[i]);
           end;
@@ -1020,124 +968,6 @@ initialization
   mapnames[42] := mapnames[36];
   mapnames[43] := mapnames[36];
   mapnames[44] := mapnames[36];
-
-////////////////////////////////////////////////////////////////////////////////
-
-// DOOM 2 map names.
-
-  mapnames2[0] := HUSTR_1;
-  mapnames2[1] := HUSTR_2;
-  mapnames2[2] := HUSTR_3;
-  mapnames2[3] := HUSTR_4;
-  mapnames2[4] := HUSTR_5;
-  mapnames2[5] := HUSTR_6;
-  mapnames2[6] := HUSTR_7;
-  mapnames2[7] := HUSTR_8;
-  mapnames2[8] := HUSTR_9;
-  mapnames2[9] := HUSTR_10;
-  mapnames2[10] := HUSTR_11;
-
-  mapnames2[11] := HUSTR_12;
-  mapnames2[12] := HUSTR_13;
-  mapnames2[13] := HUSTR_14;
-  mapnames2[14] := HUSTR_15;
-  mapnames2[15] := HUSTR_16;
-  mapnames2[16] := HUSTR_17;
-  mapnames2[17] := HUSTR_18;
-  mapnames2[18] := HUSTR_19;
-  mapnames2[19] := HUSTR_20;
-
-  mapnames2[20] := HUSTR_21;
-  mapnames2[21] := HUSTR_22;
-  mapnames2[22] := HUSTR_23;
-  mapnames2[23] := HUSTR_24;
-  mapnames2[24] := HUSTR_25;
-  mapnames2[25] := HUSTR_26;
-  mapnames2[26] := HUSTR_27;
-  mapnames2[27] := HUSTR_28;
-  mapnames2[28] := HUSTR_29;
-  mapnames2[29] := HUSTR_30;
-  mapnames2[30] := HUSTR_31;
-  mapnames2[31] := HUSTR_32;
-  mapnames2[32] := HUSTR_33;
-
-////////////////////////////////////////////////////////////////////////////////
-
-// Plutonia WAD map names.
-
-  mapnamesp[0] := PHUSTR_1;
-  mapnamesp[1] := PHUSTR_2;
-  mapnamesp[2] := PHUSTR_3;
-  mapnamesp[3] := PHUSTR_4;
-  mapnamesp[4] := PHUSTR_5;
-  mapnamesp[5] := PHUSTR_6;
-  mapnamesp[6] := PHUSTR_7;
-  mapnamesp[7] := PHUSTR_8;
-  mapnamesp[8] := PHUSTR_9;
-  mapnamesp[9] := PHUSTR_10;
-  mapnamesp[10] := PHUSTR_11;
-
-  mapnamesp[11] := PHUSTR_12;
-  mapnamesp[12] := PHUSTR_13;
-  mapnamesp[13] := PHUSTR_14;
-  mapnamesp[14] := PHUSTR_15;
-  mapnamesp[15] := PHUSTR_16;
-  mapnamesp[16] := PHUSTR_17;
-  mapnamesp[17] := PHUSTR_18;
-  mapnamesp[18] := PHUSTR_19;
-  mapnamesp[19] := PHUSTR_20;
-
-  mapnamesp[20] := PHUSTR_21;
-  mapnamesp[21] := PHUSTR_22;
-  mapnamesp[22] := PHUSTR_23;
-  mapnamesp[23] := PHUSTR_24;
-  mapnamesp[24] := PHUSTR_25;
-  mapnamesp[25] := PHUSTR_26;
-  mapnamesp[26] := PHUSTR_27;
-  mapnamesp[27] := PHUSTR_28;
-  mapnamesp[28] := PHUSTR_29;
-  mapnamesp[29] := PHUSTR_30;
-  mapnamesp[30] := PHUSTR_31;
-  mapnamesp[31] := PHUSTR_32;
-
-////////////////////////////////////////////////////////////////////////////////
-
-// TNT WAD map names.
-
-  mapnamest[0] := THUSTR_1;
-  mapnamest[1] := THUSTR_2;
-  mapnamest[2] := THUSTR_3;
-  mapnamest[3] := THUSTR_4;
-  mapnamest[4] := THUSTR_5;
-  mapnamest[5] := THUSTR_6;
-  mapnamest[6] := THUSTR_7;
-  mapnamest[7] := THUSTR_8;
-  mapnamest[8] := THUSTR_9;
-  mapnamest[9] := THUSTR_10;
-  mapnamest[10] := THUSTR_11;
-
-  mapnamest[11] := THUSTR_12;
-  mapnamest[12] := THUSTR_13;
-  mapnamest[13] := THUSTR_14;
-  mapnamest[14] := THUSTR_15;
-  mapnamest[15] := THUSTR_16;
-  mapnamest[16] := THUSTR_17;
-  mapnamest[17] := THUSTR_18;
-  mapnamest[18] := THUSTR_19;
-  mapnamest[19] := THUSTR_20;
-
-  mapnamest[20] := THUSTR_21;
-  mapnamest[21] := THUSTR_22;
-  mapnamest[22] := THUSTR_23;
-  mapnamest[23] := THUSTR_24;
-  mapnamest[24] := THUSTR_25;
-  mapnamest[25] := THUSTR_26;
-  mapnamest[26] := THUSTR_27;
-  mapnamest[27] := THUSTR_28;
-  mapnamest[28] := THUSTR_29;
-  mapnamest[29] := THUSTR_30;
-  mapnamest[30] := THUSTR_31;
-  mapnamest[31] := THUSTR_32;
 
 ////////////////////////////////////////////////////////////////////////////////
 
