@@ -1572,44 +1572,18 @@ begin
     AM_Stop;
   end;
 
-  if gamemode <> commercial then
+  if W_CheckNumForName('E' + itoa(gameepisode) + 'M' + itoa(gamemap)) < 0 then
   begin
-    case gamemap of
-      8:
-        begin
-          gameaction := ga_victory;
-          exit;
-        end;
-      9:
-        begin
-          for i := 0 to MAXPLAYERS - 1 do
-            players[i].didsecret := true;
-        end;
-    end;
+    gameaction := ga_victory;
+    exit;
   end;
-
-  // JVAL: Chex Support
-  if customgame in [cg_chex, cg_chex2] then
-    if gamemap  = 5 then
-    begin
-      gameaction := ga_victory;
-      exit;
-    end;
-
-  // JVAL: Hacx Support
-  if customgame = cg_hacx then
-    if gamemap  = 20 then
-    begin
-      gameaction := ga_victory;
-      exit;
-    end;
 
   wminfo.didsecret := players[consoleplayer].didsecret;
   wminfo.epsd := gameepisode - 1;
   wminfo.last := gamemap - 1;
 
   // wminfo.next is 0 biased, unlike gamemap
-  if gamemode = commercial then
+{  if gamemode = commercial then
   begin
     if secretexit then
     begin
@@ -1630,21 +1604,8 @@ begin
       end;
     end
   end
-  else
+  else}
   begin
-    if secretexit then
-      wminfo.next := 8  // go to secret level
-    else if gamemap = 9 then
-    begin
-      // returning from secret level
-      case gameepisode of
-        1: wminfo.next := 3;
-        2: wminfo.next := 5;
-        3: wminfo.next := 6;
-        4: wminfo.next := 2;
-      end
-    end
-    else
       wminfo.next := gamemap; // go to next level
   end;
 
@@ -2198,7 +2159,7 @@ begin
   if skill > sk_nightmare then
     skill := sk_nightmare;
 
-  if not (((episode = 9) and (map = 9)) or ((map = 99) and (episode = 0))) then
+  if (episode <> 9) or (map <> 9) then
   begin
     // This was quite messy with SPECIAL and commented parts.
     // Supposedly hacks to make the latest edition work.
@@ -2206,45 +2167,23 @@ begin
     if episode < 1 then
       episode := 1;
 
-    if gamemode = retail then
-    begin
-      if episode > 4 then
-        episode := 4;
-    end
-    else if gamemode = shareware then
-    begin
-      if episode > 1 then
-        episode := 1;  // only start episode 1 on shareware
-    end
-    else
-    begin
-      if episode > 3 then
-        episode := 3;
-    end;
+    if episode > 3 then
+      episode := 3;
 
     if map < 1 then
       map := 1;
 
-    if (map > 9) and (gamemode <> commercial) then
-      map := 9;
+    if episode = 1 then
+      if map > 7 then
+        map := 7;
 
-    // JVAL: Chex Support
-    if customgame in [cg_chex, cg_chex2] then
-    begin
-      if map > 5 then
-        map := 5;
-      if episode > 1 then
-        episode := 1;
-    end;
+    if episode = 2 then
+      if map > 9 then
+        map := 9;
 
-    // JVAL: Hacx Support
-    if customgame = cg_hacx then
-    begin
-      if map > 20 then
-        map := 20;
-      if episode > 1 then
-        episode := 1;
-    end;
+    if episode = 3 then
+      if map > 4 then
+        map := 4;
   end;
 
   levelinf := P_GetLevelInfo(P_GetMapName(episode, map));

@@ -951,23 +951,16 @@ begin
     item := target.info.dropitem
   else
   begin
-    // JVAL: Support for Chex Quest
-    // Note: We allow the dropitems to custom defined actors
-    if customgame in [cg_chex, cg_chex2] then
-      item := 0
+    case target._type of
+      Ord(MT_WOLFSS),
+      Ord(MT_POSSESSED):
+        item := Ord(MT_CLIP);
+      Ord(MT_SHOTGUY):
+        item := Ord(MT_SHOTGUN);
+      Ord(MT_CHAINGUY):
+        item := Ord(MT_CHAINGUN);
     else
-    begin
-      case target._type of
-        Ord(MT_WOLFSS),
-        Ord(MT_POSSESSED):
-          item := Ord(MT_CLIP);
-        Ord(MT_SHOTGUY):
-          item := Ord(MT_SHOTGUN);
-        Ord(MT_CHAINGUY):
-          item := Ord(MT_CHAINGUN);
-        else
-          item := 0;
-      end;
+        item := 0;
     end;
   end;
 

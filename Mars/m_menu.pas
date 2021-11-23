@@ -2421,13 +2421,7 @@ begin
     M_SetupNextMenu(@NewDef);
   end
   else
-  begin
-      // JVAL: Chex Support
-    if customgame in [cg_chex, cg_chex2] then
-      M_SetupNextMenu(@NewDef)
-    else
-      M_SetupNextMenu(@EpiDef);
-  end;
+    M_SetupNextMenu(@EpiDef);
 end;
 
 //

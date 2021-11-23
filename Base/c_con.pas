@@ -869,7 +869,7 @@ end;
 procedure C_DrawConsoleBackground;
 begin
 {$IFDEF DOOM}
-  V_DrawPatchFullScreenTMP320x200(decide(customgame = cg_bfg2, pg_DMENUPIC, pg_TITLE));
+  V_DrawPatchFullScreenTMP320x200(pg_TITLE);
 {$ENDIF}
 {$IFDEF HERETIC_OR_HEXEN}
   V_CopyRawDataToScreen(SCN_TMP, 'TITLE');

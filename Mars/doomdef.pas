@@ -103,12 +103,7 @@ type
 
   // JVAL: Chex Support
   CustomGame_t = (
-    cg_none,
-    cg_chex,
-    cg_chex2,
-    cg_hacx,
-    cg_freedoom,
-    cg_bfg2
+    cg_none
   );
 
 // Identify language to use, software localization.

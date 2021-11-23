@@ -753,7 +753,7 @@ begin
         else
           pagetic := (TICRATE * 170) div 35;
         gamestate := GS_DEMOSCREEN;
-        pagename := decide(customgame = cg_bfg2, pg_DMENUPIC, pg_TITLE);
+        pagename := pg_TITLE;
         if gamemode = commercial then
           S_StartMusic(Ord(mus_dm2ttl))
         else
@@ -779,7 +779,7 @@ begin
         if gamemode = commercial then
         begin
           pagetic := TICRATE * 11;
-          pagename := decide(customgame = cg_bfg2, pg_DMENUPIC, pg_TITLE); 
+          pagename := pg_TITLE;
           S_StartMusic(Ord(mus_dm2ttl));
         end
         else
@@ -1955,14 +1955,6 @@ begin
   if M_CheckParm('-internalgamedef') = 0 then
     if not DEH_ParseLumpName('GAMEDEF') then
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
-
-  if customgame in [cg_chex, cg_chex2] then
-    if not DEH_ParseLumpName('CHEX.DEH') then
-      I_Warning('DEH_ParseLumpName(): GAMEDEF lump for CHEX QUEST not found, using defaults.'#13#10);
-
-  if customgame = cg_hacx then
-    if not DEH_ParseLumpName('HACX.DEH') then
-      I_Warning('DEH_ParseLumpName(): GAMEDEF lump for HACX not found, using defaults.'#13#10);
 
   SUC_Progress(41);
 
