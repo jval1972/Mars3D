@@ -119,7 +119,6 @@ var
   GAMMALVL2: string = 'Gamma correction level 2';
   GAMMALVL3: string = 'Gamma correction level 3';
   GAMMALVL4: string = 'Gamma correction level 4';
-  EMPTYSTRING: string = 'empty slot';
 
 //
 //  P_inter.C

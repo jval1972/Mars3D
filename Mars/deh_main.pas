@@ -3451,8 +3451,6 @@ begin
   DEH_AddString(@deh_strings, @GAMMALVL3, 'GAMMALVL3');
   DEH_AddString(@deh_strings, @GAMMALVL4, 'GAMMALVL4');
 
-  DEH_AddString(@deh_strings, @EMPTYSTRING, 'EMPTYSTRING');
-
   DEH_AddString(@deh_strings, @D_DEVSTR, 'D_DEVSTR');
   DEH_AddString(@deh_strings, @D_CDROM, 'D_CDROM');
 
