@@ -125,6 +125,7 @@ uses
 {$ENDIF}
 // State.
   doomstat,
+  r_data,
   v_data;
 
 //
@@ -250,13 +251,13 @@ var
 {$IFNDEF OPENGL}
   src: PByteArray;
   dest: PByteArray;
-  x: integer;
-  y: integer;
+  x, xx: integer;
+  y, yy: integer;
   patch: Ppatch_t;
   tviewwindowx: integer;
   tviewwindowy: integer;
+  tviewwidth: integer;
   tviewheight: integer;
-  tscaledviewwidth: integer;
 {$ENDIF}
   name: string;
 begin
@@ -291,65 +292,42 @@ begin
 
   Z_ChangeTag(src, PU_CACHE);
 
-  tviewwindowx := viewwindowx * 320 div SCREENWIDTH + 1;
-  tviewwindowy := viewwindowy * 200 div SCREENHEIGHT + 1;
-  tviewheight := viewheight * 200 div SCREENHEIGHT - 2;
-  tscaledviewwidth := scaledviewwidth * 320 div SCREENWIDTH - 2;
+  patch := W_CacheLumpName('BORDER', PU_STATIC);
 
-  patch := W_CacheLumpName('brdr_t', PU_STATIC);
-  x := 0;
-  while x < tscaledviewwidth do
+  tviewwindowx := viewwindowx * 320 div SCREENWIDTH - patch.width + 1;
+  tviewwindowy := viewwindowy * 200 div SCREENHEIGHT - patch.height + 1;
+  tviewwidth := scaledviewwidth * 320 div SCREENWIDTH + 2 * patch.width - 2;
+  tviewheight := viewheight * 200 div SCREENHEIGHT + 2 * patch.height - 2;
+
+  x := tviewwindowx;
+  while x <= tviewwindowx + tviewwidth do
   begin
-    V_DrawPatch(tviewwindowx + x, tviewwindowy - 8, SCN_TMP, patch, false);
-    x := x + 8;
+    xx := x;
+    if xx + patch.width >= tviewwindowx + tviewwidth then
+      xx := tviewwindowx + tviewwidth - patch.width;
+    V_DrawPatch(xx, tviewwindowy, SCN_TMP, patch, false);
+    V_DrawPatch(xx, tviewwindowy + tviewheight - patch.height, SCN_TMP, patch, false);
+    x := x + patch.width;
+  end;
+
+  y := tviewwindowy;
+  while y <= tviewwindowy + tviewheight do
+  begin
+    yy := y;
+    if yy + patch.height >= tviewwindowy + tviewheight then
+      yy := tviewwindowy + tviewheight - patch.height;
+    V_DrawPatch(tviewwindowx, yy, SCN_TMP, patch, false);
+    V_DrawPatch(tviewwindowx + tviewwidth - patch.width, yy, SCN_TMP, patch, false);
+    y := y + patch.height;
   end;
   Z_ChangeTag(patch, PU_CACHE);
 
-  patch := W_CacheLumpName('brdr_b', PU_STATIC);
-  x := 0;
-  while x < tscaledviewwidth do
-  begin
-    V_DrawPatch(tviewwindowx + x, tviewwindowy + tviewheight, SCN_TMP, patch, false);
-    x := x + 8;
-  end;
-  Z_ChangeTag(patch, PU_CACHE);
-
-  patch := W_CacheLumpName('brdr_l', PU_STATIC);
-  y := 0;
-  while y < tviewheight do
-  begin
-    V_DrawPatch(tviewwindowx - 8, tviewwindowy + y, SCN_TMP, patch, false);
-    y := y + 8;
-  end;
-  Z_ChangeTag(patch, PU_CACHE);
-
-  patch := W_CacheLumpName('brdr_r', PU_STATIC);
-  y := 0;
-  while y < tviewheight do
-  begin
-    V_DrawPatch(tviewwindowx + tscaledviewwidth, tviewwindowy + y, SCN_TMP, patch, false);
-    y := y + 8;
-  end;
-  Z_ChangeTag(patch, PU_CACHE);
-
-  // Draw beveled edge.
-  V_DrawPatch(tviewwindowx - 8, tviewwindowy - 8, SCN_TMP,
-    'brdr_tl', false);
-
-  V_DrawPatch(tviewwindowx + tscaledviewwidth, tviewwindowy - 8, SCN_TMP,
-    'brdr_tr', false);
-
-  V_DrawPatch(tviewwindowx - 8, tviewwindowy + tviewheight, SCN_TMP,
-    'brdr_bl', false);
-
-  V_DrawPatch(tviewwindowx + tscaledviewwidth, tviewwindowy + tviewheight, SCN_TMP,
-    'brdr_br', false);
 
   V_RemoveTransparency(SCN_TMP, 0, -1);
   V_CopyRect(0, 0, SCN_TMP, V_GetScreenWidth(SCN_TMP), V_GetScreenHeight(SCN_TMP), 0, 0, SCN_BG, true);
 
   R_ScreenBlanc(SCN_BG);
-  x := V_PreserveY(ST_Y) * V_GetScreenWidth(SCN_BG); //SCREENWIDTH;
+  x := V_PreserveY(ST_Y) * V_GetScreenWidth(SCN_BG);
   R_VideoBlanc(SCN_BG, x, (V_GetScreenHeight(SCN_BG) - V_PreserveY(ST_Y)) * V_GetScreenWidth(SCN_BG));
 {$ENDIF}
 end;

@@ -729,26 +729,31 @@ var
 
 procedure gld_DrawBackgroundFrame;
 var
+  i: integer;
   x1, x2, y1, y2: integer;
 begin
   if (viewwindowx <= 0) and (viewwindowy <= 0) then
     Exit;
 
-  x1 := viewwindowx - 1;
-  x2 := x1 + viewwidth + 2;
-  y1 := viewwindowy - 1;
-  y2 := y1 + viewheight + 2;
-
   glDisable(GL_TEXTURE_2D);
 
-  glColor4f(0.5, 0.5, 0.5, 1.0);
-  glBegin(GL_LINE_STRIP);
-    glVertex2i(x1, y1);
-    glVertex2i(x2, y1);
-    glVertex2i(x2, y2);
-    glVertex2i(x1, y2);
-    glVertex2i(x1, y1);
-  glEnd;
+  glColor4f(21 / 255, 49 / 255, 13 / 255, 1.0);
+
+  for i := 0 to 3 do
+  begin
+    x1 := viewwindowx - 1 - i;
+    x2 := x1 + viewwidth + 2 + 2 * i;
+    y1 := viewwindowy - 1 - i;
+    y2 := y1 + viewheight + 2 + 2 * i;
+
+    glBegin(GL_LINE_STRIP);
+      glVertex2i(x1, y1);
+      glVertex2i(x2, y1);
+      glVertex2i(x2, y2);
+      glVertex2i(x1, y2);
+      glVertex2i(x1, y1);
+    glEnd;
+  end;
 
   glEnable(GL_TEXTURE_2D);
 end;

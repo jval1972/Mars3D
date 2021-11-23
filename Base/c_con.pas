@@ -931,13 +931,15 @@ begin
       y := V_GetScreenHeight(SCN_CON) - (ConsoleHeight - lnum + 1) * C_FONTHEIGHT;
       if isDivideLine(ConsoleText[line].line) then
       begin
-        patch := W_CacheLumpName({$IFDEF DOOM_OR_STRIFE}'brdr_t'{$ELSE}'BORDB'{$ENDIF}, PU_STATIC);
+        patch := W_CacheLumpName('BORDERW', PU_STATIC);
         if len > ConsoleWidth then
           len := ConsoleWidth;
-        for i := 1 to len do
+        for i := 1 to 3 * len do
         begin
-          V_DrawPatch(x, y + 2{$IFDEF DOOM_OR_STRIFE} - 4{$ENDIF}, SCN_CON, patch, false);
-          x := x + 8;
+          if x >= V_GetScreenWidth(SCN_CON) then
+            break;
+          V_DrawPatch(x, y + 1, SCN_CON, patch, false);
+          x := x + patch.width;
         end;
         Z_ChangeTag(patch, PU_CACHE);
       end
