@@ -1405,7 +1405,7 @@ ACTOR MT_ALIENBOSS 2051
       UFO1 R 4 A_Fall
       UFO1 S 4
       UFO1 T 4
-      UFO1 U 4
+      UFO1 U 35
       UFO1 U 10 A_BossDeath
       UFO1 U -1
       Stop
