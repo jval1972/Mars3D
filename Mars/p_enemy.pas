@@ -2169,7 +2169,6 @@ procedure A_BossDeath(mo: Pmobj_t);
 var
   th: Pthinker_t;
   mo2: Pmobj_t;
-  junk: line_t;
   i: integer;
 begin
   case gameepisode of
