@@ -159,6 +159,7 @@ uses
   d_notifications,
   g_game,
   mars_briefing,
+  mars_intermission,
   mars_version,
   mars_hud,
   mars_sounds,
@@ -864,6 +865,7 @@ type
     cmp_allowplayerjumps,
     cmp_allowplayercrouch,
     cmp_showbriefingscreen,
+    cmp_showintermissionscreen,
     cmp_allowplayerbreath,
     cmp_keepcheatsinplayerrebord,
     cmp_majorbossdeathendsdoom1level,
@@ -5585,6 +5587,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @showbriefingscreen;
   pmi.alphaKey := 'b';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Show intermission screen';
+  pmi.cmd := 'showintermissionscreen';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @showintermissionscreen;
+  pmi.alphaKey := 'i';
 
   inc(pmi);
   pmi.status := 1;

@@ -1668,18 +1668,26 @@ begin
     memcpy(@wminfo.plyr[i].frags, @players[i].frags, SizeOf(wminfo.plyr[i].frags));
   end;
 
-  gamestate := GS_INTERMISSION;
   viewactive := false;
   amstate := am_inactive;
 
   if statcopy <> nil then
     memcpy(statcopy, @wminfo, SizeOf(wminfo));
 
-  MARS_Intermission_Start(@wminfo);
+  if demoplayback or demorecording or netgame or not showintermissionscreen then
+  begin
+    wipegamestate := -1;  // Force a wipe
+    G_WorldDone;
+  end
+  else
+  begin
+    gamestate := GS_INTERMISSION;
+    MARS_Intermission_Start(@wminfo);
+  end;
 end;
 
 //
-// G_WorldDone 
+// G_WorldDone
 //
 procedure G_WorldDone;
 begin

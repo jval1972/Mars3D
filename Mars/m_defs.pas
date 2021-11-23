@@ -41,6 +41,7 @@ uses
   g_game,
   hu_stuff,
   mars_briefing,
+  mars_intermission,
   mars_hud,
   p_mobj_h,
   p_terrain,
@@ -168,7 +169,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 216;
+  NUMDEFAULTS = 217;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -980,6 +981,14 @@ const
 
     (name: 'showbriefingscreen';
      location: @showbriefingscreen;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'showintermissionscreen';
+     location: @showintermissionscreen;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;

@@ -55,6 +55,9 @@ procedure MARS_Intermission_Drawer;
 // Setup the intermission screens.
 procedure MARS_Intermission_Start(wbstartstruct: Pwbstartstruct_t);
 
+var
+  showintermissionscreen: boolean = true;
+
 implementation
 
 uses
