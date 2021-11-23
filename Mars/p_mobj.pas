@@ -490,7 +490,6 @@ var
   ceilz: fixed_t;
   grav: integer;
   momomz: fixed_t;
-  correct_lost_soul_bounce: Boolean; // JVAL: From Chocolate DOOM
   ladderticks: integer;
   player: Pplayer_t;
 begin
@@ -621,7 +620,7 @@ begin
     mo.z := mo.floorz;
 
     if not (G_PlayingEngineVersion in [VERSION111..VERSION118]) then
-      if not correct_lost_soul_bounce and (mo.flags and MF_SKULLFLY <> 0) then
+      if mo.flags and MF_SKULLFLY <> 0 then
         mo.momz := -mo.momz;
 
     if (mo.flags and MF_MISSILE <> 0) and (mo.flags and MF_NOCLIP = 0) then
