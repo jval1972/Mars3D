@@ -6259,12 +6259,16 @@ begin
     actor.momz := actor.momz + speed;
     if actor.momz > maxmomz then
       actor.momz := maxmomz;
+    if actor.momz < 0 then
+      actor.momz := 0;
   end
   else if actor.z + actor.momz > actor.target.z + threshold then
   begin
     actor.momz := actor.momz - speed;
     if actor.momz < -maxmomz then
       actor.momz := -maxmomz;
+    if actor.momz > 0 then
+      actor.momz := 0;
   end
   else
   begin

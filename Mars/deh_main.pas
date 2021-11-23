@@ -3269,7 +3269,7 @@ begin
   {$IFDEF DLL}deh_actions[381].decl := 'A_DoPendingDoor()';{$ENDIF}
   deh_actions[382].action.acp1 := @A_MatchTargetZ;
   deh_actions[382].originalname := 'MatchTargetZ';
-  {$IFDEF DLL}deh_actions[382].decl := 'A_MatchTargetZ(zspeed: integer; threshold: integer)';{$ENDIF}
+  {$IFDEF DLL}deh_actions[382].decl := 'A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
   begin

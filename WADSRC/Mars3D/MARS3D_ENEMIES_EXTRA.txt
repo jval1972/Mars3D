@@ -67,6 +67,7 @@ ACTOR MT_SUBMARINE 3007
   +MF_NOBLOOD
   +MF_SHOOTABLE
   +MF_COUNTKILL
+  +MF_FLOAT
   +MF_NOGRAVITY
   +MF_EX_SPAWNFLOAT
   +MF2_EX_DONTINFIGHTMONSTERS
@@ -79,12 +80,14 @@ ACTOR MT_SUBMARINE 3007
     }
     See:
     {
+      TNT1 A 0 A_MatchTargetZ(2,6)
       MEC1 EE 4 A_Chase
       Loop
     }
     Missile:
     {
       MEC1 E 8 A_FaceTarget
+      TNT1 A 0 A_MatchTargetZ(2,6)
       TNT1 A 0 A_AttackSound
       TNT1 A 0 A_CustomMissile("MT_SUBMARINE_SHOT", 22, 40)
       MEC1 F RANDOMRANGE(4,6) BRIGHT A_CustomMissile("MT_SUBMARINE_SHOT", 22, -40)
@@ -134,6 +137,7 @@ ACTOR MT_DIVER 3008
   +MF_NOBLOOD
   +MF_SHOOTABLE
   +MF_COUNTKILL
+  +MF_FLOAT
   +MF_NOGRAVITY
   +MF_EX_SPAWNFLOAT
   +MF2_EX_DONTINFIGHTMONSTERS
@@ -146,12 +150,14 @@ ACTOR MT_DIVER 3008
     }
     See:
     {
+      TNT1 A 0 A_MatchTargetZ(2,6)
       MEC3 CD 6 A_Chase
       Loop
     }
     Missile:
     {
       MEC3 E 8 A_FaceTarget
+      TNT1 A 0 A_MatchTargetZ(2,6)
       TNT1 A 0 A_AttackSound
       TNT1 A 0 A_CustomMissile("MT_SUBMARINE_SHOT", 55, 16)
       MEC3 F 8 BRIGHT A_CustomMissile("MT_SUBMARINE_SHOT", 55, -16)
