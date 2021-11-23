@@ -241,117 +241,6 @@ begin
   {$ENDIF}
 end;
 
-// JVAL: Slopes
-procedure P_SlopesCalcHeight(player: Pplayer_t);
-var
-  angle: integer;
-  oldviewz: fixed_t;
-  oldviewz2: fixed_t;
-begin
-  // Regular movement bobbing
-  // (needs to be calculated for gun swing
-  // even if not on ground)
-  // OPTIMIZE: tablify angle
-  // Note: a LUT allows for effects
-  //  like a ramp with low health.
-
-  if (G_PlayingEngineVersion < VERSION122) or
-     (G_PlayingEngineVersion >= VERSION205) then
-  begin
-    P_CalcHeight(player);
-    exit;
-  end;
-
-  player.bob := FixedMul(player.mo.momx, player.mo.momx) +
-                FixedMul(player.mo.momy, player.mo.momy);
-  player.bob := player.bob div 4;
-
-  if player.bob > MAXBOB then
-    player.bob := MAXBOB;
-
-  oldviewz := player.viewz;
-
-  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
-  begin
-    player.viewz := player.mo.z + PVIEWHEIGHT;
-
-    if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
-      player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
-
-    player.oldviewz := oldviewz;
-
-//    player.viewz := player.mo.z + player.viewheight;  JVAL removed!
-    exit;
-  end;
-
-  angle := (FINEANGLES div 20 * leveltime) and FINEMASK;
-  player.viewbob := FixedMul(player.bob div 2, finesine[angle]) div (player.slopetics + 1);
-
-  // move viewheight
-  if player.playerstate = PST_LIVE then
-  begin
-    player.viewheight := player.viewheight + player.deltaviewheight;
-
-    if player.viewheight > PVIEWHEIGHT then
-    begin
-      player.viewheight := PVIEWHEIGHT;
-      player.deltaviewheight := 0;
-    end;
-
-    if player.viewheight < PVIEWHEIGHT div 2 then
-    begin
-      player.viewheight := PVIEWHEIGHT div 2;
-      if player.deltaviewheight <= 0 then
-        player.deltaviewheight := 1;
-    end;
-
-    if player.deltaviewheight <> 0 then
-    begin
-      if player.slopetics > 0 then
-        player.deltaviewheight := player.deltaviewheight + (FRACUNIT div 4) * player.slopetics
-      else
-        player.deltaviewheight := player.deltaviewheight + FRACUNIT div 4;
-      if player.deltaviewheight = 0 then
-        player.deltaviewheight := 1;
-    end;
-  end;
-
-  if player.slopetics > 0 then
-  begin
-    oldviewz2 := player.oldviewz;
-
-    player.viewz :=
-      (player.slopetics * player.viewz +
-       player.mo.z + player.viewheight + player.viewbob) div (player.slopetics + 1); // Extra smooth
-
-    if oldviewz2 < oldviewz then
-    begin
-      if player.viewz < oldviewz then
-        player.viewz := oldviewz;
-    end
-    else if oldviewz2 > oldviewz then
-    begin
-      if player.viewz > oldviewz then
-        player.viewz := oldviewz;
-    end;
-
-    if player.viewz < player.mo.floorz + PVIEWHEIGHT div 2 - 4 * FRACUNIT then
-      player.viewz := player.mo.floorz + PVIEWHEIGHT div 2 - 4 * FRACUNIT;
-    if player.viewz < player.mo.floorz + 4 * FRACUNIT then
-      player.viewz := player.mo.floorz + 4 * FRACUNIT;
-  end
-  else
-    player.viewz := player.mo.z + player.viewheight + player.viewbob;
-
-  if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
-    player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
-
-  if player.viewz < player.mo.floorz + 4 * FRACUNIT then
-    player.viewz := player.mo.floorz + 4 * FRACUNIT;
-
-  player.oldviewz := oldviewz;
-end;
-
 function P_GetMoveFactor(const mo: Pmobj_t): fixed_t;
 var
   momentum, friction: integer;
@@ -418,8 +307,7 @@ begin
   onground := player.mo.z <= player.mo.floorz;
 
   if not onground then
-    if G_PlayingEngineVersion > VERSION120 then
-      onground := player.mo.flags2_ex and MF2_EX_ONMOBJ <> 0;
+    onground := player.mo.flags2_ex and MF2_EX_ONMOBJ <> 0;
 
   if onground then
     player.lastongroundtime := leveltime; // JVAL: 20211101 - Crouch
@@ -428,7 +316,7 @@ begin
   onwater := player.mo.flags4_ex and MF4_EX_SWIM <> 0; // JVAL: 20211109 - Swim mode (Underwater sectors)
   // villsa [STRIFE] allows player to climb over things by jumping
   // haleyjd 20110205: air control thrust should be 256, not cmd.forwardmove
-  if (G_PlayingEngineVersion >= VERSION121) and not onground and not onair and not onwater and (cmd.forwardmove <> 0) then  // JVAL: 20211109 - Fly (Jet pack)
+  if not onground and not onair and not onwater and (cmd.forwardmove <> 0) then  // JVAL: 20211109 - Fly (Jet pack)
   begin
     P_Thrust(player, player.mo.angle, 256);
   end
@@ -440,9 +328,8 @@ begin
       movefactor := ORIG_FRICTION_FACTOR;
 
     if player.cheats and CF_LOWGRAVITY = 0 then
-      if G_PlayingEngineVersion >= VERSION120 then
-        if Psubsector_t(player.mo.subsector).sector.special and FRICTION_MASK <> 0 then
-          movefactor := P_GetMoveFactor(player.mo); //movefactor * 2;
+      if Psubsector_t(player.mo.subsector).sector.special and FRICTION_MASK <> 0 then
+        movefactor := P_GetMoveFactor(player.mo); //movefactor * 2;
 
     // JVAL: 20211101 - Crouch
     if cmd.crouch > 0 then
@@ -461,72 +348,69 @@ begin
       P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * movefactor);
   end;
 
-  if G_PlayingEngineVersion >= VERSION115 then
+  // JVAL: Adjust speed while flying
+  if onair and not onwater and (player.mo.z > player.mo.floorz) then  // JVAL: 20211109 - Fly (Jet pack)
   begin
-    // JVAL: Adjust speed while flying
-    if onair and not onwater and (player.mo.z > player.mo.floorz) then  // JVAL: 20211109 - Fly (Jet pack)
-    begin
-      if player.mo.momx > MAX_PLAYERAIRMOVE then
-        player.mo.momx := MAX_PLAYERAIRMOVE
-      else if player.mo.momx < -MAX_PLAYERAIRMOVE then
-        player.mo.momx := -MAX_PLAYERAIRMOVE;
-      if player.mo.momy > MAX_PLAYERAIRMOVE then
-        player.mo.momy := MAX_PLAYERAIRMOVE
-      else if player.mo.momy < -MAX_PLAYERAIRMOVE then
-        player.mo.momy := -MAX_PLAYERAIRMOVE;
+    if player.mo.momx > MAX_PLAYERAIRMOVE then
+      player.mo.momx := MAX_PLAYERAIRMOVE
+    else if player.mo.momx < -MAX_PLAYERAIRMOVE then
+      player.mo.momx := -MAX_PLAYERAIRMOVE;
+    if player.mo.momy > MAX_PLAYERAIRMOVE then
+      player.mo.momy := MAX_PLAYERAIRMOVE
+    else if player.mo.momy < -MAX_PLAYERAIRMOVE then
+      player.mo.momy := -MAX_PLAYERAIRMOVE;
 
-      if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
-      begin
-        player.mo.momx := player.mo.momx * 15 div 16;
-        player.mo.momy := player.mo.momy * 15 div 16;
-      end;
+    if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
+    begin
+      player.mo.momx := player.mo.momx * 15 div 16;
+      player.mo.momy := player.mo.momy * 15 div 16;
+    end;
+  end
+  else if onwater then
+  begin
+    if cmd.swim <> 0 then
+      player.mo.momz := player.mo.momz + cmd.swim * FRACUNIT; // JVAL: 20211116 - Swim mode (Underwater sectors)
+
+    if player.mo.momz > MAX_PLAYERSWIMZMOVE then
+      player.mo.momz := MAX_PLAYERSWIMZMOVE
+    else if player.mo.momz < -MAX_PLAYERSWIMZMOVE then
+      player.mo.momz := -MAX_PLAYERSWIMZMOVE;
+
+    if player.mo.z > player.mo.floorz then  // JVAL: 20211116 - Swim mode (Underwater sectors)
+    begin
+      if player.mo.momx > MAX_PLAYERSWIMMOVE then
+        player.mo.momx := MAX_PLAYERSWIMMOVE
+      else if player.mo.momx < -MAX_PLAYERSWIMMOVE then
+        player.mo.momx := -MAX_PLAYERSWIMMOVE;
+      if player.mo.momy > MAX_PLAYERSWIMMOVE then
+        player.mo.momy := MAX_PLAYERSWIMMOVE
+      else if player.mo.momy < -MAX_PLAYERSWIMMOVE then
+        player.mo.momy := -MAX_PLAYERSWIMMOVE;
     end
-    else if onwater then
+    else
     begin
-      if cmd.swim <> 0 then
-        player.mo.momz := player.mo.momz + cmd.swim * FRACUNIT; // JVAL: 20211116 - Swim mode (Underwater sectors)
+      if player.mo.momx > MAX_PLAYERWATERMOVE then
+        player.mo.momx := MAX_PLAYERWATERMOVE
+      else if player.mo.momx < -MAX_PLAYERWATERMOVE then
+        player.mo.momx := -MAX_PLAYERWATERMOVE;
+      if player.mo.momy > MAX_PLAYERWATERMOVE then
+        player.mo.momy := MAX_PLAYERWATERMOVE
+      else if player.mo.momy < -MAX_PLAYERWATERMOVE then
+        player.mo.momy := -MAX_PLAYERWATERMOVE;
+    end;
 
-      if player.mo.momz > MAX_PLAYERSWIMZMOVE then
-        player.mo.momz := MAX_PLAYERSWIMZMOVE
-      else if player.mo.momz < -MAX_PLAYERSWIMZMOVE then
-        player.mo.momz := -MAX_PLAYERSWIMZMOVE;
-
-      if player.mo.z > player.mo.floorz then  // JVAL: 20211116 - Swim mode (Underwater sectors)
-      begin
-        if player.mo.momx > MAX_PLAYERSWIMMOVE then
-          player.mo.momx := MAX_PLAYERSWIMMOVE
-        else if player.mo.momx < -MAX_PLAYERSWIMMOVE then
-          player.mo.momx := -MAX_PLAYERSWIMMOVE;
-        if player.mo.momy > MAX_PLAYERSWIMMOVE then
-          player.mo.momy := MAX_PLAYERSWIMMOVE
-        else if player.mo.momy < -MAX_PLAYERSWIMMOVE then
-          player.mo.momy := -MAX_PLAYERSWIMMOVE;
-      end
-      else
-      begin
-        if player.mo.momx > MAX_PLAYERWATERMOVE then
-          player.mo.momx := MAX_PLAYERWATERMOVE
-        else if player.mo.momx < -MAX_PLAYERWATERMOVE then
-          player.mo.momx := -MAX_PLAYERWATERMOVE;
-        if player.mo.momy > MAX_PLAYERWATERMOVE then
-          player.mo.momy := MAX_PLAYERWATERMOVE
-        else if player.mo.momy < -MAX_PLAYERWATERMOVE then
-          player.mo.momy := -MAX_PLAYERWATERMOVE;
-      end;
-
-      if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
-      begin
-        player.mo.momx := player.mo.momx * 11 div 12;
-        player.mo.momy := player.mo.momy * 11 div 12;
-      end;
-    end
-    else if (G_PlayingEngineVersion >= VERSION205) and (player.mo.flags2_ex and MF2_EX_ONMOBJ <> 0) then
+    if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
     begin
-      if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
-      begin
-        player.mo.momx := player.mo.momx * 15 div 16;
-        player.mo.momy := player.mo.momy * 15 div 16;
-      end;
+      player.mo.momx := player.mo.momx * 11 div 12;
+      player.mo.momy := player.mo.momy * 11 div 12;
+    end;
+  end
+  else if player.mo.flags2_ex and MF2_EX_ONMOBJ <> 0 then
+  begin
+    if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
+    begin
+      player.mo.momx := player.mo.momx * 15 div 16;
+      player.mo.momy := player.mo.momy * 15 div 16;
     end;
   end;
 
@@ -537,91 +421,48 @@ begin
 // JVAL Look UP and DOWN
   if zaxisshift then
   begin
-    if G_PlayingEngineVersion < VERSION203 then // JVAL Smooth Look Up/Down
+    look16 := cmd.lookupdown16;
+    if look16 > 7 * 256 then
+      look16 := look16 - 16 * 256;
+
+    if player.angletargetticks > 0 then
+      player.centering := true
+    else if look16 <> 0 then
     begin
-      look := cmd.lookupdown;
-      if look > 7 then
-        look := look - 16;
-
-      if player.angletargetticks > 0 then
+      if look16 = TOCENTER * 256 then
         player.centering := true
-      else if look <> 0 then
+      else
       begin
-        if look = TOCENTER then
-          player.centering := true
-        else
-        begin
-          player.lookdir := player.lookdir + 5 * look;
-          if player.lookdir > MAXLOOKDIR then
-            player.lookdir := MAXLOOKDIR
-          else if player.lookdir < MINLOOKDIR then
-            player.lookdir := MINLOOKDIR;
-        end;
-      end;
-      player.lookdir16 := player.lookdir * 16;
-    end
-    else
-    begin // JVAL Smooth Look Up/Down
-      look16 := cmd.lookupdown16;
-      if look16 > 7 * 256 then
-        look16 := look16 - 16 * 256;
+        player.lookdir16 := player.lookdir16 + Round(5 * look16 / 16);
+        player.lookdir := player.lookdir16 div 16;
 
-      if player.angletargetticks > 0 then
-        player.centering := true
-      else if look16 <> 0 then
-      begin
-        if look16 = TOCENTER * 256 then
-          player.centering := true
-        else
-        begin
-          player.lookdir16 := player.lookdir16 + Round(5 * look16 / 16);
-          player.lookdir := player.lookdir16 div 16;
+        if player.lookdir16 > MAXLOOKDIR * 16 then
+          player.lookdir16 := MAXLOOKDIR * 16
+        else if player.lookdir16 < MINLOOKDIR * 16 then
+          player.lookdir16 := MINLOOKDIR * 16;
 
-          if player.lookdir16 > MAXLOOKDIR * 16 then
-            player.lookdir16 := MAXLOOKDIR * 16
-          else if player.lookdir16 < MINLOOKDIR * 16 then
-            player.lookdir16 := MINLOOKDIR * 16;
-
-          if player.lookdir > MAXLOOKDIR then
-            player.lookdir := MAXLOOKDIR
-          else if player.lookdir < MINLOOKDIR then
-            player.lookdir := MINLOOKDIR;
-        end;
+        if player.lookdir > MAXLOOKDIR then
+          player.lookdir := MAXLOOKDIR
+        else if player.lookdir < MINLOOKDIR then
+          player.lookdir := MINLOOKDIR;
       end;
     end;
 
     if player.centering then
     begin
-      if G_PlayingEngineVersion < VERSION203 then // JVAL Smooth Look Up/Down
+      // JVAL Smooth Look Up/Down
+      if player.lookdir16 > 0 then
+        player.lookdir16 := player.lookdir16 - 8 * 16
+      else if player.lookdir16 < 0 then
+        player.lookdir16 := player.lookdir16 + 8 * 16;
+
+      if abs(player.lookdir16) < 8 * 16 then
       begin
-        if player.lookdir > 0 then
-          player.lookdir := player.lookdir - 8
-        else if player.lookdir < 0 then
-          player.lookdir := player.lookdir + 8;
-
-        if abs(player.lookdir) < 8 then
-        begin
-          player.lookdir := 0;
-          player.centering := false;
-        end;
-
-        player.lookdir16 := player.lookdir * 16;
-      end
-      else
-      begin // JVAL Smooth Look Up/Down
-        if player.lookdir16 > 0 then
-          player.lookdir16 := player.lookdir16 - 8 * 16
-        else if player.lookdir16 < 0 then
-          player.lookdir16 := player.lookdir16 + 8 * 16;
-
-        if abs(player.lookdir16) < 8 * 16 then
-        begin
-          player.lookdir16 := 0;
-          player.centering := false;
-        end;
-
-        player.lookdir := player.lookdir16 div 16;
+        player.lookdir16 := 0;
+        player.centering := false;
       end;
+
+      player.lookdir := player.lookdir16 div 16;
     end;
   end;
 
@@ -791,7 +632,7 @@ begin
 
   player.deltaviewheight := 0;
   onground := player.mo.z <= player.mo.floorz;
-  P_SlopesCalcHeight(player); // JVAL: Slopes
+  P_CalcHeight(player);
 
   // Sink slowly in water when dead
   player.mo.flags4_ex := player.mo.flags4_ex or MF4_EX_FORCELOWUNDERWATERGRAVITY;
@@ -968,7 +809,7 @@ begin
   else
     P_MovePlayer(player);
 
-  P_SlopesCalcHeight(player); // JVAL: Slopes
+  P_CalcHeight(player);
 
   // JVAL: 3d Floors
   sec := Psubsector_t(player.mo.subsector).sector;
@@ -1066,8 +907,7 @@ begin
   else
     player.fixedcolormap := 0;
 
-  if G_PlayingEngineVersion >= VERSION119 then
-    A_PlayerBreath(player);
+  A_PlayerBreath(player);
 end;
 
 end.

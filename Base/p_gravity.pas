@@ -68,10 +68,7 @@ end;
 
 function P_GetSectorGravity(const sec: Psector_t): fixed_t;
 begin
-  if G_PlayingEngineVersion < VERSION204 then
-    result := GRAVITY
-  else
-    result := sec.gravity;
+  result := sec.gravity;
 end;
 
 end.

@@ -225,12 +225,11 @@ begin
     line.validcount := validcount;
 
     // JVAL: 3d Floors
-    if G_PlayingEngineVersion >= VERSION122 then
-      if (line.bbox[BOXLEFT] > los.bbox[BOXRIGHT]) or
-         (line.bbox[BOXRIGHT] < los.bbox[BOXLEFT]) or
-         (line.bbox[BOXBOTTOM] > los.bbox[BOXTOP]) or
-         (line.bbox[BOXTOP] < los.bbox[BOXBOTTOM]) then
-        continue;
+    if (line.bbox[BOXLEFT] > los.bbox[BOXRIGHT]) or
+       (line.bbox[BOXRIGHT] < los.bbox[BOXLEFT]) or
+       (line.bbox[BOXBOTTOM] > los.bbox[BOXTOP]) or
+       (line.bbox[BOXTOP] < los.bbox[BOXBOTTOM]) then
+      continue;
 
     v1 := line.v1;
     v2 := line.v2;
@@ -282,22 +281,12 @@ begin
 
     front := seg.frontsector;
 
-    if G_PlayingEngineVersion >= VERSION122 then
-    begin
-      vmidx := (v1.x + v2.x) div 2;
-      vmidy := (v1.y + v2.y) div 2;
-      front_floorheight := P_FloorHeight(front, vmidx, vmidy);
-      back_floorheight := P_FloorHeight(back, vmidx, vmidy);
-      front_ceilingheight := P_CeilingHeight(front, vmidx, vmidy);
-      back_ceilingheight := P_CeilingHeight(back, vmidx, vmidy);
-    end
-    else
-    begin
-      front_floorheight := front.floorheight;
-      back_floorheight := back.floorheight;
-      front_ceilingheight := front.ceilingheight;
-      back_ceilingheight := back.ceilingheight;
-    end;
+    vmidx := (v1.x + v2.x) div 2;
+    vmidy := (v1.y + v2.y) div 2;
+    front_floorheight := P_FloorHeight(front, vmidx, vmidy);
+    back_floorheight := P_FloorHeight(back, vmidx, vmidy);
+    front_ceilingheight := P_CeilingHeight(front, vmidx, vmidy);
+    back_ceilingheight := P_CeilingHeight(back, vmidx, vmidy);
 
     // no wall to block sight with?
     if (front_floorheight = back_floorheight) and
@@ -307,9 +296,9 @@ begin
     // possible occluder
     // because of ceiling height differences
     if front_ceilingheight < back_ceilingheight then
-      opentop := front_ceilingheight + P_SectorJumpOverhead(front)
+      opentop := front_ceilingheight
     else
-      opentop := back_ceilingheight + P_SectorJumpOverhead(back);
+      opentop := back_ceilingheight;
 
     // because of ceiling height differences
     if front_floorheight > back_floorheight then
@@ -396,168 +385,6 @@ begin
   result := P_CrossBSPNode(bsp.children[side xor 1], los);
 end;
 
-// P_CrossVanillaSubsector
-// Returns true
-//  if strace crosses the given subsector successfully.
-function P_CrossVanillaSubsector(num: integer; const los: Plos_t): boolean;
-var
-  seg: Pvanillaseg_t;
-  line: Pline_t;
-  s1: integer;
-  s2: integer;
-  i: integer;
-  sub: Pvanillasubsector_t;
-  front: Psector_t;
-  back: Psector_t;
-  opentop: fixed_t;
-  openbottom: fixed_t;
-  divl: divline_t;
-  v1: Pvertex_t;
-  v2: Pvertex_t;
-  frac: fixed_t;
-  slope: fixed_t;
-begin
-  sub := @vanillasubsectors[num];
-
-  // check lines
-  for i := sub.firstline to sub.firstline + sub.numlines - 1 do
-  begin
-    seg := @vanillasegs[i];
-    line := seg.linedef;
-
-    // allready checked other side?
-    if line.validcount = validcount then
-      continue;
-
-    line.validcount := validcount;
-
-    v1 := line.v1;
-    v2 := line.v2;
-    s1 := P_DivlineSide(v1.x, v1.y, @los.strace);
-    s2 := P_DivlineSide(v2.x, v2.y, @los.strace);
-
-    // line isn't crossed?
-    if s1 = s2 then
-      continue;
-
-    divl.x := v1.x;
-    divl.y := v1.y;
-    divl.dx := v2.x - v1.x;
-    divl.dy := v2.y - v1.y;
-    s1 := P_DivlineSide(los.strace.x, los.strace.y, @divl);
-    s2 := P_DivlineSide(los.t2x, los.t2y, @divl);
-
-    // line isn't crossed?
-    if s1 = s2 then
-      continue;
-
-    // stop because it is not two sided anyway
-    // might do this after updating validcount?
-    if line.flags and ML_TWOSIDED = 0 then
-    begin
-      Result := False;
-      exit;
-    end;
-
-    // crosses a two sided line
-    front := seg.frontsector;
-    back := seg.backsector;
-
-    // no wall to block sight with?
-    if (front.floorheight = back.floorheight) and
-      (front.ceilingheight = back.ceilingheight) then
-      continue;
-
-    // possible occluder
-    // because of ceiling height differences
-    if front.ceilingheight < back.ceilingheight then
-      opentop := front.ceilingheight
-    else
-      opentop := back.ceilingheight;
-
-    // because of ceiling height differences
-    if front.floorheight > back.floorheight then
-      openbottom := front.floorheight
-    else
-      openbottom := back.floorheight;
-
-    // quick test for totally closed doors
-    if openbottom >= opentop then
-    begin
-      Result := False; // stop
-      exit;
-    end;
-
-    frac := P_InterceptVector2(@los.strace, @divl);
-
-    if front.floorheight <> back.floorheight then
-    begin
-      slope := FixedDiv(openbottom - los.sightzstart, frac);
-      if slope > los.bottomslope then
-        los.bottomslope := slope;
-    end;
-
-    if front.ceilingheight <> back.ceilingheight then
-    begin
-      slope := FixedDiv(opentop - los.sightzstart, frac);
-      if slope < los.topslope then
-        los.topslope := slope;
-    end;
-
-    if los.topslope <= los.bottomslope then
-    begin
-      Result := False; // stop
-      exit;
-    end;
-  end;
-
-  // passed the subsector ok
-  Result := True;
-end;
-
-// P_CrossVanillaBSPNode
-// Returns true
-//  if strace crosses the given node successfully.
-function P_CrossVanillaBSPNode(bspnum: integer; const los: Plos_t): boolean;
-var
-  bsp: Pvanillanode_t;
-  side: integer;
-begin
-  if bspnum and NF_SUBSECTOR <> 0 then
-  begin
-    if bspnum = -1 then
-      Result := P_CrossVanillaSubsector(0, los)
-    else
-      Result := P_CrossVanillaSubsector(bspnum and not NF_SUBSECTOR, los);
-    exit;
-  end;
-
-  bsp := @vanillanodes[bspnum];
-
-  // decide which side the start point is on
-  side := P_DivlineSide(los.strace.x, los.strace.y, Pdivline_t(bsp));
-  if side = 2 then
-    side := 0; // an "on" should cross both sides
-
-  // cross the starting side
-  if not P_CrossVanillaBSPNode(bsp.children[side], los) then
-  begin
-    Result := False;
-    exit;
-  end;
-
-  // the partition plane is crossed here
-  if side = P_DivlineSide(los.t2x, los.t2y, Pdivline_t(bsp)) then
-  begin
-    // the line doesn't touch the other side
-    Result := True;
-    exit;
-  end;
-
-  // cross the ending side
-  Result := P_CrossVanillaBSPNode(bsp.children[side xor 1], los);
-end;
-
 //
 // P_CheckSight
 // Returns true
@@ -637,28 +464,14 @@ begin
   end;
 
   // JVAL: 3D floors
-  if G_PlayingEngineVersion >= VERSION122 then
-  begin
-    if (G_PlayingEngineVersion < VERSION204) or ((G_PlayingEngineVersion = VERSION204) and (demoplayback or demorecording)) then
+  // JVAL 20191206 - Fix problem reported by slayermbm
+  // https://www.doomworld.com/forum/topic/92113-delphidoom-204720-updated-oct-12-2019/?do=findComment&comment=2051252
+  if midn > -1 then
+    if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
     begin
-      if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
-      begin
-        result := t1.floorz = t2.floorz;
-        exit;
-      end;
-    end
-    // JVAL 20191206 - Fix problem reported by slayermbm
-    // https://www.doomworld.com/forum/topic/92113-delphidoom-204720-updated-oct-12-2019/?do=findComment&comment=2051252
-    else
-    begin
-      if midn > -1 then
-        if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
-        begin
-          result := t1.floorz = t2.floorz;
-          exit;
-        end;
+      result := t1.floorz = t2.floorz;
+      exit;
     end;
-  end;
 
   // An unobstructed LOS is possible.
   // Now look from eyes of t1 to any part of t2.
@@ -698,10 +511,7 @@ begin
   end;
 
   // the head node is the last node output
-  if G_IsOldDemoPlaying and hasvanillanodes then
-    result := P_CrossVanillaBSPNode(numvanillanodes - 1, @los)
-  else
-    result := P_CrossBSPNode(numnodes - 1, @los);
+  result := P_CrossBSPNode(numnodes - 1, @los);
 end;
 
 //

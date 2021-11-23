@@ -294,8 +294,7 @@ begin
   tmdropoffz := P_ResolveSwimmFloorHeight(thing, tmdropoffz);
   tmfloorz := tmdropoffz;
 
-  //**tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector);
-  tmceilingz := P_CeilingHeight(newsec, x, y) + P_SectorJumpOverhead(newsec);  // JVAL: Slopes
+  tmceilingz := P_CeilingHeight(newsec, x, y);  // JVAL: Slopes
   tmfloorpic := newsec.floorpic;
 
   inc(validcount);

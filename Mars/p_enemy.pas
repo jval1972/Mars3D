@@ -1160,120 +1160,9 @@ begin
     A_ActiveSound(actor, actor);
 end;
 
-procedure P_DoChaseVanilla(actor: Pmobj_t);
-var
-  delta: integer;
-  nomissile: boolean;
-begin
-  if actor.reactiontime <> 0 then
-    actor.reactiontime := actor.reactiontime - 1;
-
-  // modify target threshold
-  if actor.threshold <> 0 then
-  begin
-    if (actor.target = nil) or (actor.target.health <= 0) then
-      actor.threshold := 0
-    else
-      actor.threshold := actor.threshold - 1;
-  end;
-
-  // turn towards movement direction if not there yet
-  if actor.movedir < 8 then
-  begin
-    actor.angle := actor.angle and $E0000000;
-    delta := actor.angle - _SHLW(actor.movedir, 29);
-
-    if delta > 0 then
-      actor.angle := actor.angle - ANG90 div 2
-    else if delta < 0 then
-      actor.angle := actor.angle + ANG90 div 2;
-  end;
-
-  if (actor.target = nil) or (actor.target.flags and MF_SHOOTABLE = 0) then
-  begin
-    // look for a new target
-    if P_LookForPlayers(actor, True) then
-      exit; // got a new target
-
-    if actor.state <> @states[actor.info.spawnstate] then
-      P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
-    exit;
-  end;
-
-  // do not attack twice in a row
-  if actor.flags and MF_JUSTATTACKED <> 0 then
-  begin
-    actor.flags := actor.flags and not MF_JUSTATTACKED;
-    if (gameskill <> sk_nightmare) and not fastparm then
-      P_NewChaseDir(actor);
-    exit;
-  end;
-
-  // check for melee attack
-  if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
-  begin
-    if actor.info.attacksound <> 0 then
-      S_StartSound(actor, actor.info.attacksound);
-
-    if actor.state <> @states[actor.info.meleestate] then
-      P_SetMobjState(actor, statenum_t(actor.info.meleestate));
-    exit;
-  end;
-
-  // check for missile attack
-  if actor.info.missilestate <> 0 then
-  begin
-    if (G_PlayingEngineVersion <= VERSION110) or (G_PlayingEngineVersion > VERSION205) then
-    begin
-      if not ((gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0)) then
-        if P_CheckMissileRange(actor) then
-        begin
-          if actor.state <> @states[actor.info.missilestate] then
-            P_SetMobjState(actor, statenum_t(actor.info.missilestate));
-          actor.flags := actor.flags or MF_JUSTATTACKED;
-          exit;
-        end;
-    end
-    else
-    begin
-      nomissile := False;
-      if (gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0) then
-        nomissile := True
-      else if not P_CheckMissileRange(actor) then
-        nomissile := True;
-      if not nomissile then
-      begin
-        if actor.state <> @states[actor.info.missilestate] then
-          P_SetMobjState(actor, statenum_t(actor.info.missilestate));
-        actor.flags := actor.flags or MF_JUSTATTACKED;
-        exit;
-      end;
-    end;
-  end;
-
-  // possibly choose another target
-  if netgame and (actor.threshold = 0) and not P_CheckSight(actor, actor.target) then
-  begin
-    if P_LookForPlayers(actor, True) then
-      exit;  // got a new target
-  end;
-
-  // chase towards player
-  actor.movecount := actor.movecount - 1;
-  if (actor.movecount < 0) or not P_Move(actor) then
-    P_NewChaseDir(actor);
-
-  // make active sound
-  if (actor.info.activesound <> 0) and (P_Random < 3) then
-    S_StartSound(actor, actor.info.activesound);
-end;
-
 procedure A_Chase(actor: Pmobj_t);
 begin
-  if G_PlayingEngineVersion <= VERSION110 then // JVAL: 20210103 - Vanilla demo
-    P_DoChaseVanilla(actor)
-  else
-    P_DoChase(actor, false);
+  P_DoChase(actor, false);
 end;
 
 //
@@ -1727,13 +1616,8 @@ begin
 
           P_SetMobjState(corpsehit, statenum_t(info.raisestate));
 
-          if G_PlayingEngineVersion >= VERSION205 then
-          begin
-            corpsehit.height := info.height; // fix Ghost bug
-            corpsehit.radius := info.radius; // fix Ghost bug
-          end
-          else
-            corpsehit.height := _SHL(corpsehit.height, 2);
+          corpsehit.height := info.height; // fix Ghost bug
+          corpsehit.radius := info.radius; // fix Ghost bug
           corpsehit.flags := info.flags;
           corpsehit.flags_ex := info.flags_ex;
           corpsehit.flags2_ex := info.flags2_ex;
@@ -1821,10 +1705,7 @@ begin
 
   // JVAL: Correct the Arch-Vile fire spawned at the wrong location bug
   //       https://doomwiki.org/wiki/Arch-Vile_fire_spawned_at_the_wrong_location
-  if G_PlayingEngineVersion <= VERSION203 then
-    fog := P_SpawnMobj(actor.target.x, actor.target.x, actor.target.z, Ord(MT_FIRE))
-  else
-    fog := P_SpawnMobj(actor.target.x, actor.target.y, actor.target.z, Ord(MT_FIRE));
+  fog := P_SpawnMobj(actor.target.x, actor.target.y, actor.target.z, Ord(MT_FIRE));
 
   actor.tracer := fog;
   fog.target := actor;
@@ -2135,29 +2016,14 @@ end;
 //
 procedure A_Explode(thingy: Pmobj_t);
 begin
-  if G_PlayingEngineVersion >= VERSION205 then
-  begin
-    if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
-      P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
-    else if thingy.state.params <> nil then
-      P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])
-    else
-      P_RadiusAttack(thingy, thingy.target, 128);
-    if thingy.z <= thingy.floorz then
-      P_HitFloor(thingy);
-  end
+  if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
+    P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
+  else if thingy.state.params <> nil then
+    P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])
   else
-  begin
-    if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
-      P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
-    else if thingy.state.params <> nil then
-      P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])
-    else
-    begin
-      P_RadiusAttack(thingy, thingy.target, 128);
-      P_HitFloor(thingy);
-    end;
-  end;
+    P_RadiusAttack(thingy, thingy.target, 128);
+  if thingy.z <= thingy.floorz then
+    P_HitFloor(thingy);
 end;
 
 //

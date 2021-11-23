@@ -81,18 +81,6 @@ var
   numsides: integer;
   sides: Pside_tArray;
 
-  // Vanilla nodes
-  numvanillasegs: integer;
-  vanillasegs: Pvanillaseg_tArray;
-
-  numvanillasubsectors: integer;
-  vanillasubsectors: Pvanillasubsector_tArray;
-
-  numvanillanodes: integer;
-  vanillanodes: Pvanillanode_tArray;
-
-  hasvanillanodes: boolean;
-
 //
 // MAP related Lookup tables.
 // Store VERTEXES, LINEDEFS, SIDEDEFS, etc.
@@ -1516,14 +1504,6 @@ var
   vanillaseg: Pvanillaseg_t;
   block: integer;
 begin
-  // look up sector number for each subsector - vanilla nodes
-  if hasvanillanodes then
-    for i := 0 to numvanillasubsectors - 1 do
-    begin
-      vanillaseg := @vanillasegs[vanillasubsectors[i].firstline];
-      vanillasubsectors[i].sector := vanillaseg.sidedef.sector;
-    end;
-
   // look up sector number for each subsector - normal nodes
   pss := @subsectors[0];
   for i := 0 to numsubsectors - 1 do
@@ -1785,126 +1765,6 @@ begin
   memfree(pointer(hit), numvertexes);
 end;
 
-// P_LoadVanillaSegs
-procedure P_LoadVanillaSegs(lump: integer);
-var
-  Data: pointer;
-  i: integer;
-  ml: Pmapseg_t;
-  li: Pvanillaseg_t;
-  ldef: Pline_t;
-  linedef: integer;
-  side: integer;
-begin
-  numvanillasegs := W_LumpLength(lump) div SizeOf(mapseg_t);
-  if numvanillasegs >= 32768 then
-  begin
-    numvanillasegs := 0;
-    exit;
-  end;
-
-  vanillasegs := Z_Malloc(numvanillasegs * SizeOf(vanillaseg_t), PU_LEVEL, nil);
-  memset(vanillasegs, 0, numvanillasegs * SizeOf(vanillaseg_t));
-  data := W_CacheLumpNum(lump, PU_STATIC);
-
-  ml := Pmapseg_t(data);
-  for i := 0 to numvanillasegs - 1 do
-  begin
-    li := @vanillasegs[i];
-    li.v1 := @vertexes[ml.v1];
-    li.v2 := @vertexes[ml.v2];
-
-    li.angle := _SHL(ml.angle, 16);
-    li.offset := _SHL(ml.offset, 16);
-    linedef := ml.linedef;
-    ldef := @lines[linedef];
-    li.linedef := ldef;
-    side := ml.side;
-    li.sidedef := @sides[ldef.sidenum[side]];
-    li.frontsector := sides[ldef.sidenum[side]].sector;
-    if ldef.flags and ML_TWOSIDED <> 0 then
-      li.backsector := sides[ldef.sidenum[side xor 1]].sector
-    else
-      li.backsector := nil;
-    Inc(ml);
-  end;
-
-  Z_Free(data);
-end;
-
-// P_LoadVanillaSubsectors
-procedure P_LoadVanillaSubsectors(lump: integer);
-var
-  data: pointer;
-  i: integer;
-  ms: Pmapsubsector_t;
-  ss: Pvanillasubsector_t;
-begin
-  numvanillasubsectors := W_LumpLength(lump) div SizeOf(mapsubsector_t);
-  if numvanillasubsectors >= 32768 then
-  begin
-    numvanillasubsectors := 0;
-    exit;
-  end;
-
-  vanillasubsectors := Z_Malloc(numvanillasubsectors * SizeOf(vanillasubsector_t), PU_LEVEL, nil);
-  data := W_CacheLumpNum(lump, PU_STATIC);
-
-  ms := Pmapsubsector_t(data);
-  memset(vanillasubsectors, 0, numvanillasubsectors * SizeOf(vanillasubsector_t));
-
-  for i := 0 to numvanillasubsectors - 1 do
-  begin
-    ss := @vanillasubsectors[i];
-    ss.numlines := ms.numsegs;
-    ss.firstline := ms.firstseg;
-    Inc(ms);
-  end;
-
-  Z_Free(data);
-end;
-
-// P_LoadNodes
-procedure P_LoadVanillaNodes(lump: integer);
-var
-  data: pointer;
-  i: integer;
-  j: integer;
-  k: integer;
-  mn: Pmapnode_t;
-  no: Pvanillanode_t;
-begin
-  numvanillanodes := W_LumpLength(lump) div SizeOf(mapnode_t);
-  if numvanillanodes >= 32768 then
-  begin
-    numvanillanodes := 0;
-    exit;
-  end;
-
-  vanillanodes := Z_Malloc(numvanillanodes * SizeOf(vanillanode_t), PU_LEVEL, nil);
-  data := W_CacheLumpNum(lump, PU_STATIC);
-
-  mn := Pmapnode_t(data);
-
-  for i := 0 to numvanillanodes - 1 do
-  begin
-    no := @vanillanodes[i];
-    no.x := mn.x * FRACUNIT;
-    no.y := mn.y * FRACUNIT;
-    no.dx := mn.dx * FRACUNIT;
-    no.dy := mn.dy * FRACUNIT;
-    for j := 0 to 1 do
-    begin
-      no.children[j] := mn.children[j];
-      for k := 0 to 3 do
-        no.bbox[j, k] := smallint(mn.bbox[j, k]) * FRACUNIT;
-    end;
-    Inc(mn);
-  end;
-
-  Z_Free(data);
-end;
-
 //
 // P_SetupLevel
 //
@@ -1956,17 +1816,6 @@ begin
   MT_WaitTasks;
 
   Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
-
-  numvanillasegs := 0;
-  vanillasegs := nil;
-
-  numvanillasubsectors := 0;
-  vanillasubsectors := nil;
-
-  numvanillanodes := 0;
-  vanillanodes := nil;
-
-  hasvanillanodes := false;
 
   R_SetupLevel;
 
@@ -2068,18 +1917,6 @@ begin
 
   if gwa <> nil then
     gwa.Free;
-
-  if preparingdemoplayback and (G_PlayingEngineVersion < VERSION110) and (numlines < 32768) and (numsides < 32768) then
-  begin
-    // JVAL: 20210131 - Load vanilla nodes
-    if char8tostring(lumpinfo[lumpnum + Ord(ML_SSECTORS)].name) = 'SSECTORS' then
-      P_LoadVanillaSubsectors(lumpnum + Ord(ML_SSECTORS));
-    if char8tostring(lumpinfo[lumpnum + Ord(ML_NODES)].name) = 'NODES' then
-      P_LoadVanillaNodes(lumpnum + Ord(ML_NODES));
-    if char8tostring(lumpinfo[lumpnum + Ord(ML_SEGS)].name) = 'SEGS' then
-      P_LoadVanillaSegs(lumpnum + Ord(ML_SEGS));
-    hasvanillanodes := (vanillasubsectors <> nil) and (vanillanodes <> nil) and (vanillasegs <> nil);
-  end;
 
   rejectmatrix := W_CacheLumpNum(lumpnum + Ord(ML_REJECT), PU_LEVEL);
   rejectmatrixsize := W_LumpLength(lumpnum + Ord(ML_REJECT));

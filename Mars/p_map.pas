@@ -106,8 +106,6 @@ var
 
   attackrange: fixed_t;
 
-function P_SectorJumpOverhead(const s: Psector_t): integer;
-
 // Boom compatibility
 procedure P_CreateSecNodeList(thing: Pmobj_t; x, y: fixed_t);
 
@@ -279,8 +277,7 @@ begin
   tmdropoffz := P_ResolveSwimmFloorHeight(thing, tmdropoffz);
   tmfloorz := tmdropoffz;
 
-  //**tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector);
-  tmceilingz := P_CeilingHeight(newsec, x, y) + P_SectorJumpOverhead(newsec);  // JVAL: Slopes
+  tmceilingz := P_CeilingHeight(newsec, x, y);  // JVAL: Slopes
   tmfloorpic := newsec.floorpic;
 
   inc(validcount);
@@ -353,100 +350,6 @@ end;
 // PIT_CheckLine
 // Adjusts tmfloorz and tmceilingz as lines are contacted
 //
-function PIT_CheckLine(ld: Pline_t): boolean;
-begin
-  if (tmbbox[BOXRIGHT] <= ld.bbox[BOXLEFT]) or
-     (tmbbox[BOXLEFT] >= ld.bbox[BOXRIGHT]) or
-     (tmbbox[BOXTOP] <= ld.bbox[BOXBOTTOM]) or
-     (tmbbox[BOXBOTTOM] >= ld.bbox[BOXTOP]) then
-  begin
-    result := true;
-    exit;
-  end;
-
-  if P_BoxOnLineSide(@tmbbox, ld) <> -1 then
-  begin
-    result := true;
-    exit;
-  end;
-
-  // A line has been hit
-
-  // The moving thing's destination position will cross
-  // the given line.
-  // If this should not be allowed, return false.
-  // If the line is special, keep track of it
-  // to process later if the move is proven ok.
-  // NOTE: specials are NOT sorted by order,
-  // so two special lines that are only 8 pixels apart
-  // could be crossed in either order.
-
-  if ld.backsector = nil then
-  begin
-    result := false;  // one sided line
-    tmbounceline := ld;
-    exit;
-  end;
-
-  if tmthing.flags and MF_MISSILE = 0 then
-  begin
-    if ld.flags and ML_BLOCKING <> 0 then
-    begin
-      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
-      begin
-        result := false;  // explicitly blocking everything
-        tmbounceline := ld;
-        exit;
-      end;
-    end;
-
-    // killough 8/9/98: monster-blockers don't affect friends
-    if ((tmthing.player = nil) or (tmthing.flags2_ex and MF2_EX_FRIEND <> 0)) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
-    begin
-      result := false;  // block monsters only
-      tmbounceline := ld;
-      exit;
-    end;
-  end;
-
-  // set openrange, opentop, openbottom
-  P_LineOpening(ld, true);
-
-  // adjust floor / ceiling heights
-  if opentop < tmceilingz then
-  begin
-    tmceilingz := opentop;
-    ceilingline := ld;
-  end;
-
-  if openbottom > tmfloorz then
-    tmfloorz := openbottom;
-
-  if lowfloor < tmdropoffz then
-    tmdropoffz := lowfloor;
-
-  // if contacted a special line, add it to the list
-  if (ld.special <> 0) or (ld.flags and ML_TRIGGERSCRIPTS <> 0) then
-  begin
-    if maxspechit = 0 then
-    begin
-      maxspechit := 64;
-      spechit := Z_Malloc(64 * SizeOf(Pline_t), PU_STATIC, nil);
-    end
-    else if numspechit = maxspechit then
-    begin
-      maxspechit := maxspechit + 8;
-      spechit := Z_ReAlloc(spechit, maxspechit * SizeOf(Pline_t), PU_STATIC, nil)
-    end;
-
-    spechit[numspechit] := ld;
-    inc(numspechit);
-
-  end;
-
-  result := true;
-end;
-
 // JVAL: Slopes
 function PIT_CheckLineTM(ld: Pline_t): boolean;
 begin
@@ -512,10 +415,7 @@ begin
   end;
 
   // set openrange, opentop, openbottom
-{  if G_PlayingEngineVersion >= VERSION205 then
-    P_LineOpeningTM206(ld, true)
-  else}
-    P_LineOpeningTM(ld, true);
+  P_LineOpeningTM(ld, true);
 
   // adjust floor / ceiling heights
   if opentop < tmceilingz then
@@ -615,13 +515,12 @@ begin
     exit;
   end;
 
-  if G_PlayingEngineVersion >= VERSION205 then
-    if (thing.player <> nil) or (tmthing.player <> nil) then  // Only if a player is involved
-      if not P_ThingsInSameZ(thing, tmthing) then // JVAL: 20200413 -> Check z axis
-      begin
-        result := true;
-        exit;
-      end;
+  if (thing.player <> nil) or (tmthing.player <> nil) then  // Only if a player is involved
+    if not P_ThingsInSameZ(thing, tmthing) then // JVAL: 20200413 -> Check z axis
+    begin
+      result := true;
+      exit;
+    end;
 
   // JVAL: 20200130 - MF2_EX_DONTBLOCKPLAYER flag - does not block players
   if (thing.flags2_ex and MF2_EX_DONTBLOCKPLAYER <> 0) and (tmthing.player <> nil) then
@@ -682,55 +581,51 @@ begin
   end;
 
   // JVAL: 3d Floors
-  if G_PlayingEngineVersion >= VERSION122 then
-  begin
-    if (tmthing.player <> nil) or (thing.player <> nil) then
-      if tmfloorz <> thing.floorz then
-      begin
-        if tmthing.z > thing.z + thing.height then
-        begin
-          result := true;
-          exit;
-        end;
-
-        if tmthing.z + tmthing.height < thing.z then
-        begin // under thing
-          result := true;
-          exit;
-        end;
-      end;
-  end;
-
-  if G_PlayingEngineVersion > VERSION120 then
-    if tmthing.flags2_ex and MF2_EX_PASSMOBJ <> 0 then
-    begin // check if a mobj passed over/under another object
-
-      if ((tmthing._type = Ord(MT_HEAD)) or (tmthing._type = Ord(MT_SKULL)) or (tmthing._type = Ord(MT_PAIN))) and
-         ((thing._type = Ord(MT_HEAD)) or (thing._type = Ord(MT_SKULL)) or (thing._type = Ord(MT_PAIN))) then
-      begin // don't let cacodemons / skull / pain elementals fly over other imps/wizards
-        result := false;
-        exit;
-      end;
-
-      if (tmthing.z > thing.z + thing.height) and
-         (thing.flags and MF_SPECIAL = 0) then
+  if (tmthing.player <> nil) or (thing.player <> nil) then
+    if tmfloorz <> thing.floorz then
+    begin
+      if tmthing.z > thing.z + thing.height then
       begin
         result := true;
         exit;
       end;
 
-      if (tmthing.z + tmthing.height < thing.z) and
-         (thing.flags and MF_SPECIAL = 0) then
+      if tmthing.z + tmthing.height < thing.z then
       begin // under thing
         result := true;
         exit;
       end;
     end;
 
+  if tmthing.flags2_ex and MF2_EX_PASSMOBJ <> 0 then
+  begin
+    // check if a mobj passed over/under another object
+    if ((tmthing._type = Ord(MT_HEAD)) or (tmthing._type = Ord(MT_SKULL)) or (tmthing._type = Ord(MT_PAIN))) and
+       ((thing._type = Ord(MT_HEAD)) or (thing._type = Ord(MT_SKULL)) or (thing._type = Ord(MT_PAIN))) then
+    begin // don't let cacodemons / skull / pain elementals fly over other imps/wizards
+      result := false;
+      exit;
+    end;
+
+    if (tmthing.z > thing.z + thing.height) and
+       (thing.flags and MF_SPECIAL = 0) then
+    begin
+      result := true;
+      exit;
+    end;
+
+    if (tmthing.z + tmthing.height < thing.z) and
+       (thing.flags and MF_SPECIAL = 0) then
+    begin // under thing
+      result := true;
+      exit;
+    end;
+  end;
+
   // check for skulls slamming into things
   if tmthing.flags and MF_SKULLFLY <> 0 then
   begin
-    if (tmthing.flags2_ex and MF2_EX_PASSMOBJ <> 0) and (G_PlayingEngineVersion >=  VERSION205) then
+    if tmthing.flags2_ex and MF2_EX_PASSMOBJ <> 0 then
     // If the MF2_EX_PASSMOBJ flag is set:
     //  -Skulls do no slam to pickable objects if the
     //  -Skulls must be in same "Z"
@@ -940,7 +835,7 @@ begin
   tmdropoffz := P_3dFloorHeight(newsec, x, y, thing.z); // JVAL: Slopes
   tmdropoffz := P_ResolveSwimmFloorHeight(thing, tmdropoffz);
   tmfloorz := tmdropoffz;
-  tmceilingz := P_3dCeilingHeight(newsec, x, y, thing.z) + P_SectorJumpOverhead(newsec);
+  tmceilingz := P_3dCeilingHeight(newsec, x, y, thing.z);
 
   tmbounceline := nil;
 
@@ -1009,26 +904,13 @@ begin
   end;
 
   // JVAL: Slopes
-  if G_PlayingEngineVersion >= VERSION122 then
-  begin
-    for bx := xl to xh do
-      for by := yl to yh do
-        if not P_BlockLinesIterator(bx, by, PIT_CheckLineTM) then // JVAL: Slopes
-        begin
-          result := false;
-          exit;
-        end;
-  end
-  else
-  begin
-    for bx := xl to xh do
-      for by := yl to yh do
-        if not P_BlockLinesIterator(bx, by, PIT_CheckLine) then
-        begin
-          result := false;
-          exit;
-        end;
-  end;
+  for bx := xl to xh do
+    for by := yl to yh do
+      if not P_BlockLinesIterator(bx, by, PIT_CheckLineTM) then // JVAL: Slopes
+      begin
+        result := false;
+        exit;
+      end;
 
   result := true;
 end;
@@ -1312,9 +1194,8 @@ begin
       jumpupmargin := 24 * FRACUNIT;
 
     // JVAL: Version 205
-    if G_PlayingEngineVersion >= VERSION205 then
-      if (thing.flags2_ex and MF2_EX_JUMPUP <> 0) and (N_Random > 20) then
-        jumpupmargin := jumpupmargin + 32 * FRACUNIT;
+    if (thing.flags2_ex and MF2_EX_JUMPUP <> 0) and (N_Random > 20) then
+      jumpupmargin := jumpupmargin + 32 * FRACUNIT;
 
     if (thing.flags and MF_TELEPORT = 0) and
        (tmfloorz - thing.z > jumpupmargin) then
@@ -1334,9 +1215,8 @@ begin
       dropoffmargin := 24 * FRACUNIT;
 
     // JVAL: Version 204
-    if G_PlayingEngineVersion >= VERSION204 then
-      if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
-        dropoffmargin := dropoffmargin + 120 * FRACUNIT;
+    if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
+      dropoffmargin := dropoffmargin + 120 * FRACUNIT;
 
     if ((thing.flags and (MF_DROPOFF or MF_FLOAT)) = 0) and
        (tmfloorz - tmdropoffz > dropoffmargin) then
@@ -1346,15 +1226,13 @@ begin
     end;
 
     // JVAL: Version 204
-    if G_PlayingEngineVersion >= VERSION204 then
-      if (thing.flags2_ex and MF2_EX_CANTLEAVEFLOORPIC <> 0) and
-         ((tmfloorpic <> Psubsector_t(thing.subsector).sector.floorpic) or
-           (tmfloorz - thing.z <> 0)) then
-      begin // must stay within a sector of a certain floor type
-        result := false;
-        exit;
-      end;
-
+    if (thing.flags2_ex and MF2_EX_CANTLEAVEFLOORPIC <> 0) and
+       ((tmfloorpic <> Psubsector_t(thing.subsector).sector.floorpic) or
+         (tmfloorz - thing.z <> 0)) then
+    begin // must stay within a sector of a certain floor type
+      result := false;
+      exit;
+    end;
   end;
 
   // the move is ok,
@@ -2086,30 +1964,16 @@ begin
   else
   begin
   // JVAL 18/09/2009 Added Blue and Green blood spawners
-    if G_PlayingEngineVersion < VERSION110 then
-      P_SpawnBlood(x, y, z, la_damage)
-    else if G_PlayingEngineVersion < VERSION206 then
-    begin
-      if th.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
-        P_SpawnBlueBlood(x, y, z, la_damage)
-      else if th.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
-        P_SpawnGreenBlood(x, y, z, la_damage)
-      else
-        P_SpawnBlood(x, y, z, la_damage);
-    end
+    if demoplayback or demorecording then
+      confcoloredblood := true
     else
-    begin
-      if demoplayback or demorecording then
-        confcoloredblood := true
-      else
-        confcoloredblood := p_confcoloredblood;
-      if (th.flags2_ex and MF2_EX_BLUEBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFBLUEBLOOD <> 0)) then
-        P_SpawnBlueBlood(x, y, z, la_damage)
-      else if (th.flags2_ex and MF2_EX_GREENBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFGREENBLOOD <> 0)) then
-        P_SpawnGreenBlood(x, y, z, la_damage)
-      else
-        P_SpawnBlood(x, y, z, la_damage);
-    end;
+      confcoloredblood := p_confcoloredblood;
+    if (th.flags2_ex and MF2_EX_BLUEBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFBLUEBLOOD <> 0)) then
+      P_SpawnBlueBlood(x, y, z, la_damage)
+    else if (th.flags2_ex and MF2_EX_GREENBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFGREENBLOOD <> 0)) then
+      P_SpawnGreenBlood(x, y, z, la_damage)
+    else
+      P_SpawnBlood(x, y, z, la_damage);
   end;
 
   if la_damage <> 0 then
@@ -2695,25 +2559,20 @@ begin
   begin
     P_DamageMobj(thing, nil, nil, 10);
 
-    if G_PlayingEngineVersion >= VERSION115 then
+    if (thing.flags and MF_NOBLOOD <> 0) or
+       (thing.flags_ex and MF_EX_INVULNERABLE <> 0) then
     begin
-
-      if (thing.flags and MF_NOBLOOD <> 0) or
-         (thing.flags_ex and MF_EX_INVULNERABLE <> 0) then
-        begin
-          result := true;
-          exit;
-        end;
-
-      plr := thing.player;
-      if plr <> nil then
-        if (plr.cheats and CF_GODMODE <> 0) or (plr.powers[Ord(pw_invulnerability)] <> 0) then
-        begin
-          result := true;
-          exit;
-        end;
-
+      result := true;
+      exit;
     end;
+
+    plr := thing.player;
+    if plr <> nil then
+      if (plr.cheats and CF_GODMODE <> 0) or (plr.powers[Ord(pw_invulnerability)] <> 0) then
+      begin
+        result := true;
+        exit;
+      end;
 
     // spray blood in a random direction
     // JVAL: player with custom blood color :)
@@ -2794,7 +2653,7 @@ begin
   nofit := false;
   crushchange := crunch;
 
-  if (G_PlayingEngineVersion >= VERSION122) and (sector.num_saffectees > 0) then
+  if sector.num_saffectees > 0 then
   begin
     for i := 0 to sector.num_saffectees - 1 do
       P_DoChangeSector(@sectors[sector.saffectees[i]], crunch);
@@ -2803,30 +2662,6 @@ begin
     P_DoChangeSector(sector, crunch);
 
   result := nofit;
-end;
-
-
-// JVAL Allow jumps in sectors with sky ceiling.... (7/8/2007)
-function P_SectorJumpOverhead(const s: Psector_t): integer;
-begin
-  // JVAL: 3d floors
-  if s.midsec >= 0 then
-  begin
-    result := 0;
-    Exit;
-  end;
-
-  if s.ceilingpic = skyflatnum then
-    if not G_NeedsCompatibilityMode then
-    begin
-      // JVAL: 20200107 - No just overhead for version > 205
-      if G_PlayingEngineVersion <= VERSION204 then
-        result := 128 * FRACUNIT
-      else
-        result := 0;
-      exit;
-    end;
-  result := 0;
 end;
 
 // phares 3/16/98
@@ -3087,31 +2922,9 @@ begin
   result := false;
 end;
 
-function P_PointInSectorVanilla(const x: fixed_t; const y: fixed_t): Psector_t;
-var
-  node: Pvanillanode_t;
-  nodenum: LongWord;
-begin
-  nodenum := numvanillanodes - 1;
-
-  while nodenum and NF_SUBSECTOR = 0 do
-  begin
-    node := @vanillanodes[nodenum];
-    if R_PointOnSideVanilla(x, y, node) then
-      nodenum := node.children[1]
-    else
-      nodenum := node.children[0]
-  end;
-
-  result := vanillasubsectors[nodenum and not NF_SUBSECTOR].sector; // JVAL: glbsp
-end;
-
 function P_PointInSector(const x: fixed_t; const y: fixed_t): Psector_t;
 begin
-  if G_IsOldDemoPlaying and hasvanillanodes then
-    result := P_PointInSectorVanilla(x, y)
-  else
-    result := R_PointInSubSector(x, y).sector;
+  result := R_PointInSubSector(x, y).sector;
 end;
 
 end.

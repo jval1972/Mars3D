@@ -322,15 +322,6 @@ begin
       xmove := _SHR1(xmove);
       ymove := _SHR1(ymove);
     end
-    else if (G_PlayingEngineVersion >= VERSION205) and ((xmove < -MAXMOVE div 2) or (ymove < -MAXMOVE div 2)) then
-    begin
-    // JVAL 20180107
-    // Please do not change, the div and the _SHR1, problem with demo compatibility..
-      ptryx := mo.x + xmove div 2;
-      ptryy := mo.y + ymove div 2;
-      xmove := _SHR1(xmove);
-      ymove := _SHR1(ymove);
-    end
     else
     begin
       ptryx := mo.x + xmove;
@@ -416,8 +407,6 @@ begin
   else
     if mo.z > mo.floorz then
     begin
-      if G_PlayingEngineVersion <= VERSION203 then
-        exit; // no friction when airborne
       if wasonfloorz and wasonslope and (oldsector = Psubsector_t(mo.subsector).sector) then
       begin
         if oldsector.flags and SF_SLIPSLOPEDESCENT <> 0 then
@@ -619,9 +608,8 @@ begin
 
     mo.z := mo.floorz;
 
-    if not (G_PlayingEngineVersion in [VERSION111..VERSION118]) then
-      if mo.flags and MF_SKULLFLY <> 0 then
-        mo.momz := -mo.momz;
+    if mo.flags and MF_SKULLFLY <> 0 then
+      mo.momz := -mo.momz;
 
     if (mo.flags and MF_MISSILE <> 0) and (mo.flags and MF_NOCLIP = 0) then
     begin
@@ -660,7 +648,7 @@ begin
 
   end;
 
-  ceilz := mo.ceilingz + P_SectorJumpOverhead(Psubsector_t(mo.subsector).sector);
+  ceilz := mo.ceilingz;
 
   if mo.z + mo.height > ceilz then
   begin
@@ -708,10 +696,7 @@ begin
 
   // spawn a teleport fog at old spot
   // because of removal of the body?
-  if G_PlayingEngineVersion >= VERSION122 then
-    mo := P_SpawnMobj(mobj.x, mobj.y, mobj.z, Ord(MT_TFOG))  // JVAL: 3d floors
-  else
-    mo := P_SpawnMobj(mobj.x, mobj.y, Psubsector_t(mobj.subsector).sector.floorheight, Ord(MT_TFOG));
+  mo := P_SpawnMobj(mobj.x, mobj.y, mobj.z, Ord(MT_TFOG));  // JVAL: 3d floors
 
   // initiate teleport sound
   S_StartSound(mo, Ord(sfx_telept));
@@ -1620,18 +1605,9 @@ begin
 
   // move a little forward so an angle can
   // be computed if it immediately explodes
-  if G_PlayingEngineVersion in [VERSION122..VERSION205] then
-  begin
-    th.x := th.x + th.momx div 2;
-    th.y := th.y + th.momy div 2;
-    th.z := th.z + th.momz div 2;
-  end
-  else
-  begin
-    th.x := th.x + _SHR1(th.momx);
-    th.y := th.y + _SHR1(th.momy);
-    th.z := th.z + _SHR1(th.momz);
-  end;
+  th.x := th.x + _SHR1(th.momx);
+  th.y := th.y + _SHR1(th.momy);
+  th.z := th.z + _SHR1(th.momz);
 
   if not P_TryMove(th, th.x, th.y) then
   begin
@@ -1715,19 +1691,9 @@ begin
   flags_ex := mobjinfo[Ord(_type)].flags_ex;
 
   if flags_ex and MF_EX_FLOORHUGGER <> 0 then
-  begin
-    if G_PlayingEngineVersion >= VERSION122 then
-      z := source.floorz
-    else
-      z := ONFLOORZ;
-  end
+    z := source.floorz
   else if flags_ex and MF_EX_CEILINGHUGGER <> 0 then
-  begin
-    if G_PlayingEngineVersion >= VERSION122 then
-      z := source.ceilingz
-    else
-      z := ONCEILINGZ;
-  end
+    z := source.ceilingz
   else if z <> ONFLOORZ then
     z := z - source.floorz - source.floorclip;  // JVAL: 20211114 - Take floorclip into account
 
@@ -1787,19 +1753,9 @@ begin
   flags_ex := mobjinfo[Ord(_type)].flags_ex;
 
   if flags_ex and MF_EX_FLOORHUGGER <> 0 then
-  begin
-    if G_PlayingEngineVersion >= VERSION122 then
-      z := source.floorz
-    else
-      z := ONFLOORZ;
-  end
+    z := source.floorz
   else if flags_ex and MF_EX_CEILINGHUGGER <> 0 then
-  begin
-    if G_PlayingEngineVersion >= VERSION122 then
-      z := source.ceilingz
-    else
-      z := ONCEILINGZ;
-  end
+    z := source.ceilingz
   else if z <> ONFLOORZ then
     z := z - source.floorz - source.floorclip;
 
@@ -1842,7 +1798,6 @@ var
   y: fixed_t;
   z: fixed_t;
   slope: fixed_t;
-  ver: integer;
   speed: fixed_t;
 begin
   // see which target is to be aimed at
@@ -1859,35 +1814,11 @@ begin
       an := an - $8000000;
       slope := P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
 
-      ver := G_PlayingEngineVersion;
-      if ver > VERSION110 then
+      if linetarget = nil then
       begin
-        if ver < VERSION204 then
-        begin
-          if zaxisshift and (linetarget = nil) then
-          begin
-            an := source.angle;
-            slope := (Pplayer_t(source.player).lookdir * FRACUNIT) div 173;
-          end;
-        end
-        else
-        begin
-          if linetarget = nil then
-          begin
-            an := source.angle;
-            slope := (Pplayer_t(source.player).lookdir * FRACUNIT) div 173;
-          end;
-        end;
-      end
-      else
-      begin
-        if linetarget = nil then
-        begin
-          an := source.angle;
-          slope := 0;
-        end;
+        an := source.angle;
+        slope := (Pplayer_t(source.player).lookdir * FRACUNIT) div 173;
       end;
-
     end;
   end;
 
@@ -2059,15 +1990,10 @@ begin
   if G_NeedsCompatibilityMode then
     exit;
 
-  // Exit if playing DelphiDoom demo from version 114 or lower
-  if G_PlayingEngineVersion <= VERSION114 then
-    exit;
-
   ss := thing.subsector;
 
   if ss.flags and SSF_BRIDGE <> 0 then
-    if G_PlayingEngineVersion >= VERSION204 then
-      exit;
+    exit;
 
   sec := ss.sector;
   // don't splash if landing on the edge above water/lava/etc....
@@ -2078,10 +2004,7 @@ begin
     exit;
 
   // JVAL: 3d Floors
-  if G_PlayingEngineVersion >= VERSION122 then
-    z := thing.floorz
-  else
-    z := ONFLOORZ;
+  z := thing.floorz;
 
   case P_GetThingFloorType(thing) of
     FLOOR_WATER:
