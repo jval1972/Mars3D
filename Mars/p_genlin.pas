@@ -291,6 +291,7 @@ uses
   g_game,
   m_fixed,
   m_rnd,
+  mars_sounds,
   p_mobj_h,
   p_ceilng,
   p_doors,
@@ -1243,7 +1244,7 @@ manual_locked:
     if door.speed >= VDOORSPEED * 4 then
       S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn))  // killough 4/15/98
     else
-      S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+      MARS_StartSound(@door.sector.soundorg, snd_DROPEN);
 
     if manual then
       exit;

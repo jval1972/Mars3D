@@ -145,6 +145,7 @@ uses
   p_map,
   p_inter,
   r_main,
+  mars_sounds,
   s_sound,
 // State.
   doomstat,
@@ -647,7 +648,8 @@ procedure A_FirePistol(player: Pplayer_t; psp: Ppspdef_t);
 var
   am: integer;
 begin
-  S_StartSound(player.mo, Ord(sfx_pistol));
+
+  MARS_StartSound(player.mo, snd_GUN1SHT);
 
   P_SetMobjState(player.mo, S_PLAY_ATK2);
 

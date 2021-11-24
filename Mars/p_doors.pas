@@ -65,6 +65,7 @@ uses
   d_player,
   g_game,
   m_fixed,
+  mars_sounds,
   p_genlin,
   p_lights,
   p_plats,
@@ -107,7 +108,7 @@ begin
             genCdO:
               begin
                 door.direction := 1;
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+                MARS_StartSound(@door.sector.soundorg, snd_DROPEN);
               end;
             genBlazeCdO:
               begin
@@ -128,7 +129,7 @@ begin
               begin
                 door.direction := 1;
                 door._type := normal;
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+                MARS_StartSound(@door.sector.soundorg, snd_DROPEN);
               end;
           end;
         end;
@@ -208,7 +209,7 @@ begin
           else
             begin
               door.direction := 1;
-              S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+              MARS_StartSound(@door.sector.soundorg, snd_DROPEN);
             end;
           end;
         end;
@@ -415,7 +416,7 @@ begin
           door.topheight := P_FindLowestCeilingSurrounding(sec);
           door.topheight := door.topheight - 4 * FRACUNIT;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+            MARS_StartSound(@door.sector.soundorg, snd_DROPEN);
         end;
     end;
   end;
@@ -542,9 +543,9 @@ begin
       S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_bdopn));
      1, // NORMAL DOOR SOUND
     31:
-      S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_doropn));
+      MARS_StartSound(@sec.soundorg, snd_DROPEN);
   else // LOCKED DOOR SOUND
-    S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_doropn));
+    MARS_StartSound(@sec.soundorg, snd_DROPEN);
   end;
 
   // new door thinker
