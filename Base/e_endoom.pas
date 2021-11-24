@@ -43,15 +43,7 @@ uses
 //
 //-----------------------------------------------------------------------------
 var
-{$IFDEF DOOM}
-  EndLumpName: string = 'ENDOOM';
-{$ENDIF}
-{$IFDEF HERETIC}
   EndLumpName: string = 'ENDTEXT';
-{$ENDIF}
-{$IFDEF STRIFE}
-  EndLumpName: string = 'ENDSTRF';
-{$ENDIF}
   displayendscreen: boolean;
 
 function E_Responder(ev: Pevent_t): boolean;
