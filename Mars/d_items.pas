@@ -89,19 +89,19 @@ var
   // nerve gun
     (ammo: am_nervegunammo;     upstate: Ord(S_NULL);   downstate: Ord(S_NULL);
      readystate: Ord(S_NULL);   atkstate: Ord(S_NULL);  holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_NULL);   flags: WF_WEAPON or WF_DEMOAVAILABLE),
+     flashstate: Ord(S_NULL);   flags: WF_WEAPON),
   // freeze gun
     (ammo: am_freezegunammo;    upstate: Ord(S_NULL);   downstate: Ord(S_NULL);
      readystate: Ord(S_NULL);   atkstate: Ord(S_NULL);  holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_NULL);   flags: WF_WEAPON or WF_DEMOAVAILABLE),
+     flashstate: Ord(S_NULL);   flags: WF_WEAPON),
   // flame gun
      (ammo: am_flamegunammo;    upstate: Ord(S_NULL);   downstate: Ord(S_NULL);
      readystate: Ord(S_NULL);   atkstate: Ord(S_NULL);  holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_NULL);   flags: WF_WEAPON or WF_DEMOAVAILABLE),
+     flashstate: Ord(S_NULL);   flags: WF_WEAPON),
   // granade launcher
      (ammo: am_grenades;        upstate: Ord(S_NULL);   downstate: Ord(S_NULL);
      readystate: Ord(S_NULL);   atkstate: Ord(S_NULL);  holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_NULL);   flags: WF_WEAPON or WF_DEMOAVAILABLE),
+     flashstate: Ord(S_NULL);   flags: WF_WEAPON),
   // boomerang gun
      (ammo: am_disk;            upstate: Ord(S_NULL);   downstate: Ord(S_NULL);
      readystate: Ord(S_NULL);   atkstate: Ord(S_NULL);  holdatkstate: Ord(S_NULL);
