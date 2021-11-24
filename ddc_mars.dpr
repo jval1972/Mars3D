@@ -247,7 +247,6 @@ uses
   sc_engine in 'Base\sc_engine.pas',
   sc_params in 'Base\sc_params.pas',
   sounds in 'Mars\sounds.pas',
-  st_lib in 'Mars\st_lib.pas',
   st_stuff in 'Mars\st_stuff.pas',
   tables in 'Base\tables.pas',
   v_data in 'Mars\v_data.pas',
