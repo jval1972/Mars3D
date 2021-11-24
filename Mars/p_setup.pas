@@ -120,8 +120,6 @@ type
 
 var
   blocklinks: Pblocklinkarray_t;
-  // for thing chains
-  vanillablocklinks: Pmobj_tPArray;
 
 // REJECT
 // For fast sight rejection.
@@ -839,6 +837,45 @@ begin
     result := false;
     exit;
   end;
+  if gamemode = shareware then
+    if (doomdnum = 16) or
+       (doomdnum = 20) or
+       (doomdnum = 35) or
+       (doomdnum = 36) or
+       (doomdnum = 37) or
+       (doomdnum = 42) or
+       (doomdnum = 43) or
+       (doomdnum = 94) or
+       (doomdnum = 95) or
+       (doomdnum = 2002) or
+       (doomdnum = 2003) or
+       (doomdnum = 2015) or
+       (doomdnum = 2016) or
+       (doomdnum = 2017) or
+       (doomdnum = 2023) or
+       (doomdnum = 2024) or
+       (doomdnum = 2025) or
+       (doomdnum = 2026) or
+       (doomdnum = 2030) or
+       (doomdnum = 2049) or
+       (doomdnum = 2050) or
+       (doomdnum = 2051) or
+       (doomdnum = 2063) or
+       (doomdnum = 2064) or
+       (doomdnum = 2065) or
+       (doomdnum = 2101) or
+       (doomdnum = 2102) or
+       (doomdnum = 2103) or
+       (doomdnum = 2104) or
+       (doomdnum = 2105) or
+       (doomdnum = 3005) or
+       (doomdnum = 3006) or
+       (doomdnum = 3007) or
+       (doomdnum = 3008) then
+  begin
+    result := false;
+    exit;
+  end;
   result := true;
 end;
 
@@ -1481,9 +1518,6 @@ begin
   count := SizeOf(blocklinkitem_t) * bmapwidth * bmapheight;
   blocklinks := Z_Malloc(count, PU_LEVEL, nil);
   ZeroMemory(blocklinks, count);
-  count := SizeOf(Pmobj_t) * bmapwidth * bmapheight;
-  vanillablocklinks := Z_Malloc(count, PU_LEVEL, nil);
-  ZeroMemory(vanillablocklinks, count);
 end;
 
 //
@@ -1501,7 +1535,6 @@ var
   sector: Psector_t;
   pss: Psubsector_t;
   seg: Pseg_t;
-  vanillaseg: Pvanillaseg_t;
   block: integer;
 begin
   // look up sector number for each subsector - normal nodes
