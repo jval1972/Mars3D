@@ -38,23 +38,17 @@ unit st_stuff;
 interface
 
 uses
-  doomdef,
   d_event;
 
 // Size of statusbar.
 // Now sensitive for scaling.
 const
   ST_HEIGHT = 31;
-  ST_WIDTH = 320;
   ST_Y = 200 - ST_HEIGHT;
-
-type
-  stdrawoptions_t = (stdo_no, stdo_small, stdo_full);
 
 var
   st_palette: integer;
-// lump number for PLAYPAL
-  lu_palette: integer;
+  lu_palette: integer;  // lump number for PLAYPAL
 
 //
 // STATUS BAR
@@ -73,8 +67,6 @@ procedure ST_Start;
 
 // Called by startup code.
 procedure ST_Init;
-
-
 
 // States for status bar code.
 type
@@ -100,9 +92,7 @@ implementation
 
 uses
   d_delphi,
-  d_net,
-  m_menu,
-  tables,
+  doomdef,
   c_cmds,
   d_items,
   z_zone,
@@ -117,30 +107,22 @@ uses
   i_video,
 {$ENDIF}
   g_game,
-  st_lib,
   p_inter,
   p_setup,
   p_enemy,
   d_player,
   r_defs,
-  r_main,
-  r_draw,
   am_map,
   m_cheat,
-  m_rnd,
   m_fixed,
   s_sound,
 // Needs access to LFB.
   v_data,
-  v_video,
 // State.
   doomstat,
 // Data.
-  dstrings,
   d_englsh,
-  sounds,
-// for mapnames
-  hu_stuff;
+  sounds;
 
 //
 // STATUS BAR DATA
@@ -159,248 +141,21 @@ const
   STARTGREENPALS = 14;
   NUMGREENPALS = 8;
 
-// N/256*100% probability
-//  that the normal face state will change
-  ST_FACEPROBABILITY = 96;
-
-// For Responder
-  ST_TOGGLECHAT = KEY_ENTER;
-
-// Location of status bar
-  ST_X = 0;
-  ST_X2 = 104;
-
-  ST_FX = 143;
-  ST_FY = ST_Y + 1; // JVAL was 169;
-
-  ST_EVILGRINCOUNT = 2 * TICRATE;
-  ST_STRAIGHTFACECOUNT = TICRATE div 2;
-  ST_TURNCOUNT = 1 * TICRATE;
-  ST_OUCHCOUNT = 1 * TICRATE;
-  ST_RAMPAGEDELAY = 2 * TICRATE;
-
-  ST_MUCHPAIN = 20;
-
-
-// Location and size of statistics,
-//  justified according to widget type.
-// Problem is, within which space? STbar? Screen?
-// Note: this could be read in by a lump.
-//       Problem is, is the stuff rendered
-//       into a buffer,
-//       or into the frame buffer?
-
-// AMMO number pos.
-  ST_AMMOWIDTH = 3;
-  ST_AMMOX = 44;
-  ST_AMMOY = ST_Y + 3; // JVAL was 171;
-
-// HEALTH number pos.
-  ST_HEALTHWIDTH = 3;
-  ST_HEALTHX = 90;
-  ST_HEALTHY = ST_Y + 3; // JVAL was 171;
-
-// Frags pos.
-  ST_FRAGSX = 138;
-  ST_FRAGSY = ST_Y + 3; // JVAL was 171;
-  ST_FRAGSWIDTH = 2;
-
-// ARMOR number pos.
-  ST_ARMORWIDTH = 3;
-  ST_ARMORX = 221;
-  ST_ARMORY = ST_Y + 3; // JVAL was 171;
-
-// Key icon positions.
-  ST_KEY0WIDTH = 8;
-  ST_KEY0HEIGHT = 5;
-  ST_KEY0X = 239;
-  ST_KEY0Y = ST_Y + 3; // JVAL was 171;
-  ST_KEY1WIDTH = ST_KEY0WIDTH;
-  ST_KEY1X = 239;
-  ST_KEY1Y = ST_Y + 13; // JVAL was 181;
-  ST_KEY2WIDTH = ST_KEY0WIDTH;
-  ST_KEY2X = 239;
-  ST_KEY2Y = ST_Y + 23; // JVAL was 191;
-
-// Ammunition counter.
-  ST_AMMO0WIDTH = 3;
-  ST_AMMO0HEIGHT = 6;
-  ST_AMMO0X = 288;
-  ST_AMMO0Y = ST_Y + 5; // JVAL was 173;
-  ST_AMMO1WIDTH = ST_AMMO0WIDTH;
-  ST_AMMO1X = 288;
-  ST_AMMO1Y = ST_Y + 11; // JVAL was 179;
-  ST_AMMO2WIDTH = ST_AMMO0WIDTH;
-  ST_AMMO2X = 288;
-  ST_AMMO2Y = ST_Y + 23; // JVAL was 191;
-  ST_AMMO3WIDTH = ST_AMMO0WIDTH;
-  ST_AMMO3X = 288;
-  ST_AMMO3Y = ST_Y + 17; // JVAL was 185;
-
-// Indicate maximum ammunition.
-// Only needed because backpack exists.
-  ST_MAXAMMO0WIDTH = 3;
-  ST_MAXAMMO0HEIGHT = 5;
-  ST_MAXAMMO0X = 314;
-  ST_MAXAMMO0Y = ST_Y + 5; // JVAL was 173;
-  ST_MAXAMMO1WIDTH = ST_MAXAMMO0WIDTH;
-  ST_MAXAMMO1X = 314;
-  ST_MAXAMMO1Y = ST_Y + 11; // JVAL was 179;
-  ST_MAXAMMO2WIDTH = ST_MAXAMMO0WIDTH;
-  ST_MAXAMMO2X = 314;
-  ST_MAXAMMO2Y = ST_Y + 23; // JVAL was 191;
-  ST_MAXAMMO3WIDTH = ST_MAXAMMO0WIDTH;
-  ST_MAXAMMO3X = 314;
-  ST_MAXAMMO3Y = ST_Y + 17; // JVAL was 185;
-
-// pistol
-  ST_WEAPON0X = 110;
-  ST_WEAPON0Y = ST_Y + 4; // JVAL was 172;
-
-// shotgun
-  ST_WEAPON1X = 122;
-  ST_WEAPON1Y = ST_Y + 4; // JVAL was 172;
-
-// chain gun
-  ST_WEAPON2X = 134;
-  ST_WEAPON2Y = ST_Y + 4; // JVAL was 172;
-
-// missile launcher
-  ST_WEAPON3X = 110;
-  ST_WEAPON3Y = ST_Y + 13; // JVAL was 181;
-
-// plasma gun
-  ST_WEAPON4X = 122;
-  ST_WEAPON4Y = ST_Y + 13; // JVAL was 181;
-
- // bfg
-  ST_WEAPON5X = 134;
-  ST_WEAPON5Y = ST_Y + 13; // JVAL was 181;
-
-// WPNS title
-  ST_WPNSX = 109;
-  ST_WPNSY = ST_Y + 23; // JVAL was 191;
-
- // DETH title
-  ST_DETHX = 109;
-  ST_DETHY = ST_Y + 23; // JVAL was 191;
-
-//Incoming messages window location
-//UNUSED
-//   ST_MSGTEXTX     (viewwindowx)
-//   ST_MSGTEXTY     (viewwindowy+viewheight-18)
-  ST_MSGTEXTX = 0;
-  ST_MSGTEXTY = 0;
-// Dimensions given in characters.
-  ST_MSGWIDTH = 52;
-// Or shall I say, in lines?
-  ST_MSGHEIGHT = 1;
-
-  ST_OUTTEXTX = 0;
-  ST_OUTTEXTY = 6;
-
-// Width, in characters again.
-  ST_OUTWIDTH = 52;
-
-// Minimum (small display constants)
-// Location of medikit
-  ST_MX = 8;
-  ST_MY = 29;
-// Location of health percentage
-  ST_MHEALTHX = 60;
-  ST_MHEALTHY = ST_Y + 14;
-// Location of ammo number
-  ST_MAMMOX = 298;
-  ST_MAMMOY = ST_Y + 14;
-  ST_MAMMOWIDTH = 3;
-// Location of ammo patch
-  ST_MWX = 308;
-  ST_MWY = 29;
-
 var
-
-// main player in game
-  plyr: Pplayer_t;
-
-// ST_Start() has just been called
-  st_firsttime: boolean;
-
-// used for timing
-  st_clock: LongWord;
-
-// used for making messages go away
-  st_msgcounter: integer;
-
-// used when in chat
-  st_chatstate: st_chatstateenum_t;
-
-// whether in automap or first-person
-  st_gamestate: st_stateenum_t;
-
-// whether left-side main status bar is active
-  st_statusbaron: boolean;
-
-// whether status bar chat is active
-  st_chat: boolean;
-
-// value of st_chat before message popped up
-  st_oldchat: boolean;
-
-// whether chat window has the cursor on
-  st_cursoron: boolean;
-
-// !deathmatch
-  st_fragson: boolean;
-
-// 0-9, tall numbers
-  tallnum: array[0..9] of Ppatch_t;
-
-// tall % sign
-  tallpercent: Ppatch_t;
-
-// 0-9, short, yellow (,different!) numbers
-  shortnum: array[0..9] of Ppatch_t;
-
-// 3 key-cards, 3 skulls
-  keys: array[0..Ord(NUMCARDS) - 1] of Ppatch_t;
-
-// ready-weapon widget
-  w_ready: st_number_t;
-
- // in deathmatch only, summary of frags stats
-  w_frags: st_number_t;
-
-// health widgets
-  w_health: st_percent_t;
-  w_health2: st_percent_t;
-
-// keycard widgets
-  w_keyboxes: array[0..2] of st_multicon_t;
-
-// armor widget
-  w_armor: st_percent_t;
-
-// ammo widgets
-  w_ammo: array[0..3] of st_number_t;
-  w_ammo2: array[0..3] of st_number_t;
-
-// max ammo widgets
-  w_maxammo: array[0..3] of st_number_t;
-
-// number of frags so far in deathmatch
-  st_fragscount: integer;
-
-// used to use appopriately pained face
-  st_oldhealth: integer;
-
- // count until face changes
-  st_facecount: integer;
-
-// current face index, used by w_faces
-  st_faceindex: integer;
-
-// holds key-type for each key box on bar
-  keyboxes: array[0..2] of integer;
+  plyr: Pplayer_t;                  // main player in game
+  st_firsttime: boolean;            // ST_Start() has just been called
+  st_clock: LongWord;               // used for timing
+  st_msgcounter: integer;           // used for making messages go away
+  st_chatstate: st_chatstateenum_t; // used when in chat
+  st_gamestate: st_stateenum_t;     // whether in automap or first-person
+  st_statusbaron: boolean;          // whether left-side main status bar is active
+  st_chat: boolean;                 // whether status bar chat is active
+  st_oldchat: boolean;              // value of st_chat before message popped up
+  st_cursoron: boolean;             // whether chat window has the cursor on
+  st_oldhealth: integer;            // used to use appopriately pained face
+  st_facecount: integer;            // count until face changes
+  st_faceindex: integer;            // current face index, used by w_faces
+  keyboxes: array[0..2] of integer; // holds key-type for each key box on bar
 
 const
 // Massive bunches of cheat shit
@@ -664,18 +419,6 @@ begin
           plyr.mo.y div FRACUNIT,
           plyr.mo.z div FRACUNIT]);
   plyr._message := buf;
-end;
-
-// Should be set to patch width
-//  for tall numbers later on
-function ST_TALLNUMWIDTH: integer;
-begin
-  result := tallnum[0].width;
-end;
-
-function ST_MAPWIDTH: integer;
-begin
-  result := Length(mapnames[(gameepisode - 1) * 9 + (gamemap - 1)]);
 end;
 
 //
@@ -966,55 +709,9 @@ begin
   end;
 end;
 
-procedure ST_LoadGraphics;
-var
-  i: integer;
-  namebuf: string;
-begin
-  // Load the numbers, tall and short
-  for i := 0 to 9 do
-  begin
-    sprintf(namebuf, 'STTNUM%d', [i]);
-    tallnum[i] := W_CacheLumpName(namebuf, PU_STATIC);
-
-    sprintf(namebuf, 'STYSNUM%d', [i]);
-    shortnum[i] := W_CacheLumpName(namebuf, PU_STATIC);
-  end;
-
-  // Load percent key.
-  //Note: why not load STMINUS here, too?
-  tallpercent := W_CacheLumpName('STTPRCNT', PU_STATIC);
-
-  // key cards
-  for i := 0 to Ord(NUMCARDS) - 1 do
-  begin
-    sprintf(namebuf, 'STKEYS%d', [i]);
-    keys[i] := W_CacheLumpName(namebuf, PU_STATIC);
-  end;
-end;
-
 procedure ST_LoadData;
 begin
   lu_palette := W_GetNumForName(PLAYPAL);
-  ST_LoadGraphics;
-end;
-
-procedure ST_UnloadGraphics;
-var
-  i: integer;
-begin
-  // unload the numbers, tall and short
-  for i := 0 to 9 do
-  begin
-    Z_ChangeTag(tallnum[i], PU_CACHE);
-    Z_ChangeTag(shortnum[i], PU_CACHE);
-  end;
-  // unload tall percent
-  Z_ChangeTag(tallpercent, PU_CACHE);
-
-  // unload the key cards
-  for i := 0 to Ord(NUMCARDS) - 1 do
-    Z_ChangeTag(keys[i], PU_CACHE);
 end;
 
 procedure ST_InitData;
@@ -1040,174 +737,6 @@ begin
 
   for i := 0 to 2 do
     keyboxes[i] := -1;
-
-  STlib_init;
-end;
-
-procedure ST_CreateWidgets;
-var
-  i: integer;
-begin
-  // ready weapon ammo
-  STlib_initNum(
-    @w_ready,
-    ST_AMMOX,
-    ST_AMMOY,
-    @tallnum,
-    @plyr.ammo[Ord(weaponinfo[Ord(plyr.readyweapon)].ammo)],
-    @st_statusbaron,
-    ST_AMMOWIDTH);
-
-  // the last weapon type
-  w_ready.data := Ord(plyr.readyweapon);
-
-  // health percentages
-  STlib_initPercent(
-    @w_health,
-    ST_HEALTHX,
-    ST_HEALTHY,
-    @tallnum,
-    @plyr.health,
-    @st_statusbaron,
-    tallpercent);
-  STlib_initPercent(
-    @w_health2,
-    ST_MHEALTHX,
-    ST_MHEALTHY,
-    @tallnum,
-    @plyr.health,
-    @st_statusbaron,
-    tallpercent);
-
-  // frags sum
-  STlib_initNum(
-    @w_frags,
-    ST_FRAGSX,
-    ST_FRAGSY,
-    @tallnum,
-    @st_fragscount,
-    @st_fragson,
-    ST_FRAGSWIDTH);
-
-  // armor percentage - should be colored later
-  STlib_initPercent(
-    @w_armor,
-    ST_ARMORX,
-    ST_ARMORY,
-    @tallnum,
-    @plyr.armorpoints,
-    @st_statusbaron,
-    tallpercent);
-
-  // keyboxes 0-2
-  STlib_initMultIcon(
-    @w_keyboxes[0],
-    ST_KEY0X,
-    ST_KEY0Y,
-    @keys,
-    @keyboxes[0],
-    @st_statusbaron);
-
-  STlib_initMultIcon(
-    @w_keyboxes[1],
-    ST_KEY1X,
-    ST_KEY1Y,
-    @keys,
-    @keyboxes[1],
-    @st_statusbaron);
-
-  STlib_initMultIcon(
-    @w_keyboxes[2],
-    ST_KEY2X,
-    ST_KEY2Y,
-    @keys,
-    @keyboxes[2],
-    @st_statusbaron);
-
-  // ammo count (all four kinds)
-  STlib_initNum(
-    @w_ammo[0],
-    ST_AMMO0X,
-    ST_AMMO0Y,
-    @shortnum,
-    @plyr.ammo[0],
-    @st_statusbaron,
-    ST_AMMO0WIDTH);
-
-  STlib_initNum(
-    @w_ammo[1],
-    ST_AMMO1X,
-    ST_AMMO1Y,
-    @shortnum,
-    @plyr.ammo[1],
-    @st_statusbaron,
-    ST_AMMO1WIDTH);
-
-  STlib_initNum(
-    @w_ammo[2],
-    ST_AMMO2X,
-    ST_AMMO2Y,
-    @shortnum,
-    @plyr.ammo[2],
-    @st_statusbaron,
-    ST_AMMO2WIDTH);
-
-  STlib_initNum(
-    @w_ammo[3],
-    ST_AMMO3X,
-    ST_AMMO3Y,
-    @shortnum,
-    @plyr.ammo[3],
-    @st_statusbaron,
-    ST_AMMO3WIDTH);
-
-  // ammo count for small display
-  for i := 0 to 3 do
-    STlib_initNum(
-      @w_ammo2[i],
-      ST_MAMMOX,
-      ST_MAMMOY,
-      @tallnum,
-      @plyr.ammo[i],
-      @st_statusbaron,
-      ST_MAMMOWIDTH);
-
-  // max ammo count (all four kinds)
-  STlib_initNum(
-    @w_maxammo[0],
-    ST_MAXAMMO0X,
-    ST_MAXAMMO0Y,
-    @shortnum,
-    @plyr.maxammo[0],
-    @st_statusbaron,
-    ST_MAXAMMO0WIDTH);
-
-  STlib_initNum(
-    @w_maxammo[1],
-    ST_MAXAMMO1X,
-    ST_MAXAMMO1Y,
-    @shortnum,
-    @plyr.maxammo[1],
-    @st_statusbaron,
-    ST_MAXAMMO1WIDTH);
-
-  STlib_initNum(
-    @w_maxammo[2],
-    ST_MAXAMMO2X,
-    ST_MAXAMMO2Y,
-    @shortnum,
-    @plyr.maxammo[2],
-    @st_statusbaron,
-    ST_MAXAMMO2WIDTH);
-
-  STlib_initNum(
-    @w_maxammo[3],
-    ST_MAXAMMO3X,
-    ST_MAXAMMO3Y,
-    @shortnum,
-    @plyr.maxammo[3],
-    @st_statusbaron,
-    ST_MAXAMMO3WIDTH);
 end;
 
 var
@@ -1238,7 +767,6 @@ begin
     ST_Stop;
 
   ST_InitData;
-  ST_CreateWidgets;
   st_stopped := false;
 end;
 
