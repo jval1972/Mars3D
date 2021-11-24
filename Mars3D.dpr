@@ -23,7 +23,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION: 
-//  System specific interface stuff. 
+//  Main project file
 // 
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/mars3d/
@@ -416,7 +416,8 @@ uses
   r_underwater in 'Mars\r_underwater.pas',
   mars_level in 'Mars\mars_level.pas',
   mars_intermission in 'Mars\mars_intermission.pas',
-  anm_info in 'Base\anm_info.pas';
+  anm_info in 'Base\anm_info.pas',
+  flc_lib in 'Base\flc_lib.pas';
 
 var
   Saved8087CW: Word;
