@@ -297,6 +297,7 @@ uses
   info_rnd,
   mars_briefing,
   mars_intermission,
+  mars_sounds,
   mars_version,
   m_rnd,
   i_system,
@@ -1416,7 +1417,7 @@ begin
           z, Ord(MT_TFOG));
 
   if players[consoleplayer].viewz <> 1 then
-    S_StartSound(mo, Ord(sfx_telept));  // don't start sound on first frame
+    MARS_StartSound(mo, snd_TELEPORT);  // don't start sound on first frame
 
   result := true;
 end;

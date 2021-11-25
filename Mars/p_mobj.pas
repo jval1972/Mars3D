@@ -699,7 +699,7 @@ begin
   mo := P_SpawnMobj(mobj.x, mobj.y, mobj.z, Ord(MT_TFOG));  // JVAL: 3d floors
 
   // initiate teleport sound
-  S_StartSound(mo, Ord(sfx_telept));
+  MARS_StartSound(mo, snd_TELEPORT);
 
   // spawn a teleport fog at the new spot
   ss := P_PointInSector(x, y);
@@ -712,7 +712,7 @@ begin
 
   mo := P_SpawnMobj(x, y, h, Ord(MT_TFOG));
 
-  S_StartSound(mo, Ord(sfx_telept));
+  MARS_StartSound(mo, snd_TELEPORT);
 
   // spawn the new monster
   mthing := @(mobj.spawnpoint);

@@ -201,6 +201,7 @@ uses
   info,
   info_common,
   m_rnd,
+  mars_sounds,
   p_map,
   p_maputl,
   p_setup,
@@ -2284,7 +2285,7 @@ begin
 
   // First spawn teleport fog.
   fog := P_SpawnMobj(targ.x, targ.y, targ.z, Ord(MT_SPAWNFIRE));
-  S_StartSound(fog, Ord(sfx_telept));
+  MARS_StartSound(fog, snd_TELEPORT);
 
   // Randomly select monster to spawn.
   r := P_Random;

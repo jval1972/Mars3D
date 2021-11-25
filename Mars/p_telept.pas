@@ -62,6 +62,7 @@ uses
   d_player,
   info_h,
   g_game,
+  mars_sounds,
   p_3dfloors,
   p_setup,
   p_tick,
@@ -72,7 +73,6 @@ uses
   p_underwater, // JVAL: 20211115 - Swimm level
   p_user,
   r_main,
-  s_sound,
   sounds,
   tables;
 
@@ -177,7 +177,7 @@ begin
 
         // spawn teleport fog at source and destination
         fog := P_SpawnMobj(oldx, oldy, oldz, Ord(MT_TFOG));
-        S_StartSound(fog, Ord(sfx_telept));
+        MARS_StartSound(fog, snd_TELEPORT);
         {$IFDEF FPC}
         an := _SHRW(m.angle, ANGLETOFINESHIFT);
         {$ELSE}
@@ -188,7 +188,7 @@ begin
                            thing.z, Ord(MT_TFOG));
 
         // emit sound, where?
-        S_StartSound(fog, Ord(sfx_telept));
+        MARS_StartSound(fog, snd_TELEPORT);
 
         // don't move for a bit
         if thing.player <> nil then
