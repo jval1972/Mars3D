@@ -284,8 +284,8 @@ WEAPON WP_NERVEGUN
       FUZF B 3
       FUZF C 3
       FUZF D 6 A_FireNerveGun
-      FUZF E 6 
-      FUZF E 0 A_Refire
+      FUZF D 6 
+      FUZF D 0 A_Refire
       Goto Ready
     }
     Flash:
