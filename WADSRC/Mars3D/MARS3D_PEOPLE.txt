@@ -9,6 +9,7 @@ ACTOR MT_RESISTANCETROOPER 93
   Speed 8
   Mass 100
   Reactiontime 8
+  Gender Male
   +MF_SOLID
   +MF2_EX_INTERACTIVE
   +MF2_EX_CANTLEAVEFLOORPIC
@@ -43,6 +44,7 @@ ACTOR MT_MALESCIENTIST 94
   Speed 8
   Mass 100
   Reactiontime 8
+  Gender Male
   +MF_SOLID
   +MF2_EX_INTERACTIVE
   +MF2_EX_CANTLEAVEFLOORPIC
@@ -77,6 +79,7 @@ ACTOR MT_FEMALESCIENTIST 95
   Speed 8
   Mass 80 // Females are lighter :)
   Reactiontime 8
+  Gender Female
   +MF_SOLID
   +MF2_EX_INTERACTIVE
   +MF2_EX_CANTLEAVEFLOORPIC
