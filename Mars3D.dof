@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=G:\DelphiDoom_Release\Mars3D\src\Base\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 
+RunParams=-nofullscreen -geom 1920x1080
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -135,15 +135,16 @@ ProductName=Mars3D source port
 ProductVersion=1.0
 Comments=http://sourceforge.net/projects/mars3d/
 [HistoryLists\hlDebugSourcePath]
-Count=8
-Item0=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
-Item1=.\Base\
-Item2=D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\
-Item3=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\;F:\DelphiDoomSrc\Src\Doom\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\;F:\DelphiDoomSrc\Src\Base\
-Item4=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
-Item5=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
-Item6=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
-Item7=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
+Count=9
+Item0=G:\DelphiDoom_Release\Mars3D\src\Base\
+Item1=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
+Item2=.\Base\
+Item3=D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\
+Item4=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\;F:\DelphiDoomSrc\Src\Doom\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\;F:\DelphiDoomSrc\Src\Base\
+Item5=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
+Item6=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
+Item7=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
+Item8=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
 Count=30
 Item0=DOOM;OPTIMIZE_FOR_SPEED;

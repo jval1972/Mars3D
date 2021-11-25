@@ -101,6 +101,8 @@ function DEH_AmmoType(const str: string): integer;
 
 function DEH_WeaponType(const str: string): integer;
 
+procedure DEH_AddAction(const acp1: actionf_p1; const desc: string);
+
 const
   DEH_STRINGLIST_HASH_SIZE = 64;
 
@@ -980,6 +982,23 @@ begin
     stmp := stmp + 'WP_';
 
   result := weapontype_tokens.IndexOf(stmp);
+end;
+
+procedure DEH_AddAction(const acp1: actionf_p1; const desc: string);
+var
+  aname: string;
+begin
+  if dehnumactions >= DEHMAXACTIONS then
+    I_Error('DEH_AddAction(): Trying to add more than %d actions', [DEHMAXACTIONS]);
+
+  deh_actions[dehnumactions].action.acp1 := @acp1;
+  aname := firstword(desc, [' ', ';', '(', '[', ':', #7, #9, #10, #13]);
+  if Pos('A_', strupper(aname)) = 1 then
+    Delete(aname, 1, 2);
+  deh_actions[dehnumactions].originalname := aname;
+  deh_actions[dehnumactions].name := strupper(aname);
+  {$IFDEF DLL}deh_actions[dehnumactions].decl := desc;{$ENDIF}
+  Inc(dehnumactions);
 end;
 
 end.
