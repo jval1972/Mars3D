@@ -513,7 +513,7 @@ procedure DEH_PrintActions;
 var
   i: integer;
 begin
-  for i := 0 to DEHNUMACTIONS - 1 do
+  for i := 0 to dehnumactions - 1 do
     printf('A_%s'#13#10, [deh_actions[i].name]);
 end;
 
@@ -763,7 +763,7 @@ function DEH_ActionName(action: actionf_t): string;
 var
   i: integer;
 begin
-  for i := 0 to DEHNUMACTIONS - 1 do
+  for i := 0 to dehnumactions - 1 do
   begin
     if @deh_actions[i].action.acp1 = @action.acp1 then
     begin
