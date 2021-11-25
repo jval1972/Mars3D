@@ -246,10 +246,10 @@ ACTOR "MT_NERVEGUNMISSILE"
       FUZE F 3 BRIGHT A_FriendlyExplode(160) 
       FUZE G 3 BRIGHT
       FUZE H 3 BRIGHT
-      FUZE I 3 BRIGHT A_FadeOut10
-      FUZE J 3 BRIGHT A_FadeOut10
-      FUZE K 3 BRIGHT A_FadeOut10
-      FUZE LLLLL 3 BRIGHT A_FadeOut10
+      FUZE III 1 BRIGHT A_FadeOut(0.03)
+      FUZE JJJ 1 BRIGHT A_FadeOut(0.03)
+      FUZE KKK 1 BRIGHT A_FadeOut(0.03)
+      FUZE LLLLLLLLLL 1 BRIGHT A_FadeOut(0.7)
       Stop
     }
   }
