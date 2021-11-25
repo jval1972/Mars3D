@@ -100,6 +100,9 @@ type
     snd_WATERIN,
     snd_WATERIN1,
     snd_JET,
+    snd_DORCLS,
+    snd_BDOPN,
+    snd_BDCLS,
     NUM_MARS_SOUNDS
   );
 
@@ -172,7 +175,10 @@ const
     (name: 'TELEPORT'; path: ''; sound_id: -1; duration: -1; ),
     (name: 'WATERIN';  path: ''; sound_id: -1; duration: -1; ),
     (name: 'WATERIN1'; path: ''; sound_id: -1; duration: -1; ),
-    (name: 'SNDJET';   path: ''; sound_id: -1; duration: -1; )
+    (name: 'SNDJET';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DROPEN';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DROPEN';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'DROPEN';   path: ''; sound_id: -1; duration: -1; )
   );
 
 procedure MARS_InitSounds;

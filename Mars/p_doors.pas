@@ -96,13 +96,13 @@ begin
             genBlazeRaise:
               begin
                 door.direction := -1; // time to go back down
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdcls));
+                MARS_StartSound(@door.sector.soundorg, snd_BDCLS);
               end;
             normal,
             genRaise:
               begin
                 door.direction := -1; // time to go back down
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_dorcls));
+                MARS_StartSound(@door.sector.soundorg, snd_DORCLS);
               end;
             close30ThenOpen,
             genCdO:
@@ -113,7 +113,7 @@ begin
             genBlazeCdO:
               begin
                 door.direction := 1;
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+                MARS_StartSound(@door.sector.soundorg, snd_BDOPN);
               end;
           end;
         end;
@@ -151,7 +151,7 @@ begin
                 door.sector.ceilingdata := nil;
                 P_RemoveThinker(@door.thinker); // unlink and free
                 if compatibilitymode then
-                  S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdcls));
+                  MARS_StartSound(@door.sector.soundorg, snd_BDCLS);
               end;
             normal,
             close,
@@ -380,7 +380,7 @@ begin
           door.topheight := door.topheight - 4 * FRACUNIT;
           door.direction := -1;
           door.speed := VDOORSPEED * 4;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdcls));
+          MARS_StartSound(@door.sector.soundorg, snd_BDCLS);
         end;
 
       close:
@@ -388,14 +388,14 @@ begin
           door.topheight := P_FindLowestCeilingSurrounding(sec);
           door.topheight := door.topheight - 4 * FRACUNIT;
           door.direction := -1;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_dorcls));
+          MARS_StartSound(@door.sector.soundorg, snd_DORCLS);
         end;
 
       close30ThenOpen:
         begin
           door.topheight := sec.ceilingheight;
           door.direction := -1;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_dorcls));
+          MARS_StartSound(@door.sector.soundorg, snd_DORCLS);
         end;
 
       blazeRaise,
@@ -406,7 +406,7 @@ begin
           door.topheight := door.topheight - 4 * FRACUNIT;
           door.speed := VDOORSPEED * 4;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+            MARS_StartSound(@door.sector.soundorg, snd_BDOPN);
         end;
 
       normal,
@@ -540,7 +540,7 @@ begin
   case line.special of
    117, // BLAZING DOOR RAISE
    118: // BLAZING DOOR OPEN
-      S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_bdopn));
+      MARS_StartSound(@sec.soundorg, snd_BDOPN);
      1, // NORMAL DOOR SOUND
     31:
       MARS_StartSound(@sec.soundorg, snd_DROPEN);

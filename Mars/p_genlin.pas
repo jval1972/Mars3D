@@ -1242,7 +1242,7 @@ manual_locked:
     // (previously they always had the blazing door close sound)
 
     if door.speed >= VDOORSPEED * 4 then
-      S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn))  // killough 4/15/98
+      MARS_StartSound(@door.sector.soundorg, snd_BDOPN)
     else
       MARS_StartSound(@door.sector.soundorg, snd_DROPEN);
 
@@ -1348,7 +1348,7 @@ manual_door:
           door.direction := 1;
           door.topheight := P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+            MARS_StartSound(@door.sector.soundorg, snd_BDOPN);
           if Sped >= Ord(SpeedFast) then
             door._type := genBlazeRaise
           else
@@ -1360,7 +1360,7 @@ manual_door:
           door.direction := 1;
           door.topheight := P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+            MARS_StartSound(@door.sector.soundorg, snd_BDOPN);
           if Sped >= Ord(SpeedFast) then
             door._type := genBlazeOpen
           else
@@ -1371,7 +1371,7 @@ manual_door:
         begin
           door.topheight := sec.ceilingheight;
           door.direction := -1;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_dorcls));
+          MARS_StartSound(@door.sector.soundorg, snd_DORCLS);
           if Sped >= Ord(SpeedFast) then
             door._type := genBlazeCdO
           else
@@ -1382,7 +1382,7 @@ manual_door:
         begin
           door.topheight := P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
           door.direction := -1;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_dorcls));
+          MARS_StartSound(@door.sector.soundorg, snd_DORCLS);
           if Sped >= Ord(SpeedFast) then
             door._type := genBlazeClose
           else
