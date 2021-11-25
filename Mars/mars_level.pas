@@ -193,6 +193,7 @@ var
   begin
     sec := @doomsectors[secid];
     newsecid := AddSectorToWAD(sec.floorheight, sec.ceilingheight, sec.floorpic, sec.floorpic);
+    sec := @doomsectors[secid]; // AddSectorToWAD() reallocates the doomsectors pointer, must update sec pointer
     newsec := @doomsectors[newsecid];
     newsec.lightlevel := 0; // Completely black
 
@@ -225,8 +226,9 @@ var
   begin
     sec := @doomsectors[secid];
     newsecid := AddSectorToWAD(sec.floorheight, sec.ceilingheight, sec.floorpic, sec.ceilingpic);
+    sec := @doomsectors[secid]; // AddSectorToWAD() reallocates the doomsectors pointer, must update sec pointer
     newsec := @doomsectors[newsecid];
-    newsec.lightlevel := sec.lightlevel; // Completely black
+    newsec.lightlevel := sec.lightlevel; // Keep original light level
 
     l1 := AddLineToWAD(stubx, stuby, stubx + 16, stuby + 16);
     l2 := AddLineToWAD(stubx + 16, stuby + 16, stubx + 16, stuby);
