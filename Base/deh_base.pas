@@ -138,6 +138,7 @@ uses
   info_h,
   m_argv,
   sc_actordef,
+  sc_states,
   w_folders,
   w_pak,
   w_wad;
@@ -523,7 +524,7 @@ begin
   result := '';
   for i := 0 to numstates - 1 do
   begin
-    s1 := state_tokens.Strings[i];
+    s1 := statenames.Strings[i];
     s2 := '';
     if states[i].owners <> nil then
     begin
