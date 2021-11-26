@@ -767,7 +767,7 @@ begin
       actor.state.params.IntVal[1] := P_GetStateFromName(actor, actor.state.params.StrVal[1]);
     newstate := actor.state.params.IntVal[1];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -805,7 +805,7 @@ begin
       actor.state.params.IntVal[1] := P_GetStateFromName(actor, actor.state.params.StrVal[1]);
     newstate := actor.state.params.IntVal[1];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -827,7 +827,7 @@ begin
       actor.state.params.IntVal[1] := P_GetStateFromName(actor, actor.state.params.StrVal[1]);
     newstate := actor.state.params.IntVal[1];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -975,7 +975,7 @@ begin
     begin
       offset := N.Numbers[N_Random mod N.Count];
       if @states[offset] <> actor.state then
-        P_SetMobjState(actor, statenum_t(offset));
+        P_SetMobjState(actor, offset);
     end;
     N.Free;
   end;
@@ -997,7 +997,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1017,7 +1017,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1037,7 +1037,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1060,7 +1060,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1083,7 +1083,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1106,7 +1106,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1127,7 +1127,7 @@ begin
 
     cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
 
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    P_SetMobjState(actor, cur + offset);
   end;
 end;
 
@@ -1142,7 +1142,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1160,7 +1160,7 @@ begin
 
     cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
 
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    P_SetMobjState(actor, cur + offset);
   end;
 end;
 
@@ -1175,7 +1175,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1193,7 +1193,7 @@ begin
 
     cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
 
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    P_SetMobjState(actor, cur + offset);
   end;
 end;
 
@@ -1208,7 +1208,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1223,7 +1223,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1238,7 +1238,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1253,7 +1253,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1268,7 +1268,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1283,7 +1283,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1298,7 +1298,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1316,7 +1316,7 @@ begin
 
     cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
 
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    P_SetMobjState(actor, cur + offset);
   end;
 end;
 
@@ -1331,7 +1331,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1346,7 +1346,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1361,7 +1361,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1376,7 +1376,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1391,7 +1391,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -1413,7 +1413,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1435,7 +1435,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1457,7 +1457,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1482,7 +1482,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1507,7 +1507,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1532,7 +1532,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1554,7 +1554,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1576,7 +1576,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1598,7 +1598,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1615,7 +1615,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1632,7 +1632,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1649,7 +1649,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1666,7 +1666,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1683,7 +1683,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1700,7 +1700,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1722,7 +1722,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1744,7 +1744,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1766,7 +1766,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1783,7 +1783,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1800,7 +1800,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1817,7 +1817,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1834,7 +1834,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1851,7 +1851,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -1868,7 +1868,7 @@ begin
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
     newstate := actor.state.params.IntVal[2];
 
-    P_SetMobjState(actor, statenum_t(newstate));
+    P_SetMobjState(actor, newstate);
   end;
 end;
 
@@ -2125,7 +2125,7 @@ begin
     begin
       offset := N.Numbers[N_Random mod N.Count];
       if @states[offset] <> actor.state then
-        P_SetMobjState(actor, statenum_t(offset));
+        P_SetMobjState(actor, offset);
     end;
     N.Free;
   end;
@@ -3016,7 +3016,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -3036,7 +3036,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -3506,7 +3506,7 @@ begin
     actor.state.params.IntVal[idx] := P_GetStateFromName(actor, actor.state.params.StrVal[idx]);
   newstate := actor.state.params.IntVal[idx];
 
-  P_SetMobjState(actor, statenum_t(newstate));
+  P_SetMobjState(actor, newstate);
 end;
 
 procedure P_SetHealth(const mo: Pmobj_t; const h: integer);
@@ -3988,7 +3988,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -4003,7 +4003,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -4023,7 +4023,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -4038,7 +4038,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -4062,7 +4062,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -4139,7 +4139,7 @@ begin
 
   offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
   if @states[offset] <> actor.state then
-    P_SetMobjState(actor, statenum_t(offset));
+    P_SetMobjState(actor, offset);
 end;
 
 //
@@ -4187,7 +4187,7 @@ begin
 
   offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
   if @states[offset] <> actor.state then
-    P_SetMobjState(actor, statenum_t(offset));
+    P_SetMobjState(actor, offset);
 end;
 
 //
@@ -4229,7 +4229,7 @@ begin
 
   offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
   if @states[offset] <> actor.state then
-    P_SetMobjState(actor, statenum_t(offset));
+    P_SetMobjState(actor, offset);
 end;
 
 //
@@ -4293,7 +4293,7 @@ begin
       end;
     end;
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 
@@ -4567,7 +4567,7 @@ begin
 
   offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
   if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
 end;
 
 //
@@ -4895,7 +4895,7 @@ var
   cur: integer;
 begin
   cur := (integer(mo.state) - integer(states)) div SizeOf(state_t);
-  P_SetMobjState(mo, statenum_t(cur + offset));
+  P_SetMobjState(mo, cur + offset);
 end;
 
 procedure P_TransferFriendliness(const src, dest: Pmobj_t);
@@ -4996,7 +4996,7 @@ begin
   if (psp <> nil) and (id >= 0) then
   begin
     if N_Random < psp.state.misc2 then
-      P_SetPSprite(player, pdiff(psp, @player.psprites[0], SizeOf(pspdef_t)), statenum_t(psp.state.misc1));
+      P_SetPSprite(player, pdiff(psp, @player.psprites[0], SizeOf(pspdef_t)), psp.state.misc1);
     exit;
   end;
 
@@ -5006,7 +5006,7 @@ begin
   if @mo.thinker._function.acp1 = @P_MobjThinker then
   begin
     if N_Random < mo.state.misc2 then
-      P_SetMobjState(mo, statenum_t(mo.state.misc1));
+      P_SetMobjState(mo, mo.state.misc1);
   end;
 end;
 
@@ -5335,7 +5335,7 @@ begin
   S_StartSound(thing, Ord(SFX_RESPAWN));
   {$ENDIF}
 
-  P_SetMobjState(thing, statenum_t(info.raisestate));
+  P_SetMobjState(thing, info.raisestate);
 
   thing.flags := info.flags;
   {$IFDEF HERETIC_OR_HEXEN}
@@ -5641,7 +5641,7 @@ begin
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
     if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+      P_SetMobjState(actor, offset);
   end;
 end;
 

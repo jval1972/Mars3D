@@ -108,12 +108,6 @@ procedure A_UnSetFloorClip(actor: Pmobj_t);
 
 procedure A_AnnihilatorAttack(actor: Pmobj_t);
 
-procedure A_Mushroom(actor: Pmobj_t);
-
-procedure A_BetaSkullAttack(actor: Pmobj_t);
-
-procedure A_FireOldBFG(actor: Pmobj_t);
-
 procedure A_SinglePainAttack(actor: Pmobj_t);
 
 procedure A_DualPainAttack(actor: Pmobj_t);
@@ -125,11 +119,13 @@ uses
   doomdef,
   d_player,
   g_game,
+  i_system,
   info_h,
   info,
   info_common,
   r_defs,
   m_rnd,
+  p_common,
   p_enemy,
   p_mobj,
   p_inter,
@@ -139,7 +135,6 @@ uses
   p_local,
   p_sounds,
   p_terrain,
-  p_common,
   s_sound,
   tables;
 
@@ -605,9 +600,26 @@ var
   an: angle_t;
   rnd: byte;
   speed: fixed_t;
+  mobj_no: integer;
 begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_AnnihilatorAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   A_FaceTarget(actor);
-  mo := P_SpawnMissile(actor, actor.target, Ord(MT_ROCKET));
+  mo := P_SpawnMissile(actor, actor.target, mobj_no);
   if mo = nil then
     exit;
   rnd := N_Random;
@@ -618,7 +630,7 @@ begin
   mo.momy := FixedMul(speed, finesine[an]);
   mo.z := mo.z + 5 * FRACUNIT;
 
-  mo := P_SpawnMissile(actor, actor.target, Ord(MT_ROCKET));
+  mo := P_SpawnMissile(actor, actor.target, mobj_no);
   if mo = nil then
     exit;
   rnd := N_Random;
@@ -629,88 +641,6 @@ begin
   mo.momy := FixedMul(speed, finesine[an]);
   mo.z := mo.z + 5 * FRACUNIT;
 
-end;
-
-//
-// killough 9/98: a mushroom explosion effect, sorta :)
-// Original idea: Linguica
-//
-procedure A_Mushroom(actor: Pmobj_t);
-var
-  i, j, n: integer;
-  misc1, misc2: fixed_t;
-  target: mobj_t;
-  mo: Pmobj_t;
-begin
-  n := actor.info.damage;
-
-  // Mushroom parameters are part of code pointer's state
-  if actor.state.misc1 <> 0 then
-    misc1 := actor.state.misc1
-  else
-    misc1 := 4 * FRACUNIT;
-
-  if actor.state.misc2 <> 0 then
-    misc2 := actor.state.misc2
-  else
-    misc2 := 4 * FRACUNIT;
-
-  A_Explode(actor);  // make normal explosion
-
-  i := -n;
-  while i <= n do    // launch mushroom cloud
-  begin
-    j := -n;
-    while j <= n do
-    begin
-      target := actor^;
-      target.x := target.x + i * FRACUNIT;   // Aim in many directions from source
-      target.y := target.y + j * FRACUNIT;
-      target.z := target.z + P_AproxDistance(i, j) * misc1; // Aim fairly high
-      mo := P_SpawnMissile(actor, @target, Ord(MT_FATSHOT));    // Launch fireball
-      mo.momx := FixedMul(mo.momx, misc2);
-      mo.momy := FixedMul(mo.momy, misc2); // Slow down a bit
-      mo.momz := FixedMul(mo.momz, misc2);
-      mo.flags := mo.flags and not MF_NOGRAVITY;// Make debris fall under gravity
-      j := j + 8;
-    end;
-    i := i + 8;
-  end;
-end;
-
-//
-// A_BetaSkullAttack()
-// killough 10/98: this emulates the beta version's lost soul attacks
-//
-procedure A_BetaSkullAttack(actor: Pmobj_t);
-var
-  damage: integer;
-begin
-  if (actor.target = nil) or (actor.target._type = Ord(MT_SKULL)) then
-    exit;
-
-  S_StartSound(actor, actor.info.attacksound);
-  A_FaceTarget(actor);
-  damage := (P_Random mod 8 + 1) * actor.info.damage;
-  P_DamageMobj(actor.target, actor, actor, damage);
-end;
-
-//
-// This allows linedef effects to be activated inside deh frames.
-//
-
-//
-// A_FireOldBFG
-//
-// This function emulates Doom's Pre-Beta BFG
-// By Lee Killough 6/6/98, 7/11/98, 7/19/98, 8/20/98
-//
-// This code may not be used in other mods without appropriate credit given.
-// Code leeches will be telefragged.
-
-procedure A_FireOldBFG(actor: Pmobj_t);
-begin
-  // Hmmm?
 end;
 
 procedure P_PainShootSkull(actor: Pmobj_t; angle: angle_t; typ: integer);
@@ -724,7 +654,7 @@ var
   prestep: integer;
 begin
   if typ <= 0 then
-    typ := Ord(MT_SKULL);
+    exit;
 
   an := angle shr ANGLETOFINESHIFT;
 

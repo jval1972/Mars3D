@@ -416,7 +416,7 @@ begin
 
   if ((cmd.forwardmove <> 0) or (cmd.sidemove <> 0)) and
      (player.mo.state = @states[Ord(S_PLAY)]) then
-    P_SetMobjState(player.mo, S_PLAY_RUN1);
+    P_SetMobjState(player.mo, Ord(S_PLAY_RUN1));
 
 // JVAL Look UP and DOWN
   if zaxisshift then

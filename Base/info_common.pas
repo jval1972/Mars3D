@@ -232,7 +232,7 @@ begin
     loops := 0;
     st := @states[i];
     repeat
-      if st.nextstate = S_NULL then
+      if st.nextstate = Ord(S_NULL) then
         break;
       st := @states[Ord(st.nextstate)];
       inc(loops);

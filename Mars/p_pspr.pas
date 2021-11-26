@@ -69,23 +69,7 @@ procedure A_Raise(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_GunFlash(player: Pplayer_t; psp: Ppspdef_t);
 
-procedure A_Punch(player: Pplayer_t; psp: Ppspdef_t);
-
-procedure A_Saw(player: Pplayer_t; psp: Ppspdef_t);
-
-procedure A_FireMissile(player: Pplayer_t; psp: Ppspdef_t);
-
-procedure A_FireBFG(player: Pplayer_t; psp: Ppspdef_t);
-
-procedure A_FirePlasma(player: Pplayer_t; psp: Ppspdef_t);
-
 procedure A_FirePistol(player: Pplayer_t; psp: Ppspdef_t);
-
-procedure A_FireShotgun(player: Pplayer_t; psp: Ppspdef_t);
-
-procedure A_FireShotgun2(player: Pplayer_t; psp: Ppspdef_t);
-
-procedure A_FireCGun(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_Light0(player: Pplayer_t; psp: Ppspdef_t);
 
@@ -93,21 +77,13 @@ procedure A_Light1(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_Light2(player: Pplayer_t; psp: Ppspdef_t);
 
-procedure A_BFGSpray(mo: Pmobj_t);
-
-procedure A_BFGsound(player: Pplayer_t; psp: Ppspdef_t);
-
 procedure P_SetupPsprites(player: Pplayer_t);
 
 procedure P_MovePsprites(player: Pplayer_t);
 
 procedure P_BulletSlope(mo: Pmobj_t);
 
-procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: statenum_t);
-
-var
-// plasma cells for a bfg attack
-  p_bfgcells: integer = 40;
+procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: integer);
 
 //
 // Adjust weapon bottom and top
@@ -155,7 +131,7 @@ uses
 //
 // P_SetPsprite
 //
-procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: statenum_t);
+procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: integer);
 var
   psp: Ppspdef_t;
   state: Pstate_t;
@@ -228,12 +204,12 @@ end;
 //
 procedure P_BringUpWeapon(player: Pplayer_t);
 var
-  newstate: statenum_t;
+  newstate: integer;
 begin
   if player.pendingweapon = wp_nochange then
     player.pendingweapon := player.readyweapon;
 
-  newstate := statenum_t(weaponinfo[Ord(player.pendingweapon)].upstate);
+  newstate := weaponinfo[Ord(player.pendingweapon)].upstate;
 
   player.pendingweapon := wp_nochange;
   player.psprites[Ord(ps_weapon)].sy := WEAPONBOTTOM;
@@ -297,7 +273,7 @@ begin
   until not (player.pendingweapon = wp_nochange);
 
   // Now set appropriate weapon overlay.
-  P_SetPsprite(player, Ord(ps_weapon), statenum_t(weaponinfo[Ord(player.readyweapon)].downstate));
+  P_SetPsprite(player, Ord(ps_weapon), weaponinfo[Ord(player.readyweapon)].downstate);
 
   result := false;
 end;
@@ -307,15 +283,15 @@ end;
 //
 procedure P_FireWeapon(player: Pplayer_t);
 var
-  newstate: statenum_t;
+  newstate: integer;
 begin
   if P_CheckAmmo(player) then
   begin
-    P_SetMobjState(player.mo, S_PLAY_ATK1);
+    P_SetMobjState(player.mo, Ord(S_PLAY_ATK1));
     if (player.refire > 0) and (weaponinfo[Ord(player.readyweapon)].holdatkstate > 0) then
-      newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].holdatkstate)
+      newstate := weaponinfo[Ord(player.readyweapon)].holdatkstate
     else if weaponinfo[Ord(player.readyweapon)].atkstate > 0 then
-      newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].atkstate)  // JVAL: 20211122 - Key sequences do not have attack state
+      newstate := weaponinfo[Ord(player.readyweapon)].atkstate  // JVAL: 20211122 - Key sequences do not have attack state
     else
       exit;
     P_SetPsprite(player, Ord(ps_weapon), newstate);
@@ -329,7 +305,7 @@ end;
 //
 procedure P_DropWeapon(player: Pplayer_t);
 begin
-  P_SetPsprite(player, Ord(ps_weapon), statenum_t(weaponinfo[Ord(player.readyweapon)].downstate));
+  P_SetPsprite(player, Ord(ps_weapon), weaponinfo[Ord(player.readyweapon)].downstate);
 end;
 
 //
@@ -341,13 +317,13 @@ end;
 //
 procedure A_WeaponReady(player: Pplayer_t; psp: Ppspdef_t);
 var
-  newstate: statenum_t;
+  newstate: integer;
   angle: integer;
 begin
   // get out of attack state
   if (player.mo.state = @states[Ord(S_PLAY_ATK1)]) or
      (player.mo.state = @states[Ord(S_PLAY_ATK2)]) then
-    P_SetMobjState(player.mo, S_PLAY);
+    P_SetMobjState(player.mo, Ord(S_PLAY));
 
   // check for change
   //  if player is dead, put the weapon away
@@ -355,7 +331,7 @@ begin
   begin
     // change weapon
     //  (pending weapon should allready be validated)
-    newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].downstate);
+    newstate := weaponinfo[Ord(player.readyweapon)].downstate;
     P_SetPsprite(player, Ord(ps_weapon), newstate);
     exit;
   end;
@@ -407,12 +383,6 @@ end;
 procedure A_CheckReload(player: Pplayer_t; psp: Ppspdef_t);
 begin
   P_CheckAmmo(player);
-{
-#if 0
-    if (player->ammo[am_shell]<2)
-  P_SetPsprite (player, ps_weapon, S_DSNR1);
-#endif
-}
 end;
 
 //
@@ -441,7 +411,7 @@ begin
   if player.health = 0 then
   begin
     // Player is dead, so keep the weapon off screen.
-    P_SetPsprite(player, Ord(ps_weapon), S_NULL);
+    P_SetPsprite(player, Ord(ps_weapon), Ord(S_NULL));
     exit;
   end;
 
@@ -456,7 +426,7 @@ end;
 //
 procedure A_Raise(player: Pplayer_t; psp: Ppspdef_t);
 var
-  newstate: statenum_t;
+  newstate: integer;
 begin
   psp.sy := psp.sy - RAISESPEED;
 
@@ -467,7 +437,7 @@ begin
 
   // The weapon has been raised all the way,
   //  so change to the ready state.
-  newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].readystate);
+  newstate := weaponinfo[Ord(player.readyweapon)].readystate;
 
   P_SetPsprite(player, Ord(ps_weapon), newstate);
 end;
@@ -477,121 +447,8 @@ end;
 //
 procedure A_GunFlash(player: Pplayer_t; psp: Ppspdef_t);
 begin
-  P_SetMobjState(player.mo, S_PLAY_ATK2);
-  P_SetPsprite(player, Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
-end;
-
-//
-// WEAPON ATTACKS
-//
-
-
-//
-// A_Punch
-//
-procedure A_Punch(player: Pplayer_t; psp: Ppspdef_t);
-var
-  angle: angle_t;
-  damage: integer;
-  slope: integer;
-begin
-  damage := (P_Random mod 10 + 1) * 2;
-
-  if player.powers[Ord(pw_strength)] <> 0 then
-    damage := damage * 10;
-
-  angle := player.mo.angle;
-  angle := angle + _SHLW(P_Random - P_Random, 18);
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
-  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
-
-  // turn to face target
-  if linetarget <> nil then
-  begin
-    S_StartSound(player.mo, Ord(sfx_punch));
-    player.mo.angle :=
-      R_PointToAngle2(player.mo.x, player.mo.y, linetarget.x, linetarget.y);
-  end;
-end;
-
-//
-// A_Saw
-//
-procedure A_Saw(player: Pplayer_t; psp: Ppspdef_t);
-var
-  angle: angle_t;
-  damage: integer;
-  slope: integer;
-begin
-  damage := 2 * (P_Random mod 10 + 1);
-  angle := player.mo.angle;
-  angle := angle + _SHLW(P_Random - P_Random, 18);
-
-  // use meleerange + 1 se the puff doesn't skip the flash
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE + 1);
-  P_LineAttack(player.mo, angle, MELEERANGE + 1, slope, damage);
-
-  if linetarget = nil then
-  begin
-    S_StartSound(player.mo, Ord(sfx_sawful));
-    exit;
-  end;
-
-  S_StartSound(player.mo, Ord(sfx_sawhit));
-
-  // turn to face target
-  angle :=
-    R_PointToAngle2(player.mo.x, player.mo.y, linetarget.x, linetarget.y);
-  if angle - player.mo.angle > ANG180 then
-  begin
-    if integer(angle - player.mo.angle) < - integer(ANG90 div 20) then
-      player.mo.angle := angle + ANG90 div 21
-    else
-      player.mo.angle := player.mo.angle - ANG90 div 20;
-  end
-  else
-  begin
-    if angle - player.mo.angle > ANG90 div 20 then
-      player.mo.angle := angle - ANG90 div 21
-    else
-      player.mo.angle := player.mo.angle + ANG90 div 20;
-  end;
-
-  player.mo.flags := player.mo.flags or MF_JUSTATTACKED;
-end;
-
-//
-// A_FireMissile
-//
-procedure A_FireMissile(player: Pplayer_t; psp: Ppspdef_t);
-begin
-  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
-    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
-  P_SpawnPlayerMissile(player.mo, Ord(MT_ROCKET));
-end;
-
-//
-// A_FireBFG
-//
-procedure A_FireBFG(player: Pplayer_t; psp: Ppspdef_t);
-begin
-  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
-    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - p_bfgcells;
-  P_SpawnPlayerMissile(player.mo, Ord(MT_BFG));
-end;
-
-//
-// A_FirePlasma
-//
-procedure A_FirePlasma(player: Pplayer_t; psp: Ppspdef_t);
-begin
-  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
-    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
-
-  P_SetPsprite(player,
-    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
-
-  P_SpawnPlayerMissile(player.mo, Ord(MT_PLASMA));
+  P_SetMobjState(player.mo, Ord(S_PLAY_ATK2));
+  P_SetPsprite(player, Ord(ps_flash), weaponinfo[Ord(player.readyweapon)].flashstate);
 end;
 
 //
@@ -651,100 +508,17 @@ begin
 
   MARS_StartSound(player.mo, snd_GUN1SHT);
 
-  P_SetMobjState(player.mo, S_PLAY_ATK2);
+  P_SetMobjState(player.mo, Ord(S_PLAY_ATK2));
 
   am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
   player.ammo[am] := player.ammo[am] - 1;
 
-  P_SetPsprite(player, Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+  P_SetPsprite(player, Ord(ps_flash), weaponinfo[Ord(player.readyweapon)].flashstate);
 
   P_BulletSlope(player.mo);
   P_GunShot(player.mo, player.refire = 0);
 end;
 
-//
-// A_FireShotgun
-//
-procedure A_FireShotgun(player: Pplayer_t; psp: Ppspdef_t);
-var
-  i: integer;
-  am: integer;
-begin
-  S_StartSound(player.mo, Ord(sfx_shotgn));
-  P_SetMobjState(player.mo, S_PLAY_ATK2);
-
-  am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
-  player.ammo[am] := player.ammo[am] - 1;
-
-  P_SetPsprite(player, Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
-
-  P_BulletSlope(player.mo);
-
-  for i := 0 to 6 do
-    P_GunShot(player.mo, false);
-end;
-
-//
-// A_FireShotgun2
-//
-procedure A_FireShotgun2(player: Pplayer_t; psp: Ppspdef_t);
-var
-  i: integer;
-  angle: angle_t;
-  damage: integer;
-  am: integer;
-begin
-  S_StartSound(player.mo, Ord(sfx_dshtgn));
-  P_SetMobjState(player.mo, S_PLAY_ATK2);
-
-  am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
-  player.ammo[am] := player.ammo[am] - 2;
-
-  P_SetPsprite(player, Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
-
-  P_BulletSlope(player.mo);
-
-  for i := 0 to 19 do
-  begin
-    damage := 5 * ((P_Random mod 3) + 1);
-    angle := player.mo.angle;
-    angle := angle + _SHLW(P_Random - P_Random, 19);
-    P_LineAttack(player.mo, angle, MISSILERANGE,
-      bulletslope + _SHL(P_Random - P_Random, 5), damage);
-  end;
-end;
-
-//
-// A_FireCGun
-//
-procedure A_FireCGun(player: Pplayer_t; psp: Ppspdef_t);
-var
-  am : integer;
-begin
-  S_StartSound(player.mo, Ord(sfx_pistol));
-
-  if player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] = 0 then
-    exit;
-
-  P_SetMobjState(player.mo, S_PLAY_ATK2);
-
-  am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
-  player.ammo[am] := player.ammo[am] - 1;
-
-  P_SetPsprite(player, Ord(ps_flash),
-    statenum_t(
-      weaponinfo[Ord(player.readyweapon)].flashstate +
-      pDiff(psp.state, @states[Ord(S_CHAIN1)], SizeOf(state_t))
-    ));
-
-  P_BulletSlope(player.mo);
-
-  P_GunShot(player.mo, player.refire = 0);
-end;
-
-//
-// ?
-//
 procedure A_Light0(player: Pplayer_t; psp: Ppspdef_t);
 begin
   player.extralight := 0;
@@ -758,56 +532,6 @@ end;
 procedure A_Light2(player: Pplayer_t; psp: Ppspdef_t);
 begin
   player.extralight := 2;
-end;
-
-//
-// A_BFGSpray
-// Spawn a BFG explosion on every monster in view
-//
-procedure A_BFGSpray(mo: Pmobj_t);
-var
-  i: integer;
-  j: integer;
-  damage: integer;
-  an: angle_t;
-  dan: angle_t;
-begin
-  // offset angles from its attack angle
-{ JVAL -> original code was: ---------------
-  for i := 0 to 39 do
-  begin
-    an := mo.angle - ANG90 div 2 + (ANG90 div 40) * i;
------------------}
-  an := mo.angle - ANG90 div 2;
-  dan := ANG90 div 40;
-  for i := 0 to 39 do
-  begin
-    an := an + dan;
-
-    // mo->target is the originator (player)
-    //  of the missile
-    P_AimLineAttack(mo.target, an, 16 * 64 * FRACUNIT);
-
-    if linetarget = nil then
-      continue;
-
-    P_SpawnMobj(
-      linetarget.x, linetarget.y, linetarget.z + _SHR(linetarget.height, 2), Ord(MT_EXTRABFG));
-
-    damage := 0;
-    for j := 0 to 14 do
-      damage := damage + (P_Random and 7) + 1;
-
-    P_DamageMobj(linetarget, mo.target, mo.target, damage);
-  end;
-end;
-
-//
-// A_BFGsound
-//
-procedure A_BFGsound(player: Pplayer_t; psp: Ppspdef_t);
-begin
-  S_StartSound(player.mo, Ord(sfx_bfg));
 end;
 
 //

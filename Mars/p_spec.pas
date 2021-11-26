@@ -1689,19 +1689,8 @@ var
 begin
   //  Triggers that other things can activate
   if (thing.player = nil) and (line.special <> 121) then  // JVAL: 20211103 - Bråakable glass (MARS)
-  begin
-    // Things that should NOT trigger specials...
-    case thing._type of
-      Ord(MT_ROCKET),
-      Ord(MT_PLASMA),
-      Ord(MT_BFG),
-      Ord(MT_TROOPSHOT),
-      Ord(MT_HEADSHOT),
-      Ord(MT_BRUISERSHOT):
-        exit;
-    end;
-
-  end;
+    if thing.flags and MF_MISSILE <> 0 then
+      exit;
 
   // pointer to line function is nil by default, set non-null if
   // line special is walkover generalized linedef type

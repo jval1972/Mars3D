@@ -48,9 +48,9 @@ uses
   info_h,
   m_fixed;
 
-function P_SetMobjState(mobj: Pmobj_t; state: statenum_t): boolean;
+function P_SetMobjState(mobj: Pmobj_t; state: integer): boolean;
 
-function P_SetMobjStateNF(mobj: Pmobj_t; state: statenum_t): boolean;
+function P_SetMobjStateNF(mobj: Pmobj_t; state: integer): boolean;
 
 procedure P_ExplodeMissile(mo: Pmobj_t);
 
@@ -164,14 +164,14 @@ const
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-function P_DoSetMobjState(mobj: Pmobj_t; state: statenum_t; const runthinker: boolean): boolean;
+function P_DoSetMobjState(mobj: Pmobj_t; state: integer; const runthinker: boolean): boolean;
 var
   st: Pstate_t;
   cycle_counter: integer;
 begin
   cycle_counter := 0;
   repeat
-    if state = S_NULL then
+    if state = Ord(S_NULL) then
     begin
       if mobj.flags_ex and MF_EX_DONOTREMOVE = 0 then // JVAL Do not remove missile
       begin
@@ -215,12 +215,12 @@ begin
   result := true;
 end;
 
-function P_SetMobjState(mobj: Pmobj_t; state: statenum_t): boolean;
+function P_SetMobjState(mobj: Pmobj_t; state: integer): boolean;
 begin
   result := P_DoSetMobjState(mobj, state, true);
 end;
 
-function P_SetMobjStateNF(mobj: Pmobj_t; state: statenum_t): boolean;
+function P_SetMobjStateNF(mobj: Pmobj_t; state: integer): boolean;
 begin
   result := P_DoSetMobjState(mobj, state, false);
 end;
@@ -234,7 +234,7 @@ begin
   mo.momy := 0;
   mo.momz := 0;
 
-  P_SetMobjState(mo, statenum_t(mobjinfo[Ord(mo._type)].deathstate));
+  P_SetMobjState(mo, mobjinfo[Ord(mo._type)].deathstate);
 
   mo.tics := mo.tics - (P_Random and 3);
 
@@ -276,7 +276,7 @@ begin
       mo.momy := 0;
       mo.momz := 0;
 
-      P_SetMobjState(mo, statenum_t(mo.info.spawnstate));
+      P_SetMobjState(mo, mo.info.spawnstate);
     end;
     exit;
   end;
@@ -442,7 +442,7 @@ begin
     // if in a walking frame, stop moving
     if (player <> nil) and
        (LongWord((pDiff(player.mo.state, @states[0], SizeOf(states[0]))) - Ord(S_PLAY_RUN1)) < 4) then
-      P_SetMobjState(player.mo, S_PLAY);
+      P_SetMobjState(player.mo, Ord(S_PLAY));
 
     mo.momx := 0;
     mo.momy := 0;
@@ -620,7 +620,7 @@ begin
     if (mo.info.crashstate > 0) and
        (mo.flags and MF_CORPSE <> 0) then
     begin
-      P_SetMobjState(mo, statenum_t(mo.info.crashstate));
+      P_SetMobjState(mo, mo.info.crashstate);
       exit;
     end;
 
@@ -1093,10 +1093,8 @@ var
 
 procedure P_RemoveMobj(mobj: Pmobj_t);
 begin
-  if ((mobj.flags and MF_SPECIAL) <> 0) and
-     ((mobj.flags and MF_DROPPED) = 0) and
-     (mobj._type <> Ord(MT_INV)) and
-     (mobj._type <> Ord(MT_INS)) then
+  if (mobj.flags and MF_SPECIAL <> 0) and
+     (mobj.flags and MF_DROPPED = 0) then
   begin
     itemrespawnque[iquehead] := mobj.spawnpoint;
     itemrespawntime[iquehead] := leveltime;
@@ -1428,8 +1426,7 @@ begin
   end;
 
   // don't spawn any monsters if -nomonsters
-  if nomonsters and
-    ((i = Ord(MT_SKULL)) or (mobjinfo[i].flags and MF_COUNTKILL <> 0)) then
+  if nomonsters and (mobjinfo[i].flags and MF_COUNTKILL <> 0) then
   begin
     result := nil;
     exit;
@@ -1519,7 +1516,7 @@ begin
 
   // don't make punches spark on the wall
   if attackrange = MELEERANGE then
-    P_SetMobjState(th, S_PUFF3);
+    P_SetMobjState(th, Ord(S_PUFF3));
 end;
 
 //
@@ -1540,9 +1537,9 @@ begin
   if th.flags3_ex and MF3_EX_BLOODIGNOREDAMAGE = 0 then
   begin
     if (damage <= 12) and (damage >= 9) then
-      P_SetMobjState(th, S_BLOOD2)
+      P_SetMobjState(th, Ord(S_BLOOD2))
     else if damage < 9 then
-      P_SetMobjState(th, S_BLOOD3);
+      P_SetMobjState(th, Ord(S_BLOOD3));
   end;
 end;
 

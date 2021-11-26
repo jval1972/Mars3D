@@ -52,7 +52,7 @@ const
   DEHMAXACTIONS = 400;
 
 var
-  dehnumactions: integer = 383;
+  dehnumactions: integer = 0;
 
 type
   deh_action_t = record
@@ -266,13 +266,13 @@ begin
 
       if (token1 = 'NEWTHING') or (stmp = '') or (itoa(atoi(stmp)) <> stmp) then
       begin
+        mobj_no := Info_GetNewMobjInfo;
         if devparm then
         begin
           printf('DEH_Parse(): Expanding mobjinfo table...'#13#10);
           if stmp <> '' then
-            printf('             Adding %s mobj'#13#10, [stmp]);
+            printf('             Adding %s mobj (%d)'#13#10, [stmp, mobj_no]);
         end;
-        mobj_no := Info_GetNewMobjInfo;
         Info_SetMobjName(mobj_no, stmp);
       end
       else
@@ -341,6 +341,8 @@ begin
               continue;
             end;
           end
+          else if mobj_val < 0 then
+            mobj_val := 0;
         end;
 
         case mobj_idx of
@@ -673,19 +675,19 @@ begin
               if (fw = 'ORIGINALSTATE') or (fw = 'ORIGINALFRAME') or (fw = 'ORIGINAL') then
               begin
                 state_val := atoi(secondword(token2));
-                states[state_no].nextstate := statenum_t(state_val);
+                states[state_no].nextstate := state_val;
               end
               else if (fw = 'NEWSTATE') or (fw = 'NEWFRAME') or (fw = 'NEW') then
               begin
                 state_val := atoi(secondword(token2));
-                states[state_no].nextstate := statenum_t(deh_initialstates + state_val)
+                states[state_no].nextstate := deh_initialstates + state_val;
               end
               else if statenames.IndexOfToken(token2) >= 0 then
-                states[state_no].nextstate := statenum_t(statenames.IndexOfToken(token2))
+                states[state_no].nextstate := statenames.IndexOfToken(token2)
               else if newstate then
-                states[state_no].nextstate := statenum_t(deh_initialstates + state_val)
+                states[state_no].nextstate := deh_initialstates + state_val
               else
-                states[state_no].nextstate := statenum_t(state_val);
+                states[state_no].nextstate := state_val;
             end;
            4:
             begin
@@ -1082,7 +1084,7 @@ begin
           if weapon_val < 0 then
             I_Warning('DEH_Parse(): After %s keyword found invalid ammo %s (Weapon number = %d)'#13#10, [weapon_tokens.Strings[weapon_idx], token2, weapon_no]);
         end
-        else if weapon_val < 0 then
+        else if weapon_val = -1 then
         begin
           if weapon_idx in [1, 2, 3, 4, 5, 6] then
           begin
@@ -1207,12 +1209,11 @@ begin
           7: p_greenarmorclass := misc_val;
           8: p_bluearmorclass := misc_val;
           9: p_initialbullets := misc_val;
-         10: p_bfgcells := misc_val;
-         11: p_idfaarmor := misc_val;
-         12: p_idfaarmorclass := misc_val;
-         13: p_idkfaarmor := misc_val;
-         14: p_idkfaarmorclass := misc_val;
-         15:
+         10: p_idfaarmor := misc_val;
+         11: p_idfaarmorclass := misc_val;
+         12: p_idkfaarmor := misc_val;
+         13: p_idkfaarmorclass := misc_val;
+         14:
           begin
             p_maxsoulsphere := misc_val;
             did_max_soulsphere := True;
@@ -1462,6 +1463,12 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = 'SUBMITNEWSTATES') or (token1 = 'SUBMITNEWFRAMES') then // DelphiDoom specific
     begin
+      if devparm then
+      begin
+        printf('DEH_Parse(): Submiting new states...'#13#10);
+        printf('             Expanding from %d to %d states'#13#10, [deh_initialstates, numstates]);
+      end;
+
     // JVAL: 20201203 - Preserve initial actions
       realloc(pointer(code_ptrs), deh_initialstates * SizeOf(actionf_t), numstates * SizeOf(actionf_t));
       for j := 0 to numstates - 1 do
@@ -1755,12 +1762,11 @@ begin
   result.Add('%s = %d', [capitalizedstring(misc_tokens[7]), p_greenarmorclass]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[8]), p_bluearmorclass]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[9]), p_initialbullets]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[10]), p_bfgcells]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[11]), p_idfaarmor]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[12]), p_idfaarmorclass]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[13]), p_idkfaarmor]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[14]), p_idkfaarmorclass]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[15]), p_maxsoulsphere]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[10]), p_idfaarmor]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[11]), p_idfaarmorclass]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[12]), p_idkfaarmor]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[13]), p_idkfaarmorclass]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[14]), p_maxsoulsphere]);
 
   result.Add('');
 
@@ -2122,25 +2128,15 @@ begin
   DEH_AddAction(@A_WeaponReady, 'A_WeaponReady()');
   DEH_AddAction(@A_Lower, 'A_Lower()');
   DEH_AddAction(@A_Raise, 'A_Raise()');
-  DEH_AddAction(@A_Punch, 'A_Punch()');
   DEH_AddAction(@A_ReFire, 'A_ReFire()');
   DEH_AddAction(@A_FirePistol, 'A_FirePistol()');
   DEH_AddAction(@A_Light1, 'A_Light1()');
-  DEH_AddAction(@A_FireShotgun, 'A_FireShotgun()');
   DEH_AddAction(@A_Light2, 'A_Light2()');
-  DEH_AddAction(@A_FireShotgun2, 'A_FireShotgun2()');
   DEH_AddAction(@A_CheckReload, 'A_CheckReload()');
   DEH_AddAction(@A_OpenShotgun2, 'A_OpenShotgun2()');
   DEH_AddAction(@A_LoadShotgun2, 'A_LoadShotgun2()');
   DEH_AddAction(@A_CloseShotgun2, 'A_CloseShotgun2()');
-  DEH_AddAction(@A_FireCGun, 'A_FireCGun()');
   DEH_AddAction(@A_GunFlash, 'A_GunFlash()');
-  DEH_AddAction(@A_FireMissile, 'A_FireMissile()');
-  DEH_AddAction(@A_Saw, 'A_Saw()');
-  DEH_AddAction(@A_FirePlasma, 'A_FirePlasma()');
-  DEH_AddAction(@A_BFGsound, 'A_BFGsound()');
-  DEH_AddAction(@A_FireBFG, 'A_FireBFG()');
-  DEH_AddAction(@A_BFGSpray, 'A_BFGSpray()');
   DEH_AddAction(@A_Explode, 'A_Explode()');
   DEH_AddAction(@A_Pain, 'A_Pain()');
   DEH_AddAction(@A_PlayerScream, 'A_PlayerScream()');
@@ -2154,7 +2150,7 @@ begin
   DEH_AddAction(@A_SPosAttack, 'A_SPosAttack()');
   DEH_AddAction(@A_VileChase, 'A_VileChase()');
   DEH_AddAction(@A_VileStart, 'A_VileStart()');
-  DEH_AddAction(@A_VileTarget, 'A_VileTarget()');
+  DEH_AddAction(@A_VileTarget, 'A_VileTarget(missiletype: string)');
   DEH_AddAction(@A_VileAttack, 'A_VileAttack()');
   DEH_AddAction(@A_StartFire, 'A_StartFire()');
   DEH_AddAction(@A_Fire, 'A_Fire()');
@@ -2162,36 +2158,28 @@ begin
   DEH_AddAction(@A_Tracer, 'A_Tracer()');
   DEH_AddAction(@A_SkelWhoosh, 'A_SkelWhoosh()');
   DEH_AddAction(@A_SkelFist, 'A_SkelFist()');
-  DEH_AddAction(@A_SkelMissile, 'A_SkelMissile()');
+  DEH_AddAction(@A_SkelMissile, 'A_SkelMissile(missiletype: string)');
   DEH_AddAction(@A_FatRaise, 'A_FatRaise()');
-  DEH_AddAction(@A_FatAttack1, 'A_FatAttack1()');
-  DEH_AddAction(@A_FatAttack2, 'A_FatAttack2()');
-  DEH_AddAction(@A_FatAttack3, 'A_FatAttack3()');
+  DEH_AddAction(@A_FatAttack1, 'A_FatAttack1(missiletype: string)');
+  DEH_AddAction(@A_FatAttack2, 'A_FatAttack2(missiletype: string)');
+  DEH_AddAction(@A_FatAttack3, 'A_FatAttack3(missiletype: string)');
   DEH_AddAction(@A_BossDeath, 'A_BossDeath()');
   DEH_AddAction(@A_CPosAttack, 'A_CPosAttack()');
   DEH_AddAction(@A_CPosRefire, 'A_CPosRefire()');
-  DEH_AddAction(@A_TroopAttack, 'A_TroopAttack()');
+  DEH_AddAction(@A_TroopAttack, 'A_TroopAttack(missiletype: string)');
   DEH_AddAction(@A_SargAttack, 'A_SargAttack()');
-  DEH_AddAction(@A_HeadAttack, 'A_HeadAttack()');
-  DEH_AddAction(@A_BruisAttack, 'A_BruisAttack()');
+  DEH_AddAction(@A_HeadAttack, 'A_HeadAttack(missiletype: string)');
+  DEH_AddAction(@A_BruisAttack, 'A_BruisAttack(missiletype: string)');
   DEH_AddAction(@A_SkullAttack, 'A_SkullAttack()');
   DEH_AddAction(@A_Metal, 'A_Metal()');
   DEH_AddAction(@A_SpidRefire, 'A_SpidRefire()');
   DEH_AddAction(@A_BabyMetal, 'A_BabyMetal()');
-  DEH_AddAction(@A_BspiAttack, 'A_BspiAttack()');
+  DEH_AddAction(@A_BspiAttack, 'A_BspiAttack(missiletype: string)');
   DEH_AddAction(@A_Hoof, 'A_Hoof()');
-  DEH_AddAction(@A_CyberAttack, 'A_CyberAttack()');
-  DEH_AddAction(@A_PainAttack, 'A_PainAttack()');
-  DEH_AddAction(@A_PainDie, 'A_PainDie()');
+  DEH_AddAction(@A_CyberAttack, 'A_CyberAttack(missiletype: string)');
+  DEH_AddAction(@A_PainAttack, 'A_PainAttack(missiletype: string)');
+  DEH_AddAction(@A_PainDie, 'A_PainDie(missiletype: string)');
   DEH_AddAction(@A_KeenDie, 'A_KeenDie()');
-  DEH_AddAction(@A_BrainPain, 'A_BrainPain()');
-  DEH_AddAction(@A_BrainScream, 'A_BrainScream()');
-  DEH_AddAction(@A_BrainDie, 'A_BrainDie()');
-  DEH_AddAction(@A_BrainAwake, 'A_BrainAwake()');
-  DEH_AddAction(@A_BrainSpit, 'A_BrainSpit()');
-  DEH_AddAction(@A_SpawnSound, 'A_SpawnSound()');
-  DEH_AddAction(@A_SpawnFly, 'A_SpawnFly()');
-  DEH_AddAction(@A_BrainExplode, 'A_BrainExplode()');
   DEH_AddAction(@A_CustomSound1, 'A_CustomSound1()');
   DEH_AddAction(@A_CustomSound2, 'A_CustomSound2()');
   DEH_AddAction(@A_CustomSound3, 'A_CustomSound3()');
@@ -2204,7 +2192,7 @@ begin
   DEH_AddAction(@A_RandomCustomSound2, 'A_RandomCustomSound2()');
   DEH_AddAction(@A_RandomCustomSound3, 'A_RandomCustomSound3()');
   DEH_AddAction(@A_RandomCustomSound, 'A_RandomCustomSound()');
-  DEH_AddAction(@A_AnnihilatorAttack, 'A_AnnihilatorAttack()');
+  DEH_AddAction(@A_AnnihilatorAttack, 'A_AnnihilatorAttack(missiletype: string)');
   DEH_AddAction(@A_Playsound, 'A_Playsound(sound: string)');
   DEH_AddAction(@A_RandomSound, 'A_RandomSound(sound1: string, [sound2: string], ...)');
   DEH_AddAction(@A_Stop, 'A_Stop()');
@@ -2409,9 +2397,6 @@ begin
   DEH_AddAction(@A_Remove, 'A_Remove(aaprt: AAPTR, [flags: integer])');
   DEH_AddAction(@A_SetFloatBobPhase, 'A_SetFloatBobPhase(bob: integer)');
   DEH_AddAction(@A_Detonate, 'A_Detonate()');
-  DEH_AddAction(@A_Mushroom, 'A_Mushroom()');
-  DEH_AddAction(@A_BetaSkullAttack, 'A_BetaSkullAttack()');
-  DEH_AddAction(@A_FireOldBFG, 'A_FireOldBFG()');
   DEH_AddAction(@A_Spawn, 'A_Spawn()');
   DEH_AddAction(@A_Face, 'A_Face()');
   DEH_AddAction(@A_Scratch, 'A_Scratch()');
@@ -2776,7 +2761,6 @@ begin
   misc_tokens.Add('GREEN ARMOR CLASS');   // p_greenarmorclass
   misc_tokens.Add('BLUE ARMOR CLASS');    // p_bluearmorclass
   misc_tokens.Add('INITIAL BULLETS');     // p_initialbullets
-  misc_tokens.Add('BFG CELLS/SHOT');      // p_bfgcells
   misc_tokens.Add('IDFA ARMOR');          // p_idfaarmor
   misc_tokens.Add('IDFA ARMOR CLASS');    // p_idfaarmorclass
   misc_tokens.Add('IDKFA ARMOR');         // p_idkfaarmor

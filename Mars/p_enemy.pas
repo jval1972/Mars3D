@@ -139,22 +139,6 @@ procedure A_LoadShotgun2(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_CloseShotgun2(player: Pplayer_t; psp: Ppspdef_t);
 
-procedure A_BrainAwake(mo: Pmobj_t);
-
-procedure A_BrainPain(mo: Pmobj_t);
-
-procedure A_BrainScream(mo: Pmobj_t);
-
-procedure A_BrainExplode(mo: Pmobj_t);
-
-procedure A_BrainDie(mo: Pmobj_t);
-
-procedure A_BrainSpit(mo: Pmobj_t);
-
-procedure A_SpawnFly(mo: Pmobj_t);
-
-procedure A_SpawnSound(mo: Pmobj_t);
-
 procedure A_PlayerScream(mo: Pmobj_t);
 
 procedure P_DoChase(actor: Pmobj_t; const fast: boolean);
@@ -454,41 +438,14 @@ begin
 
   dist := FixedInt(dist);
 
-  if actor._type = Ord(MT_VILE) then
-    if dist > 14 * 64 then
-    begin
-      result := false; // too far away
-      exit;
-    end;
-
-
-  if actor._type = Ord(MT_UNDEAD) then
-  begin
-    if dist < 196 then
-    begin
-      result := false; // close for fist attack
-      exit;
-    end;
-    dist := _SHR1(dist);
-  end;
-
-
-  if (actor._type = Ord(MT_CYBORG)) or
-     (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_SKULL)) then
-    dist := _SHR1(dist);
-
   if dist > 200 then
     dist := 200;
-
-  if (actor._type = Ord(MT_CYBORG)) and (dist > 160) then
-    dist := 160;
 
   if actor.flags3_ex and MF3_EX_MISSILEMORE <> 0 then
     dist := dist div 2;
   if actor.flags3_ex and MF3_EX_MISSILEEVENMORE <> 0 then
     dist := dist div 8;
-    
+
   if actor.info.minmissilechance > 0 then
     if actor.info.minmissilechance < dist then
       dist := actor.info.minmissilechance;
@@ -789,16 +746,8 @@ begin
     inher := Info_GetInheritance(mo.info);
     if inher = Info_GetInheritance(actor.info) then
     begin
-    // JVAL
-    // Same monsters does not kill each other,
-    // only humanoids with weapons.
-      if (inher <> Ord(MT_POSSESSED)) and
-         (inher <> Ord(MT_SHOTGUY)) and
-         (inher <> Ord(MT_CHAINGUY)) then
-      begin
-        think := think.next;
-        continue;
-      end;
+      think := think.next;
+      continue;
     end;
 
     if actor.info.maxtargetrange > 0 then
@@ -1003,7 +952,7 @@ begin
 
     if actor.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
     begin
-      if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+      if actor.info.flags_ex and MF_EX_BOSS <> 0 then
         // full volume
         P_RandomSound(nil, sound)
       else
@@ -1011,7 +960,7 @@ begin
     end
     else
     begin
-      if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+      if actor.info.flags_ex and MF_EX_BOSS <> 0 then
         // full volume
         S_StartSound(nil, sound)
       else
@@ -1020,7 +969,7 @@ begin
   end;
 
   if actor.state <> @states[actor.info.seestate] then
-    P_SetMobjState(actor, statenum_t(actor.info.seestate));
+    P_SetMobjState(actor, actor.info.seestate);
 end;
 
 //
@@ -1064,7 +1013,7 @@ begin
     if P_LookForTargets(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
       exit; // got a new target
     if actor.state <> @states[actor.info.spawnstate] then
-      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
+      P_SetMobjStateNF(actor, actor.info.spawnstate);
     exit;
   end;
 
@@ -1076,7 +1025,7 @@ begin
       exit; // got a new target
 
     if actor.state <> @states[actor.info.spawnstate] then
-      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
+      P_SetMobjStateNF(actor, actor.info.spawnstate);
     exit;
   end;
 
@@ -1094,7 +1043,7 @@ begin
   begin
     A_AttackSound(actor, actor);
     if actor.state <> @states[actor.info.meleestate] then
-      P_SetMobjState(actor, statenum_t(actor.info.meleestate));
+      P_SetMobjState(actor, actor.info.meleestate);
     exit;
   end;
 
@@ -1109,7 +1058,7 @@ begin
     if not nomissile then
     begin
       if actor.state <> @states[actor.info.missilestate] then
-        P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+        P_SetMobjState(actor, actor.info.missilestate);
       actor.flags := actor.flags or MF_JUSTATTACKED;
       exit;
     end;
@@ -1262,7 +1211,7 @@ begin
   if (actor.target = nil) or (actor.target.health <= 0) or
      not P_CheckSight(actor, actor.target) then
     if actor.state <> @states[actor.info.seestate] then
-      P_SetMobjState(actor, statenum_t(actor.info.seestate));
+      P_SetMobjState(actor, actor.info.seestate);
 end;
 
 procedure A_SpidRefire(actor: Pmobj_t);
@@ -1276,18 +1225,36 @@ begin
   if (actor.target = nil) or (actor.target.health <= 0) or
      not P_CheckSight(actor, actor.target) then
     if actor.state <> @states[actor.info.seestate] then
-      P_SetMobjState(actor, statenum_t(actor.info.seestate));
+      P_SetMobjState(actor, actor.info.seestate);
 end;
 
 procedure A_BspiAttack(actor: Pmobj_t);
+var
+  mobj_no: integer;
 begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
   if actor.target = nil then
     exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_BspiAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
 
   A_FaceTarget(actor);
 
   // launch a missile
-  P_SpawnMissile(actor, actor.target, Ord(MT_ARACHPLAZ));
+  P_SpawnMissile(actor, actor.target, mobj_no);
 end;
 
 //
@@ -1296,6 +1263,7 @@ end;
 procedure A_TroopAttack(actor: Pmobj_t);
 var
   damage: integer;
+  mobj_no: integer;
 begin
   if actor.target = nil then
     exit;
@@ -1309,8 +1277,24 @@ begin
     exit;
   end;
 
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_TroopAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   // launch a missile
-  P_SpawnMissile(actor, actor.target, Ord(MT_TROOPSHOT));
+  P_SpawnMissile(actor, actor.target, mobj_no);
 end;
 
 procedure A_SargAttack(actor: Pmobj_t);
@@ -1331,6 +1315,7 @@ end;
 procedure A_HeadAttack(actor: Pmobj_t);
 var
   damage: integer;
+  mobj_no: integer;
 begin
   if actor.target = nil then
     exit;
@@ -1343,22 +1328,57 @@ begin
     exit;
   end;
 
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_HeadAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   // launch a missile
-  P_SpawnMissile(actor, actor.target, Ord(MT_HEADSHOT));
+  P_SpawnMissile(actor, actor.target, mobj_no);
 end;
 
 procedure A_CyberAttack(actor: Pmobj_t);
+var
+  mobj_no: integer;
 begin
   if actor.target = nil then
     exit;
 
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_CyberAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   A_FaceTarget(actor);
-  P_SpawnMissile(actor, actor.target, Ord(MT_ROCKET));
+  P_SpawnMissile(actor, actor.target, mobj_no);
 end;
 
 procedure A_BruisAttack(actor: Pmobj_t);
 var
   damage: integer;
+  mobj_no: integer;
 begin
   if actor.target = nil then
     exit;
@@ -1371,8 +1391,24 @@ begin
     exit;
   end;
 
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_BruisAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   // launch a missile
-  P_SpawnMissile(actor, actor.target, Ord(MT_BRUISERSHOT));
+  P_SpawnMissile(actor, actor.target, mobj_no);
 end;
 
 //
@@ -1381,14 +1417,31 @@ end;
 procedure A_SkelMissile(actor: Pmobj_t);
 var
   mo: Pmobj_t;
+  mobj_no: integer;
 begin
   if actor.target = nil then
     exit;
 
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_SkelMissile(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   A_FaceTarget(actor);
   actor.z := actor.z + 16 * FRACUNIT; // so missile spawns higher
 
-  mo := P_SpawnMissile(actor, actor.target, Ord(MT_TRACER));
+  mo := P_SpawnMissile(actor, actor.target, mobj_no);
 
   actor.z := actor.z - 16 * FRACUNIT; // back to normal
 
@@ -1508,6 +1561,7 @@ var
   corpsehit: Pmobj_t;
   viletryx: fixed_t;
   viletryy: fixed_t;
+  vilechase: Pmobj_t;
 
 function PIT_VileCheck(thing: Pmobj_t): boolean;
 var
@@ -1532,7 +1586,7 @@ begin
     exit;
   end;
 
-  maxdist := thing.info.radius + mobjinfo[Ord(MT_VILE)].radius;
+  maxdist := thing.info.radius + vilechase.radius;
 
   if (abs(thing.x - viletryx) > maxdist) or
      (abs(thing.y - viletryy) > maxdist) then
@@ -1571,7 +1625,7 @@ var
   info: Pmobjinfo_t;
   temp: Pmobj_t;
 begin
-  if actor.movedir <> Ord(DI_NODIR) then
+  if (actor.movedir <> Ord(DI_NODIR)) and (actor.info.healstate > 0) then
   begin
     // check for corpses to raise
     viletryx := actor.x + actor.info.speed * xspeed[actor.movedir];
@@ -1592,6 +1646,8 @@ begin
       yh := MapBlockInt(viletryy - bmaporgy + MAXRADIUS * 2);
     end;
 
+    vilechase := actor;
+
     for bx := xl to xh do
     begin
       for by := yl to yh do
@@ -1607,15 +1663,12 @@ begin
           A_FaceTarget(actor);
           actor.target := temp;
 
-          if actor.info.healstate <> Ord(S_NULL) then
-            P_SetMobjState(actor, statenum_t(actor.info.healstate))
-          else
-            P_SetMobjState(actor, S_VILE_HEAL1);
+          P_SetMobjState(actor, actor.info.healstate);
 
           S_StartSound(corpsehit, Ord(sfx_slop));
           info := corpsehit.info;
 
-          P_SetMobjState(corpsehit, statenum_t(info.raisestate));
+          P_SetMobjState(corpsehit, info.raisestate);
 
           corpsehit.height := info.height; // fix Ghost bug
           corpsehit.radius := info.radius; // fix Ghost bug
@@ -1698,15 +1751,32 @@ end;
 procedure A_VileTarget(actor: Pmobj_t);
 var
   fog: Pmobj_t;
+  mobj_no: integer;
 begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
   if actor.target = nil then
     exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_VileTarget(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
 
   A_FaceTarget(actor);
 
   // JVAL: Correct the Arch-Vile fire spawned at the wrong location bug
   //       https://doomwiki.org/wiki/Arch-Vile_fire_spawned_at_the_wrong_location
-  fog := P_SpawnMobj(actor.target.x, actor.target.y, actor.target.z, Ord(MT_FIRE));
+  fog := P_SpawnMobj(actor.target.x, actor.target.y, actor.target.z, mobj_no);
 
   actor.tracer := fog;
   fog.target := actor;
@@ -1770,13 +1840,30 @@ procedure A_FatAttack1(actor: Pmobj_t);
 var
   mo: Pmobj_t;
   an: angle_t;
+  mobj_no: integer;
 begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_FatAttack1(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   A_FaceTarget(actor);
   // Change direction  to ...
   actor.angle := actor.angle + FATSPREAD;
-  P_SpawnMissile(actor, actor.target, Ord(MT_FATSHOT));
+  P_SpawnMissile(actor, actor.target, mobj_no);
 
-  mo := P_SpawnMissile(actor, actor.target, Ord(MT_FATSHOT));
+  mo := P_SpawnMissile(actor, actor.target, mobj_no);
   if mo = nil then // JVAL: Prevent savegame bug
     exit;
 
@@ -1794,13 +1881,30 @@ procedure A_FatAttack2(actor: Pmobj_t);
 var
   mo: Pmobj_t;
   an: angle_t;
+  mobj_no: integer;
 begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_FatAttack2(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   A_FaceTarget(actor);
   // Now here choose opposite deviation.
   actor.angle := actor.angle - FATSPREAD;
-  P_SpawnMissile(actor, actor.target, Ord(MT_FATSHOT));
+  P_SpawnMissile(actor, actor.target, mobj_no);
 
-  mo := P_SpawnMissile(actor, actor.target, Ord(MT_FATSHOT));
+  mo := P_SpawnMissile(actor, actor.target, mobj_no);
   if mo = nil then  // JVAL: Prevent savegame bug
     exit;
 
@@ -1818,10 +1922,27 @@ procedure A_FatAttack3(actor: Pmobj_t);
 var
   mo: Pmobj_t;
   an: angle_t;
+  mobj_no: integer;
 begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_FatAttack3(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   A_FaceTarget(actor);
 
-  mo := P_SpawnMissile(actor, actor.target, Ord(MT_FATSHOT));
+  mo := P_SpawnMissile(actor, actor.target, mobj_no);
   if mo = nil then  // JVAL: Prevent savegame bug
     exit;
 
@@ -1834,7 +1955,7 @@ begin
   mo.momx := FixedMul(mo.info.speed, finecosine[an]);
   mo.momy := FixedMul(mo.info.speed, finesine[an]);
 
-  mo := P_SpawnMissile(actor, actor.target, Ord(MT_FATSHOT));
+  mo := P_SpawnMissile(actor, actor.target, mobj_no);
   if mo = nil then
     exit;
 
@@ -1888,7 +2009,7 @@ end;
 // A_PainShootSkull
 // Spawn a lost soul and launch it at the target
 //
-procedure A_PainShootSkull(actor: Pmobj_t; angle: angle_t);
+procedure A_PainShootSkull(actor: Pmobj_t; angle: angle_t; mobj_no: integer);
 var
   x: fixed_t;
   y: fixed_t;
@@ -1907,7 +2028,7 @@ begin
   while currentthinker <> @thinkercap do
   begin
     if (@currentthinker._function.acp1 = @P_MobjThinker) and
-       (Pmobj_t(currentthinker)._type = Ord(MT_SKULL)) then
+       (Pmobj_t(currentthinker)._type = mobj_no) then
       inc(count);
     currentthinker := currentthinker.next;
   end;
@@ -1926,13 +2047,13 @@ begin
   {$ENDIF}
 
   prestep := 4 * FRACUNIT +
-             3 * (actor.info.radius + mobjinfo[Ord(MT_SKULL)].radius) div 2;
+             3 * (actor.info.radius + mobjinfo[mobj_no].radius) div 2;
 
   x := actor.x + FixedMul(prestep, finecosine[an]);
   y := actor.y + FixedMul(prestep, finesine[an]);
   z := actor.z + 8 * FRACUNIT;
 
-  newmobj := P_SpawnMobj(x, y, z, Ord(MT_SKULL));
+  newmobj := P_SpawnMobj(x, y, z, mobj_no);
 
   // Check for movements.
   if not P_TryMove(newmobj, newmobj.x, newmobj.y) then
@@ -1957,20 +2078,57 @@ end;
 // Spawn a lost soul and launch it at the target
 //
 procedure A_PainAttack(actor: Pmobj_t);
+var
+  mobj_no: integer;
 begin
   if actor.target = nil then
     exit;
 
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_PainAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
   A_FaceTarget(actor);
-  A_PainShootSkull(actor, actor.angle);
+  A_PainShootSkull(actor, actor.angle, mobj_no);
 end;
 
 procedure A_PainDie(actor: Pmobj_t);
+var
+  mobj_no: integer;
 begin
   A_Fall(actor);
-  A_PainShootSkull(actor, actor.angle + ANG90);
-  A_PainShootSkull(actor, actor.angle + ANG180);
-  A_PainShootSkull(actor, actor.angle + ANG270);
+
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_PainDie(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
+  A_PainShootSkull(actor, actor.angle + ANG90, mobj_no);
+  A_PainShootSkull(actor, actor.angle + ANG180, mobj_no);
+  A_PainShootSkull(actor, actor.angle + ANG270, mobj_no);
 end;
 
 procedure A_Scream(actor: Pmobj_t);
@@ -1992,9 +2150,7 @@ begin
   end;
 
   // Check for bosses.
-  if (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_CYBORG)) or
-     (actor.flags_ex and MF_EX_BOSS <> 0) or
+  if (actor.flags_ex and MF_EX_BOSS <> 0) or
      (actor.info.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
     // full volume
     S_StartSound(nil, sound)
@@ -2131,218 +2287,6 @@ begin
   A_ReFire(player, psp);
 end;
 
-const
-  MAXBRAINTARGETS = 32;
-
-var
-  braintargets: array[0..MAXBRAINTARGETS - 1] of Pmobj_t;
-  numbraintargets: integer;
-  braintargeton: integer;
-
-procedure A_BrainAwake(mo: Pmobj_t);
-var
-  thinker: Pthinker_t;
-  m: Pmobj_t;
-begin
-  // find all the target spots
-  numbraintargets := 0;
-  braintargeton := 0;
-
-  thinker := thinkercap.next;
-  while Pointer(thinker) <> Pointer(@thinkercap) do
-  begin
-    if @thinker._function.acp1 = @P_MobjThinker then // is a mobj
-    begin
-      m := Pmobj_t(thinker);
-      if m._type = Ord(MT_BOSSTARGET) then
-      begin
-        if numbraintargets >= MAXBRAINTARGETS then
-          I_Error('A_BrainAwake(): numbraintargets = %d >= MAXBRAINTARGETS', [numbraintargets]);
-        braintargets[numbraintargets] := m;
-        inc(numbraintargets);
-      end;
-    end;
-    thinker := thinker.next;
-  end;
-
-  S_StartSound(nil, Ord(sfx_bossit));
-end;
-
-procedure A_BrainPain(mo: Pmobj_t);
-begin
-  S_StartSound(nil, Ord(sfx_bospn));
-end;
-
-procedure A_BrainScream(mo: Pmobj_t);
-var
-  x: integer;
-  y: integer;
-  z: integer;
-  th: Pmobj_t;
-begin
-  x := mo.x - 196 * FRACUNIT;
-  while x < mo.x + 320 * FRACUNIT do
-  begin
-    y := mo.y - 320 * FRACUNIT;
-    z := 128 + P_Random * 2 * FRACUNIT;
-    th := P_SpawnMobj(x, y, z, Ord(MT_ROCKET));
-    th.momz := P_Random * 512;
-
-    P_SetMobjState(th, S_BRAINEXPLODE1);
-
-    th.tics := th.tics - (P_Random and 7);
-    if th.tics < 1 then
-      th.tics := 1;
-    x := x + FRACUNIT * 8;
-  end;
-
-  S_StartSound(nil, Ord(sfx_bosdth));
-end;
-
-procedure A_BrainExplode(mo: Pmobj_t);
-var
-  x: integer;
-  y: integer;
-  z: integer;
-  th: Pmobj_t;
-begin
-  x := mo.x + (P_Random - P_Random) * 2048;
-  y := mo.y;
-  z := 128 + P_Random * 2 * FRACUNIT;
-  th := P_SpawnMobj(x, y, z, Ord(MT_ROCKET));
-  th.momz := P_Random * 512;
-
-  P_SetMobjState(th, S_BRAINEXPLODE1);
-
-  th.tics := th.tics - (P_Random and 7);
-  if th.tics < 1 then
-    th.tics := 1;
-end;
-
-procedure A_BrainDie(mo: Pmobj_t);
-begin
-  G_ExitLevel;
-end;
-
-var
-  easy: integer = 0;
-
-procedure A_BrainSpit(mo: Pmobj_t);
-var
-  targ: Pmobj_t;
-  newmobj: Pmobj_t;
-begin
-  easy := easy xor 1;
-  if (gameskill <= sk_easy) and (easy = 0) then
-    exit;
-
-  if numbraintargets = 0 then // JVAL
-  begin
-    A_BrainAwake(mo);
-    exit;
-  end;
-
-  // shoot a cube at current target
-  targ := braintargets[braintargeton];
-  braintargeton := (braintargeton + 1) mod numbraintargets;
-
-  // spawn brain missile
-  newmobj := P_SpawnMissile(mo, targ, Ord(MT_SPAWNSHOT));
-  if newmobj = nil then
-    exit;
-
-  // killough 7/18/98: brain friendliness is transferred
-  if mo.flags2_ex and MF2_EX_FRIEND = 0 then
-    newmobj.flags2_ex := newmobj.flags2_ex and not MF2_EX_FRIEND
-  else
-    newmobj.flags2_ex := newmobj.flags2_ex or MF2_EX_FRIEND;
-
-  newmobj.target := targ;
-  newmobj.reactiontime := ((targ.y - mo.y) div newmobj.momy) div newmobj.state.tics;
-
-  S_StartSound(nil, Ord(sfx_bospit));
-end;
-
-procedure A_SpawnFly(mo: Pmobj_t);
-var
-  newmobj: Pmobj_t;
-  fog: Pmobj_t;
-  targ: Pmobj_t;
-  r: integer;
-  _type: mobjtype_t;
-begin
-  mo.reactiontime := mo.reactiontime - 1;
-  if mo.reactiontime > 0 then
-    exit; // still flying
-
-  targ := mo.target;
-
-  if targ = nil then  // JVAL
-  begin
-    P_RemoveMobj(mo);
-    exit;
-  end;
-
-  // First spawn teleport fog.
-  fog := P_SpawnMobj(targ.x, targ.y, targ.z, Ord(MT_SPAWNFIRE));
-  MARS_StartSound(fog, snd_TELEPORT);
-
-  // Randomly select monster to spawn.
-  r := P_Random;
-
-  // Probability distribution (kind of :),
-  // decreasing likelihood.
-  if r < 50 then
-    _type := MT_TROOP
-  else if r < 90 then
-    _type := MT_SERGEANT
-  else if r < 120 then
-    _type := MT_SHADOWS
-  else if r < 130 then
-    _type := MT_PAIN
-  else if r < 160 then
-    _type := MT_HEAD
-  else if r < 162 then
-    _type := MT_VILE
-  else if r < 172 then
-    _type := MT_UNDEAD
-  else if r < 192 then
-    _type := MT_BABY
-  else if r < 222 then
-    _type := MT_FATSO
-  else if r < 246 then
-    _type := MT_KNIGHT
-  else
-    _type := MT_BRUISER;
-
-  newmobj := P_SpawnMobj(targ.x, targ.y, targ.z, Ord(_type));
-  if newmobj = nil then
-    exit;
-
-  // killough 7/18/98: brain friendliness is transferred
-  if mo.flags2_ex and MF2_EX_FRIEND = 0 then
-    newmobj.flags2_ex := newmobj.flags2_ex and not MF2_EX_FRIEND
-  else
-    newmobj.flags2_ex := newmobj.flags2_ex or MF2_EX_FRIEND;
-
-  if P_LookForTargets(newmobj, true) then
-    if newmobj.state <> @states[newmobj.info.seestate] then
-      P_SetMobjState(newmobj, statenum_t(newmobj.info.seestate));
-
-  // telefrag anything in this spot
-  P_TeleportMove(newmobj, newmobj.x, newmobj.y);
-
-  // remove self (i.e., cube).
-  P_RemoveMobj(mo);
-end;
-
-// travelling cube sound
-procedure A_SpawnSound(mo: Pmobj_t);
-begin
-  S_StartSound(mo, Ord(sfx_boscub));
-  A_SpawnFly(mo);
-end;
-
 procedure A_PlayerScream(mo: Pmobj_t);
 var
   sound: integer;
@@ -2372,7 +2316,7 @@ begin
     if @think._function.acp1 = @P_MobjThinker then
     begin
       mo := Pmobj_t(think);
-      if ((mo._type = Ord(MT_SKULL)) or (mo.flags and MF_COUNTKILL <> 0)) and (mo.health > 0) then
+      if (mo.flags and MF_COUNTKILL <> 0) and (mo.health > 0) then
       begin
         mo.flags_ex := mo.flags_ex and not MF_EX_INVULNERABLE;
         mo.flags := mo.flags or MF_SHOOTABLE;
@@ -2417,7 +2361,7 @@ begin
     if P_LookForTargets(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
       exit; // got a new target
     if actor.state <> @states[actor.info.spawnstate] then
-      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
+      P_SetMobjStateNF(actor, actor.info.spawnstate);
     exit;
   end;
 
@@ -2429,7 +2373,7 @@ begin
       exit; // got a new target
 
     if actor.state <> @states[actor.info.spawnstate] then
-      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
+      P_SetMobjStateNF(actor, actor.info.spawnstate);
     exit;
   end;
 
@@ -2445,7 +2389,7 @@ begin
   begin
     A_AttackSound(actor, actor);
     if actor.state <> @states[actor.info.meleestate] then
-      P_SetMobjState(actor, statenum_t(actor.info.meleestate));
+      P_SetMobjState(actor, actor.info.meleestate);
     exit;
   end;
 
@@ -2460,7 +2404,7 @@ begin
     if not nomissile then
     begin
       if actor.state <> @states[actor.info.missilestate] then
-        P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+        P_SetMobjState(actor, actor.info.missilestate);
       actor.flags := actor.flags or MF_JUSTATTACKED;
       exit;
     end;

@@ -600,9 +600,9 @@ begin
   if tmthing.flags2_ex and MF2_EX_PASSMOBJ <> 0 then
   begin
     // check if a mobj passed over/under another object
-    if ((tmthing._type = Ord(MT_HEAD)) or (tmthing._type = Ord(MT_SKULL)) or (tmthing._type = Ord(MT_PAIN))) and
-       ((thing._type = Ord(MT_HEAD)) or (thing._type = Ord(MT_SKULL)) or (thing._type = Ord(MT_PAIN))) then
-    begin // don't let cacodemons / skull / pain elementals fly over other imps/wizards
+    if (tmthing.flags and MF_FLOAT <> 0) and
+       (thing.flags and MF_FLOAT <> 0) then
+    begin
       result := false;
       exit;
     end;
@@ -643,7 +643,7 @@ begin
       tmthing.momy := 0;
       tmthing.momz := 0;
 
-      P_SetMobjState(tmthing, statenum_t(tmthing.info.spawnstate));
+      P_SetMobjState(tmthing, tmthing.info.spawnstate);
 
       result := false;  // stop moving
       exit;
@@ -673,8 +673,7 @@ begin
 
     if (tmthing.target <> nil) and (
         (tmthing.target._type = thing._type) or
-        ((tmthing.target._type = Ord(MT_KNIGHT)) and (thing._type = Ord(MT_BRUISER))) or
-        ((tmthing.target._type = Ord(MT_BRUISER)) and (thing._type = Ord(MT_KNIGHT)))) then
+        (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.target.info))) then
     begin
       // Don't hit same species as originator.
       if thing = tmthing.target then
@@ -2136,7 +2135,7 @@ begin
     exit;
   end;
   mobj.target := usething;
-  P_SetMobjState(mobj, statenum_t(mobj.info.interactstate));
+  P_SetMobjState(mobj, mobj.info.interactstate);
   result := false;
 end;
 
@@ -2201,15 +2200,7 @@ begin
     exit;
   end;
 
-  // Boss spider and cyborg
-  // take no damage from concussion.
-  if (thing._type = Ord(MT_CYBORG)) or (thing._type = Ord(MT_SPIDER)) then
-  begin
-    result := true;
-    exit;
-  end;
-
-  // Other bosses
+  // Bosses
   if thing.flags_ex and MF_EX_BOSS <> 0 then
   begin
     result := true;
@@ -2525,7 +2516,7 @@ begin
   // crunch bodies to giblets
   if thing.health <= 0 then
   begin
-    P_SetMobjState(thing, S_GIBS);
+    P_SetMobjState(thing, Ord(S_GIBS));
 
     thing.flags := thing.flags and not MF_SOLID;
     thing.height := 0;

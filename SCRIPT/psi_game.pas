@@ -2271,7 +2271,7 @@ begin
   if mo = nil then
     Exit;
 
-  P_SetMobjState(mo, statenum_t(value));
+  P_SetMobjState(mo, value);
 end;
 
 function PS_IsValidActor(const key: LongWord): Boolean;

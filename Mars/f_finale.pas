@@ -351,7 +351,7 @@ begin
   if casttics > 0 then
     exit; // not time to change state yet
 
-  if (caststate.tics = -1) or (caststate.nextstate = S_NULL) then
+  if (caststate.tics = -1) or (caststate.nextstate = Ord(S_NULL)) then
   begin
     // switch from deathstate to next monster
     inc(castnum);
@@ -383,31 +383,6 @@ begin
     // sound hacks....
     case statenum_t(st) of
       S_PLAY_ATK1:  sfx := Ord(sfx_dshtgn);
-      S_POSS_ATK2:  sfx := Ord(sfx_pistol);
-      S_SPOS_ATK2:  sfx := Ord(sfx_shotgn);
-      S_VILE_ATK2:  sfx := Ord(sfx_vilatk);
-      S_SKEL_FIST2: sfx := Ord(sfx_skeswg);
-      S_SKEL_FIST4: sfx := Ord(sfx_skepch);
-      S_SKEL_MISS2: sfx := Ord(sfx_skeatk);
-      S_FATT_ATK8,
-      S_FATT_ATK5,
-      S_FATT_ATK2:  sfx := Ord(sfx_firsht);
-      S_CPOS_ATK2,
-      S_CPOS_ATK3,
-      S_CPOS_ATK4:  sfx := Ord(sfx_shotgn);
-      S_TROO_ATK3:  sfx := Ord(sfx_claw);
-      S_SARG_ATK2:  sfx := Ord(sfx_sgtatk);
-      S_BOSS_ATK2,
-      S_BOS2_ATK2,
-      S_HEAD_ATK2:  sfx := Ord(sfx_firsht);
-      S_SKULL_ATK2: sfx := Ord(sfx_sklatk);
-      S_SPID_ATK2,
-      S_SPID_ATK3:  sfx := Ord(sfx_shotgn);
-      S_BSPI_ATK2:  sfx := Ord(sfx_plasma);
-      S_CYBER_ATK2,
-      S_CYBER_ATK4,
-      S_CYBER_ATK6: sfx := Ord(sfx_rlaunc);
-      S_PAIN_ATK3:  sfx := Ord(sfx_sklatk);
     else
       sfx := 0;
     end;
@@ -693,54 +668,6 @@ begin
 end;
 
 initialization
-  castorder[0].name := CC_ZOMBIE;
-  castorder[0]._type := MT_POSSESSED;
-
-  castorder[1].name := CC_SHOTGUN;
-  castorder[1]._type := MT_SHOTGUY;
-
-  castorder[2].name := CC_HEAVY;
-  castorder[2]._type := MT_CHAINGUY;
-
-  castorder[3].name := CC_IMP;
-  castorder[3]._type := MT_TROOP;
-
-  castorder[4].name := CC_DEMON;
-  castorder[4]._type := MT_SERGEANT;
-
-  castorder[5].name := CC_LOST;
-  castorder[5]._type := MT_SKULL;
-
-  castorder[6].name := CC_CACO;
-  castorder[6]._type := MT_HEAD;
-
-  castorder[7].name := CC_HELL;
-  castorder[7]._type := MT_KNIGHT;
-
-  castorder[8].name := CC_BARON;
-  castorder[8]._type := MT_BRUISER;
-
-  castorder[9].name := CC_ARACH;
-  castorder[9]._type := MT_BABY;
-
-  castorder[10].name := CC_PAIN;
-  castorder[10]._type := MT_PAIN;
-
-  castorder[11].name := CC_REVEN;
-  castorder[11]._type := MT_UNDEAD;
-
-  castorder[12].name := CC_MANCU;
-  castorder[12]._type := MT_FATSO;
-
-  castorder[13].name := CC_ARCH;
-  castorder[13]._type := MT_VILE;
-
-  castorder[14].name := CC_SPIDER;
-  castorder[14]._type := MT_SPIDER;
-
-  castorder[15].name := CC_CYBER;
-  castorder[15]._type := MT_CYBORG;
-
   castorder[16].name := CC_HERO;
   castorder[16]._type := MT_PLAYER;
 

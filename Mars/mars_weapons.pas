@@ -179,7 +179,7 @@ begin
     player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
 
   P_SetPsprite(player,
-    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
+    Ord(ps_flash), weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1));
 
   P_SpawnPlayerMissile(player.mo, MT_SHOCKGUNMISSILE);
 end;
@@ -294,7 +294,7 @@ begin
     player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
 
   P_SetPsprite(player,
-    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
+    Ord(ps_flash), weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1));
 
   P_SpawnPlayerMissile(player.mo, MT_NERVEGUNMISSILE);
 end;
@@ -314,7 +314,7 @@ begin
     player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
 
   P_SetPsprite(player,
-    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
+    Ord(ps_flash), weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1));
 
   P_SpawnPlayerMissile(player.mo, MT_FREEZEGUNMISSILE);
 end;
@@ -334,7 +334,7 @@ begin
     player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
 
   P_SetPsprite(player,
-    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+    Ord(ps_flash), weaponinfo[Ord(player.readyweapon)].flashstate);
 
   P_SpawnPlayerMissile(player.mo, MT_FLAMEGUNMISSILE);
 end;
@@ -370,7 +370,7 @@ begin
   if player.health = 0 then
   begin
     // Player is dead, so keep the weapon off screen.
-    P_SetPsprite(player, Ord(ps_weapon), S_NULL);
+    P_SetPsprite(player, Ord(ps_weapon), Ord(S_NULL));
     exit;
   end;
 end;
@@ -718,7 +718,7 @@ begin
     player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
 
   P_SetPsprite(player,
-    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+    Ord(ps_flash), weaponinfo[Ord(player.readyweapon)].flashstate);
 
   P_SpawnPlayerMissile(player.mo, MT_ROCKETMISSILE);
 end;
@@ -739,7 +739,7 @@ begin
     player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
 
   P_SetPsprite(player,
-    Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+    Ord(ps_flash), weaponinfo[Ord(player.readyweapon)].flashstate);
 
   P_SpawnPlayerMissile(player.mo, MT_TRACKINGROCKETMISSILE);
 end;

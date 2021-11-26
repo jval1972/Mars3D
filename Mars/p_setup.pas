@@ -923,7 +923,7 @@ end;
 procedure P_CheckThings;
 begin
   if hidedoublicatedbarrels then
-    P_DontDrawDuplicateThings(Ord(MT_BARREL));
+    P_DontDrawDuplicateThings(MT_BARREL);
 end;
 
 //

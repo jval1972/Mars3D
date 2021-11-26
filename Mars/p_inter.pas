@@ -646,190 +646,7 @@ begin
     player._message := GOTARMBONUS;
   end
   else
-  begin
-
-  // Identify by sprite.
-  case special.sprite of
-  // armor
-    Ord(SPR_ARM1):
-      begin
-        if not P_GiveArmor(player, p_greenarmorclass) then
-          exit;
-        player._message := GOTARMOR;
-      end;
-
-    Ord(SPR_ARM2):
-      begin
-        if not P_GiveArmor(player, p_bluearmorclass) then
-          exit;
-        player._message := GOTMEGA;
-      end;
-
-  // bonus items
-    Ord(SPR_BON2):
-      begin
-        player.armorpoints := player.armorpoints + 1; // can go over 100%
-        if player.armorpoints > p_maxarmor then
-          player.armorpoints := p_maxarmor;
-        if player.armortype = 0 then
-          player.armortype := 1;
-        player._message := GOTARMBONUS;
-      end;
-
-    Ord(SPR_SOUL):
-      begin
-        player.health := player.health + p_soulspherehealth;
-        if player.health > p_maxsoulsphere then
-          player.health := p_maxsoulsphere;
-        player.mo.health := player.health;
-        player._message := GOTSUPER;
-        if not oldsharewareversion then
-          sound := Ord(sfx_getpow);
-      end;
-
-{    Ord(SPR_MEGA):
-      begin
-        if gamemode <> commercial then
-          exit;
-        player.health := 200;
-        player.mo.health := player.health;
-        P_GiveArmor(player, p_bluearmorclass);
-        player._message := GOTMSPHERE;
-        if not oldsharewareversion then
-          sound := Ord(sfx_getpow);
-      end;}
-
-  // cards
-  // leave cards for everyone
-    Ord(SPR_BKEY):
-      begin
-        if not player.cards[Ord(it_bluecard)] then
-          player._message := GOTBLUECARD;
-        P_GiveCard(player, it_bluecard);
-      if netgame then
-        exit;
-      end;
-
-    Ord(SPR_YKEY):
-      begin
-        if not player.cards[Ord(it_yellowcard)] then
-          player._message := GOTYELWCARD;
-        P_GiveCard(player, it_yellowcard);
-        if netgame then
-          exit;
-      end;
-
-    Ord(SPR_RKEY):
-      begin
-        if not player.cards[Ord(it_redcard)] then
-          player._message := GOTREDCARD;
-        P_GiveCard(player, it_redcard);
-        if netgame then
-          exit;
-      end;
-
-    Ord(SPR_BSKU):
-      begin
-        if not player.cards[Ord(it_blueskull)] then
-          player._message := GOTBLUESKUL;
-        P_GiveCard(player, it_blueskull);
-        if netgame then
-          exit;
-      end;
-
-    Ord(SPR_YSKU):
-      begin
-        if not player.cards[Ord(it_yellowskull)] then
-          player._message := GOTYELWSKUL;
-        P_GiveCard(player, it_yellowskull);
-        if netgame then
-          exit;
-      end;
-
-    Ord(SPR_RSKU):
-      begin
-        if not player.cards[Ord(it_redskull)] then
-          player._message := GOTREDSKULL;
-        P_GiveCard(player, it_redskull);
-        if netgame then
-          exit;
-      end;
-
-  // power ups
-    Ord(SPR_PINV):
-      begin
-        if not P_GivePower(player, Ord(pw_invulnerability)) then
-          exit;
-        player._message := GOTINVUL;
-        if not oldsharewareversion then
-          sound := Ord(sfx_getpow);
-      end;
-
-    Ord(SPR_PSTR):
-      begin
-        if not P_GivePower(player, Ord(pw_strength)) then
-          exit;
-        player._message := GOTBERSERK;
-        if player.readyweapon <> wp_fist then
-          player.pendingweapon := wp_fist;
-        if not oldsharewareversion then
-          sound := Ord(sfx_getpow);
-      end;
-
-    Ord(SPR_PINS):
-      begin
-        if not P_GivePower(player, Ord(pw_invisibility)) then
-          exit;
-        player._message := GOTINVIS;
-        if not oldsharewareversion then
-          sound := Ord(sfx_getpow);
-      end;
-
-    Ord(SPR_SUIT):
-      begin
-        if not P_GivePower(player, Ord(pw_ironfeet)) then
-          exit;
-        player._message := GOTSUIT;
-        if not oldsharewareversion then
-          sound := Ord(sfx_getpow);
-      end;
-
-    Ord(SPR_PMAP):
-      begin
-        if not P_GivePower(player, Ord(pw_allmap)) then
-          exit;
-        player._message := GOTMAP;
-        if not oldsharewareversion then
-          sound := Ord(sfx_getpow);
-      end;
-
-    Ord(SPR_PVIS):
-      begin
-        if not P_GivePower(player, Ord(pw_infrared)) then
-          exit;
-        player._message := GOTVISOR;
-        if not oldsharewareversion then
-          sound := Ord(sfx_getpow);
-      end;
-(*
-    Ord(SPR_BPAK):
-      begin
-        if not player.backpack then
-        begin
-          for i := 0 to Ord(NUMAMMO) - 1 do
-            player.maxammo[i] := player.maxammo[i] * 2;
-          player.backpack := true;
-        end;
-        for i := 0 to Ord(NUMAMMO) - 1 do
-          P_GiveAmmo(player, ammotype_t(i), 1);
-        player._message := GOTBACKPACK;
-      end;
-
-             *)
-  else
     I_Error('P_TouchSpecialThing(): Unknown gettable thing');
-  end;
-  end;
 
   if special.flags and MF_COUNTITEM <> 0 then
     player.itemcount := player.itemcount + 1;
@@ -862,11 +679,13 @@ var
   item: integer;
   gibhealth: integer;
   zpos: integer;
+  skullfly: boolean;
 begin
+  skullfly := target.flags or MF_SKULLFLY <> 0;
   target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY);
   target.flags3_ex := target.flags3_ex and not MF3_EX_BOUNCE;
 
-  if (target._type <> Ord(MT_SKULL)) and (target.flags3_ex and MF3_EX_NOGRAVITYDEATH = 0) then
+  if not skullfly and (target.flags3_ex and MF3_EX_NOGRAVITYDEATH = 0) then
     target.flags := target.flags and not MF_NOGRAVITY;
 
   target.flags := target.flags or (MF_CORPSE or MF_DROPOFF);
@@ -928,9 +747,9 @@ begin
     gibhealth := -target.info.spawnhealth;
 
   if (target.health < gibhealth) and (target.info.xdeathstate <> 0) then
-    P_SetMobjState(target, statenum_t(target.info.xdeathstate))
+    P_SetMobjState(target, target.info.xdeathstate)
   else
-    P_SetMobjState(target, statenum_t(target.info.deathstate));
+    P_SetMobjState(target, target.info.deathstate);
   target.tics := target.tics - P_Random and 3;
 
   if target.tics < 1 then
@@ -947,19 +766,7 @@ begin
   if target.info.dropitem > 0 then
     item := target.info.dropitem
   else
-  begin
-    case target._type of
-      Ord(MT_WOLFSS),
-      Ord(MT_POSSESSED):
-        item := Ord(MT_CLIP);
-      Ord(MT_SHOTGUY):
-        item := Ord(MT_SHOTGUN);
-      Ord(MT_CHAINGUY):
-        item := Ord(MT_CHAINGUN);
-    else
-        item := 0;
-    end;
-  end;
+    item := 0;
 
 // JVAL: Check if dropitem is set to drop a custom item.
   if target.flags2_ex and MF2_EX_CUSTOMDROPITEM <> 0 then
@@ -1168,13 +975,13 @@ begin
      ((target.flags and MF_SKULLFLY) = 0) then
   begin
     target.flags := target.flags or MF_JUSTHIT; // fight back!
-    P_SetMobjState(target, statenum_t(target.info.painstate));
+    P_SetMobjState(target, target.info.painstate);
   end;
 
   target.reactiontime := 0; // we're awake now...
 
-  if ((target.threshold = 0) or (target._type = Ord(MT_VILE))) and
-     (source <> nil) and (source <> target) and (source._type <> Ord(MT_VILE)) then
+  if (target.threshold = 0)  and
+     (source <> nil) and (source <> target) then
   begin
     // if not intent on another player,
     // chase after this one
@@ -1184,7 +991,7 @@ begin
       target.threshold := BASETHRESHOLD;
       if (target.state = @states[target.info.spawnstate]) and
          (target.info.seestate <> Ord(S_NULL)) then
-        P_SetMobjState(target, statenum_t(target.info.seestate));
+        P_SetMobjState(target, target.info.seestate);
     end;
   end;
 end;

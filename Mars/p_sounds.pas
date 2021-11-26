@@ -73,7 +73,7 @@ end;
 
 procedure A_SeeSound1(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+  if actor.info.flags_ex and MF_EX_BOSS <> 0 then
     A_SeeSound(actor, nil)
   else
     A_SeeSound(actor, actor);
@@ -92,9 +92,7 @@ end;
 
 procedure A_PainSound1(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_CYBORG)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+  if (actor.info.flags_ex and MF_EX_BOSS <> 0) or
      (actor.info.flags2_ex and MF2_EX_FULLVOLPAIN <> 0) then
     A_PainSound(actor, nil)
   else
@@ -114,9 +112,7 @@ end;
 
 procedure A_AttackSound1(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_CYBORG)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+  if (actor.info.flags_ex and MF_EX_BOSS <> 0) or
      (actor.info.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
     A_AttackSound(actor, nil)
   else
@@ -136,9 +132,7 @@ end;
 
 procedure A_MeleeSound1(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_CYBORG)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+  if (actor.info.flags_ex and MF_EX_BOSS <> 0) or
      (actor.info.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
     A_MeleeSound(actor, nil)
   else
@@ -158,9 +152,7 @@ end;
 
 procedure A_DeathSound1(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_CYBORG)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+  if (actor.info.flags_ex and MF_EX_BOSS <> 0) or
      (actor.info.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
     A_DeathSound(actor, nil)
   else
@@ -180,9 +172,7 @@ end;
 
 procedure A_ActiveSound1(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_CYBORG)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+  if (actor.info.flags_ex and MF_EX_BOSS <> 0) or
      (actor.info.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0) then
     A_ActiveSound(actor, nil)
   else
