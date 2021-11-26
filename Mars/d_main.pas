@@ -498,7 +498,7 @@ begin
       y := 4
     else
       y := (viewwindowy * 200) div SCREENHEIGHT + 4;
-    V_DrawPatch((320 - 68) div 2, y, SCN_FG,
+    V_DrawPatch((320 - 89) div 2, y, SCN_FG,
       'M_PAUSE', true);
   end;
 
