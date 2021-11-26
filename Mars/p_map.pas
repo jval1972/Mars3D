@@ -673,7 +673,7 @@ begin
 
     if (tmthing.target <> nil) and (
         (tmthing.target._type = thing._type) or
-        (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.target.info))) then
+        (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
     begin
       // Don't hit same species as originator.
       if thing = tmthing.target then
