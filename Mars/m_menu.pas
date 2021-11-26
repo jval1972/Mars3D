@@ -145,6 +145,14 @@ var
 // current menudef
   currentMenu: Pmenu_t;
 
+
+const
+  FLG_MN_TEXTUREBK = 1;
+  FLG_MN_DRAWITEMON = 2;
+  FLG_MN_RUNONSELECT = 4;
+
+procedure M_MenuSound;
+
 implementation
 
 uses
@@ -268,10 +276,6 @@ var
   savegamestrings: array[0..Ord(load_end) - 1] of string;
   savegamelevels: array[0..Ord(load_end) - 1] of string;
   savegameshots: array[0..Ord(load_end) - 1] of menuscreenbuffer_t;
-
-const
-  FLG_MN_TEXTUREBK = 1;
-  FLG_MN_DRAWITEMON = 2;
 
 var
   itemOn: smallint;             // selected menu item 
@@ -3607,6 +3611,17 @@ begin
         if currentMenu.menuitems[i].alphaKey = Chr(ch) then
         begin
           itemOn := i;
+
+          // JVAL: 20211126 - Handle FLG_MN_RUNONSELECT flag
+          // This is for dialogs, or any other use in the future
+          if currentMenu.flags and FLG_MN_RUNONSELECT <> 0 then
+            if Assigned(currentMenu.menuitems[itemOn].routine) and
+              (currentMenu.menuitems[itemOn].status = 1) then
+            begin
+              currentMenu.lastOn := itemOn;
+              currentMenu.menuitems[itemOn].routine(itemOn);
+            end;
+
           M_MenuSound;
           result := true;
           exit;
@@ -3615,6 +3630,17 @@ begin
         if currentMenu.menuitems[i].alphaKey = Chr(ch) then
         begin
           itemOn := i;
+
+          // JVAL: 20211126 - Handle FLG_MN_RUNONSELECT flag
+          // This is for dialogs, or any other use in the future
+          if currentMenu.flags and FLG_MN_RUNONSELECT <> 0 then
+            if Assigned(currentMenu.menuitems[itemOn].routine) and
+              (currentMenu.menuitems[itemOn].status = 1) then
+            begin
+              currentMenu.lastOn := itemOn;
+              currentMenu.menuitems[itemOn].routine(itemOn);
+            end;
+
           M_MenuSound;
           result := true;
           exit;

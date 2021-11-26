@@ -231,12 +231,12 @@ begin
     dialogmenus[i].y := 0;
     dialogmenus[i].lastOn := 0;
     dialogmenus[i].itemheight := 10;
-    dialogmenus[i].flags := 0;
+    dialogmenus[i].flags := FLG_MN_RUNONSELECT;
   end;
 
   M_StartControlPanel;
+  M_MenuSound;
   currentMenu := @dialogmenus[0];
-
 end;
 
 end.
