@@ -131,6 +131,7 @@ uses
   doomdata,
   g_game,
   info_h,
+  info,
   info_common,
   info_rnd,
   p_common,
@@ -2498,6 +2499,7 @@ function PIT_ChangeSector(thing: Pmobj_t): boolean;
 var
   mo: Pmobj_t;
   plr: Pplayer_t;
+  st: integer;
 begin
   if P_ThingHeightClip(thing) then
   begin
@@ -2516,7 +2518,13 @@ begin
   // crunch bodies to giblets
   if thing.health <= 0 then
   begin
-    P_SetMobjState(thing, Ord(S_GIBS));
+    if (thing.flags2_ex and MF2_EX_GREENBLOOD <> 0) and (MT_GREENGIBS <> Ord(MT_NONE)) then
+      st := mobjinfo[MT_GREENGIBS].spawnstate
+    else if (thing.flags2_ex and MF2_EX_BLUEBLOOD <> 0) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
+      st := mobjinfo[MT_GREENGIBS].spawnstate
+    else
+      st := Ord(S_GIBS);
+    P_SetMobjState(thing, st);
 
     thing.flags := thing.flags and not MF_SOLID;
     thing.height := 0;

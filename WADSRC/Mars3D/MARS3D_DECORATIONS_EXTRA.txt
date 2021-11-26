@@ -1,0 +1,35 @@
+// MT_GREENGIBS
+ACTOR MT_GREENGIBS
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  States
+  {
+    Spawn:
+    {
+      POL7 A -1
+      Stop
+    }
+  }
+}
+
+// MT_BLUEGIBS
+ACTOR MT_BLUEGIBS
+{
+  Health 1000
+  Width 20
+  Height 16
+  Mass 100
+  Reactiontime 8
+  States
+  {
+    Spawn:
+    {
+      POL8 A -1
+      Stop
+    }
+  }
+}
