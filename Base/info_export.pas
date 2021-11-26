@@ -520,7 +520,7 @@ begin
     AddLn('states[' + sname + '].tics := ' + itoa(states[i].tics) + ';');
     AddLn('states[' + sname + '].tics2 := ' + itoa(states[i].tics2) + ';');
     AddLn('states[' + sname + '].action.acp1 := ' + _action_name(states[i].action) + ';');
-    AddLn('states[' + sname + '].nextstate := ' + _state_name(Ord(states[i].nextstate)) + ';');
+    AddLn('states[' + sname + '].nextstate := ' + _state_name_Ord(states[i].nextstate) + ';');
     AddLn('states[' + sname + '].misc1 := ' + itoa(states[i].misc1) + ';');
     AddLn('states[' + sname + '].misc2 := ' + itoa(states[i].misc2) + ';');
     AddLn('states[' + sname + '].flags_ex := ' + itoa_FLAGS(states[i].flags_ex, state_flags_ex) + ';');
