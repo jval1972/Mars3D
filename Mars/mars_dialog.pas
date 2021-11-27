@@ -103,7 +103,7 @@ var
 
   function _StringWidth(const s: string): integer;
   begin
-    Result := M_StringWidth(s, _MA_LEFT or _MC_UPPER, dialog_font);
+    Result := M_StringWidth(s, _MA_LEFT or _MC_UPPER, fnt);
   end;
 
 begin
