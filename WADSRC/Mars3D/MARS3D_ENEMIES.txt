@@ -15,6 +15,7 @@ ACTOR MT_ENEMYSOLDIER 7
   Painsound ARM1HURT
   Deathsound MONSDTH
   DropItem "MT_BULLETS"
+  Obituary "%o was shot by an enemy trooper"
   +MF_SOLID
   +MF_SHOOTABLE
   +MF_COUNTKILL
@@ -98,6 +99,7 @@ ACTOR "MT_ROBOT_SHOT"
   Mass 100
   Reactiontime 8
   Seesound "GUN2SHT"
+  Obituary "%o was taken down by a robot shot"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
@@ -239,6 +241,7 @@ actor MT_SMALLSPIDER 2050
   Speed 14
   PainChance 200
   Mass 30
+  Obituary "%o was poisoned by a spider bit"
   +MF_SOLID
   +MF_SHOOTABLE
   +MF_COUNTKILL
@@ -301,6 +304,7 @@ ACTOR "MT_REDMECH_SHOT"
   Reactiontime 8
   Seesound "MIS1ACT"
   Deathsound "MIS1EXP"
+  Obituary "%o was taken down by a mech"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
@@ -513,6 +517,7 @@ ACTOR MT_MANWITHMASK 43
   Mass 200
   Reactiontime 8
   Deathsound MONSDTH
+  Obituary "%o was scratched to death"
   +MF_SOLID
   +MF_SHOOTABLE
   +MF_COUNTKILL
@@ -584,6 +589,7 @@ ACTOR "MT_CEILINGDEFENDER_SHOT"
   Mass 100
   Reactiontime 8
   Seesound "GUN2SHT"
+  Obituary "%o was killed by a ceiling defender"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
@@ -710,6 +716,7 @@ ACTOR "MT_POISON_SHOT"
   Damage 5
   Mass 100
   Reactiontime 8
+  Obituary "%o was poisoned from a sewer creature"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
@@ -863,6 +870,7 @@ ACTOR "MT_ALIENDEAMON" 3005
   ActiveSound MOUSAPP
   PainSound MOUSHURT
   Deathsound MOUSDTH
+  Obituary "%o was taken down by an alien deamon"
   +MF_SOLID
   +MF_SHOOTABLE
   +MF_COUNTKILL
@@ -935,6 +943,7 @@ ACTOR "MT_ALIENDEAMON" 3005
 ACTOR MT_CHEMICAL_SHOT : MT_ROBOT_SHOT
 {
   Damage 1
+  Obituary "%o was taken down by a chemical shot"
   States
   {
     Death:
@@ -1048,6 +1057,7 @@ ACTOR "MT_FISH" 3002
   ActiveSound BUBBLE
   PainSound FISHHURT
   Deathsound FISHDTH
+  Obituary "%o was eaten by piranhas"
   +MF_SOLID
   +MF_NOGRAVITY
   +MF_SHOOTABLE
@@ -1120,6 +1130,7 @@ actor MT_DEFENDER_SHOT
   Mass 100
   Reactiontime 8
   Seesound "GUN2SHT"
+  Obituary "%o was killed by an enemy defender"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
@@ -1248,6 +1259,7 @@ ACTOR "MT_BOSSSHOCKMISSILE"
   Deathsound BAREXP
   RenderStyle TRANSLUCENT
   Alpha 0.8
+  Obituary "%o was killed by the boss"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
@@ -1296,6 +1308,7 @@ ACTOR "MT_BOSSFLAMEMISSILE"
   Seesound GUN2ACT
   Deathsound GUN5EXP
   DEFAULTTRANSPARENT
+  Obituary "%o was fried by the boss"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF

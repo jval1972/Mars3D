@@ -17,6 +17,7 @@ ACTOR "MT_SUBMARINE_SHOT"
   Reactiontime 8
   Seesound "MIS1ACT"
   Deathsound "MIS1EXP"
+  Obituary "%o was drawned by a topedo"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
