@@ -826,7 +826,7 @@ begin
     // JVAL: If exists automatically loads GWA file
     // GL_xxxx lumps has lower priority from GWA files, that's for we
     // first add the *.GWA file.
-      if autoloadgwafiles then
+      if autoloadgwafiles and (fname <> GAME_CNV_FILE) then
       begin
         ext := strupper(fext(fname));
         if ext = '.WAD' then
