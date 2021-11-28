@@ -70,7 +70,6 @@ var
   p_medikidpotion: integer = 25;
   p_tianshanganoderma: integer = 200;
 
-  p_maxsoulsphere: integer = 200;
   p_soulspherehealth: integer = 100;
   p_megaspherehealth: integer = 200;
   p_medikithealth: integer = 25;

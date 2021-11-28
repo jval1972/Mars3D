@@ -1191,12 +1191,7 @@ begin
         end;
 
         case misc_idx of
-          0:
-            begin
-              p_maxhealth := misc_val;
-              if not did_max_soulsphere then
-                p_maxsoulsphere := misc_val;
-            end;
+          0: p_maxhealth := misc_val;
           1: p_soulspherehealth := misc_val;
           2: p_megaspherehealth := misc_val;
           3: p_medikithealth := misc_val;
@@ -1210,11 +1205,6 @@ begin
          11: p_idfaarmorclass := misc_val;
          12: p_idkfaarmor := misc_val;
          13: p_idkfaarmorclass := misc_val;
-         14:
-          begin
-            p_maxsoulsphere := misc_val;
-            did_max_soulsphere := True;
-          end;
         end;
       end;
 
