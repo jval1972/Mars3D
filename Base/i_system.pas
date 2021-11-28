@@ -145,7 +145,7 @@ type
 
 function I_CreateProcess(p: process_t; parm: pointer; suspended: boolean): integer;
 
-procedure I_WaitForProcess(pid: integer; msec: integer);
+procedure I_WaitForProcess(pid: integer; msec: LongWord);
 
 procedure I_GoToWebPage(const cmd: string);
 
@@ -824,7 +824,7 @@ begin
     result := CreateThread(nil, $1000, @p, parm, 0, id);
 end;
 
-procedure I_WaitForProcess(pid: integer; msec: integer);
+procedure I_WaitForProcess(pid: integer; msec: LongWord);
 begin
   WaitForSingleObject(pid, msec);
 end;
