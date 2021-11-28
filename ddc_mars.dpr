@@ -420,7 +420,8 @@ uses
   anm_info in 'Base\anm_info.pas',
   r_underwater in 'Mars\r_underwater.pas',
   mars_level in 'Mars\mars_level.pas',
-  flc_lib in 'Base\flc_lib.pas';
+  flc_lib in 'Base\flc_lib.pas',
+  mars_intro in 'Mars\mars_intro.pas';
 
 exports
   dd_compile_doom,

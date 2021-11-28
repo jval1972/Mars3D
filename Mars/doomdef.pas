@@ -146,6 +146,7 @@ type
     GS_INTERMISSION,
     GS_FINALE,
     GS_DEMOSCREEN,
+    GS_INTRO,
     GS_ENDOOM
   );
 

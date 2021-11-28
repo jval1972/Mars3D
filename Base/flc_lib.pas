@@ -379,7 +379,7 @@ begin
       r := Packet.Colors[i].red shl 2;
       g := Packet.Colors[i].Green shl 2;
       b := Packet.Colors[i].Blue shl 2;
-      fpalette[Color + i] := r + g shl 8 + b shl 16;
+      fpalette[Color + i] := b + g shl 8 + r shl 16;
       Inc(i);
     end;
   end;
@@ -413,7 +413,7 @@ begin
       r := Packet.Colors[i].red;
       g := Packet.Colors[i].Green;
       b := Packet.Colors[i].Blue;
-      fpalette[Color + i] := r + g shl 8 + b shl 16;
+      fpalette[Color + i] := b + g shl 8 + r shl 16;
       Inc(i);
     end;
   end;

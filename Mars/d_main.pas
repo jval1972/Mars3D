@@ -183,6 +183,7 @@ uses
   anm_info,
   mars_briefing,
   mars_intermission,
+  mars_intro,
   mars_version,
   mars_hud,
   mars_files,
@@ -246,12 +247,17 @@ begin
   while eventtail <> eventhead do
   begin
     ev := @events[eventtail];
-    if C_Responder(ev) then
-      // console ate the event
-    else if M_Responder(ev) then
-      // menu ate the event
+    if gamestate = GS_INTRO then
+      MARS_IntroResponder(ev)
     else
-      G_Responder(ev);
+    begin
+      if C_Responder(ev) then
+        // console ate the event
+      else if M_Responder(ev) then
+        // menu ate the event
+      else
+        G_Responder(ev);
+    end;
     if I_GameFinished then
     begin
       eventtail := eventhead;
@@ -356,6 +362,15 @@ begin
   if gamestate = GS_ENDOOM then
   begin
     E_Drawer;
+    {$IFNDEF OPENGL}
+    D_FinishUpdate; // page flip or blit buffer
+    {$ENDIF}
+    exit;
+  end;
+
+  if gamestate = GS_INTRO then
+  begin
+    MARS_Intro_Drawer;
     {$IFNDEF OPENGL}
     D_FinishUpdate; // page flip or blit buffer
     {$ENDIF}
@@ -2278,7 +2293,7 @@ begin
       G_InitNew(startskill, startepisode, startmap);
     end
     else
-      D_StartTitle; // start up intro loop
+      MARS_Intro_Start; // start up intro animation sequence
   end;
 
   D_DoomLoop;  // never returns

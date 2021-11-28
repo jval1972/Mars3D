@@ -391,7 +391,8 @@ uses
   mars_level in 'Mars\mars_level.pas',
   mars_intermission in 'Mars\mars_intermission.pas',
   anm_info in 'Base\anm_info.pas',
-  flc_lib in 'Base\flc_lib.pas';
+  flc_lib in 'Base\flc_lib.pas',
+  mars_intro in 'Mars\mars_intro.pas';
 
 var
   Saved8087CW: Word;

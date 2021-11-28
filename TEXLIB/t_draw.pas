@@ -33,11 +33,14 @@ unit t_draw;
 interface
 
 uses
-  d_delphi;
+  d_delphi,
+  t_main;
 
 function T_DrawFullScreenPatch(const texname: string; const dest: PLongWordArray): boolean; overload;
 
 function T_DrawFullScreenPatch(const texid: integer; const dest: PLongWordArray): boolean; overload;
+
+function T_DrawFullScreenPatch(const t: PTexture; const dest: PLongWordArray): boolean; overload;
 
 procedure T_InitDrawTextures;
 
@@ -50,7 +53,6 @@ uses
   m_fixed,
   r_hires,
   r_mmx,
-  t_main,
   v_video,
   v_data,
   w_wad;
@@ -98,15 +100,6 @@ end;
 function T_DrawFullScreenPatch(const texid: integer; const dest: PLongWordArray): boolean; overload;
 var
   t: PTexture;
-  src: PLongWordArray;
-  dst: PLongWord;
-  i, j: integer;
-  fracrow, fraccol: fixed_t;
-  fracrowstep, fraccolstep: fixed_t;
-  r1, g1, b1: byte;
-  c: LongWord;
-  curgamma: PByteArray;
-  twidth: integer;
 begin
   if texid < 0 then // JVAL: Should never happen
   begin
@@ -135,13 +128,31 @@ begin
     exit;
   end;
 
+  result := T_DrawFullScreenPatch(t, dest);
+end;
+
+function T_DrawFullScreenPatch(const t: PTexture; const dest: PLongWordArray): boolean; overload;
+var
+  src: PLongWordArray;
+  dst: PLongWord;
+  i, j: integer;
+  fracrow, fraccol: fixed_t;
+  fracrowstep, fraccolstep: fixed_t;
+  r1, g1, b1: byte;
+  c: LongWord;
+  curgamma: PByteArray;
+  twidth: integer;
+  theight: integer;
+  frac: integer;
+begin
   twidth := t.GetWidth;
-  
+  theight := t.GetHeight;
+
   src := malloc(twidth * 4);
 
   dst := @dest[0];
 
-  fracrowstep := t.GetHeight * FRACUNIT div {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF};
+  fracrowstep := theight * FRACUNIT div {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF};
   fraccolstep := twidth * FRACUNIT div {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF};
 
   if (pal_color = 0) and (usegamma = 0) then
@@ -159,15 +170,19 @@ begin
   for i := 0 to {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} - 1 do
   begin
     fraccol := 0;
+    
+    frac := fracrow shr FRACBITS;
+    if frac >= theight then
+      frac := theight - 1;
 
     // Adjust gamma
     if t.GetBytesPerPixel = 1 then
     begin
-      t.GetPalettedRow32(fracrow shr FRACBITS, twidth, src, c);
+      t.GetPalettedRow32(frac, twidth, src, c);
     end
     else
     begin
-      t.GetRow32(fracrow shr FRACBITS, twidth, src);
+      t.GetRow32(frac, twidth, src);
       if not R_BatchColorAdd32_MMX(@src[0], c, twidth) then
       begin
         for j := 0 to twidth - 1 do
@@ -177,7 +192,10 @@ begin
 
     for j := 0 to {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} - 1 do
     begin
-      dst^ := src[fraccol shr FRACBITS]{$IFDEF OPENGL} or $FF000000{$ENDIF};
+      frac := fraccol shr FRACBITS;
+      if frac >= twidth then
+        frac := twidth - 1;
+      dst^ := src[frac]{$IFDEF OPENGL} or $FF000000{$ENDIF};
       inc(dst);
       inc(fraccol, fraccolstep);
     end;

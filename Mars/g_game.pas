@@ -297,6 +297,7 @@ uses
   info_rnd,
   mars_briefing,
   mars_intermission,
+  mars_intro,
   mars_sounds,
   mars_version,
   m_rnd,
@@ -1163,6 +1164,8 @@ begin
 
   // do main actions
   case gamestate of
+    GS_INTRO:
+      MARS_Intro_Ticker;
     GS_BRIEFING:
       begin
         MARS_Briefing_Ticker;

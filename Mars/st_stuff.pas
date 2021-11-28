@@ -102,6 +102,7 @@ uses
 {$IFDEF OPENGL}
   gl_main,
   gl_render,
+  v_video,
 {$ELSE}
   r_hires,
   i_video,
