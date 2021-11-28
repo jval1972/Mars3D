@@ -297,8 +297,8 @@ var
 //
   STSTR_MUS: string = 'Music Change';
   STSTR_NOMUS: string = 'IMPOSSIBLE SELECTION';
-  STSTR_DQDON: string = 'Degreelessness Mode On';
-  STSTR_DQDOFF: string = 'Degreelessness Mode Off';
+  STSTR_DQDON: string = 'God Mode On';
+  STSTR_DQDOFF: string = 'God Mode Off';
   STSTR_LGON: string = 'Low Gravity Mode On';
   STSTR_LGOFF: string = 'Low Gravity Mode Off';
 
