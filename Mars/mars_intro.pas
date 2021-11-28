@@ -133,7 +133,7 @@ begin
   t.SetWidth(FLI_WIDTH);
   t.SetHeight(FLI_HEIGHT);
   t.SetBytesPerPixel(4);
-  imgdata := t.GetData;
+  imgdata := t.GetImage;
   fli.GetFrameImage32(fli.Frame, imgdata);
   T_DrawFullScreenPatch(t, screen32);
   dispose(t, Destroy);

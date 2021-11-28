@@ -318,88 +318,25 @@ var
 
   STSTR_MASSACRE: string = 'Massacre';
 
-//
-// F_Finale.C
-//
-  E1TEXT: string =
-    'Once you beat the big badasses and' + #13#10 +
-    'clean out the moon base you''re supposed' + #13#10 +
-    'to win, aren''t you? Aren''t you? Where''s' + #13#10 +
-    'your fat reward and ticket home? What' + #13#10 +
-    'the hell is this? It''s not supposed to' + #13#10 +
-    'end this way!' + #13#10 +
-    ' ' + #13#10 +
-    'It stinks like rotten meat, but looks' + #13#10 +
-    'like the lost Deimos base.  Looks like' + #13#10 +
-    'you''re stuck on The Shores of Hell.' + #13#10 +
-    'The only way out is through.' + #13#10 +
-    ' ' + #13#10 +
-    'To continue the DOOM experience, play' + #13#10 +
-    'The Shores of Hell and its amazing' + #13#10 +
-    'sequel, Inferno!' + #13#10;
-
-
-  E2TEXT: string =
-    'You''ve done it! The hideous cyber-' + #13#10 +
-    'demon lord that ruled the lost Deimos' + #13#10 +
-    'moon base has been slain and you' + #13#10 +
-    'are triumphant! But ... where are' + #13#10 +
-    'you? You clamber to the edge of the' + #13#10 +
-    'moon and look down to see the awful' + #13#10 +
-    'truth.' + #13#10 +
-    ' ' + #13#10 +
-    'Deimos floats above Hell itself!' + #13#10 +
-    'You''ve never heard of anyone escaping' + #13#10 +
-    'from Hell, but you''ll make the bastards' + #13#10 +
-    'sorry they ever heard of you! Quickly,' + #13#10 +
-    'you rappel down to  the surface of' + #13#10 +
-    'Hell.' + #13#10 +
-    ' ' + #13#10 +
-    'Now, it''s on to the final chapter of' + #13#10 +
-    'DOOM! -- Inferno.';
-
-
-  E3TEXT: string =
-    'The loathsome spiderdemon that' + #13#10 +
-    'masterminded the invasion of the moon' + #13#10 +
-    'bases and caused so much death has had' + #13#10 +
-    'its ass kicked for all time.' + #13#10 +
-    '' + #13#10 +
-    'A hidden doorway opens and you enter.' + #13#10 +
-    'You''ve proven too tough for Hell to' + #13#10 +
-    'contain, and now Hell at last plays' + #13#10 +
-    'fair -- for you emerge from the door' + #13#10 +
-    'to see the green fields of Earth!' + #13#10 +
-    'Home at last.' + #13#10 +
-    ' ' + #13#10 +
-    'You wonder what''s been happening on' + #13#10 +
-    'Earth while you were battling evil' + #13#10 +
-    'unleashed. It''s good that no Hell-' + #13#10 +
-    'spawn could have come through that' + #13#10 +
-    'door with you ...';
-
 const
   CC_HERO = 'OUR HERO';
 
 var
   MSG_MODIFIEDGAME: string =
       '===========================================================================' + #13#10 +
-      'ATTENTION:  This version of DOOM has been modified.  If you would like to' + #13#10 +
-      'get a copy of the original game, call 1-800-IDGAMES or see the readme file.' + #13#10 +
-      '        You will not receive technical support for modified games.' + #13#10 +
-      '                      press enter to continue' + #13#10 +
+      '            ATTENTION:  This version of MARS has been modified.            ' + #13#10 +
+      '                      Press enter to continue' + #13#10 +
       '===========================================================================' + #13#10;
 
   MSG_SHAREWARE: string =
-        '===========================================================================' + #13#10 +
-        '                                Shareware!' + #13#10 +
-        '===========================================================================' + #13#10;
+      '===========================================================================' + #13#10 +
+      '                                Shareware                                  ' + #13#10 +
+      '===========================================================================' + #13#10;
 
   MSG_COMMERCIAL: string =
-        '===========================================================================' + #13#10 +
-        '                 Commercial product - do not distribute!' + #13#10 +
-        '         Please report software piracy to the SPA: 1-800-388-PIR8' + #13#10 +
-        '===========================================================================' + #13#10;
+      '===========================================================================' + #13#10 +
+      '                                Commercial                                 ' + #13#10 +
+      '===========================================================================' + #13#10;
 
   MSG_UNDETERMINED: string =
         '===========================================================================' + #13#10 +
@@ -408,7 +345,6 @@ var
 
 
 implementation
-
 
 end.
 

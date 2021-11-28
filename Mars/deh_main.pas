@@ -114,7 +114,6 @@ uses
   d_englsh,
   dstrings,
   e_endoom,
-  f_finale,
   g_game,
   hu_stuff,
   i_system,
@@ -135,6 +134,7 @@ uses
   p_musinfo,
   p_sounds,
   mars_dialog,
+  mars_finale,
   mars_weapons,
   psi_overlay,
   r_renderstyle,
@@ -232,8 +232,6 @@ var
   deh_initialstates: integer;
 
   code_ptrs: Pactionf_tArray;
-
-  did_max_soulsphere: boolean;
 begin
   if not deh_initialized then
     DEH_Init;
@@ -1161,7 +1159,6 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     // Parse misc //////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-      did_max_soulsphere := False;
       while true do
       begin
         if not DEH_NextLine(s, str, i) then
@@ -1766,7 +1763,6 @@ begin
   result.Add('%s = %d', [capitalizedstring(misc_tokens[11]), p_idfaarmorclass]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[12]), p_idkfaarmor]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[13]), p_idkfaarmorclass]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[14]), p_maxsoulsphere]);
 
   result.Add('');
 
@@ -2509,30 +2505,9 @@ begin
       inc(k);
     end;
 
-  DEH_AddString(@deh_strings, @castorder[0].name, 'CC_ZOMBIE');
-  DEH_AddString(@deh_strings, @castorder[1].name, 'CC_SHOTGUN');
-  DEH_AddString(@deh_strings, @castorder[2].name, 'CC_HEAVY');
-  DEH_AddString(@deh_strings, @castorder[3].name, 'CC_IMP');
-  DEH_AddString(@deh_strings, @castorder[4].name, 'CC_DEMON');
-  DEH_AddString(@deh_strings, @castorder[5].name, 'CC_LOST');
-  DEH_AddString(@deh_strings, @castorder[6].name, 'CC_CACO');
-  DEH_AddString(@deh_strings, @castorder[7].name, 'CC_HELL');
-  DEH_AddString(@deh_strings, @castorder[8].name, 'CC_BARON');
-  DEH_AddString(@deh_strings, @castorder[9].name, 'CC_ARACH');
-  DEH_AddString(@deh_strings, @castorder[10].name, 'CC_PAIN');
-  DEH_AddString(@deh_strings, @castorder[11].name, 'CC_REVEN');
-  DEH_AddString(@deh_strings, @castorder[12].name, 'CC_MANCU');
-  DEH_AddString(@deh_strings, @castorder[13].name, 'CC_ARCH');
-  DEH_AddString(@deh_strings, @castorder[14].name, 'CC_SPIDER');
-  DEH_AddString(@deh_strings, @castorder[15].name, 'CC_CYBER');
-  DEH_AddString(@deh_strings, @castorder[16].name, 'CC_HERO');
-
   DEH_AddString(@deh_strings, @pg_TITLE, 'PAGE_TITLE');
 
-  DEH_AddString(@deh_strings, @bgflatE1, 'BGFLATE1');
-  DEH_AddString(@deh_strings, @bgflatE2, 'BGFLATE2');
-  DEH_AddString(@deh_strings, @bgflatE3, 'BGFLATE3');
-  DEH_AddString(@deh_strings, @bgcastcall, 'BGCASTCALL');
+  DEH_AddString(@deh_strings, @FINALE_ANIM, 'FINALE_ANIM');
   DEH_AddString(@deh_strings, @EndLumpName, 'END_TEXT_LUMP');
   for i := 0 to 9 do
   begin
@@ -2602,11 +2577,6 @@ begin
   DEH_AddString(@deh_strings, @STSTR_LGOFF, 'STSTR_LGOFF');
 
   DEH_AddString(@deh_strings, @STSTR_MASSACRE, 'STSTR_MASSACRE');
-
-
-  DEH_AddString(@deh_strings, @E1TEXT, 'E1TEXT');
-  DEH_AddString(@deh_strings, @E2TEXT, 'E2TEXT');
-  DEH_AddString(@deh_strings, @E3TEXT, 'E3TEXT');
 
   DEH_AddString(@deh_strings, @MSG_MODIFIEDGAME, 'MSG_MODIFIEDGAME');
   DEH_AddString(@deh_strings, @MSG_SHAREWARE, 'MSG_SHAREWARE');
@@ -2765,7 +2735,6 @@ begin
   misc_tokens.Add('IDFA ARMOR CLASS');    // p_idfaarmorclass
   misc_tokens.Add('IDKFA ARMOR');         // p_idkfaarmor
   misc_tokens.Add('IDKFA ARMOR CLASS');   // p_idkfaarmorclass
-  misc_tokens.Add('MAX SOULSPHERE');      // p_maxsoulsphere
 
   C_AddCmd('DEH_ParseFile, BEX_ParseFile', @DEH_ParseFile);
   C_AddCmd('DEH_ParseLump, BEX_ParseLump', @DEH_ParseLumpName);

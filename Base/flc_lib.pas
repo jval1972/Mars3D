@@ -226,7 +226,9 @@ destructor TFLIFile.Destroy;
 begin
   Active := False;
   if fOpen then
+    {$I-}
     CloseFile(Fli);
+    {$I+}
   Dispose(BitmapData);
   inherited Destroy;
 end;
@@ -249,7 +251,9 @@ begin
   Active := False;
   if fOpen then
   begin
+    {$I-}
     CloseFile(Fli);
+    {$I+}
     fOpen := False;
   end;
   fFliFile := Value;
@@ -257,7 +261,11 @@ begin
     exit;
 
   FileMode := 0;
+  {$I-}
   AssignFile(Fli, Value);
+  {$I+}
+  if IOResult <> 0 then
+    I_Error('TFLIFile.SetFliFile(): Can not open file "%s"', [Value]);
   Reset(Fli, 1);
   fopen := True;
   BlockRead(Fli, Header, SizeOf(Header));

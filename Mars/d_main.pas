@@ -147,7 +147,6 @@ uses
 {$IFNDEF OPENGL}
   mars_wipe,
 {$ENDIF}
-  f_finale,
   m_argv,
   m_crc32,
   m_misc,
@@ -182,6 +181,7 @@ uses
   psi_overlay,
   anm_info,
   mars_briefing,
+  mars_finale,
   mars_intermission,
   mars_intro,
   mars_version,
@@ -249,6 +249,8 @@ begin
     ev := @events[eventtail];
     if gamestate = GS_INTRO then
       MARS_IntroResponder(ev)
+    else if gamestate = GS_FINALE then
+      MARS_Finale_Responder(ev)
     else
     begin
       if C_Responder(ev) then
@@ -435,7 +437,7 @@ begin
     GS_INTERMISSION:
       MARS_Intermission_Drawer;
     GS_FINALE:
-      F_Drawer;
+      MARS_Finale_Drawer;
     GS_DEMOSCREEN:
       D_PageDrawer;
   end;
@@ -2214,6 +2216,9 @@ begin
   printf('MARS_InitIntermission: Init MARS intermission screens.'#13#10);
   MARS_InitIntermission;
 
+  printf('MARS_InitFinale: Init MARS finale structs.'#13#10);
+  MARS_InitFinale;
+
   // start the apropriate game based on parms
   p := M_CheckParm('-record');
 
@@ -2316,6 +2321,8 @@ begin
   MARS_ShutDownBriefing;
   printf('MARS_ShutDownIntermission: Shut down MARS intermision screens.'#13#10);
   MARS_ShutDownIntermission;
+  printf('MARS_ShutDownFinale: Shut down MARS finale structs.'#13#10);
+  MARS_ShutDownFinale;
   printf('ANM_InfoShutDown: Shut down ANMINFO lumps.'#13#10);
   ANM_InfoShutDown;
   printf('P_ShutDown: Shut down Playloop state.'#13#10);

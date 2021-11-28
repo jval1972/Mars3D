@@ -156,7 +156,6 @@ uses
   doomtype in 'Base\doomtype.pas',
   dstrings in 'Mars\dstrings.pas',
   e_endoom in 'Base\e_endoom.pas',
-  f_finale in 'Mars\f_finale.pas',
   g_game in 'Mars\g_game.pas',
   hu_lib in 'Base\hu_lib.pas',
   hu_stuff in 'Mars\hu_stuff.pas',
@@ -421,7 +420,8 @@ uses
   r_underwater in 'Mars\r_underwater.pas',
   mars_level in 'Mars\mars_level.pas',
   flc_lib in 'Base\flc_lib.pas',
-  mars_intro in 'Mars\mars_intro.pas';
+  mars_intro in 'Mars\mars_intro.pas',
+  mars_finale in 'Mars\mars_finale.pas';
 
 exports
   dd_compile_doom,

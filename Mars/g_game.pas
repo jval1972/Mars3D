@@ -291,11 +291,11 @@ uses
   d_net,
   d_net_h,
   d_main,
-  f_finale,
   info_h,
   info,
   info_rnd,
   mars_briefing,
+  mars_finale,
   mars_intermission,
   mars_intro,
   mars_sounds,
@@ -951,15 +951,6 @@ begin
     end;
   end;
 
-  if gamestate = GS_FINALE then
-  begin
-    if F_Responder(ev) then
-    begin
-      result := true; // finale ate the event
-      exit;
-    end;
-  end;
-
   // For smooth mouse movement
   mousex := mousex div 2;
   mousey := mousey div 2;
@@ -1073,7 +1064,7 @@ begin
       ga_completed:
         G_DoCompleted;
       ga_victory:
-        F_StartFinale;
+        MARS_StartFinale;
       ga_worlddone:
         G_DoWorldDone;
       ga_screenshot:
@@ -1183,7 +1174,7 @@ begin
       end;
     GS_FINALE:
       begin
-        F_Ticker;
+        MARS_Finale_Ticker;
       end;
     GS_DEMOSCREEN:
       begin
@@ -1543,7 +1534,7 @@ begin
     AM_Stop;
   end;
 
-  if W_CheckNumForName('E' + itoa(gameepisode) + 'M' + itoa(gamemap)) < 0 then
+  if W_CheckNumForName('E' + itoa(gameepisode) + 'M' + itoa(gamemap + 1)) < 0 then
   begin
     gameaction := ga_victory;
     exit;
@@ -1553,32 +1544,7 @@ begin
   wminfo.epsd := gameepisode - 1;
   wminfo.last := gamemap - 1;
 
-  // wminfo.next is 0 biased, unlike gamemap
-{  if gamemode = commercial then
-  begin
-    if secretexit then
-    begin
-      case gamemap of
-         2: if customgame = cg_bfg2 then wminfo.next := 32 else wminfo.next := gamemap;
-        15: wminfo.next := 30;
-        31: wminfo.next := 31;
-      end
-    end
-    else
-    begin
-      case gamemap of
-        31,
-        32: wminfo.next := 15;
-        33: if customgame = cg_bfg2 then wminfo.next := 2 else wminfo.next := gamemap;
-      else
-        wminfo.next := gamemap;
-      end;
-    end
-  end
-  else}
-  begin
-      wminfo.next := gamemap; // go to next level
-  end;
+  wminfo.next := gamemap; // go to next level
 
   wminfo.maxkills := totalkills;
   wminfo.maxitems := totalitems;

@@ -156,7 +156,6 @@ uses
   doomstat in 'Mars\doomstat.pas',
   doomtype in 'Base\doomtype.pas',
   dstrings in 'Mars\dstrings.pas',
-  f_finale in 'Mars\f_finale.pas',
   g_game in 'Mars\g_game.pas',
   hu_lib in 'Base\hu_lib.pas',
   hu_stuff in 'Mars\hu_stuff.pas',
@@ -392,7 +391,8 @@ uses
   mars_intermission in 'Mars\mars_intermission.pas',
   anm_info in 'Base\anm_info.pas',
   flc_lib in 'Base\flc_lib.pas',
-  mars_intro in 'Mars\mars_intro.pas';
+  mars_intro in 'Mars\mars_intro.pas',
+  mars_finale in 'Mars\mars_finale.pas';
 
 var
   Saved8087CW: Word;
