@@ -122,4 +122,5 @@ ACTOR "MT_BARREL" 2035
   }
 }
 
+ACTORALIAS "MT_BARREL" "ExplosiveBarrel"
 
