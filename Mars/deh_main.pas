@@ -2531,6 +2531,8 @@ begin
 
   DEH_AddString(@deh_strings, @STSTR_MASSACRE, 'STSTR_MASSACRE');
 
+  DEH_AddString(@deh_strings, @CC_HERO, 'CC_HERO');
+
   DEH_AddString(@deh_strings, @MSG_MODIFIEDGAME, 'MSG_MODIFIEDGAME');
   DEH_AddString(@deh_strings, @MSG_SHAREWARE, 'MSG_SHAREWARE');
   DEH_AddString(@deh_strings, @MSG_COMMERCIAL, 'MSG_COMMERCIAL');

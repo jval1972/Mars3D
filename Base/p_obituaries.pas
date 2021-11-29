@@ -46,7 +46,8 @@ uses
   SysUtils,
   d_delphi,
   d_player,
-  dstrings,
+  d_englsh,
+  g_game,
   p_common,
   p_gender,
   w_wad;

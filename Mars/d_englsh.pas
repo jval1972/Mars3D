@@ -318,8 +318,7 @@ var
 
   STSTR_MASSACRE: string = 'Massacre';
 
-const
-  CC_HERO = 'OUR HERO';
+  CC_HERO: string = 'HUNTER';
 
 var
   MSG_MODIFIEDGAME: string =
