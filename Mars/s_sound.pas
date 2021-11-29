@@ -418,19 +418,8 @@ begin
   else
     sep := NORM_SEP;
 
-  // hacks to vary the sfx pitches
-  if (sfx_id >= Ord(sfx_sawup)) and
-     (sfx_id <= Ord(sfx_sawhit)) then
-  begin
-    pitch := pitch + 8 - (M_Random and 15);
-
-    if pitch < 0 then
-      pitch := 0
-    else if pitch > 255 then
-      pitch := 255
-  end
-  else if (sfx_id <> Ord(sfx_itemup)) and
-          (sfx_id <> Ord(sfx_tink)) then
+  if (sfx_id <> Ord(sfx_itemup)) and
+     (sfx_id <> Ord(sfx_tink)) then
   begin
     pitch := pitch + 16 - (M_Random and 31);
 

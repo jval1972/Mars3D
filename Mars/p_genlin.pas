@@ -841,7 +841,7 @@ manual_lift:
         plat.wait := 10 * TICRATE;
     end;
 
-    S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
+    MARS_StartSound(@sec.soundorg, snd_PSTART);
     P_AddActivePlat(plat); // add this plat to the list of active plats
 
     if manual then

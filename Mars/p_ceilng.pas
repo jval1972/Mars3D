@@ -60,6 +60,7 @@ implementation
 uses
   i_system,
   m_fixed,
+  mars_sounds,
   p_mobj_h,
   p_tick,
   p_setup,
@@ -168,7 +169,7 @@ begin
 
             silentCrushAndRaise:
               begin
-                S_StartSound(Pmobj_t(@ceiling.sector.soundorg), Ord(sfx_pstop));
+                MARS_StartSound(@ceiling.sector.soundorg, snd_PSTOP);
                 ceiling.direction := -1;
               end;
             fastCrushAndRaise,
@@ -208,7 +209,7 @@ begin
               end;
             silentCrushAndRaise:
               begin
-                S_StartSound(Pmobj_t(@ceiling.sector.soundorg), Ord(sfx_pstop));
+                MARS_StartSound(@ceiling.sector.soundorg, snd_PSTOP);
                 ceiling.speed := CEILSPEED;
                 ceiling.direction := 1;
               end;

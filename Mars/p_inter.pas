@@ -280,7 +280,7 @@ begin
     player.pendingweapon := weapon;
 
     if (player = @players[consoleplayer]) then
-      S_StartSound(nil, Ord(sfx_wpnup));
+      S_StartSound(nil, Ord(sfx_itemup));
     result := false;
     exit;
   end;

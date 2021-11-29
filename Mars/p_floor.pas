@@ -71,6 +71,7 @@ uses
   d_delphi,
   doomdata,
   g_game,
+  mars_sounds,
   p_map,
   p_tick,
   p_mobj_h,
@@ -316,7 +317,7 @@ begin
       end;
     end;
 
-    S_StartSound(Pmobj_t(@floor.sector.soundorg), Ord(sfx_pstop));
+    MARS_StartSound(@floor.sector.soundorg, snd_PSTOP);
   end;
 end;
 
@@ -392,7 +393,7 @@ begin
     P_RemoveThinker(@elevator.thinker);    // remove elevator from actives
 
     // make floor stop sound
-    S_StartSound(Pmobj_t(@elevator.sector.soundorg), Ord(sfx_pstop));
+    MARS_StartSound(@elevator.sector.soundorg, snd_PSTOP);
   end;
 end;
 

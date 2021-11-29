@@ -51,8 +51,6 @@ uses
 
 procedure A_Fall(actor: Pmobj_t);
 
-procedure A_KeenDie(mo: Pmobj_t);
-
 procedure A_Look(actor: Pmobj_t);
 
 procedure A_Chase(actor: Pmobj_t);
@@ -67,55 +65,13 @@ procedure A_CPosAttack(actor: Pmobj_t);
 
 procedure A_CPosRefire(actor: Pmobj_t);
 
-procedure A_SpidRefire(actor: Pmobj_t);
-
-procedure A_BspiAttack(actor: Pmobj_t);
-
 procedure A_TroopAttack(actor: Pmobj_t);
 
 procedure A_SargAttack(actor: Pmobj_t);
 
-procedure A_HeadAttack(actor: Pmobj_t);
-
-procedure A_CyberAttack(actor: Pmobj_t);
-
-procedure A_BruisAttack(actor: Pmobj_t);
-
-procedure A_SkelMissile(actor: Pmobj_t);
-
 procedure A_Tracer(actor: Pmobj_t);
 
-procedure A_SkelWhoosh(actor: Pmobj_t);
-
-procedure A_SkelFist(actor: Pmobj_t);
-
-procedure A_VileChase(actor: Pmobj_t);
-
-procedure A_VileStart(actor: Pmobj_t);
-
-procedure A_Fire(actor: Pmobj_t);
-
-procedure A_StartFire(actor: Pmobj_t);
-
-procedure A_FireCrackle(actor: Pmobj_t);
-
-procedure A_VileTarget(actor: Pmobj_t);
-
-procedure A_VileAttack(actor: Pmobj_t);
-
-procedure A_FatRaise(actor: Pmobj_t);
-
-procedure A_FatAttack1(actor: Pmobj_t);
-
-procedure A_FatAttack2(actor: Pmobj_t);
-
-procedure A_FatAttack3(actor: Pmobj_t);
-
 procedure A_SkullAttack(actor: Pmobj_t);
-
-procedure A_PainAttack(actor: Pmobj_t);
-
-procedure A_PainDie(actor: Pmobj_t);
 
 procedure A_Scream(actor: Pmobj_t);
 
@@ -128,16 +84,6 @@ procedure A_Explode(thingy: Pmobj_t);
 procedure A_BossDeath(mo: Pmobj_t);
 
 procedure A_Hoof(mo: Pmobj_t);
-
-procedure A_Metal(mo: Pmobj_t);
-
-procedure A_BabyMetal(mo: Pmobj_t);
-
-procedure A_OpenShotgun2(player: Pplayer_t; psp: Pplayer_t);
-
-procedure A_LoadShotgun2(player: Pplayer_t; psp: Ppspdef_t);
-
-procedure A_CloseShotgun2(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_PlayerScream(mo: Pmobj_t);
 
@@ -867,38 +813,6 @@ begin
 end;
 
 //
-// A_KeenDie
-// DOOM II special, map 32.
-// Uses special tag 666.
-//
-procedure A_KeenDie(mo: Pmobj_t);
-var
-  th: Pthinker_t;
-  mo2: Pmobj_t;
-  junk: line_t;
-begin
-  A_Fall(mo);
-
-  // scan the remaining thinkers
-  // to see if all Keens are dead
-
-  th := thinkercap.next;
-  while th <> @thinkercap do
-  begin
-    if @th._function.acp1 = @P_MobjThinker then
-    begin
-      mo2 := Pmobj_t(th);
-      if (mo2 <> mo) and (mo2._type = mo._type) and (mo2.health > 0) then
-        exit; // other Keen not dead
-    end;
-    th := th.next;
-  end;
-
-  junk.tag := 666;
-  EV_DoDoor(@junk, open);
-end;
-
-//
 // ACTION ROUTINES
 //
 
@@ -937,18 +851,7 @@ begin
   // go into chase state
   if actor.info.seesound <> 0 then
   begin
-    case sfxenum_t(actor.info.seesound) of
-      sfx_posit1,
-      sfx_posit2,
-      sfx_posit3:
-        sound := Ord(sfx_posit1) + P_Random mod 3;
-
-      sfx_bgsit1,
-      sfx_bgsit2:
-        sound := Ord(sfx_bgsit1) + P_Random mod 2;
-    else
-      sound := actor.info.seesound;
-    end;
+    sound := actor.info.seesound;
 
     if actor.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
     begin
@@ -1166,7 +1069,7 @@ begin
   if actor.target = nil then
     exit;
 
-  S_StartSound(actor, Ord(sfx_shotgn));
+  S_StartSound(actor, actor.info.attacksound);
   A_FaceTarget(actor);
   bangle := actor.angle;
   slope := P_AimLineAttack(actor, bangle, MISSILERANGE);
@@ -1189,7 +1092,7 @@ begin
   if actor.target = nil then
     exit;
 
-  S_StartSound(actor, Ord(sfx_shotgn));
+  S_StartSound(actor, actor.info.attacksound);
   A_FaceTarget(actor);
   bangle := actor.angle;
 
@@ -1214,49 +1117,6 @@ begin
       P_SetMobjState(actor, actor.info.seestate);
 end;
 
-procedure A_SpidRefire(actor: Pmobj_t);
-begin
-  // keep firing unless target got out of sight
-  A_FaceTarget(actor);
-
-  if P_Random < 10 then
-    exit;
-
-  if (actor.target = nil) or (actor.target.health <= 0) or
-     not P_CheckSight(actor, actor.target) then
-    if actor.state <> @states[actor.info.seestate] then
-      P_SetMobjState(actor, actor.info.seestate);
-end;
-
-procedure A_BspiAttack(actor: Pmobj_t);
-var
-  mobj_no: integer;
-begin
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.target = nil then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_BspiAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_FaceTarget(actor);
-
-  // launch a missile
-  P_SpawnMissile(actor, actor.target, mobj_no);
-end;
-
 //
 // A_TroopAttack
 //
@@ -1271,7 +1131,8 @@ begin
   A_FaceTarget(actor);
   if P_CheckMeleeRange(actor) then
   begin
-    S_StartSound(actor, Ord(sfx_claw));
+    if actor.info.meleesound > 0 then
+      S_StartSound(actor, actor.info.meleesound);
     damage := (P_Random mod 8 + 1) * 3;
     P_DamageMobj(actor.target, actor, actor, damage);
     exit;
@@ -1309,147 +1170,6 @@ begin
   begin
     damage := ((P_Random mod 10) + 1) * 4;
     P_DamageMobj(actor.target, actor, actor, damage);
-  end;
-end;
-
-procedure A_HeadAttack(actor: Pmobj_t);
-var
-  damage: integer;
-  mobj_no: integer;
-begin
-  if actor.target = nil then
-    exit;
-
-  A_FaceTarget(actor);
-  if P_CheckMeleeRange(actor) then
-  begin
-    damage := (P_Random mod 6 + 1) * 10;
-    P_DamageMobj(actor.target, actor, actor, damage);
-    exit;
-  end;
-
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_HeadAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  // launch a missile
-  P_SpawnMissile(actor, actor.target, mobj_no);
-end;
-
-procedure A_CyberAttack(actor: Pmobj_t);
-var
-  mobj_no: integer;
-begin
-  if actor.target = nil then
-    exit;
-
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_CyberAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_FaceTarget(actor);
-  P_SpawnMissile(actor, actor.target, mobj_no);
-end;
-
-procedure A_BruisAttack(actor: Pmobj_t);
-var
-  damage: integer;
-  mobj_no: integer;
-begin
-  if actor.target = nil then
-    exit;
-
-  if P_CheckMeleeRange(actor) then
-  begin
-    S_StartSound(actor, Ord(sfx_claw));
-    damage := (P_Random mod 8 + 1) * 10;
-    P_DamageMobj(actor.target, actor, actor, damage);
-    exit;
-  end;
-
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_BruisAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  // launch a missile
-  P_SpawnMissile(actor, actor.target, mobj_no);
-end;
-
-//
-// A_SkelMissile
-//
-procedure A_SkelMissile(actor: Pmobj_t);
-var
-  mo: Pmobj_t;
-  mobj_no: integer;
-begin
-  if actor.target = nil then
-    exit;
-
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_SkelMissile(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_FaceTarget(actor);
-  actor.z := actor.z + 16 * FRACUNIT; // so missile spawns higher
-
-  mo := P_SpawnMissile(actor, actor.target, mobj_no);
-
-  actor.z := actor.z - 16 * FRACUNIT; // back to normal
-
-  if mo <> nil then
-  begin
-    mo.x := mo.x + mo.momx;
-    mo.y := mo.y + mo.momy;
-    mo.tracer := actor.target;
   end;
 end;
 
@@ -1527,448 +1247,6 @@ begin
     actor.momz := actor.momz + FRACUNIT div 8;
 end;
 
-procedure A_SkelWhoosh(actor: Pmobj_t);
-begin
-  if actor.target = nil then
-    exit;
-
-  A_FaceTarget(actor);
-  S_StartSound(actor, Ord(sfx_skeswg));
-end;
-
-procedure A_SkelFist(actor: Pmobj_t);
-var
-  damage: integer;
-begin
-  if actor.target = nil then
-    exit;
-
-  A_FaceTarget(actor);
-
-  if P_CheckMeleeRange(actor) then
-  begin
-    damage := ((P_Random mod 10) + 1) * 6;
-    S_StartSound(actor, Ord(sfx_skepch));
-    P_DamageMobj(actor.target, actor, actor, damage);
-  end;
-end;
-
-//
-// PIT_VileCheck
-// Detect a corpse that could be raised.
-//
-var
-  corpsehit: Pmobj_t;
-  viletryx: fixed_t;
-  viletryy: fixed_t;
-  vilechase: Pmobj_t;
-
-function PIT_VileCheck(thing: Pmobj_t): boolean;
-var
-  maxdist: integer;
-  check: boolean;
-begin
-  if thing.flags and MF_CORPSE = 0 then
-  begin
-    result := true; // not a monster
-    exit;
-  end;
-
-  if thing.tics <> -1 then
-  begin
-    result := true; // not lying still yet
-    exit;
-  end;
-
-  if thing.info.raisestate = Ord(S_NULL) then
-  begin
-    result := true; // monster doesn't have a raise state
-    exit;
-  end;
-
-  maxdist := thing.info.radius + vilechase.radius;
-
-  if (abs(thing.x - viletryx) > maxdist) or
-     (abs(thing.y - viletryy) > maxdist) then
-  begin
-    result := true; // not actually touching
-    exit;
-  end;
-
-  corpsehit := thing;
-  corpsehit.momx := 0;
-  corpsehit.momy := 0;
-  corpsehit.height := _SHL(corpsehit.height, 2);
-  check := P_CheckPosition(corpsehit, corpsehit.x, corpsehit.y);
-  corpsehit.height := _SHR2(corpsehit.height);
-
-  if not check then
-    result := true    // doesn't fit here
-  else
-    result := false;  // got one, so stop checking
-end;
-
-//
-// A_VileChase
-// Check for ressurecting a body
-//
-procedure A_VileChase(actor: Pmobj_t);
-var
-  xl: integer;
-  xh: integer;
-  yl: integer;
-  yh: integer;
-
-  bx: integer;
-  by: integer;
-
-  info: Pmobjinfo_t;
-  temp: Pmobj_t;
-begin
-  if (actor.movedir <> Ord(DI_NODIR)) and (actor.info.healstate > 0) then
-  begin
-    // check for corpses to raise
-    viletryx := actor.x + actor.info.speed * xspeed[actor.movedir];
-    viletryy := actor.y + actor.info.speed * yspeed[actor.movedir];
-
-    if internalblockmapformat then
-    begin
-      xl := MapBlockIntX(int64(viletryx) - int64(bmaporgx) - MAXRADIUS * 2);
-      xh := MapBlockIntX(int64(viletryx) - int64(bmaporgx) + MAXRADIUS * 2);
-      yl := MapBlockIntY(int64(viletryy) - int64(bmaporgy) - MAXRADIUS * 2);
-      yh := MapBlockIntY(int64(viletryy) - int64(bmaporgy) + MAXRADIUS * 2);
-    end
-    else
-    begin
-      xl := MapBlockInt(viletryx - bmaporgx - MAXRADIUS * 2);
-      xh := MapBlockInt(viletryx - bmaporgx + MAXRADIUS * 2);
-      yl := MapBlockInt(viletryy - bmaporgy - MAXRADIUS * 2);
-      yh := MapBlockInt(viletryy - bmaporgy + MAXRADIUS * 2);
-    end;
-
-    vilechase := actor;
-
-    for bx := xl to xh do
-    begin
-      for by := yl to yh do
-      begin
-      // Call PIT_VileCheck to check
-      // whether object is a corpse
-      // that canbe raised.
-        if not P_BlockThingsIterator(bx, by, PIT_VileCheck) then
-        begin
-        // got one!
-          temp := actor.target;
-          actor.target := corpsehit;
-          A_FaceTarget(actor);
-          actor.target := temp;
-
-          P_SetMobjState(actor, actor.info.healstate);
-
-          S_StartSound(corpsehit, Ord(sfx_slop));
-          info := corpsehit.info;
-
-          P_SetMobjState(corpsehit, info.raisestate);
-
-          corpsehit.height := info.height; // fix Ghost bug
-          corpsehit.radius := info.radius; // fix Ghost bug
-          corpsehit.flags := info.flags;
-          corpsehit.flags_ex := info.flags_ex;
-          corpsehit.flags2_ex := info.flags2_ex;
-          // Inherit friend flag
-          if actor.flags2_ex and MF2_EX_FRIEND = 0 then
-            corpsehit.flags2_ex := corpsehit.flags2_ex and not MF2_EX_FRIEND
-          else
-            corpsehit.flags2_ex := corpsehit.flags2_ex or MF2_EX_FRIEND;
-          corpsehit.flags3_ex := info.flags3_ex;
-          corpsehit.flags4_ex := info.flags4_ex;
-          corpsehit.health := info.spawnhealth;
-          corpsehit.target := nil;
-          exit;
-        end;
-      end;
-    end;
-  end;
-
-  // Return to normal attack.
-  A_Chase(actor);
-end;
-
-//
-// A_VileStart
-//
-procedure A_VileStart(actor: Pmobj_t);
-begin
-  S_StartSound(actor, Ord(sfx_vilatk));
-end;
-
-//
-// A_Fire
-// Keep fire in front of player unless out of sight
-//
-procedure A_Fire(actor: Pmobj_t);
-var
-  dest: Pmobj_t;
-  an: LongWord;
-begin
-  dest := actor.tracer;
-  if dest = nil then
-    exit;
-
-  // don't move it if the vile lost sight
-  if not P_CheckSight(actor.target, dest) then
-    exit;
-
-  {$IFDEF FPC}
-  an := _SHRW(dest.angle, ANGLETOFINESHIFT);
-  {$ELSE}
-  an := dest.angle shr ANGLETOFINESHIFT;
-  {$ENDIF}
-
-  P_UnsetThingPosition(actor);
-  actor.x := dest.x + FixedMul(24 * FRACUNIT, finecosine[an]);
-  actor.y := dest.y + FixedMul(24 * FRACUNIT, finesine[an]);
-  actor.z := dest.z;
-  P_SetThingPosition(actor);
-end;
-
-procedure A_StartFire(actor: Pmobj_t);
-begin
-  S_StartSound(actor, Ord(sfx_flamst));
-  A_Fire(actor);
-end;
-
-procedure A_FireCrackle(actor: Pmobj_t);
-begin
-  S_StartSound(actor, Ord(sfx_flame));
-  A_Fire(actor);
-end;
-
-//
-// A_VileTarget
-// Spawn the hellfire
-//
-procedure A_VileTarget(actor: Pmobj_t);
-var
-  fog: Pmobj_t;
-  mobj_no: integer;
-begin
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.target = nil then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_VileTarget(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_FaceTarget(actor);
-
-  // JVAL: Correct the Arch-Vile fire spawned at the wrong location bug
-  //       https://doomwiki.org/wiki/Arch-Vile_fire_spawned_at_the_wrong_location
-  fog := P_SpawnMobj(actor.target.x, actor.target.y, actor.target.z, mobj_no);
-
-  actor.tracer := fog;
-  fog.target := actor;
-  fog.tracer := actor.target;
-  A_Fire(fog);
-end;
-
-//
-// A_VileAttack
-//
-procedure A_VileAttack(actor: Pmobj_t);
-var
-  fire: Pmobj_t;
-  an: angle_t;
-begin
-  if actor.target = nil then
-    exit;
-
-  A_FaceTarget(actor);
-
-  if not P_CheckSight(actor, actor.target) then
-    exit;
-
-  S_StartSound(actor, Ord(sfx_barexp));
-  P_DamageMobj(actor.target, actor, actor, 20);
-  actor.target.momz := 1000 * FRACUNIT div actor.target.mass;
-
-  {$IFDEF FPC}
-  an := _SHRW(actor.angle, ANGLETOFINESHIFT);
-  {$ELSE}
-  an := actor.angle shr ANGLETOFINESHIFT;
-  {$ENDIF}
-
-  fire := actor.tracer;
-
-  if fire = nil then
-    exit;
-
-  // move the fire between the vile and the player
-  fire.x := actor.target.x - FixedMul(24 * FRACUNIT, finecosine[an]);
-  fire.y := actor.target.y - FixedMul(24 * FRACUNIT, finesine[an]);
-  P_RadiusAttack(fire, actor, 70);
-end;
-
-//
-// Mancubus attack,
-// firing three missiles (bruisers)
-// in three different directions?
-// Doesn't look like it.
-//
-const
-  FATSPREAD = ANG90 div 8;
-
-procedure A_FatRaise(actor: Pmobj_t);
-begin
-  A_FaceTarget(actor);
-  S_StartSound(actor, Ord(sfx_manatk));
-end;
-
-procedure A_FatAttack1(actor: Pmobj_t);
-var
-  mo: Pmobj_t;
-  an: angle_t;
-  mobj_no: integer;
-begin
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_FatAttack1(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_FaceTarget(actor);
-  // Change direction  to ...
-  actor.angle := actor.angle + FATSPREAD;
-  P_SpawnMissile(actor, actor.target, mobj_no);
-
-  mo := P_SpawnMissile(actor, actor.target, mobj_no);
-  if mo = nil then // JVAL: Prevent savegame bug
-    exit;
-
-  mo.angle := mo.angle + FATSPREAD;
-  {$IFDEF FPC}
-  an := _SHRW(mo.angle, ANGLETOFINESHIFT);
-  {$ELSE}
-  an := mo.angle shr ANGLETOFINESHIFT;
-  {$ENDIF}
-  mo.momx := FixedMul(mo.info.speed, finecosine[an]);
-  mo.momy := FixedMul(mo.info.speed, finesine[an]);
-end;
-
-procedure A_FatAttack2(actor: Pmobj_t);
-var
-  mo: Pmobj_t;
-  an: angle_t;
-  mobj_no: integer;
-begin
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_FatAttack2(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_FaceTarget(actor);
-  // Now here choose opposite deviation.
-  actor.angle := actor.angle - FATSPREAD;
-  P_SpawnMissile(actor, actor.target, mobj_no);
-
-  mo := P_SpawnMissile(actor, actor.target, mobj_no);
-  if mo = nil then  // JVAL: Prevent savegame bug
-    exit;
-
-  mo.angle := mo.angle - FATSPREAD * 2;
-  {$IFDEF FPC}
-  an := _SHRW(mo.angle, ANGLETOFINESHIFT);
-  {$ELSE}
-  an := mo.angle shr ANGLETOFINESHIFT;
-  {$ENDIF}
-  mo.momx := FixedMul(mo.info.speed, finecosine[an]);
-  mo.momy := FixedMul(mo.info.speed, finesine[an]);
-end;
-
-procedure A_FatAttack3(actor: Pmobj_t);
-var
-  mo: Pmobj_t;
-  an: angle_t;
-  mobj_no: integer;
-begin
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_FatAttack3(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_FaceTarget(actor);
-
-  mo := P_SpawnMissile(actor, actor.target, mobj_no);
-  if mo = nil then  // JVAL: Prevent savegame bug
-    exit;
-
-  mo.angle := mo.angle - FATSPREAD div 2;
-  {$IFDEF FPC}
-  an := _SHRW(mo.angle, ANGLETOFINESHIFT);
-  {$ELSE}
-  an := mo.angle shr ANGLETOFINESHIFT;
-  {$ENDIF}
-  mo.momx := FixedMul(mo.info.speed, finecosine[an]);
-  mo.momy := FixedMul(mo.info.speed, finesine[an]);
-
-  mo := P_SpawnMissile(actor, actor.target, mobj_no);
-  if mo = nil then
-    exit;
-
-  mo.angle := mo.angle + FATSPREAD div 2;
-  {$IFDEF FPC}
-  an := _SHRW(mo.angle, ANGLETOFINESHIFT);
-  {$ELSE}
-  an := mo.angle shr ANGLETOFINESHIFT;
-  {$ENDIF}
-  mo.momx := FixedMul(mo.info.speed, finecosine[an]);
-  mo.momy := FixedMul(mo.info.speed, finesine[an]);
-end;
-
 //
 // SkullAttack
 // Fly at the player like a missile.
@@ -2005,149 +1283,11 @@ begin
   actor.momz := (dest.z + _SHR1(dest.height) - actor.z) div dist;
 end;
 
-//
-// A_PainShootSkull
-// Spawn a lost soul and launch it at the target
-//
-procedure A_PainShootSkull(actor: Pmobj_t; angle: angle_t; mobj_no: integer);
-var
-  x: fixed_t;
-  y: fixed_t;
-  z: fixed_t;
-
-  newmobj: Pmobj_t;
-  an: angle_t;
-  prestep: integer;
-  count: integer;
-  currentthinker: Pthinker_t;
-begin
-  // count total number of skull currently on the level
-  count := 0;
-
-  currentthinker := thinkercap.next;
-  while currentthinker <> @thinkercap do
-  begin
-    if (@currentthinker._function.acp1 = @P_MobjThinker) and
-       (Pmobj_t(currentthinker)._type = mobj_no) then
-      inc(count);
-    currentthinker := currentthinker.next;
-  end;
-
-  // if there are allready 20 skulls on the level,
-  // don't spit another one
-  if count > 20 then
-    exit;
-
-
-  // okay, there's playe for another one
-  {$IFDEF FPC}
-  an := _SHRW(angle, ANGLETOFINESHIFT);
-  {$ELSE}
-  an := angle shr ANGLETOFINESHIFT;
-  {$ENDIF}
-
-  prestep := 4 * FRACUNIT +
-             3 * (actor.info.radius + mobjinfo[mobj_no].radius) div 2;
-
-  x := actor.x + FixedMul(prestep, finecosine[an]);
-  y := actor.y + FixedMul(prestep, finesine[an]);
-  z := actor.z + 8 * FRACUNIT;
-
-  newmobj := P_SpawnMobj(x, y, z, mobj_no);
-
-  // Check for movements.
-  if not P_TryMove(newmobj, newmobj.x, newmobj.y) then
-  begin
-    // kill it immediately
-    P_DamageMobj(newmobj, actor, actor, 10000);
-    exit;
-  end;
-
-  // killough 7/20/98: PEs shoot lost souls with the same friendliness
-  if actor.flags2_ex and MF2_EX_FRIEND = 0 then
-    newmobj.flags2_ex := newmobj.flags2_ex and not MF2_EX_FRIEND
-  else
-    newmobj.flags2_ex := newmobj.flags2_ex or MF2_EX_FRIEND;
-
-  newmobj.target := actor.target;
-  A_SkullAttack(newmobj);
-end;
-
-//
-// A_PainAttack
-// Spawn a lost soul and launch it at the target
-//
-procedure A_PainAttack(actor: Pmobj_t);
-var
-  mobj_no: integer;
-begin
-  if actor.target = nil then
-    exit;
-
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_PainAttack(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_FaceTarget(actor);
-  A_PainShootSkull(actor, actor.angle, mobj_no);
-end;
-
-procedure A_PainDie(actor: Pmobj_t);
-var
-  mobj_no: integer;
-begin
-  A_Fall(actor);
-
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_PainDie(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  A_PainShootSkull(actor, actor.angle + ANG90, mobj_no);
-  A_PainShootSkull(actor, actor.angle + ANG180, mobj_no);
-  A_PainShootSkull(actor, actor.angle + ANG270, mobj_no);
-end;
-
 procedure A_Scream(actor: Pmobj_t);
 var
   sound: integer;
 begin
-  case actor.info.deathsound of
-    0: exit;
-    Ord(sfx_podth1),
-    Ord(sfx_podth2),
-    Ord(sfx_podth3):
-      sound := Ord(sfx_podth1) + P_Random mod 3;
-
-    Ord(sfx_bgdth1),
-    Ord(sfx_bgdth2):
-      sound := Ord(sfx_bgdth1) + P_Random mod 2;
-  else
-    sound := actor.info.deathsound;
-  end;
+  sound := actor.info.deathsound;
 
   // Check for bosses.
   if (actor.flags_ex and MF_EX_BOSS <> 0) or
@@ -2257,34 +1397,6 @@ procedure A_Hoof(mo: Pmobj_t);
 begin
   S_StartSound(mo, Ord(sfx_hoof));
   A_Chase(mo);
-end;
-
-procedure A_Metal(mo: Pmobj_t);
-begin
-  S_StartSound(mo, Ord(sfx_metal));
-  A_Chase(mo);
-end;
-
-procedure A_BabyMetal(mo: Pmobj_t);
-begin
-  S_StartSound(mo, Ord(sfx_bspwlk));
-  A_Chase(mo);
-end;
-
-procedure A_OpenShotgun2(player: Pplayer_t; psp: Pplayer_t);
-begin
-  S_StartSound(player.mo, Ord(sfx_dbopn));
-end;
-
-procedure A_LoadShotgun2(player: Pplayer_t; psp: Ppspdef_t);
-begin
-  S_StartSound(player.mo, Ord(sfx_dbload));
-end;
-
-procedure A_CloseShotgun2(player: Pplayer_t; psp: Ppspdef_t);
-begin
-  S_StartSound(player.mo, Ord(sfx_dbcls));
-  A_ReFire(player, psp);
 end;
 
 procedure A_PlayerScream(mo: Pmobj_t);

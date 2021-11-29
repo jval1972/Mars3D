@@ -103,6 +103,8 @@ type
     snd_DORCLS,
     snd_BDOPN,
     snd_BDCLS,
+    snd_PSTART,
+    snd_PSTOP,
     NUM_MARS_SOUNDS
   );
 
@@ -178,7 +180,9 @@ const
     (name: 'SNDJET';   path: ''; sound_id: -1; duration: -1; ),
     (name: 'DROPEN';   path: ''; sound_id: -1; duration: -1; ),
     (name: 'DROPEN';   path: ''; sound_id: -1; duration: -1; ),
-    (name: 'DROPEN';   path: ''; sound_id: -1; duration: -1; )
+    (name: 'DROPEN';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'PSTART';   path: ''; sound_id: -1; duration: -1; ),
+    (name: 'PSTART';   path: ''; sound_id: -1; duration: -1; )
   );
 
 procedure MARS_InitSounds;

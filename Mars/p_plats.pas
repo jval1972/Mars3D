@@ -63,6 +63,7 @@ uses
   g_game,
   m_fixed,
   m_rnd,
+  mars_sounds,
   p_mobj_h,
   p_tick,
   p_floor,
@@ -90,7 +91,7 @@ begin
         begin
           plat.count := plat.wait;
           plat.status := down;
-          S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_pstart));
+          MARS_StartSound(@plat.sector.soundorg, snd_PSTART);
         end
         else
         begin
@@ -105,7 +106,7 @@ begin
             begin
               plat.count := plat.wait;
               plat.status := waiting;
-              S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_pstop));
+              MARS_StartSound(@plat.sector.soundorg, snd_PSTOP);
             end;
 
             // lift types and pure raise types are done at end of up stroke
@@ -137,7 +138,7 @@ begin
           begin
             plat.count := plat.wait;
             plat.status := waiting;
-            S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_pstop));
+            MARS_StartSound(@plat.sector.soundorg, snd_PSTOP);
           end;
 
           //jff 1/26/98 remove the plat if it bounced so it can be tried again
@@ -159,7 +160,7 @@ begin
             plat.status := up
           else
             plat.status := down;
-          S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_pstart));
+          MARS_StartSound(@plat.sector.soundorg, snd_PSTART);
         end;
       end;
   end;
@@ -246,7 +247,7 @@ begin
           plat.high := sec.floorheight;
           plat.wait := TICRATE * PLATWAIT;
           plat.status := down;
-          S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
+          MARS_StartSound(@sec.soundorg, snd_PSTART);
         end;
 
       blazeDWUS:
@@ -258,7 +259,7 @@ begin
           plat.high := sec.floorheight;
           plat.wait := TICRATE * PLATWAIT;
           plat.status := down;
-          S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
+          MARS_StartSound(@sec.soundorg, snd_PSTART);
         end;
         
       perpetualRaise:
@@ -272,7 +273,7 @@ begin
             plat.high := sec.floorheight;
           plat.wait := TICRATE * PLATWAIT;
           plat.status := plat_e(P_Random and 1);
-          S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
+          MARS_StartSound(@sec.soundorg, snd_PSTART);
         end;
 
       toggleUpDn: //jff 3/14/98 add new type to support instant toggle
