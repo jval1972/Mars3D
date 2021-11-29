@@ -119,6 +119,7 @@ uses
   i_system,
   z_zone,
   mars_map_extra,
+  mars_player,
   mars_sounds,
   m_rnd,
   m_vectors,
@@ -182,13 +183,15 @@ begin
       exit;
     end;
 
+    state := P_ResolvePlayerState(mobj.player, state);
+     
     if mobj.validcount <> validcount then
     begin
       mobj.validcount := validcount;
       mobj.prevstate := mobj.state;
     end;
 
-    st := @states[Ord(state)];
+    st := @states[state];
 
     mobj.state := st;
     mobj.tics := P_TicsFromState(st);
@@ -260,6 +263,7 @@ var
   ptryx: fixed_t;
   ptryy: fixed_t;
   player: Pplayer_t;
+  psoffs: integer;
   xmove: fixed_t;
   ymove: fixed_t;
   wasonfloorz: boolean;
@@ -440,9 +444,24 @@ begin
        (player.cmd.sidemove = 0))) then
   begin
     // if in a walking frame, stop moving
-    if (player <> nil) and
-       (LongWord((pDiff(player.mo.state, @states[0], SizeOf(states[0]))) - Ord(S_PLAY_RUN1)) < 4) then
-      P_SetMobjState(player.mo, Ord(S_PLAY));
+    if player <> nil then
+    begin
+      psoffs := pDiff(player.mo.state, @states[0], SizeOf(states[0])) - Ord(S_PLAY_RUN1);
+      if IsIntegerInRange(psoffs, 0, 3) then
+        P_SetMobjState(player.mo, Ord(S_PLAY))
+      else
+      begin
+        psoffs := pDiff(player.mo.state, @states[0], SizeOf(states[0])) - Ord(S_CPLAY_RUN1);
+        if IsIntegerInRange(psoffs, 0, 3) then
+          P_SetMobjState(player.mo, Ord(S_CPLAY))
+        else
+        begin
+          psoffs := pDiff(player.mo.state, @states[0], SizeOf(states[0])) - Ord(S_FPLAY_RUN1);
+          if IsIntegerInRange(psoffs, 0, 3) then
+            P_SetMobjState(player.mo, Ord(S_FPLAY))
+        end;
+      end;
+    end;
 
     mo.momx := 0;
     mo.momy := 0;

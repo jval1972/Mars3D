@@ -42,14 +42,20 @@ uses
 
 procedure MARS_PlayerThink(player: Pplayer_t);
 
+function P_ResolvePlayerState(const p: Pplayer_t; const st: integer): integer;
+
 implementation
 
 uses
+  d_delphi,
+  info_h,
+  info,
   info_common,
   mars_sounds,
   m_fixed,
   m_rnd,
   tables,
+  p_local,
   p_map,
   p_mobj_h,
   p_mobj,
@@ -63,6 +69,8 @@ var
 procedure MARS_PlayerThink(player: Pplayer_t);
 var
   needsjetsound: boolean;
+  st1, st2: integer;
+  tics: integer;
   an: angle_t;
   dist: fixed_t;
   x, y, z: integer;
@@ -78,6 +86,15 @@ begin
       player.underwatertics := player.underwatertics + LONGTICS_FACTOR
     else
       player.underwatertics := 0;
+
+    st1 := pDiff(player.mo.state, @states[0], SizeOf(states[0]));
+    st2 := P_ResolvePlayerState(player, st1);
+    if st1 <> st2 then
+    begin
+      tics := player.mo.tics;
+      P_SetMobjStateNF(player.mo, st2);
+      player.mo.tics := tics;
+    end;
   end;
 
   // JVAL: MARS - Retrieve Linetarget
@@ -135,6 +152,32 @@ begin
           mo.momy := player.mo.momy;
         end;
       end;
+end;
+
+function P_ResolvePlayerState(const p: Pplayer_t; const st: integer): integer;
+var
+  offs: integer;
+begin
+  if p = nil then
+  begin
+    result := st;
+    exit;
+  end;
+  if not IsIntegerInRange(st, Ord(S_PLAY), Ord(S_FPLAY_XDIE9)) then
+  begin
+    result := st;
+    exit;
+  end;
+  offs := st - Ord(S_PLAY);
+  offs := offs mod (Ord(S_CPLAY) - Ord(S_PLAY));
+  if (p.mo.flags4_ex and MF4_EX_FLY <> 0) and (p.mo.z > p.mo.floorz) then
+    result := Ord(S_FPLAY) + offs
+  else if p.crouchheight > PMAXCROUCHHEIGHT div 2 then
+    result := Ord(S_CPLAY) + offs
+  else
+    result := Ord(S_PLAY) + offs;
+  if not IsIntegerInRange(result, Ord(S_PLAY), Ord(S_FPLAY_XDIE9)) then
+    result := st;
 end;
 
 end.

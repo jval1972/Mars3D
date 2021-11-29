@@ -323,7 +323,13 @@ begin
   // get out of attack state
   if (player.mo.state = @states[Ord(S_PLAY_ATK1)]) or
      (player.mo.state = @states[Ord(S_PLAY_ATK2)]) then
-    P_SetMobjState(player.mo, Ord(S_PLAY));
+    P_SetMobjState(player.mo, Ord(S_PLAY))
+  else if (player.mo.state = @states[Ord(S_CPLAY_ATK1)]) or
+     (player.mo.state = @states[Ord(S_CPLAY_ATK2)]) then
+    P_SetMobjState(player.mo, Ord(S_CPLAY))
+  else if (player.mo.state = @states[Ord(S_FPLAY_ATK1)]) or
+     (player.mo.state = @states[Ord(S_FPLAY_ATK2)]) then
+    P_SetMobjState(player.mo, Ord(S_FPLAY));
 
   // check for change
   //  if player is dead, put the weapon away

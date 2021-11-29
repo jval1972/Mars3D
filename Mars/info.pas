@@ -92,7 +92,7 @@ var
 
 const
   DO_sprnames: array[0..Ord(DO_NUMSPRITES)] of string[4] = (
-    'TNT1', 'BLUD', 'PUFF', 'TFOG', 'IFOG', 'PLAY', 'POL5', 'DOGS',
+    'TNT1', 'BLUD', 'PUFF', 'TFOG', 'IFOG', 'ROLE', 'POL5', 'DOGS',
 
     // [BH] 100 extra sprite names to use in dehacked patches
     'SP00', 'SP01', 'SP02', 'SP03', 'SP04', 'SP05', 'SP06', 'SP07', 'SP08', 'SP09',
@@ -113,6 +113,11 @@ var
 
 var
   init_buildin: boolean = false;
+
+function spriteframe(const c: Char): integer;
+begin
+  result := Ord(toupper(c)) - Ord('A');
+end;
 
 procedure Info_Init_BuildIn;
 begin
@@ -1270,8 +1275,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY
-  DO_states[Ord(S_PLAY)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY)].frame := 0;
+  DO_states[Ord(S_PLAY)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY)].frame := spriteframe('D');
   DO_states[Ord(S_PLAY)].tics := -1;
   DO_states[Ord(S_PLAY)].tics2 := 0;
   DO_states[Ord(S_PLAY)].action.acp1 := nil;
@@ -1282,8 +1287,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_RUN1
-  DO_states[Ord(S_PLAY_RUN1)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_RUN1)].frame := 0;
+  DO_states[Ord(S_PLAY_RUN1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_RUN1)].frame := spriteframe('A');
   DO_states[Ord(S_PLAY_RUN1)].tics := 4;
   DO_states[Ord(S_PLAY_RUN1)].tics2 := 0;
   DO_states[Ord(S_PLAY_RUN1)].action.acp1 := nil;
@@ -1294,8 +1299,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_RUN2
-  DO_states[Ord(S_PLAY_RUN2)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_RUN2)].frame := 1;
+  DO_states[Ord(S_PLAY_RUN2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_RUN2)].frame := spriteframe('B');
   DO_states[Ord(S_PLAY_RUN2)].tics := 4;
   DO_states[Ord(S_PLAY_RUN2)].tics2 := 0;
   DO_states[Ord(S_PLAY_RUN2)].action.acp1 := nil;
@@ -1306,8 +1311,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_RUN3
-  DO_states[Ord(S_PLAY_RUN3)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_RUN3)].frame := 2;
+  DO_states[Ord(S_PLAY_RUN3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_RUN3)].frame := spriteframe('C');
   DO_states[Ord(S_PLAY_RUN3)].tics := 4;
   DO_states[Ord(S_PLAY_RUN3)].tics2 := 0;
   DO_states[Ord(S_PLAY_RUN3)].action.acp1 := nil;
@@ -1318,8 +1323,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_RUN4
-  DO_states[Ord(S_PLAY_RUN4)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_RUN4)].frame := 3;
+  DO_states[Ord(S_PLAY_RUN4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_RUN4)].frame := spriteframe('D');
   DO_states[Ord(S_PLAY_RUN4)].tics := 4;
   DO_states[Ord(S_PLAY_RUN4)].tics2 := 0;
   DO_states[Ord(S_PLAY_RUN4)].action.acp1 := nil;
@@ -1330,8 +1335,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_ATK1
-  DO_states[Ord(S_PLAY_ATK1)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_ATK1)].frame := 4;
+  DO_states[Ord(S_PLAY_ATK1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_ATK1)].frame := spriteframe('M');
   DO_states[Ord(S_PLAY_ATK1)].tics := 12;
   DO_states[Ord(S_PLAY_ATK1)].tics2 := 0;
   DO_states[Ord(S_PLAY_ATK1)].action.acp1 := nil;
@@ -1342,8 +1347,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_ATK2
-  DO_states[Ord(S_PLAY_ATK2)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_ATK2)].frame := 32773;
+  DO_states[Ord(S_PLAY_ATK2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_ATK2)].frame := spriteframe('M') + FF_FULLBRIGHT;
   DO_states[Ord(S_PLAY_ATK2)].tics := 6;
   DO_states[Ord(S_PLAY_ATK2)].tics2 := 0;
   DO_states[Ord(S_PLAY_ATK2)].action.acp1 := nil;
@@ -1354,8 +1359,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_PAIN
-  DO_states[Ord(S_PLAY_PAIN)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_PAIN)].frame := 6;
+  DO_states[Ord(S_PLAY_PAIN)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_PAIN)].frame := spriteframe('S');
   DO_states[Ord(S_PLAY_PAIN)].tics := 4;
   DO_states[Ord(S_PLAY_PAIN)].tics2 := 0;
   DO_states[Ord(S_PLAY_PAIN)].action.acp1 := nil;
@@ -1366,8 +1371,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_PAIN2
-  DO_states[Ord(S_PLAY_PAIN2)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_PAIN2)].frame := 6;
+  DO_states[Ord(S_PLAY_PAIN2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_PAIN2)].frame := spriteframe('S');
   DO_states[Ord(S_PLAY_PAIN2)].tics := 4;
   DO_states[Ord(S_PLAY_PAIN2)].tics2 := 0;
   DO_states[Ord(S_PLAY_PAIN2)].action.acp1 := @A_Pain;
@@ -1378,8 +1383,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_DIE1
-  DO_states[Ord(S_PLAY_DIE1)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_DIE1)].frame := 7;
+  DO_states[Ord(S_PLAY_DIE1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_DIE1)].frame := spriteframe('U');
   DO_states[Ord(S_PLAY_DIE1)].tics := 10;
   DO_states[Ord(S_PLAY_DIE1)].tics2 := 0;
   DO_states[Ord(S_PLAY_DIE1)].action.acp1 := nil;
@@ -1390,8 +1395,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_DIE2
-  DO_states[Ord(S_PLAY_DIE2)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_DIE2)].frame := 8;
+  DO_states[Ord(S_PLAY_DIE2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_DIE2)].frame := spriteframe('V');
   DO_states[Ord(S_PLAY_DIE2)].tics := 10;
   DO_states[Ord(S_PLAY_DIE2)].tics2 := 0;
   DO_states[Ord(S_PLAY_DIE2)].action.acp1 := @A_PlayerScream;
@@ -1402,8 +1407,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_DIE3
-  DO_states[Ord(S_PLAY_DIE3)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_DIE3)].frame := 9;
+  DO_states[Ord(S_PLAY_DIE3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_DIE3)].frame := spriteframe('W');
   DO_states[Ord(S_PLAY_DIE3)].tics := 10;
   DO_states[Ord(S_PLAY_DIE3)].tics2 := 0;
   DO_states[Ord(S_PLAY_DIE3)].action.acp1 := @A_Fall;
@@ -1414,8 +1419,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_DIE4
-  DO_states[Ord(S_PLAY_DIE4)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_DIE4)].frame := 10;
+  DO_states[Ord(S_PLAY_DIE4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_DIE4)].frame := spriteframe('X');
   DO_states[Ord(S_PLAY_DIE4)].tics := 10;
   DO_states[Ord(S_PLAY_DIE4)].tics2 := 0;
   DO_states[Ord(S_PLAY_DIE4)].action.acp1 := nil;
@@ -1426,8 +1431,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_DIE5
-  DO_states[Ord(S_PLAY_DIE5)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_DIE5)].frame := 11;
+  DO_states[Ord(S_PLAY_DIE5)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_DIE5)].frame := spriteframe('X');
   DO_states[Ord(S_PLAY_DIE5)].tics := 10;
   DO_states[Ord(S_PLAY_DIE5)].tics2 := 0;
   DO_states[Ord(S_PLAY_DIE5)].action.acp1 := nil;
@@ -1438,8 +1443,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_DIE6
-  DO_states[Ord(S_PLAY_DIE6)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_DIE6)].frame := 12;
+  DO_states[Ord(S_PLAY_DIE6)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_DIE6)].frame := spriteframe('X');
   DO_states[Ord(S_PLAY_DIE6)].tics := 10;
   DO_states[Ord(S_PLAY_DIE6)].tics2 := 0;
   DO_states[Ord(S_PLAY_DIE6)].action.acp1 := nil;
@@ -1450,8 +1455,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_DIE7
-  DO_states[Ord(S_PLAY_DIE7)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_DIE7)].frame := 13;
+  DO_states[Ord(S_PLAY_DIE7)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_DIE7)].frame := spriteframe('X');
   DO_states[Ord(S_PLAY_DIE7)].tics := -1;
   DO_states[Ord(S_PLAY_DIE7)].tics2 := 0;
   DO_states[Ord(S_PLAY_DIE7)].action.acp1 := nil;
@@ -1462,8 +1467,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE1
-  DO_states[Ord(S_PLAY_XDIE1)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE1)].frame := 14;
+  DO_states[Ord(S_PLAY_XDIE1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE1)].frame := spriteframe('Y');
   DO_states[Ord(S_PLAY_XDIE1)].tics := 5;
   DO_states[Ord(S_PLAY_XDIE1)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE1)].action.acp1 := nil;
@@ -1474,8 +1479,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE2
-  DO_states[Ord(S_PLAY_XDIE2)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE2)].frame := 15;
+  DO_states[Ord(S_PLAY_XDIE2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE2)].frame := spriteframe('Z');
   DO_states[Ord(S_PLAY_XDIE2)].tics := 5;
   DO_states[Ord(S_PLAY_XDIE2)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE2)].action.acp1 := @A_XScream;
@@ -1486,8 +1491,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE3
-  DO_states[Ord(S_PLAY_XDIE3)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE3)].frame := 16;
+  DO_states[Ord(S_PLAY_XDIE3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE3)].frame := spriteframe('[');
   DO_states[Ord(S_PLAY_XDIE3)].tics := 5;
   DO_states[Ord(S_PLAY_XDIE3)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE3)].action.acp1 := @A_Fall;
@@ -1498,8 +1503,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE4
-  DO_states[Ord(S_PLAY_XDIE4)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE4)].frame := 17;
+  DO_states[Ord(S_PLAY_XDIE4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE4)].frame := spriteframe(']');
   DO_states[Ord(S_PLAY_XDIE4)].tics := 5;
   DO_states[Ord(S_PLAY_XDIE4)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE4)].action.acp1 := nil;
@@ -1510,8 +1515,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE5
-  DO_states[Ord(S_PLAY_XDIE5)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE5)].frame := 18;
+  DO_states[Ord(S_PLAY_XDIE5)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE5)].frame := spriteframe('\');
   DO_states[Ord(S_PLAY_XDIE5)].tics := 5;
   DO_states[Ord(S_PLAY_XDIE5)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE5)].action.acp1 := nil;
@@ -1522,8 +1527,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE6
-  DO_states[Ord(S_PLAY_XDIE6)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE6)].frame := 19;
+  DO_states[Ord(S_PLAY_XDIE6)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE6)].frame := spriteframe('\');
   DO_states[Ord(S_PLAY_XDIE6)].tics := 5;
   DO_states[Ord(S_PLAY_XDIE6)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE6)].action.acp1 := nil;
@@ -1534,8 +1539,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE7
-  DO_states[Ord(S_PLAY_XDIE7)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE7)].frame := 20;
+  DO_states[Ord(S_PLAY_XDIE7)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE7)].frame := spriteframe('\');
   DO_states[Ord(S_PLAY_XDIE7)].tics := 5;
   DO_states[Ord(S_PLAY_XDIE7)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE7)].action.acp1 := nil;
@@ -1546,8 +1551,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE8
-  DO_states[Ord(S_PLAY_XDIE8)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE8)].frame := 21;
+  DO_states[Ord(S_PLAY_XDIE8)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE8)].frame := spriteframe('\');
   DO_states[Ord(S_PLAY_XDIE8)].tics := 5;
   DO_states[Ord(S_PLAY_XDIE8)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE8)].action.acp1 := nil;
@@ -1558,8 +1563,8 @@ begin
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_PLAY_XDIE9
-  DO_states[Ord(S_PLAY_XDIE9)].sprite := Ord(SPR_PLAY);
-  DO_states[Ord(S_PLAY_XDIE9)].frame := 22;
+  DO_states[Ord(S_PLAY_XDIE9)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_PLAY_XDIE9)].frame := spriteframe('\');
   DO_states[Ord(S_PLAY_XDIE9)].tics := -1;
   DO_states[Ord(S_PLAY_XDIE9)].tics2 := 0;
   DO_states[Ord(S_PLAY_XDIE9)].action.acp1 := nil;
@@ -1567,6 +1572,606 @@ begin
   DO_states[Ord(S_PLAY_XDIE9)].misc1 := 0;
   DO_states[Ord(S_PLAY_XDIE9)].misc2 := 0;
   DO_states[Ord(S_PLAY_XDIE9)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY
+  DO_states[Ord(S_CPLAY)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY)].frame := spriteframe('H');
+  DO_states[Ord(S_CPLAY)].tics := -1;
+  DO_states[Ord(S_CPLAY)].tics2 := 0;
+  DO_states[Ord(S_CPLAY)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY)].nextstate := Ord(S_NULL);
+  DO_states[Ord(S_CPLAY)].misc1 := 0;
+  DO_states[Ord(S_CPLAY)].misc2 := 0;
+  DO_states[Ord(S_CPLAY)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_RUN1
+  DO_states[Ord(S_CPLAY_RUN1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_RUN1)].frame := spriteframe('E');
+  DO_states[Ord(S_CPLAY_RUN1)].tics := 4;
+  DO_states[Ord(S_CPLAY_RUN1)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_RUN1)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_RUN1)].nextstate := Ord(S_CPLAY_RUN2);
+  DO_states[Ord(S_CPLAY_RUN1)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_RUN1)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_RUN1)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_RUN2
+  DO_states[Ord(S_CPLAY_RUN2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_RUN2)].frame := spriteframe('F');
+  DO_states[Ord(S_CPLAY_RUN2)].tics := 4;
+  DO_states[Ord(S_CPLAY_RUN2)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_RUN2)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_RUN2)].nextstate := Ord(S_CPLAY_RUN3);
+  DO_states[Ord(S_CPLAY_RUN2)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_RUN2)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_RUN2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_RUN3
+  DO_states[Ord(S_CPLAY_RUN3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_RUN3)].frame := spriteframe('G');
+  DO_states[Ord(S_CPLAY_RUN3)].tics := 4;
+  DO_states[Ord(S_CPLAY_RUN3)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_RUN3)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_RUN3)].nextstate := Ord(S_CPLAY_RUN4);
+  DO_states[Ord(S_CPLAY_RUN3)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_RUN3)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_RUN3)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_RUN4
+  DO_states[Ord(S_CPLAY_RUN4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_RUN4)].frame := spriteframe('H');
+  DO_states[Ord(S_CPLAY_RUN4)].tics := 4;
+  DO_states[Ord(S_CPLAY_RUN4)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_RUN4)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_RUN4)].nextstate := Ord(S_CPLAY_RUN1);
+  DO_states[Ord(S_CPLAY_RUN4)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_RUN4)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_RUN4)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_ATK1
+  DO_states[Ord(S_CPLAY_ATK1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_ATK1)].frame := spriteframe('O');
+  DO_states[Ord(S_CPLAY_ATK1)].tics := 12;
+  DO_states[Ord(S_CPLAY_ATK1)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_ATK1)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_ATK1)].nextstate := Ord(S_CPLAY);
+  DO_states[Ord(S_CPLAY_ATK1)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_ATK1)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_ATK1)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_ATK2
+  DO_states[Ord(S_CPLAY_ATK2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_ATK2)].frame := spriteframe('P') + FF_FULLBRIGHT;
+  DO_states[Ord(S_CPLAY_ATK2)].tics := 6;
+  DO_states[Ord(S_CPLAY_ATK2)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_ATK2)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_ATK2)].nextstate := Ord(S_CPLAY_ATK1);
+  DO_states[Ord(S_CPLAY_ATK2)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_ATK2)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_ATK2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_PAIN
+  DO_states[Ord(S_CPLAY_PAIN)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_PAIN)].frame := spriteframe('E');
+  DO_states[Ord(S_CPLAY_PAIN)].tics := 4;
+  DO_states[Ord(S_CPLAY_PAIN)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_PAIN)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_PAIN)].nextstate := Ord(S_CPLAY_PAIN2);
+  DO_states[Ord(S_CPLAY_PAIN)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_PAIN)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_PAIN)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_PAIN2
+  DO_states[Ord(S_CPLAY_PAIN2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_PAIN2)].frame := spriteframe('F');
+  DO_states[Ord(S_CPLAY_PAIN2)].tics := 4;
+  DO_states[Ord(S_CPLAY_PAIN2)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_PAIN2)].action.acp1 := @A_Pain;
+  DO_states[Ord(S_CPLAY_PAIN2)].nextstate := Ord(S_CPLAY);
+  DO_states[Ord(S_CPLAY_PAIN2)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_PAIN2)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_PAIN2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_DIE1
+  DO_states[Ord(S_CPLAY_DIE1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_DIE1)].frame := spriteframe('V');
+  DO_states[Ord(S_CPLAY_DIE1)].tics := 10;
+  DO_states[Ord(S_CPLAY_DIE1)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_DIE1)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_DIE1)].nextstate := Ord(S_CPLAY_DIE2);
+  DO_states[Ord(S_CPLAY_DIE1)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_DIE1)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_DIE1)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_DIE2
+  DO_states[Ord(S_CPLAY_DIE2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_DIE2)].frame := spriteframe('V');
+  DO_states[Ord(S_CPLAY_DIE2)].tics := 10;
+  DO_states[Ord(S_CPLAY_DIE2)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_DIE2)].action.acp1 := @A_PlayerScream;
+  DO_states[Ord(S_CPLAY_DIE2)].nextstate := Ord(S_CPLAY_DIE3);
+  DO_states[Ord(S_CPLAY_DIE2)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_DIE2)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_DIE2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_DIE3
+  DO_states[Ord(S_CPLAY_DIE3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_DIE3)].frame := spriteframe('W');
+  DO_states[Ord(S_CPLAY_DIE3)].tics := 10;
+  DO_states[Ord(S_CPLAY_DIE3)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_DIE3)].action.acp1 := @A_Fall;
+  DO_states[Ord(S_CPLAY_DIE3)].nextstate := Ord(S_CPLAY_DIE4);
+  DO_states[Ord(S_CPLAY_DIE3)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_DIE3)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_DIE3)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_DIE4
+  DO_states[Ord(S_CPLAY_DIE4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_DIE4)].frame := spriteframe('X');
+  DO_states[Ord(S_CPLAY_DIE4)].tics := 10;
+  DO_states[Ord(S_CPLAY_DIE4)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_DIE4)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_DIE4)].nextstate := Ord(S_CPLAY_DIE5);
+  DO_states[Ord(S_CPLAY_DIE4)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_DIE4)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_DIE4)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_DIE5
+  DO_states[Ord(S_CPLAY_DIE5)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_DIE5)].frame := spriteframe('X');
+  DO_states[Ord(S_CPLAY_DIE5)].tics := 10;
+  DO_states[Ord(S_CPLAY_DIE5)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_DIE5)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_DIE5)].nextstate := Ord(S_CPLAY_DIE6);
+  DO_states[Ord(S_CPLAY_DIE5)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_DIE5)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_DIE5)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_DIE6
+  DO_states[Ord(S_CPLAY_DIE6)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_DIE6)].frame := spriteframe('X');
+  DO_states[Ord(S_CPLAY_DIE6)].tics := 10;
+  DO_states[Ord(S_CPLAY_DIE6)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_DIE6)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_DIE6)].nextstate := Ord(S_CPLAY_DIE7);
+  DO_states[Ord(S_CPLAY_DIE6)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_DIE6)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_DIE6)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_DIE7
+  DO_states[Ord(S_CPLAY_DIE7)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_DIE7)].frame := spriteframe('X');
+  DO_states[Ord(S_CPLAY_DIE7)].tics := -1;
+  DO_states[Ord(S_CPLAY_DIE7)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_DIE7)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_DIE7)].nextstate := Ord(S_NULL);
+  DO_states[Ord(S_CPLAY_DIE7)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_DIE7)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_DIE7)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE1
+  DO_states[Ord(S_CPLAY_XDIE1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE1)].frame := spriteframe('Z');
+  DO_states[Ord(S_CPLAY_XDIE1)].tics := 5;
+  DO_states[Ord(S_CPLAY_XDIE1)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE1)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_XDIE1)].nextstate := Ord(S_CPLAY_XDIE2);
+  DO_states[Ord(S_CPLAY_XDIE1)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE1)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE1)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE2
+  DO_states[Ord(S_CPLAY_XDIE2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE2)].frame := spriteframe('Z');
+  DO_states[Ord(S_CPLAY_XDIE2)].tics := 5;
+  DO_states[Ord(S_CPLAY_XDIE2)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE2)].action.acp1 := @A_XScream;
+  DO_states[Ord(S_CPLAY_XDIE2)].nextstate := Ord(S_CPLAY_XDIE3);
+  DO_states[Ord(S_CPLAY_XDIE2)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE2)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE3
+  DO_states[Ord(S_CPLAY_XDIE3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE3)].frame := spriteframe('[');
+  DO_states[Ord(S_CPLAY_XDIE3)].tics := 5;
+  DO_states[Ord(S_CPLAY_XDIE3)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE3)].action.acp1 := @A_Fall;
+  DO_states[Ord(S_CPLAY_XDIE3)].nextstate := Ord(S_CPLAY_XDIE4);
+  DO_states[Ord(S_CPLAY_XDIE3)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE3)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE3)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE4
+  DO_states[Ord(S_CPLAY_XDIE4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE4)].frame := spriteframe(']');
+  DO_states[Ord(S_CPLAY_XDIE4)].tics := 5;
+  DO_states[Ord(S_CPLAY_XDIE4)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE4)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_XDIE4)].nextstate := Ord(S_CPLAY_XDIE5);
+  DO_states[Ord(S_CPLAY_XDIE4)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE4)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE4)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE5
+  DO_states[Ord(S_CPLAY_XDIE5)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE5)].frame := spriteframe('\');
+  DO_states[Ord(S_CPLAY_XDIE5)].tics := 5;
+  DO_states[Ord(S_CPLAY_XDIE5)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE5)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_XDIE5)].nextstate := Ord(S_CPLAY_XDIE6);
+  DO_states[Ord(S_CPLAY_XDIE5)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE5)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE5)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE6
+  DO_states[Ord(S_CPLAY_XDIE6)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE6)].frame := spriteframe('\');
+  DO_states[Ord(S_CPLAY_XDIE6)].tics := 5;
+  DO_states[Ord(S_CPLAY_XDIE6)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE6)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_XDIE6)].nextstate := Ord(S_CPLAY_XDIE7);
+  DO_states[Ord(S_CPLAY_XDIE6)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE6)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE6)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE7
+  DO_states[Ord(S_CPLAY_XDIE7)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE7)].frame := spriteframe('\');
+  DO_states[Ord(S_CPLAY_XDIE7)].tics := 5;
+  DO_states[Ord(S_CPLAY_XDIE7)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE7)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_XDIE7)].nextstate := Ord(S_CPLAY_XDIE8);
+  DO_states[Ord(S_CPLAY_XDIE7)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE7)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE7)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE8
+  DO_states[Ord(S_CPLAY_XDIE8)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE8)].frame := spriteframe('\');
+  DO_states[Ord(S_CPLAY_XDIE8)].tics := 5;
+  DO_states[Ord(S_CPLAY_XDIE8)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE8)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_XDIE8)].nextstate := Ord(S_CPLAY_XDIE9);
+  DO_states[Ord(S_CPLAY_XDIE8)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE8)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE8)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_CPLAY_XDIE9
+  DO_states[Ord(S_CPLAY_XDIE9)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_CPLAY_XDIE9)].frame := spriteframe('\');
+  DO_states[Ord(S_CPLAY_XDIE9)].tics := -1;
+  DO_states[Ord(S_CPLAY_XDIE9)].tics2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE9)].action.acp1 := nil;
+  DO_states[Ord(S_CPLAY_XDIE9)].nextstate := Ord(S_NULL);
+  DO_states[Ord(S_CPLAY_XDIE9)].misc1 := 0;
+  DO_states[Ord(S_CPLAY_XDIE9)].misc2 := 0;
+  DO_states[Ord(S_CPLAY_XDIE9)].flags_ex := 0;
+  
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY
+  DO_states[Ord(S_FPLAY)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY)].frame := spriteframe('L');
+  DO_states[Ord(S_FPLAY)].tics := -1;
+  DO_states[Ord(S_FPLAY)].tics2 := 0;
+  DO_states[Ord(S_FPLAY)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY)].nextstate := Ord(S_NULL);
+  DO_states[Ord(S_FPLAY)].misc1 := 0;
+  DO_states[Ord(S_FPLAY)].misc2 := 0;
+  DO_states[Ord(S_FPLAY)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_RUN1
+  DO_states[Ord(S_FPLAY_RUN1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_RUN1)].frame := spriteframe('I');
+  DO_states[Ord(S_FPLAY_RUN1)].tics := 4;
+  DO_states[Ord(S_FPLAY_RUN1)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_RUN1)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_RUN1)].nextstate := Ord(S_FPLAY_RUN2);
+  DO_states[Ord(S_FPLAY_RUN1)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_RUN1)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_RUN1)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_RUN2
+  DO_states[Ord(S_FPLAY_RUN2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_RUN2)].frame := spriteframe('J');
+  DO_states[Ord(S_FPLAY_RUN2)].tics := 4;
+  DO_states[Ord(S_FPLAY_RUN2)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_RUN2)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_RUN2)].nextstate := Ord(S_FPLAY_RUN3);
+  DO_states[Ord(S_FPLAY_RUN2)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_RUN2)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_RUN2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_RUN3
+  DO_states[Ord(S_FPLAY_RUN3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_RUN3)].frame := spriteframe('K');
+  DO_states[Ord(S_FPLAY_RUN3)].tics := 4;
+  DO_states[Ord(S_FPLAY_RUN3)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_RUN3)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_RUN3)].nextstate := Ord(S_FPLAY_RUN4);
+  DO_states[Ord(S_FPLAY_RUN3)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_RUN3)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_RUN3)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_RUN4
+  DO_states[Ord(S_FPLAY_RUN4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_RUN4)].frame := spriteframe('L');
+  DO_states[Ord(S_FPLAY_RUN4)].tics := 4;
+  DO_states[Ord(S_FPLAY_RUN4)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_RUN4)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_RUN4)].nextstate := Ord(S_FPLAY_RUN1);
+  DO_states[Ord(S_FPLAY_RUN4)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_RUN4)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_RUN4)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_ATK1
+  DO_states[Ord(S_FPLAY_ATK1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_ATK1)].frame := spriteframe('Q');
+  DO_states[Ord(S_FPLAY_ATK1)].tics := 12;
+  DO_states[Ord(S_FPLAY_ATK1)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_ATK1)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_ATK1)].nextstate := Ord(S_FPLAY);
+  DO_states[Ord(S_FPLAY_ATK1)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_ATK1)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_ATK1)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_ATK2
+  DO_states[Ord(S_FPLAY_ATK2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_ATK2)].frame := spriteframe('R') + FF_FULLBRIGHT;
+  DO_states[Ord(S_FPLAY_ATK2)].tics := 6;
+  DO_states[Ord(S_FPLAY_ATK2)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_ATK2)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_ATK2)].nextstate := Ord(S_FPLAY_ATK1);
+  DO_states[Ord(S_FPLAY_ATK2)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_ATK2)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_ATK2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_PAIN
+  DO_states[Ord(S_FPLAY_PAIN)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_PAIN)].frame := spriteframe('S');
+  DO_states[Ord(S_FPLAY_PAIN)].tics := 4;
+  DO_states[Ord(S_FPLAY_PAIN)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_PAIN)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_PAIN)].nextstate := Ord(S_FPLAY_PAIN2);
+  DO_states[Ord(S_FPLAY_PAIN)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_PAIN)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_PAIN)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_PAIN2
+  DO_states[Ord(S_FPLAY_PAIN2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_PAIN2)].frame := spriteframe('S');
+  DO_states[Ord(S_FPLAY_PAIN2)].tics := 4;
+  DO_states[Ord(S_FPLAY_PAIN2)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_PAIN2)].action.acp1 := @A_Pain;
+  DO_states[Ord(S_FPLAY_PAIN2)].nextstate := Ord(S_FPLAY);
+  DO_states[Ord(S_FPLAY_PAIN2)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_PAIN2)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_PAIN2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_DIE1
+  DO_states[Ord(S_FPLAY_DIE1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_DIE1)].frame := spriteframe('U');
+  DO_states[Ord(S_FPLAY_DIE1)].tics := 10;
+  DO_states[Ord(S_FPLAY_DIE1)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_DIE1)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_DIE1)].nextstate := Ord(S_FPLAY_DIE2);
+  DO_states[Ord(S_FPLAY_DIE1)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_DIE1)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_DIE1)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_DIE2
+  DO_states[Ord(S_FPLAY_DIE2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_DIE2)].frame := spriteframe('V');
+  DO_states[Ord(S_FPLAY_DIE2)].tics := 10;
+  DO_states[Ord(S_FPLAY_DIE2)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_DIE2)].action.acp1 := @A_PlayerScream;
+  DO_states[Ord(S_FPLAY_DIE2)].nextstate := Ord(S_FPLAY_DIE3);
+  DO_states[Ord(S_FPLAY_DIE2)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_DIE2)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_DIE2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_DIE3
+  DO_states[Ord(S_FPLAY_DIE3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_DIE3)].frame := spriteframe('W');
+  DO_states[Ord(S_FPLAY_DIE3)].tics := 10;
+  DO_states[Ord(S_FPLAY_DIE3)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_DIE3)].action.acp1 := @A_Fall;
+  DO_states[Ord(S_FPLAY_DIE3)].nextstate := Ord(S_FPLAY_DIE4);
+  DO_states[Ord(S_FPLAY_DIE3)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_DIE3)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_DIE3)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_DIE4
+  DO_states[Ord(S_FPLAY_DIE4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_DIE4)].frame := spriteframe('X');
+  DO_states[Ord(S_FPLAY_DIE4)].tics := 10;
+  DO_states[Ord(S_FPLAY_DIE4)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_DIE4)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_DIE4)].nextstate := Ord(S_FPLAY_DIE5);
+  DO_states[Ord(S_FPLAY_DIE4)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_DIE4)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_DIE4)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_DIE5
+  DO_states[Ord(S_FPLAY_DIE5)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_DIE5)].frame := spriteframe('X');
+  DO_states[Ord(S_FPLAY_DIE5)].tics := 10;
+  DO_states[Ord(S_FPLAY_DIE5)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_DIE5)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_DIE5)].nextstate := Ord(S_FPLAY_DIE6);
+  DO_states[Ord(S_FPLAY_DIE5)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_DIE5)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_DIE5)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_DIE6
+  DO_states[Ord(S_FPLAY_DIE6)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_DIE6)].frame := spriteframe('X');
+  DO_states[Ord(S_FPLAY_DIE6)].tics := 10;
+  DO_states[Ord(S_FPLAY_DIE6)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_DIE6)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_DIE6)].nextstate := Ord(S_FPLAY_DIE7);
+  DO_states[Ord(S_FPLAY_DIE6)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_DIE6)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_DIE6)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_DIE7
+  DO_states[Ord(S_FPLAY_DIE7)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_DIE7)].frame := spriteframe('X');
+  DO_states[Ord(S_FPLAY_DIE7)].tics := -1;
+  DO_states[Ord(S_FPLAY_DIE7)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_DIE7)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_DIE7)].nextstate := Ord(S_NULL);
+  DO_states[Ord(S_FPLAY_DIE7)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_DIE7)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_DIE7)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE1
+  DO_states[Ord(S_FPLAY_XDIE1)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE1)].frame := spriteframe('Y');
+  DO_states[Ord(S_FPLAY_XDIE1)].tics := 5;
+  DO_states[Ord(S_FPLAY_XDIE1)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE1)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_XDIE1)].nextstate := Ord(S_FPLAY_XDIE2);
+  DO_states[Ord(S_FPLAY_XDIE1)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE1)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE1)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE2
+  DO_states[Ord(S_FPLAY_XDIE2)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE2)].frame := spriteframe('Z');
+  DO_states[Ord(S_FPLAY_XDIE2)].tics := 5;
+  DO_states[Ord(S_FPLAY_XDIE2)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE2)].action.acp1 := @A_XScream;
+  DO_states[Ord(S_FPLAY_XDIE2)].nextstate := Ord(S_FPLAY_XDIE3);
+  DO_states[Ord(S_FPLAY_XDIE2)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE2)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE2)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE3
+  DO_states[Ord(S_FPLAY_XDIE3)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE3)].frame := spriteframe('[');
+  DO_states[Ord(S_FPLAY_XDIE3)].tics := 5;
+  DO_states[Ord(S_FPLAY_XDIE3)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE3)].action.acp1 := @A_Fall;
+  DO_states[Ord(S_FPLAY_XDIE3)].nextstate := Ord(S_FPLAY_XDIE4);
+  DO_states[Ord(S_FPLAY_XDIE3)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE3)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE3)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE4
+  DO_states[Ord(S_FPLAY_XDIE4)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE4)].frame := spriteframe(']');
+  DO_states[Ord(S_FPLAY_XDIE4)].tics := 5;
+  DO_states[Ord(S_FPLAY_XDIE4)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE4)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_XDIE4)].nextstate := Ord(S_FPLAY_XDIE5);
+  DO_states[Ord(S_FPLAY_XDIE4)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE4)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE4)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE5
+  DO_states[Ord(S_FPLAY_XDIE5)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE5)].frame := spriteframe('\');
+  DO_states[Ord(S_FPLAY_XDIE5)].tics := 5;
+  DO_states[Ord(S_FPLAY_XDIE5)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE5)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_XDIE5)].nextstate := Ord(S_FPLAY_XDIE6);
+  DO_states[Ord(S_FPLAY_XDIE5)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE5)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE5)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE6
+  DO_states[Ord(S_FPLAY_XDIE6)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE6)].frame := spriteframe('\');
+  DO_states[Ord(S_FPLAY_XDIE6)].tics := 5;
+  DO_states[Ord(S_FPLAY_XDIE6)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE6)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_XDIE6)].nextstate := Ord(S_FPLAY_XDIE7);
+  DO_states[Ord(S_FPLAY_XDIE6)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE6)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE6)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE7
+  DO_states[Ord(S_FPLAY_XDIE7)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE7)].frame := spriteframe('\');
+  DO_states[Ord(S_FPLAY_XDIE7)].tics := 5;
+  DO_states[Ord(S_FPLAY_XDIE7)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE7)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_XDIE7)].nextstate := Ord(S_FPLAY_XDIE8);
+  DO_states[Ord(S_FPLAY_XDIE7)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE7)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE7)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE8
+  DO_states[Ord(S_FPLAY_XDIE8)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE8)].frame := spriteframe('\');
+  DO_states[Ord(S_FPLAY_XDIE8)].tics := 5;
+  DO_states[Ord(S_FPLAY_XDIE8)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE8)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_XDIE8)].nextstate := Ord(S_FPLAY_XDIE9);
+  DO_states[Ord(S_FPLAY_XDIE8)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE8)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE8)].flags_ex := 0;
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // S_FPLAY_XDIE9
+  DO_states[Ord(S_FPLAY_XDIE9)].sprite := Ord(SPR_ROLE);
+  DO_states[Ord(S_FPLAY_XDIE9)].frame := spriteframe('\');
+  DO_states[Ord(S_FPLAY_XDIE9)].tics := -1;
+  DO_states[Ord(S_FPLAY_XDIE9)].tics2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE9)].action.acp1 := nil;
+  DO_states[Ord(S_FPLAY_XDIE9)].nextstate := Ord(S_NULL);
+  DO_states[Ord(S_FPLAY_XDIE9)].misc1 := 0;
+  DO_states[Ord(S_FPLAY_XDIE9)].misc2 := 0;
+  DO_states[Ord(S_FPLAY_XDIE9)].flags_ex := 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   // S_SMOKE1
@@ -2040,11 +2645,24 @@ begin
     exit;
   end;
 
+  // Player
   states[Ord(S_PLAY_PAIN2)].action.acp1 := @A_Pain;
   states[Ord(S_PLAY_DIE2)].action.acp1 := @A_PlayerScream;
   states[Ord(S_PLAY_DIE3)].action.acp1 := @A_Fall;
   states[Ord(S_PLAY_XDIE2)].action.acp1 := @A_XScream;
   states[Ord(S_PLAY_XDIE3)].action.acp1 := @A_Fall;
+  // Player (couch)
+  states[Ord(S_CPLAY_PAIN2)].action.acp1 := @A_Pain;
+  states[Ord(S_CPLAY_DIE2)].action.acp1 := @A_PlayerScream;
+  states[Ord(S_CPLAY_DIE3)].action.acp1 := @A_Fall;
+  states[Ord(S_CPLAY_XDIE2)].action.acp1 := @A_XScream;
+  states[Ord(S_CPLAY_XDIE3)].action.acp1 := @A_Fall;
+  // Player (flying)
+  states[Ord(S_FPLAY_PAIN2)].action.acp1 := @A_Pain;
+  states[Ord(S_FPLAY_DIE2)].action.acp1 := @A_PlayerScream;
+  states[Ord(S_FPLAY_DIE3)].action.acp1 := @A_Fall;
+  states[Ord(S_FPLAY_XDIE2)].action.acp1 := @A_XScream;
+  states[Ord(S_FPLAY_XDIE3)].action.acp1 := @A_Fall;
   // New states
   states[Ord(S_DOGS_STND)].action.acp1 := @A_Look; // S_DOGS_STND
   states[Ord(S_DOGS_STND2)].action.acp1 := @A_Look; // S_DOGS_STND2
