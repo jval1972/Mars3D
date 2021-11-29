@@ -82,6 +82,7 @@ type
     function GenerateMusic: boolean;
     function GenerateSounds: boolean;
     function GenerateLevels: boolean;
+    function GenerateSprites: boolean;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -775,6 +776,55 @@ begin
   wadreader.Free;
 end;
 
+var
+  TNT1A0: array[0..87] of Byte = (
+    $10, $00, $10, $00, $08, $00, $08, $00, $48, $00, $00, $00, $49, $00, $00,
+    $00, $4A, $00, $00, $00, $4B, $00, $00, $00, $4C, $00, $00, $00, $4D, $00,
+    $00, $00, $4E, $00, $00, $00, $4F, $00, $00, $00, $50, $00, $00, $00, $51,
+    $00, $00, $00, $52, $00, $00, $00, $53, $00, $00, $00, $54, $00, $00, $00,
+    $55, $00, $00, $00, $56, $00, $00, $00, $57, $00, $00, $00, $FF, $FF, $FF,
+    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+  );
+
+function TMarsToWADConverter.GenerateSprites: boolean;
+var
+  wadreader: TWadReader;
+  i, j: integer;
+begin
+  result := false;
+
+  if not fexists(mars_main_mad) then
+    exit;
+
+  if strtrim(mars_main_mad) = '' then
+    exit;
+
+  wadreader := TWadReader.Create;
+  wadreader.OpenWadFile(mars_main_mad);
+
+  i := wadreader.EntryId('MOUSI0');
+  if i < 0 then
+    i := wadreader.EntryId('MOUSI1');
+
+  j := wadreader.EntryId('MOUSJ0');
+  if j < 0 then
+    j := wadreader.EntryId('MOUSJ1');
+
+  if (i < 0) or (j < 0) then
+  begin
+    wadwriter.AddSeparator('SS_START');
+    if i < 0 then
+      wadwriter.AddData('MOUSI0', @TNT1A0, SizeOf(TNT1A0));
+    if j < 0 then
+      wadwriter.AddData('MOUSJ0', @TNT1A0, SizeOf(TNT1A0));
+    wadwriter.AddSeparator('SS_END');
+  end;
+
+  wadreader.Free;
+
+  result := true;
+end;
+
 procedure TMarsToWADConverter.ConvertGame;
 begin
   Clear;
@@ -790,6 +840,7 @@ begin
   GenerateMusic;
   GenerateSounds;
   GenerateLevels;
+  GenerateSprites;
 end;
 
 procedure TMarsToWADConverter.SavetoFile(const fname: string);
