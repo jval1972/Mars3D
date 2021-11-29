@@ -46,6 +46,7 @@ uses
   SysUtils,
   d_delphi,
   d_player,
+  dstrings,
   p_common,
   p_gender,
   w_wad;
@@ -53,6 +54,7 @@ uses
 procedure P_Obituary(const victim, inflictor, attacker: Pmobj_t);
 var
   pv, pif, pa: Pplayer_t;
+  pid: integer;
   messagefmt: string;
   vname, aname: string;
   agender: gender_t;
@@ -121,7 +123,11 @@ begin
     end;
   end;
 
-  vname := 'Player ' + itoa(PlayerToId(pv));
+  pid := PlayerToId(pv);
+  if (pid = 0) and not netgame then
+    vname := CC_HERO
+  else
+    vname := 'Player ' + itoa(pid);
 
   pa := attacker.player;
   if pa <> nil then
@@ -131,7 +137,7 @@ begin
 
   messagefmt := StringReplace(messagefmt, '%o', vname, [rfReplaceAll, rfIgnoreCase]);
   messagefmt := StringReplace(messagefmt, '%k', aname, [rfReplaceAll, rfIgnoreCase]);
-  
+
   messagefmt := StringReplace(messagefmt, '%g', GENDERINFO[Ord(victim.info.gender)].ob_g, [rfReplaceAll, rfIgnoreCase]);
 
   agender := attacker.info.gender;
