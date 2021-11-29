@@ -253,10 +253,7 @@ begin
   header := Pmusheader_t(MusData);
   result := header.ID = MUSMAGIC;
   if not result then
-  begin
-    I_Warning('I_MusToMidi(): Not a MUS file'#13#10);
     exit;
-  end;
 
   count := GetSongLength(MusData);
   score := PByteArray(@MusData[header.scoreStart]);
