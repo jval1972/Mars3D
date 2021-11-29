@@ -1940,6 +1940,11 @@ begin
 
   SUC_Progress(40);
 
+  printf('SC_Init: Initializing script engine.'#13#10);
+  SC_Init;
+
+  SUC_Progress(41);
+
   printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
   SC_DefaultStatedefLump;
   DEH_Init;
@@ -1947,11 +1952,6 @@ begin
   if M_CheckParm('-internalgamedef') = 0 then
     if not DEH_ParseLumpName('GAMEDEF') then
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
-
-  SUC_Progress(41);
-
-  printf('SC_Init: Initializing script engine.'#13#10);
-  SC_Init;
 
   SUC_Progress(42);
 
