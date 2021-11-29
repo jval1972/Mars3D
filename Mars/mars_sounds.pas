@@ -335,13 +335,15 @@ begin
 
   lump := W_CheckNumForName(wavename);
   if lump < 0 then
+    lump := W_CheckNumForName('DS' + wavename);
+  if lump < 0 then
     exit;
 
   size := W_LumpLength(lump);
   if size < 12 then
     exit;
 
-  p := W_CacheLumpNum(lump, PU_STATIC);
+  p := W_CacheLumpNum(lump, PU_SOUND);
 
   Stream := TAttachableMemoryStream.Create;
   Stream.Attach(p, size);
@@ -365,7 +367,6 @@ begin
     end;
   end;
   Stream.Free;
-  Z_ChangeTag(p, PU_CACHE);
 end;
 
 // Returns duration of sound in tics
