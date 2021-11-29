@@ -2467,7 +2467,7 @@ end;
 
 procedure M_Episode(choice: integer);
 begin
-  if (gamemode = shareware) and (choice <> 0) then
+  if (gamemode = shareware) and (choice > 1) then
   begin
     M_StartMessage(SWSTRING + #13#10 + PRESSKEY, nil, false);
     M_SetupNextMenu(@ReadDef1);

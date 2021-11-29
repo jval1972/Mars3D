@@ -91,8 +91,8 @@ var
     'isn''t even remotely fair.';
 
   SWSTRING: string =
-    'this is the shareware version of doom.' + #13#10 +
-    'you need to order the entire trilogy.';
+    'this is the shareware version of MARS.' + #13#10 +
+    'you need to download the entire game.';
 
   MSGOFF: string =
     'Messages OFF';
