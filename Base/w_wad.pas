@@ -418,7 +418,9 @@ begin
   begin
     handle := TDMemoryStream.Create;
     Mars2Stream_Game(handle);
+    {$IFDEF DEBUG}
     Mars2Wad_Game('mars_data.wad');
+    {$ENDIF}
     handle.Seek(0, sFromBeginning);
   end
   else
