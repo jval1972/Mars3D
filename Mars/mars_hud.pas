@@ -126,6 +126,7 @@ var
 procedure MARS_InitHud;
 var
   i: integer;
+  lump: integer;
 begin
   statusbarimage := W_CacheLumpName('STBAR', PU_STATIC);
 
@@ -146,7 +147,12 @@ begin
     crosshairs[i] := W_CacheLumpName('CROSS' + itoa(i), PU_STATIC);
 
   for i := 0 to Ord(NUMAMMO) - 1 do
-    ammoimglumps[i] := W_GetNumForName(AMMOIMGNAMES[i]);
+  begin
+    lump := W_CheckNumForName(AMMOIMGNAMES[i]);
+    if lump < 0 then
+      lump := W_GetNumForName('TNT1A0');
+    ammoimglumps[i] := lump;
+  end;
 
   healthimglump := W_GetNumForName('HSP1A0');
 
