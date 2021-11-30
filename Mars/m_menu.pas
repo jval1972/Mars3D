@@ -2350,7 +2350,7 @@ end;
 procedure M_SfxVol(choice: integer);
 begin
   case choice of
-    0: if snd_SfxVolume <> 0 then dec(snd_SfxVolume);
+    0: if snd_SfxVolume > 0 then dec(snd_SfxVolume);
     1: if snd_SfxVolume < 15 then inc(snd_SfxVolume);
   end;
   S_SetSfxVolume(snd_SfxVolume);
@@ -2359,7 +2359,7 @@ end;
 procedure M_MusicVol(choice: integer);
 begin
   case choice of
-    0: if snd_MusicVolume <> 0 then dec(snd_MusicVolume);
+    0: if snd_MusicVolume > 0 then dec(snd_MusicVolume);
     1: if snd_MusicVolume < 15 then inc(snd_MusicVolume);
   end;
   S_SetMusicVolume(snd_MusicVolume);
