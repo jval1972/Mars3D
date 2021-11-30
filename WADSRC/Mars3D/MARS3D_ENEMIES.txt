@@ -45,12 +45,15 @@ ACTOR MT_ENEMYSOLDIER 7
       ARM1 E 10 A_FaceTarget
       ARM1 F 8 A_PosAttack BRIGHT
       ARM1 E 8
+      TNT1 A 0 A_JumpIf(GAMESKILL < SK_HARD, See)
+      ARM1 E 5 A_FaceTarget
+      ARM1 F 8 A_PosAttack BRIGHT
       Goto See
     }
     Pain:
     {
       ARM1 G 3 A_JumpIf(LEVELTIME < CUSTOMPARAM("kiss_sound"), PainNoSound)
-      TNT1 A 0 A_SetCustomParam("kiss_sound", LEVELTIME + 3 * TICRATE)
+      TNT1 A 0 A_SetCustomParam("kiss_sound", LEVELTIME + 4 * TICRATE)
       ARM1 G 3 A_PlaySound1("ARM1HURT")
       Goto See
     PainNoSound:
@@ -124,7 +127,7 @@ ACTOR "MT_ROBOT_SHOT"
       TNT1 A 0 A_SetScale(RANDOMPICK(9,10,11)/10)
       TNT1 A 0 A_Jump(128, 2)
       TNT1 A 0 A_FlipSprite
-      TNT1 A 0 A_PlayerHurtExplode(RANDOMPICK(4,5,6), 20)
+      TNT1 A 0 A_PlayerHurtExplode(RANDOMPICK(2,3,4) + GAMESKILL, 20)
       GUNS C RANDOMRANGE(3,6) BRIGHT A_GlowLight "RED"
       GUNS D RANDOMRANGE(3,6) BRIGHT A_FadeOut10
       GUNS E RANDOMRANGE(3,6) BRIGHT A_FadeOut10
@@ -458,11 +461,11 @@ ACTOR MT_FLYINGROBOT 20
       HEAD C 4 A_FaceTarget
       TNT1 A 0 A_AttackSound
       HEAD D 4 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 0, 0)
-      TNT1 A 0 A_Jump(200, -2)
+      TNT1 A 0 A_Jump(160 + GAMESKILL * 10, -2)
       HEAD C 4 A_FaceTarget
       TNT1 A 0 A_AttackSound
       HEAD D 4 BRIGHT A_CustomMissile("MT_ROBOT_SHOT", 0, 0)
-      TNT1 A 0 A_Jump(200, -2)
+      TNT1 A 0 A_Jump(160 + GAMESKILL * 10, -2)
       HEAD E 4
       Goto See
     }
@@ -669,7 +672,7 @@ ACTOR MT_CEILINGDEFENDER 49
       DEF2 B 3 A_FaceTarget
       TNT1 A 0 A_AttackSound
       DEF2 C 3 BRIGHT A_CustomMissile("MT_CEILINGDEFENDER_SHOT", 3, -2)
-      TNT1 A 0 A_Jump(220, -2)
+      TNT1 A 0 A_Jump(170 + GAMESKILL * 10, -2)
     MissilePause:
       DEF2 B RANDOMRANGE(3, 6) A_FaceTarget
       DEF2 B RANDOMRANGE(3, 6) A_FaceTarget
@@ -820,7 +823,7 @@ ACTOR MT_WATERFEAR 3001
       LAKE J 4 A_FaceTarget
       LAKE K 4 A_FaceTarget
       LAKE L 4 A_FaceTarget
-      TNT1 A 0 A_Jump(200, -8)
+      TNT1 A 0 A_Jump(160 + GAMESKILL * 10, -8)
       Goto See
     }
     Pain:
@@ -1095,6 +1098,7 @@ ACTOR "MT_FISH" 3002
     {
       FISH E 5 A_FaceTarget
       FISH F 5 A_CustomMeleeAttack(5, "FISHATT", "FISHATT")
+      TNT1 A 0 A_JumpIf(GAMESKILL < SK_HARD, See)
       FISH G 5 A_FaceTarget
       Goto See
     }
@@ -1217,7 +1221,7 @@ ACTOR MT_DEFENDER 3006
       DEF1 E 10 A_FaceTarget
       TNT1 A 0 A_AttackSound
       DEF1 F 10 BRIGHT A_CustomMissile("MT_DEFENDER_SHOT", 4, 0)
-      TNT1 A 0 A_Jump(180, -2)
+      TNT1 A 0 A_Jump(140 + GAMESKILL * 10, -2)
       Goto See
     MissilePause:
       DEF1 B RANDOMRANGE(3, 6) A_FaceTarget
@@ -1266,7 +1270,7 @@ ACTOR "MT_BOSSSHOCKMISSILE"
   Width 12
   Height 12
   Speed 1572864
-  Damage 5
+  Damage 10
   Mass 100
   Reactiontime 8
   Seesound GUN2SHT
@@ -1316,7 +1320,7 @@ ACTOR "MT_BOSSFLAMEMISSILE"
   Width 12
   Height 12
   Speed 1310720
-  Damage 5
+  Damage 10
   Mass 100
   Reactiontime 8
   Seesound GUN2ACT
@@ -1405,13 +1409,13 @@ ACTOR MT_ALIENBOSS 2051
       TNT1 A 0 A_AttackSound
       UFO1 H 4 A_CustomMissile("MT_BOSSSHOCKMISSILE", 65, 25)
       UFO1 G 4 A_FaceTarget
-      TNT1 A 0 A_Jump(40, -3)
+      TNT1 A 0 A_Jump(40 + GAMESKILL * 10, -3)
       Goto See
     Missile2:
       UFO1 I 4 A_FaceTarget
       UFO1 J 4 A_CustomMissile("MT_BOSSFLAMEMISSILE", 65, 25)
       UFO1 I 4 A_FaceTarget
-      TNT1 A 0 A_Jump(40, -3)
+      TNT1 A 0 A_Jump(40 + GAMESKILL * 10, -3)
       Goto See
     }
     Pain:
