@@ -1905,34 +1905,18 @@ begin
   printf('W_Init: Init WADfiles.'#13#10);
   if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
   begin
-    if fexists(D_FileInDoomPath('CHEX.WAD')) then
-      D_AddFile(D_FileInDoomPath('CHEX.WAD'))
-    else if fexists(D_FileInDoomPath('HACX.WAD')) then
-      D_AddFile(D_FileInDoomPath('HACX.WAD'))
-    else if fexists(D_FileInDoomPath('FREEDOOM1.WAD')) then
-      D_AddFile(D_FileInDoomPath('FREEDOOM1.WAD'))
-    else if fexists(D_FileInDoomPath('FREEDOOM2.WAD')) then
-      D_AddFile(D_FileInDoomPath('FREEDOOM2.WAD'))
-    else if fexists(D_FileInDoomPath('FREEDM.WAD')) then
-      D_AddFile(D_FileInDoomPath('FREEDM.WAD'))
-    else if fexists(D_FileInDoomPath('FREEDOOM.WAD')) then
-      D_AddFile(D_FileInDoomPath('FREEDOOM.WAD'));
-
-    if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
+  // JVAL
+  //  If none wadfile has found as far,
+  //  we search the current directory
+  //  and we use the first WAD we find
+    filename := findfile('*.wad');
+    if filename <> '' then
     begin
-    // JVAL
-    //  If none wadfile has found as far,
-    //  we search the current directory
-    //  and we use the first WAD we find
-      filename := findfile('*.wad');
-      if filename <> '' then
-      begin
-        I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
-        D_AddFile(filename);
-      end;
-      if W_InitMultipleFiles(wadfiles) = 0 then
-        I_Error('W_InitMultipleFiles(): no files found');
+      I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
+      D_AddFile(filename);
     end;
+    if W_InitMultipleFiles(wadfiles) = 0 then
+      I_Error('W_InitMultipleFiles(): no files found');
   end;
 
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
