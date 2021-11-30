@@ -70,6 +70,7 @@ type
     def_pal: packed array[0..767] of byte;
     def_palL: array[0..255] of LongWord;
     water_tr: array[0..255] of byte;
+    water_ti: array[0..255] of byte;
   protected
     procedure Clear;
     function ReadFile(const aname: string; var p: pointer; var sz: integer): boolean;
@@ -217,9 +218,11 @@ begin
     exit;
 
   pal := p;
-  MARS_CreateTranslation(@def_pal, pal, @water_tr);
 
+  MARS_CreateTranslation(@def_pal, pal, @water_tr);
   wadwriter.AddData('TR_WATER', @water_tr, 256);
+  MARS_CreateTranslation(pal, @def_pal, @water_ti);
+  wadwriter.AddData('TI_WATER', @water_ti, 256);
 
   memfree(p, size);
 end;

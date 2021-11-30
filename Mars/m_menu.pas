@@ -221,6 +221,7 @@ uses
   r_camera,
   r_draw,
   t_main,
+  st_stuff,
   vx_voxelsprite,
   v_data,
   v_video,
@@ -3713,8 +3714,28 @@ begin
   end;
 end;
 
+var
+  ti_water: integer = -2;
+
 procedure M_FinishUpdate(const height: integer);
+var
+  i: integer;
+  p: PByteArray;
 begin
+  if st_palette >= 14 then
+  begin
+    if ti_water = -2 then
+      ti_water := W_CheckNumForName('TI_WATER');
+    if ti_water >= 0 then
+    begin
+      p := W_CacheLumpNum(ti_water, PU_STATIC);
+      for i := 0 to height * 320 - 1 do
+        if screens[SCN_TMP][i] <> 0 then
+          screens[SCN_TMP][i] := p[screens[SCN_TMP][i]];
+      Z_ChangeTag(p, PU_CACHE);
+    end;
+  end;
+
   // JVAL
   // Menu is no longer drawn to primary surface,
   // Instead we use SCN_TMP and after the drawing we blit to primary surface
