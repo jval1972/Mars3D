@@ -135,6 +135,7 @@ begin
       exit;
     end;
   end;
+  savepath := 'MARS_' + crc;
   result := mvunknown;
 end;
 
@@ -152,6 +153,7 @@ begin
       exit;
     end;
   end;
+  savepath := 'MARS_' + crc;
   result := 'Game mode indeterminate';
 end;
 
