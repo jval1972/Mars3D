@@ -792,7 +792,7 @@ var
 function TMarsToWADConverter.GenerateSprites: boolean;
 var
   wadreader: TWadReader;
-  i, j: integer;
+  i, j, k: integer;
 begin
   result := false;
 
@@ -815,17 +815,22 @@ begin
 
   if (i < 0) or (j < 0) then
   begin
-    wadwriter.AddSeparator('SS_START');
-    if i < 0 then
-      wadwriter.AddData('MOUSI0', @TNT1A0, SizeOf(TNT1A0));
-    if j < 0 then
-      wadwriter.AddData('MOUSJ0', @TNT1A0, SizeOf(TNT1A0));
-    wadwriter.AddSeparator('SS_END');
+    // Check shareware
+    k := wadreader.EntryId('E3M1');
+    if k >= 0 then
+    begin
+      wadwriter.AddSeparator('SS_START');
+      if i < 0 then
+        wadwriter.AddData('MOUSI0', @TNT1A0, SizeOf(TNT1A0));
+      if j < 0 then
+        wadwriter.AddData('MOUSJ0', @TNT1A0, SizeOf(TNT1A0));
+      wadwriter.AddSeparator('SS_END');
+
+      result := true;
+    end;
   end;
 
   wadreader.Free;
-
-  result := true;
 end;
 
 procedure TMarsToWADConverter.ConvertGame;
