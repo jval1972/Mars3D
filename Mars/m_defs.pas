@@ -298,7 +298,7 @@ const
      location: @chasecamera_viewxy;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 64;
+     defaultivalue: 56;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -306,7 +306,7 @@ const
      location: @chasecamera_viewz;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 16;
+     defaultivalue: 32;
      defaultbvalue: false;
      _type: tInteger),
 
