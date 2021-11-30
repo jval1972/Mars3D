@@ -132,6 +132,7 @@ uses
   info_common,
   m_rnd,
   mars_sounds,
+  mars_version,
   p_map,
   p_maputl,
   p_setup,
@@ -1337,19 +1338,19 @@ begin
   case gameepisode of
     1:
       begin
-        if gamemap <> 7 then
+        if gamemap <> num_episode_maps[1] then
           if not majorbossdeathendsdoom1level then
             exit;
       end;
     2:
       begin
-        if gamemap <> 9 then
+        if gamemap <> num_episode_maps[2] then
           if not majorbossdeathendsdoom1level then
             exit;
       end;
     3:
       begin
-        if gamemap <> 4 then
+        if gamemap <> num_episode_maps[3] then
           if not majorbossdeathendsdoom1level then
             exit;
       end;

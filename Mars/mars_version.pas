@@ -87,11 +87,20 @@ function MARS_CheckUnknownWad(const filename: string): boolean;
 
 function MARS_GetSavePath: string;
 
+const
+  MARS_MAX_EPISODES = 3;
+
+var
+  num_episode_maps: array[1..MARS_MAX_EPISODES] of integer;
+
+procedure MARS_CheckEpisodeMaps;
+
 implementation
 
 uses
   d_delphi,
   m_argv,
+  w_wad,
   w_wadreader;
 
 var
@@ -207,6 +216,20 @@ begin
   s := s + '\' + savepath;
   MkDir(M_SaveFileName(s));
   result := 'DATA\SAVES\' + savepath + '\';
+end;
+
+procedure MARS_CheckEpisodeMaps;
+var
+  epi, mp: integer;
+begin
+  for epi := 1 to MARS_MAX_EPISODES do
+    for mp := 1 to 9 do
+    begin
+      if W_CheckNumForName('E' + itoa(epi) + 'M' + itoa(mp)) >= 0 then
+        num_episode_maps[epi] := mp
+      else
+        break;
+    end;
 end;
 
 end.

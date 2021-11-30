@@ -1919,6 +1919,11 @@ begin
       I_Error('W_InitMultipleFiles(): no files found');
   end;
 
+  SUC_Progress(38);
+  printf('MARS_CheckEpisodeMaps: Identify maps.'#13#10);
+  MARS_CheckEpisodeMaps;
+
+  SUC_Progress(39);
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
   W_AutoLoadPakFiles;
 
