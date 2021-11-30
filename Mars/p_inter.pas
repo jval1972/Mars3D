@@ -797,6 +797,14 @@ end;
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
+const
+  PLAYER_DAMAGE_FACTORS: array[skill_t] of fixed_t = (
+    $8000, $10000, $10000, $18000, $18000
+  );
+  PLAYERSHOOT_DAMAGE_FACTORS: array[skill_t] of fixed_t = (
+    $14000, $12000, $10000, $E000, $10000
+  );
+
 procedure P_DamageMobj(target, inflictor, source: Pmobj_t; damage: integer);
 var
   ang: angle_t;
@@ -807,7 +815,7 @@ var
 begin
   if target.flags and MF_SHOOTABLE = 0 then
   begin
-  // 19/9/2009 JVAL: Display a warning message for debugging 
+  // 19/9/2009 JVAL: Display a warning message for debugging
     I_DevWarning('P_DamageMobj(): Trying to damage unshootable mobj "%s"'#13#10, [target.info.name]);
 //    target.tics := -1;
     exit; // shouldn't happen...
@@ -867,8 +875,8 @@ begin
   end;
 
   player := target.player;
-  if (player <> nil) and (gameskill = sk_baby) then
-    damage := _SHR1(damage); // take half damage in trainer mode
+  if (player <> nil) and (damage < 1000) then
+    damage := (damage * PLAYER_DAMAGE_FACTORS[gameskill]) div FRACUNIT; // Damage player according to skill
 
   if (inflictor <> nil) and (target.flags_ex and MF_EX_FIRERESIST <> 0) then
   begin
@@ -960,6 +968,14 @@ begin
 
     player.hardbreathtics := player.damagecount * 10;
   end;
+
+  if source <> nil then
+    if source.player <> nil then
+      if damage < 1000 then
+        damage := (damage * PLAYERSHOOT_DAMAGE_FACTORS[gameskill]) div FRACUNIT;  // Damage monsters according to skill
+
+  if damage < 1 then
+    damage := 1;
 
   // do the damage
   target.health := target.health - damage;
