@@ -2477,7 +2477,7 @@ begin
   // Yet another hack...
   if (gamemode = registered) and (choice > 2) then
   begin
-    I_Warning('M_Episode(): 4th episode requires UltimateDOOM'#13#10);
+    I_Warning('M_Episode(): ' + EPISTRING + #13#10);
     choice := 0;
   end;
 

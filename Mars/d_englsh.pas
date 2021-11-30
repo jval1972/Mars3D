@@ -94,6 +94,9 @@ var
     'this is the shareware version of MARS.' + #13#10 +
     'you need to download the entire game.';
 
+  EPISTRING: string =
+    'Invalid episode selected.';
+
   MSGOFF: string =
     'Messages OFF';
   MSGON: string =
