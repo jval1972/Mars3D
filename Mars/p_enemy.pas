@@ -1500,7 +1500,7 @@ begin
   // check for melee attack
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
-    A_AttackSound(actor, actor);
+    A_MeleeSound(actor, actor);
     if actor.state <> @states[actor.info.meleestate] then
       P_SetMobjState(actor, actor.info.meleestate);
     exit;
