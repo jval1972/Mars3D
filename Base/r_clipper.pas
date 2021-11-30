@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-//  Mars3D: A source port of the game "Mars3D" based on DelphiDoom
+//  Mars3D: A source port of the game "Mars - The Ultimate Fighter"
 //
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
