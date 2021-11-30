@@ -649,7 +649,7 @@ end;
 //---------------------------------------------------------------------------
 const
   MONS_LOOK_RANGE = 20 * 64 * FRACUNIT;
-  MONS_LOOK_LIMIT = 64;
+  MONS_LOOK_LIMIT = 256;
 
 function P_LookForMonsters(actor: Pmobj_t): boolean;
 var
