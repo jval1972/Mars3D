@@ -43,7 +43,7 @@ procedure MARS_HudDrawer;
 
 var
   drawcrosshair: boolean = true;
-  extendedstatusbar: boolean = true;
+  extendedstatusbar: boolean = false;
 
 implementation
 

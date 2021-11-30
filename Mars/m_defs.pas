@@ -354,8 +354,8 @@ const
      location: @extendedstatusbar;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 1;
-     defaultbvalue: true;
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'displaydiskbusyicon';
