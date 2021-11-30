@@ -386,7 +386,7 @@ const
      location: @screenblocks;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 9;
+     defaultivalue: 10;
      defaultbvalue: false;
      _type: tInteger),
 
