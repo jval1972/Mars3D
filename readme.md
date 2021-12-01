@@ -42,6 +42,7 @@ New enemies and pickups, using the original game resources.
 
 ## Gameplay video
 
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/vzAm9i1JUTU/0.jpg)](https://www.youtube.com/watch?v=vzAm9i1JUTU "Mars3D - Gameplay video")
 
 ## Screenshots
 
