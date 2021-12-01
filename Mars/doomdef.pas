@@ -173,7 +173,6 @@ const
   MTF_NOTDM = 32;
   MTF_NOTCOOP = 64;
 // DelphiDoom
-  MTF_COMPATIBILITY = 31;
   MTF_ONMIDSECTOR = 128;  // JVAL: 3d floors
   MTF_DONOTTRIGGERSCRIPTS = 256;  // JVAL: Script Events
   MTF_FRIEND = 512; // JVAL: version 205
