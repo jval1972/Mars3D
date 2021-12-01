@@ -95,8 +95,9 @@ begin
   else
   begin
     fli.FileName := MARS_FindFile(FLI_INTRO_ANIMS[intro_stage]);
-    if intro_stage = 1 then
-      S_StartMusic(Ord(mus_e1m5));
+    if fli.FileName <> '' then
+      if intro_stage in [1, 2] then
+        S_StartMusic(Ord(mus_e1m5));
   end;
 end;
 
@@ -151,7 +152,8 @@ begin
   last_tic := gametic;
   fli := TFLIFile.Create;
   fli.FileName := MARS_FindFile(FLI_INTRO_ANIMS[intro_stage]);
-  S_StartMusic(Ord(mus_introa));
+  if fli.FileName <> '' then
+    S_StartMusic(Ord(mus_introa));
   intro_finished := false;
 end;
 

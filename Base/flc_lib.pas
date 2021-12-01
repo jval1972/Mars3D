@@ -258,15 +258,29 @@ begin
   end;
   fFliFile := Value;
   if Value = '' then
+  begin
+    fSpeed := 0;
+    fFrameCount := 0;
+    fFrame := 0;
+    PalCount := 0;
     exit;
+  end;
 
   FileMode := 0;
-  {$I-}
   AssignFile(Fli, Value);
+  {$I-}
+  Reset(Fli, 1);
   {$I+}
   if IOResult <> 0 then
-    I_Error('TFLIFile.SetFliFile(): Can not open file "%s"', [Value]);
-  Reset(Fli, 1);
+  begin
+    I_Warning('TFLIFile.SetFliFile(): Can not open file "%s"', [Value]);
+    fFliFile := '';
+    fSpeed := 0;
+    fFrameCount := 0;
+    fFrame := 0;
+    PalCount := 0;
+    exit;
+  end;
   fopen := True;
   BlockRead(Fli, Header, SizeOf(Header));
   if (Header.ID = $AF11) or (Header.ID = $AF12) then

@@ -1060,6 +1060,8 @@ begin
       end;
   end;
 
+  marsmad := fexpand(marsmad);
+
   if fexists(marsmad) then
   begin
     D_AddFile(marsmad);
