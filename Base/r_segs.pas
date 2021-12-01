@@ -153,11 +153,7 @@ uses
   r_main,
   r_things,
   r_plane,
-  r_draw,
   r_sky,
-  r_cache_walls,
-  r_wall8,
-  r_wall32,
   r_scale,
   r_segs2,
 {$IFDEF STRIFE}
@@ -172,7 +168,6 @@ uses
 
 
 {$IFNDEF OPENGL}
-
 
 //
 // R_FixWiggle()
@@ -211,7 +206,7 @@ uses
 //   cases. These effects cannot be corrected without increasing the
 //   precision of various renderer variables, and, possibly, suffering
 //   a performance penalty.
-//   
+//
 
 var
   lastheight: integer = 0;

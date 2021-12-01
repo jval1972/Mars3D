@@ -95,7 +95,6 @@ uses
   r_column,
   r_tallcolumn,
   r_draw,
-  r_precalc,
   r_main;
 
 {$DEFINE WALL8_128}

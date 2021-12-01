@@ -37,8 +37,7 @@ unit mars_palette;
 interface
 
 uses
-  d_delphi,
-  v_video;
+  d_delphi;
 
 procedure MARS_CreateDoomPalette(const inppal: PByteArray; const outpal: PByteArray; const colormap: PByteArray);
 

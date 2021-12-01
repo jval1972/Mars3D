@@ -88,7 +88,6 @@ implementation
 
 uses
   doomdef,
-  doomtype,
   r_column,
   r_col_fz,
   r_precalc,

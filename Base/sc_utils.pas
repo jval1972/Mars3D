@@ -46,7 +46,6 @@ uses
   {$IFDEF DOOM}
   g_game,
   {$ENDIF}
-  sc_engine,
   w_pak;
 
 function SC_Preprocess(const inp_text: string; const addcomment: boolean): string;

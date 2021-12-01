@@ -48,7 +48,6 @@ uses
   m_base,
   i_system,
   sc_engine,
-  sc_tokens,
 {$IFDEF HEXEN}
   z_zone,
 {$ENDIF}

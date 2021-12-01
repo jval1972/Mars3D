@@ -149,7 +149,6 @@ procedure I_WaitForProcess(pid: integer; msec: LongWord);
 
 procedure I_GoToWebPage(const cmd: string);
 
-
 type
   osplatform_t = (os_unknown, os_Win95, os_WinNT4, os_Win2k);
 
@@ -200,7 +199,6 @@ uses
   gl_main,
 {$ELSE}
   i_video,
-  i_main,
 {$ENDIF}
   i_mainwindow,
   d_main,

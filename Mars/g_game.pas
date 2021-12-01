@@ -293,7 +293,6 @@ uses
   d_main,
   info_h,
   info,
-  info_rnd,
   mars_briefing,
   mars_finale,
   mars_intermission,
@@ -327,7 +326,6 @@ uses
 // Data.
   dstrings,
   d_englsh,
-  sounds,
   r_data,
 // SKY handling - still the wrong place.
   r_sky,

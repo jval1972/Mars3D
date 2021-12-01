@@ -144,7 +144,6 @@ uses
   z_zone,
   w_wad,
   i_system,
-  doomstat,
   am_map,
   dstrings,
   d_englsh,

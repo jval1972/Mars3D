@@ -141,8 +141,7 @@ uses
   w_pak,
   doomdef,
   r_main,
-  tables,
-  doomstat;
+  tables;
 
 // Purpose?
 const

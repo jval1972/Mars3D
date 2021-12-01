@@ -40,7 +40,6 @@ uses
   dstrings,
   d_englsh,
   sounds,
-  doomstat,
   m_rnd,
   i_system,
   am_map,

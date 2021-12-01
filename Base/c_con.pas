@@ -83,9 +83,6 @@ uses
 {$IFDEF STRIFE}
   d_check,
 {$ENDIF}
-{$IFDEF DOOM}
-  doomstat,
-{$ENDIF}
   doomdef,
   c_cmds,
   c_utils,

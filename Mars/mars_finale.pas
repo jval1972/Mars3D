@@ -60,7 +60,6 @@ implementation
 uses
   d_delphi,
   am_map,
-  d_englsh,
   d_main,
   d_net,
   flc_lib,
@@ -68,7 +67,6 @@ uses
   hu_stuff,
   g_game,
   mars_files,
-  r_data,
   r_hires,
   s_sound,
   sounds,
@@ -76,8 +74,7 @@ uses
   t_draw,
   v_data,
   v_video,
-  w_wad,
-  z_zone;
+  w_wad;
 
 var
 // Stage of animation:

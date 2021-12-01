@@ -80,7 +80,6 @@ implementation
 
 uses
   doomdef,
-  d_ticcmd,
   d_player,
   d_think,
   g_game,
@@ -115,7 +114,6 @@ uses
   r_defs,
   r_data,
   r_colormaps,
-  r_renderstyle,
   w_wad,
   z_zone;
 

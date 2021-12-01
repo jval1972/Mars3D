@@ -151,7 +151,6 @@ uses
   r_cache_walls,
   r_cache_flats,
   r_col_fz,
-  r_voxels,
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
   r_patch,

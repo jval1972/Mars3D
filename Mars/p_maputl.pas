@@ -84,7 +84,6 @@ implementation
 
 uses
   d_delphi,
-  doomdef,
   g_game,
   i_system,
   p_setup,

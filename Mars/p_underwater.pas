@@ -70,7 +70,6 @@ uses
   m_bbox,
   mars_sounds,
   p_3dfloors,
-  p_common,
   p_local,
   p_inter,
   p_map,
@@ -79,7 +78,6 @@ uses
   p_setup,
   p_slopes,
   p_tick,
-  p_user,
   r_defs,
   r_intrpl,
   r_main;

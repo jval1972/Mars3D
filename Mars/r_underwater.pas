@@ -56,8 +56,7 @@ uses
   r_colormaps,
   r_draw,
   r_hires,
-  tables,
-  z_zone;
+  tables;
 
 type
   underwater_t = record

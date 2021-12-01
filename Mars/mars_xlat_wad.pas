@@ -47,7 +47,6 @@ implementation
 uses
   Math,
   d_main,
-  m_fixed,
   mars_files,
   mars_palette,
   mars_patch,
@@ -55,12 +54,9 @@ uses
   mars_font,
   mars_sounds,
   mars_level,
-  r_data,
-  sc_engine,
   v_video,
   w_wadreader,
   w_wadwriter,
-  w_wad,
   xmi_lib;
 
 type

@@ -82,12 +82,9 @@ uses
   doomtype,
   doomdef,
   p_setup,
-  i_system,
-  r_bsp,
   r_column,
   r_data,
   r_draw,
-  r_flat8,
   r_hires,
   r_main,
   r_plane,
@@ -104,7 +101,7 @@ procedure R_StoreThickSideRange(const ds: Pdrawseg_t; const frontsector, backsec
 var
   hicut, lowcut: fixed_t; // JVAL: 3d Floors
   backmidsec, frontmidsec: Psector_t; // JVAL: 3d Floors
-  ceil1, floor1: integer;        
+  ceil1, floor1: integer;
 begin
   if (backsector.midsec >= 0) and (frontsector.midsec >= 0) then
   begin

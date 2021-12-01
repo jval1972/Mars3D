@@ -82,7 +82,6 @@ uses
   r_cliputils,
   r_column,
   r_data,
-  r_depthbuffer,
   r_draw,
   r_hires,
   r_fake3d,
@@ -99,9 +98,7 @@ uses
   r_things,
   r_zbuffer,
   r_flatinfo,
-  r_utils,
   tables,
-  i_system,
   z_zone;
 
 //

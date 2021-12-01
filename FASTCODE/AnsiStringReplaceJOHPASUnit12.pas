@@ -7,7 +7,7 @@ interface
 {$R-,Q-}
 
 uses
-  Windows, SysUtils, StrUtils;
+  Windows, SysUtils;
 
 {Equivalent of StringReplace for Non Multi Byte Character Sets}
 function StringReplace_JOH_PAS_12(const S, OldPattern, NewPattern: AnsiString;

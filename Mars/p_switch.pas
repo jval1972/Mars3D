@@ -63,16 +63,13 @@ uses
   p_genlin,
   p_telept,
   i_system,
-  doomdef,
   g_game,
   s_sound,
   r_data,
   w_wad,
   z_zone,
 // Data
-  sounds,
-// State
-  doomstat;
+  sounds;
 
 type
 //

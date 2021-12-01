@@ -34,8 +34,7 @@ interface
 
 uses
   d_delphi,
-  m_fixed,
-  r_main;
+  m_fixed;
 
 var
   ds_lightlevel: fixed_t;
@@ -53,10 +52,7 @@ uses
   r_precalc,
   r_flatinfo,
   r_span,
-  r_draw,
-  r_hires,
-  r_grow,
-  v_video;
+  r_draw;
 
 //
 // Draws the actual span (Normal resolution).

@@ -191,7 +191,6 @@ uses
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
-  info_rnd,
   m_rnd,
   mt_utils,
   r_colormaps,

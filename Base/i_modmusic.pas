@@ -121,13 +121,10 @@ implementation
 uses
   MMSystem,
   Windows,
-  d_delphi,
-  d_main,
+  d_delphi,  
   m_fixed,
   i_system,
-  i_threads,
-  w_wad,
-  z_zone;
+  i_threads;
 
 const
   MAX_CHANNELS: longint = 32;

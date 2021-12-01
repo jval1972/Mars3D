@@ -36,8 +36,7 @@ unit r_diher;
 interface
 
 uses
-  d_delphi,
-  m_fixed;
+  d_delphi;
 
 const
   DIHERBITS = 5;

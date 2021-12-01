@@ -37,7 +37,6 @@ interface
 
 uses
   m_fixed,
-  p_local,
   p_mobj_h,
   r_defs;
 
@@ -48,7 +47,6 @@ function P_GetSectorGravity(const sec: Psector_t): fixed_t;
 implementation
 
 uses
-  doomdef,
   g_game;
 
 function P_GetMobjGravity(const mo: Pmobj_t): fixed_t;

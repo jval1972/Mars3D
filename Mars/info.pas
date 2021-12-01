@@ -72,19 +72,15 @@ const
 implementation
 
 uses
-  i_system,
   m_argv,
   p_enemy,
   p_pspr,
   p_mobj_h,
-  p_extra,
   p_gender,
-  p_common,
   p_spec,
   info_common,
   info_export,
   r_renderstyle,
-  sc_states,
   sounds;
 
 var

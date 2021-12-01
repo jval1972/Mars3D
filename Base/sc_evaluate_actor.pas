@@ -49,10 +49,8 @@ implementation
 
 uses
   d_delphi,
-  Math,
   g_game,
   m_fixed,
-  i_system,
   {$IFDEF HERETIC}
   r_defs,
   {$ENDIF}

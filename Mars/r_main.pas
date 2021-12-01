@@ -116,7 +116,6 @@ function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;
 
 procedure R_AddPointToBox(const x: integer; const y: integer; box: Pfixed_tArray);
 
-
 //
 // REFRESH - the actual rendering functions.
 //
@@ -341,9 +340,7 @@ uses
   m_bbox,
   m_misc,
   p_setup,
-  p_sight,
-  p_map,
-  p_3dfloors,  // JVAL: 3d floors
+   // JVAL: 3d floors
   p_underwater,
   {$IFNDEF OPENGL}
   i_video,

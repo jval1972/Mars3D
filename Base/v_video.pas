@@ -308,7 +308,6 @@ uses
   st_stuff,
   {$ENDIF}
   {$ENDIF}
-  r_aspect,
   i_system,
   t_draw,
   w_wad,

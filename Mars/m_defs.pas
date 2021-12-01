@@ -45,7 +45,6 @@ uses
   mars_hud,
   p_mobj_h,
   p_terrain,
-  p_enemy,
   p_map,
   p_setup,
   p_user,
@@ -80,7 +79,6 @@ uses
   r_hires,
   r_lights,
   r_intrpl,
-  vx_base,
 {$IFNDEF OPENGL}
   r_fake3d,
   r_slopes, // JVAL: Slopes
@@ -98,7 +96,6 @@ uses
   m_sshot_jpg,
   vx_voxelsprite,
   v_video;
-
 
 const
   DFS_NEVER = 0;

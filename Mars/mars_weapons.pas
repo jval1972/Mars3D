@@ -88,7 +88,6 @@ uses
   m_fixed,
   m_rnd,
   tables,
-  p_common,
   p_doors,
   p_inter,
   p_map,

@@ -62,7 +62,6 @@ uses
   tables,
   p_3dfloors,
   p_sight,
-  p_map,
   p_telept,
   r_defs,
   r_main,

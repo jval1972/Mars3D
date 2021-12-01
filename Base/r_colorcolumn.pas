@@ -65,11 +65,7 @@ uses
   r_precalc,
   r_column,
   r_batchcolumn,
-  {$IFDEF DOOM}
-  r_colormaps,
-  {$ENDIF}
   v_video,
-  v_data,
   r_draw;
 
 procedure R_PutPixel8(const x, y: integer);
@@ -1554,5 +1550,4 @@ begin
 end;
 
 end.
-
 

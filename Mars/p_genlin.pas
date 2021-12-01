@@ -292,7 +292,6 @@ uses
   m_fixed,
   m_rnd,
   mars_sounds,
-  p_mobj_h,
   p_ceilng,
   p_doors,
   p_floor,
@@ -300,8 +299,6 @@ uses
   p_setup,
   p_spec,
   p_tick,
-  sounds,
-  s_sound,
   z_zone;
 
 //////////////////////////////////////////////////////////

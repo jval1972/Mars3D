@@ -123,9 +123,6 @@ uses
 {$ELSE}
   r_hires,  
 {$ENDIF}
-// State.
-  doomstat,
-  r_data,
   v_data;
 
 //

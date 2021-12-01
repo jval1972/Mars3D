@@ -49,7 +49,6 @@ uses
   r_cache_walls,
   r_column,
   r_draw,
-  r_precalc,
   r_main;
 
 type

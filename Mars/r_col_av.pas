@@ -49,9 +49,7 @@ uses
   r_draw,
   r_main,
   r_column,
-  r_hires,
-  r_trans8,
-  v_video;
+  r_trans8;
 
 procedure R_DrawColumnAverageLowest;
 var

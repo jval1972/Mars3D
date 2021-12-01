@@ -43,9 +43,6 @@ uses
   p_mobj_h,
   s_sound,
   d_player,
-  p_pspr_h,
-// State.
-  doomstat,
 // Data.
   sounds;
 
@@ -131,7 +128,6 @@ uses
   info,
   info_common,
   m_rnd,
-  mars_sounds,
   mars_version,
   p_map,
   p_maputl,
@@ -140,12 +136,7 @@ uses
   p_switch,
   p_tick,
   p_mobj,
-  p_doors,
-  p_spec,
   p_inter,
-  p_floor,
-  p_pspr,
-  p_extra,
   p_common,
   p_sounds,
   ps_main,

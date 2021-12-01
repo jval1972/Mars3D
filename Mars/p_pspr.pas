@@ -119,14 +119,7 @@ uses
   p_mobj,
   p_enemy,
   p_map,
-  p_inter,
-  r_main,
-  mars_sounds,
-  s_sound,
-// State.
-  doomstat,
-// Data.
-  sounds;
+  mars_sounds;
 
 //
 // P_SetPsprite

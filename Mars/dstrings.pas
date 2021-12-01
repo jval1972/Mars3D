@@ -61,9 +61,6 @@ var
 
 implementation
 
-uses
-  d_englsh;
-
 initialization
 
   startmsg[0] := '';

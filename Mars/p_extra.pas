@@ -116,7 +116,6 @@ implementation
 
 uses
   d_delphi,
-  doomdef,
   d_player,
   g_game,
   i_system,
@@ -131,11 +130,9 @@ uses
   p_inter,
   p_user,
   p_map,
-  p_maputl,
   p_local,
   p_sounds,
   p_terrain,
-  s_sound,
   tables;
 
 //

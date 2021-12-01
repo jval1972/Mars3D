@@ -148,7 +148,6 @@ uses
   mars_wipe,
 {$ENDIF}
   m_argv,
-  m_crc32,
   m_misc,
   m_menu,
   mt_utils,
@@ -164,12 +163,12 @@ uses
   i_steam,
 {$IFDEF OPENGL}
   gl_main,
+  nd_main,
 {$ELSE}
   r_defs,
   r_fake3d,
   i_video,
 {$ENDIF}
-  nd_main,
   g_game,
   hu_stuff,
   st_stuff,

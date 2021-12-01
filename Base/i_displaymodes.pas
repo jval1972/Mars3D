@@ -35,7 +35,6 @@ unit i_displaymodes;
 
 interface
 
-
 type
   displaymode_t = record
     width, height: integer;
@@ -72,14 +71,12 @@ implementation
 uses
   Windows,
   d_delphi,
-  doomdef,
-  r_hires,
   {$IFDEF OPENGL}
   gl_main,
   {$ELSE}
   i_main,
   {$ENDIF}
-  i_system;
+  doomdef;
 
 procedure SortDisplayModes;
 

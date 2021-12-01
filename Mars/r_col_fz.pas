@@ -46,7 +46,6 @@ const
   FUZZTABLE = 50;
   FUZZOFF = 1;
 
-
   fuzzoffset: array[0..FUZZTABLE - 1] of integer = (
     FUZZOFF,-FUZZOFF, FUZZOFF,-FUZZOFF, FUZZOFF, FUZZOFF,-FUZZOFF,
     FUZZOFF, FUZZOFF,-FUZZOFF, FUZZOFF, FUZZOFF, FUZZOFF,-FUZZOFF,
@@ -66,14 +65,10 @@ implementation
 uses
   d_delphi,
   doomdef,
-  m_fixed,
   r_data,
   r_draw,
-  r_main,
   r_column,
-  r_hires,
-  v_video;
-
+  r_hires;
 
 //
 // Framebuffer postprocessing.

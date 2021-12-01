@@ -49,7 +49,6 @@ uses
   d_delphi,
   doomdef,
   doomdata,
-  d_main,
   am_map,
   i_system,
 {$IFNDEF OPENGL}
@@ -67,10 +66,8 @@ uses
   r_defs,
   r_main,
   p_setup,
-  p_local,
   m_fixed,
   tables,
-  v_video,
   w_wad,
   z_zone;
 

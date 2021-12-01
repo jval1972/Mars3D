@@ -49,12 +49,10 @@ implementation
 
 uses
   d_delphi,
-  doomdef,
   doomdata,
   g_game,
   m_bbox,
   p_local,
-  p_map,
   p_setup,
   p_slopes,
   r_defs,

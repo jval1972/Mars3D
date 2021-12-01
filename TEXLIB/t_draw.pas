@@ -53,8 +53,10 @@ uses
   m_fixed,
   r_hires,
   r_mmx,
-  v_video,
+{$IFDEF OPENGL}
   v_data,
+{$ENDIF}
+  v_video,
   w_wad;
 
 type

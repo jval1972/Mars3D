@@ -82,8 +82,7 @@ uses
   r_defs,
   sounds,
   s_sound,
-  doomdef,
-  doomstat;
+  doomdef;
 
 //
 // Movement.
