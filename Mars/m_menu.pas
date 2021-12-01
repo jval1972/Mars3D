@@ -2484,8 +2484,6 @@ begin
 
   epi := choice;
 
-  if oldsharewareversion then
-    NewDef.numitems := Ord(newg_nightmare); // No nightmare in old shareware shareware
   M_SetupNextMenu(@NewDef);
 end;
 

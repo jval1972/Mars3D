@@ -67,10 +67,6 @@ const
   VERSIONSLOPES = VERSION122;
 {$ENDIF}
 
-var
-  oldsharewareversion: boolean = false;
-  oldversion: boolean = false;
-
 type
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependend animations etc.

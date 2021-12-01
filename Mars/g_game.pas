@@ -2547,12 +2547,6 @@ begin
   demo_p := demobuffer;
   demoend := @demo_p[len];
 
-  if oldsharewareversion then
-  begin
-    I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = 0.99'#13#10);
-    exit;
-  end;
-
   if PInteger(demo_p)^ = DEMOHDR then
   begin
     demo_p := @demo_p[4];
