@@ -2287,7 +2287,13 @@ begin
       G_InitNew(startskill, startepisode, startmap);
     end
     else
-      MARS_Intro_Start; // start up intro animation sequence
+    begin
+      p := M_CheckParm('-nointro');
+      if (p <> 0) and (p < myargc - 1) then
+        D_StartTitle
+      else
+        MARS_Intro_Start; // start up intro animation sequence
+    end;
   end;
 
   D_DoomLoop;  // never returns
