@@ -26,3 +26,32 @@
 //  Site  : https://sourceforge.net/projects/mars3d/
 //------------------------------------------------------------------------------
 
+This is a source port of the Koren DOS game 終極戰士 [Mars - The Ultimate Fighter]
+
+       In order to run the game you must have the game data.
+     The english translation of the game can be downloaded at:
+             https://mars3d-game.wixsite.com/index
+
+
+Features:
+--------
+-High screen resolutions.
+-True color software rendering.
+-OpenGL rendering.
+-Uncapped framerate.
+-Textured automap.
+-Dynamic lights.
+-Flac & ogg sound effects.
+-MOD, S3M, IT & XM track music support.
+-Screenshots.
+-In game menu to configure gameplay, key bindings & screen resolution.
+-Use Doom game editing utilities to create custom content.
+-Advanced scripting (PascalScript).
+-New enemies and pickups, using the original game resources.
+
+History
+-------
+
+Version 1.0.1.738 (20211201)
+-----------------
+Initial release.
