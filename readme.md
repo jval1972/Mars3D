@@ -30,12 +30,9 @@ Use Doom game editing utilities to create custom content.
 Advanced scripting (PascalScript).
 
 ## Downloads
-[version 1.0.1.750.r13xx (2021xxxx - win32)](https://sourceforge.net/projects/mars3d/files/....)
 
 
 ## Gameplay video
-
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/5aY8fUxg5iQ/0.jpg)](http://www.youtube.com/watch?v=5aY8fUxg5iQ "Mars3D - Gameplay video")
 
 
 ## Screenshots
