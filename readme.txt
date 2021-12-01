@@ -26,7 +26,7 @@
 //  Site  : https://sourceforge.net/projects/mars3d/
 //------------------------------------------------------------------------------
 
-This is a source port of the Koren DOS game 終極戰士 [Mars - The Ultimate Fighter]
+This is a source port of the DOS game 終極戰士 [Mars - The Ultimate Fighter]
 
        In order to run the game you must have the game data.
      The english translation of the game can be downloaded at:
