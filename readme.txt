@@ -52,6 +52,11 @@ Features:
 History
 -------
 
+Version 1.0.2.739 (20211201)
+-----------------
+Fixed spelling mistakes.
+Fixed crash when starting at the same directory as MARS.MAD file.
+
 Version 1.0.1.738 (20211201)
 -----------------
 Initial release.
