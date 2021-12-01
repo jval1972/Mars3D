@@ -29,6 +29,9 @@ Use Doom game editing utilities to create custom content.
 
 Advanced scripting (PascalScript).
 
+New enemies and pickups, using the original game resources.
+
+
 ## Downloads
 
 
