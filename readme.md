@@ -4,6 +4,8 @@ Engine Recreation of the 1997 game "Mars - The Ultimate Fighter".
 To run the game you need the "mars.mad" file as well as aditional resources of the original game. 
 The first time you launch Mars3D it asks for the location of "mars.mad" file. The additional resources are automatically detected.
 
+The english translation of the game can be downloaded at: https://mars3d-game.wixsite.com/index
+
 ## Features
 High screen resolutions.
 
@@ -34,6 +36,7 @@ New enemies and pickups, using the original game resources.
 
 ## Downloads
 
+[version 1.0.1.738 (20211201 - win32)](https://sourceforge.net/projects/mars3d/files/Mars3D_1.0/Mars3D_1.0.1.738_bin.zip/download)
 
 ## Gameplay video
 
