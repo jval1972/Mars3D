@@ -94,8 +94,7 @@ type
 // Identify language to use, software localization.
   Language_t = (
     english,
-    french,
-    german,
+    korean,
     unknown
   );
 

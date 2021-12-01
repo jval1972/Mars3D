@@ -36,7 +36,8 @@ unit mars_version;
 interface
 
 uses
-  doomdef;
+  doomdef,
+  doomstat;
 
 var
   mars_crc32: string = '';
@@ -61,6 +62,7 @@ type
     fastcrc32: string[8];
     gamemode: GameMode_t;
     savepath: string[8];
+    language: Language_t;
     versionstring: string[36];
   end;
 
@@ -69,12 +71,12 @@ const
 
 const
   marsversioninfo: array[0..NUM_MARS_VERSION_INFO - 1] of marsversioninfo_t = (
-    (version: mv10sha_mad_small; fastcrc32: 'c0314f5a'; gamemode: shareware;  savepath: 'MARS_SK';  versionstring: 'Mars v1.0 Shareware (KOREAN)'),
-    (version: mv10reg_mad_small; fastcrc32: 'ec408aef'; gamemode: registered; savepath: 'MARS_RK';  versionstring: 'Mars v1.0 Registered (KOREAN)'),
-    (version: mv10reg_mad_big;   fastcrc32: 'dc2ec8ad'; gamemode: registered; savepath: 'MARS_RKB'; versionstring: 'Mars v1.0 Registered (KOREAN) (BIG)'),
-    (version: mv10sha_wad;       fastcrc32: 'e1438da7'; gamemode: shareware;  savepath: 'MARS_SKW'; versionstring: 'Mars v1.0 Shareware (KOREAN) (WAD)'),
-    (version: mv10reg_wad;       fastcrc32: '486fa896'; gamemode: registered; savepath: 'MARS_RKW'; versionstring: 'Mars v1.0 Registered (KOREAN) (WAD)'),
-    (version: mv20reg_wad;       fastcrc32: '8075888a'; gamemode: registered; savepath: 'MARS_REW'; versionstring: 'Mars v1.0 Registered (ENGLISH) (WAD)')
+    (version: mv10sha_mad_small; fastcrc32: 'c0314f5a'; gamemode: shareware;  savepath: 'MARS_SK';  language: korean;  versionstring: 'Mars v1.0 Shareware (KOREAN)'),
+    (version: mv10reg_mad_small; fastcrc32: 'ec408aef'; gamemode: registered; savepath: 'MARS_RK';  language: korean;  versionstring: 'Mars v1.0 Registered (KOREAN)'),
+    (version: mv10reg_mad_big;   fastcrc32: 'dc2ec8ad'; gamemode: registered; savepath: 'MARS_RKB'; language: korean;  versionstring: 'Mars v1.0 Registered (KOREAN) (BIG)'),
+    (version: mv10sha_wad;       fastcrc32: 'e1438da7'; gamemode: shareware;  savepath: 'MARS_SKW'; language: korean;  versionstring: 'Mars v1.0 Shareware (KOREAN) (WAD)'),
+    (version: mv10reg_wad;       fastcrc32: '486fa896'; gamemode: registered; savepath: 'MARS_RKW'; language: korean;  versionstring: 'Mars v1.0 Registered (KOREAN) (WAD)'),
+    (version: mv20reg_wad;       fastcrc32: '8075888a'; gamemode: registered; savepath: 'MARS_REW'; language: english; versionstring: 'Mars v1.0 Registered (ENGLISH) (WAD)')
   );
 
 function MARS_GameModeFromCrc32(const crc: string): Gamemode_t;
@@ -116,6 +118,7 @@ begin
     begin
       result := marsversioninfo[i].gamemode;
       savepath := marsversioninfo[i].savepath;
+      language := marsversioninfo[i].language;
       exit;
     end;
   end;
@@ -132,6 +135,7 @@ begin
     begin
       result := marsversioninfo[i].version;
       savepath := marsversioninfo[i].savepath;
+      language := marsversioninfo[i].language;
       exit;
     end;
   end;

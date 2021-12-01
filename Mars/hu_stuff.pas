@@ -272,47 +272,6 @@ const
   HU_INPUTHEIGHT = 1;
 
 const
-  french_shiftxform: array[0..127] of char = (
-    #0,
-    #1, #2, #3, #4, #5, #6, #7, #8, #9, #10,
-    #11, #12, #13, #14, #15, #16, #17, #18, #19, #20,
-    #21, #22, #23, #24, #25, #26, #27, #28, #29, #30,
-    #31,
-    ' ', '!', '"', '#', '$', '%', '&',
-    '"', // shift-'
-    '(', ')', '*', '+',
-    '?', // shift-,
-    '_', // shift--
-    '>', // shift-.
-    '?', // shift-/
-    '0', // shift-0
-    '1', // shift-1
-    '2', // shift-2
-    '3', // shift-3
-    '4', // shift-4
-    '5', // shift-5
-    '6', // shift-6
-    '7', // shift-7
-    '8', // shift-8
-    '9', // shift-9
-    '/',
-    '.', // shift-;
-    '<',
-    '+', // shift-=
-    '>', '?', '@',
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-    'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-    '[', // shift-[
-    '!', // shift-backslash - OH MY GOD DOES WATCOM SUCK
-    ']', // shift-]
-    '"', '_',
-    '''', // shift-`
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-    'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-    '{', '|', '}', '~', #127
-  );
-
-const
   english_shiftxform: array[0..127] of char = (
     #0,
     #1, #2, #3, #4, #5, #6, #7, #8, #9, #10,
@@ -353,29 +312,6 @@ const
     '{', '|', '}', '~', #127
   );
 
-const
-  frenchKeyMap: array[0..127] of char = (
-    #0,
-    #1,#2,#3,#4,#5,#6,#7,#8,#9,#10,
-    #11,#12,#13,#14,#15,#16,#17,#18,#19,#20,
-    #21,#22,#23,#24,#25,#26,#27,#28,#29,#30,
-    #31,
-    ' ','!','"','#','$','%','&','%','(',')','*','+',';','-',':','!',
-    '0','1','2','3','4','5','6','7','8','9',':','M','<','=','>','?',
-    '@','Q','B','C','D','E','F','G','H','I','J','K','L',',','N','O',
-    'P','A','R','S','T','U','V','Z','X','Y','W','^','\','$','^','_',
-    '@','Q','B','C','D','E','F','G','H','I','J','K','L',',','N','O',
-    'P','A','R','S','T','U','V','Z','X','Y','W','^','\','$','^',#127
-  );
-
-function ForeignTranslation(ch: char): char;
-begin
-  if ch < #128 then
-    result := frenchKeyMap[Ord(ch)]
-  else
-    result := ch;
-end;
-
 var
   tnt1a0_lump: Integer;
 
@@ -396,16 +332,8 @@ var
   j: integer;
   buffer: string;
 begin
-  if language = french then
-  begin
-    for i := 0 to 127 do
-      shiftxform[i] := french_shiftxform[i];
-  end
-  else
-  begin
-    for i := 0 to 127 do
-      shiftxform[i] := english_shiftxform[i];
-  end;
+  for i := 0 to 127 do
+    shiftxform[i] := english_shiftxform[i];
 
   tnt1a0_lump := W_GetNumForName('TNT1A0');
 
@@ -871,8 +799,6 @@ begin
     end
     else
     begin
-      if language = french then
-        c := ForeignTranslation(c);
       if shiftdown or ((c >= 'a') and (c <= 'z')) then
         c := shiftxform[Ord(c)];
       result := HUlib_keyInIText(@w_chat, Ord(c));
