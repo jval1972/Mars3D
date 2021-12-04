@@ -997,7 +997,7 @@ begin
   if (SCREENWIDTH <> nwidth) or (SCREENHEIGHT <> nheight) then
   begin
     MT_WaitTasks;           // Wait for running tasks to stop
-    AM_Stop;                // Stop the aytomap
+    AM_Stop;                // Stop the automap
 
     SCREENWIDTH := nwidth;
     SCREENHEIGHT := nheight;
