@@ -117,6 +117,7 @@ uses
   gl_render, // JVAL OPENGL
   gl_tex,
   gl_defs,
+  gl_underwater,
   v_data,
   v_video;
 
@@ -998,6 +999,7 @@ begin
   begin
     MT_WaitTasks;           // Wait for running tasks to stop
     AM_Stop;                // Stop the automap
+    gld_ShutDownUnderwater; // Shut down underwater effect
 
     SCREENWIDTH := nwidth;
     SCREENHEIGHT := nheight;
@@ -1008,6 +1010,7 @@ begin
     glInit;
     glViewport(0, 0, SCREENWIDTH, SCREENHEIGHT);
 
+    gld_InitUnderwater;     // Shut down underwater effect
     AM_Start;               // Start the aytomap
     C_AdjustScreenSize;
     R_ExecuteSetViewSize;   // Set-up new SCREENWIDTH & SCREENHEIGHT
