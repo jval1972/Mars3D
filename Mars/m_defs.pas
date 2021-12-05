@@ -61,6 +61,7 @@ uses
   gl_voxels,
   gl_lightmaps,
   gl_shadows,
+  gl_underwater,
 {$ELSE}
   i_video,
   r_batchcolumn,
@@ -149,6 +150,7 @@ var
   gl_no_glfinish_hack: boolean = true;
   gl_fullscreen: boolean = true;
   vx_maxoptimizerpasscount: integer;
+  gl_underwater_pp: integer;
 {$ENDIF}
 
 type
@@ -166,7 +168,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 217;
+  NUMDEFAULTS = 218;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -779,6 +781,14 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tBoolean),
+
+    (name: 'gl_underwater_pp';
+     location: @gl_underwater_pp;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
 
     (name: 'useglnodesifavailable';
      location: @useglnodesifavailable;
