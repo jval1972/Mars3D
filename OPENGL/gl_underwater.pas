@@ -205,13 +205,6 @@ begin
     glEnable(GL_ALPHA_TEST);
   end;
 
-//  glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, SCREENWIDTH, SCREENHEIGHT, GL_BGRA, GL_UNSIGNED_BYTE, uBuf);
-
-{  glReadPixels(viewwindowx, viewwindowy, viewwidth, viewheight, GL_RGBA, GL_UNSIGNED_BYTE, uBuf);
-
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, viewwidth, viewheight, 0, GL_RGBA, GL_UNSIGNED_BYTE, uBuf);}
-
-
   glBegin(GL_QUADS);
   for i := 0 to UMATRIX_SIZE - 1 do
     for j := 0 to UMATRIX_SIZE - 1 do

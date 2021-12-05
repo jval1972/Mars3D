@@ -77,7 +77,7 @@ const
 var
   tran_filter_pct: integer = 66;
   use_fog: boolean = false;
-  fog_density: integer = 100; // 200
+  fog_density: integer = 100;
   gl_nearclip: integer = 5;
   gl_tex_filter_string: string;
   gl_tex_filter: integer;
