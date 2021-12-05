@@ -44,6 +44,14 @@ procedure gld_ShutDownUnderwater;
 
 procedure gld_UnderwaterExecute(const p: Pplayer_t);
 
+const
+  GLUPP_FAST = 0;
+  GLUPP_SAFE = 1;
+  GLUPP_NONE = 2;
+
+var
+  gl_underwater_pp: Integer = GLUPP_FAST;
+
 implementation
 
 uses
@@ -67,16 +75,33 @@ begin
     result := result * 2;
 end;
 
+var
+  ut_width, ut_height: integer;
+  uBuf: Pointer;
+
 procedure gld_InitUnderwater;
 begin
   cm_underwater := R_CustomColorMapForName(UNDERWATER_COLORMAP);
   if cm_underwater < 0 then
     I_Error('R_InitUnderwater(): Underwater palette not found');
+
+  ut_width := u_glsize(SCREENWIDTH);
+  ut_height := u_glsize(SCREENHEIGHT);
+  uBuf := mallocz(ut_width * ut_height * 4);
   glGenTextures(1, @utex);
+  glBindTexture(GL_TEXTURE_2D, utex);
+  glTexImage2D(GL_TEXTURE_2D, 0, gl_tex_format,
+               SCREENWIDTH, SCREENHEIGHT,
+               0, GL_RGBA, GL_UNSIGNED_BYTE, uBuf);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 end;
 
 procedure gld_ShutDownUnderwater;
 begin
+  memfree(uBuf, ut_width * ut_height * 4);
   glDeleteTextures(1, @utex);
 end;
 
@@ -104,7 +129,6 @@ var
 
   procedure _uvert(const x, y: float; const iuv, juv: integer);
   begin
-//    glTexCoord2f((viewwindowx + x) / SCREENWIDTH, -(viewwindowy + y) / SCREENHEIGHT);
     glTexCoord2f(umatrix[iuv, juv].u, umatrix[iuv, juv].v);
     glVertex2f(viewwindowx + x, viewwindowy + y);
   end;
@@ -159,14 +183,34 @@ begin
       puuv.v := -(viewwindowy + puuv.v * viewheight) / SCREENHEIGHT;
     end;
 
-  glBindTexture(GL_TEXTURE_2D, utex);
+  case gl_underwater_pp of
+    GLUPP_FAST:
+      begin
+        glBindTexture(GL_TEXTURE_2D, utex);
+        glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0);
+        glColor4f(0.5, 0.5, 1.0, 1.0);
+        glDisable(GL_ALPHA_TEST);
+      end;
+    GLUPP_SAFE:
+      begin
+        glBindTexture(GL_TEXTURE_2D, utex);
+        glReadPixels(0, 0, SCREENWIDTH, SCREENHEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, uBuf);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCREENWIDTH, SCREENHEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, uBuf);
+        glColor4f(0.5, 0.5, 1.0, 1.0);
+        glDisable(GL_ALPHA_TEST);
+      end;
+  else
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glColor4f(0.5, 0.5, 1.0, 0.3);
+    glEnable(GL_ALPHA_TEST);
+  end;
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//  glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, SCREENWIDTH, SCREENHEIGHT, GL_BGRA, GL_UNSIGNED_BYTE, uBuf);
 
-  glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA, 0, 0, SCREENWIDTH, SCREENHEIGHT, 0);
+{  glReadPixels(viewwindowx, viewwindowy, viewwidth, viewheight, GL_RGBA, GL_UNSIGNED_BYTE, uBuf);
 
-  glColor4f(0.5, 0.5, 1.0, 1.0);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, viewwidth, viewheight, 0, GL_RGBA, GL_UNSIGNED_BYTE, uBuf);}
+
 
   glBegin(GL_QUADS);
   for i := 0 to UMATRIX_SIZE - 1 do
@@ -179,6 +223,7 @@ begin
     end;
   glEnd;
 
+  glEnable(GL_ALPHA_TEST);
   glColor4f(1.0, 1.0, 1.0, 1.0);
 end;
 
