@@ -480,7 +480,7 @@ ACTOR MT_FLYINGROBOT 20
     {
       HEAD G 5
       HEAD H 5 A_Scream
-      HEAD I 5
+      HEAD I 5 A_Gravity
       HEAD J 5 A_Fall
       HEAD K 5
       HEAD L 5
