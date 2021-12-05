@@ -1247,14 +1247,14 @@ ACTOR MT_DEFENDER 3006
     }
     Raise:
     {
-      DEF2 P 5
-      DEF2 O 5
-      DEF2 N 5
-      DEF2 M 5
-      DEF2 L 5
-      DEF2 K 5
-      DEF2 J 5
-      DEF2 I 5
+      DEF1 P 5
+      DEF1 O 5
+      DEF1 N 5
+      DEF1 M 5
+      DEF1 L 5
+      DEF1 K 5
+      DEF1 J 5
+      DEF1 I 5
       Goto See
     }
   }
