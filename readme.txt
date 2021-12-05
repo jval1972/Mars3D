@@ -55,10 +55,10 @@ History
 Version 1.0.3.740 (20211205)
 -----------------
 Fixed OpenGL underwater rendering in NVidia cards.
-Added the "gl_underwater_pp" console variable, takes values 0, 1 & 2 (for default, safe and disabled underwater distrortion effect in OpenGL)
+Added the "gl_underwater_pp" console variable, takes values 0, 1 & 2 (for default, safe and disabled underwater distortion effect in OpenGL)
 Fog strength can be configured individually for normal rendering, underwater rendering and white fog sectors. (Menu/Options/OpenGL/Fog)
 Fixed grenade launcher weapon sprite, also the sequence has been smoothed.
-Fixed problem with the boomerang disk projective, now it does not dessapear after hit ceilings.
+Fixed problem with the boomerang disk projective, now it does not disappear after hit ceilings.
 Fixed problem with the flying drone, now it falls to ground when destroyed.
 The extra Episode 2 & 3 maps will reuse music from the first episode, since no more music tracks are available in game data.
 Fixed raise state sprite sequence for floor turret drone (MT_DEFENDER).
