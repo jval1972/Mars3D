@@ -54,6 +54,7 @@ uses
   mars_font,
   mars_sounds,
   mars_level,
+  r_defs,
   v_video,
   w_wadreader,
   w_wadwriter,
@@ -789,6 +790,9 @@ function TMarsToWADConverter.GenerateSprites: boolean;
 var
   wadreader: TWadReader;
   i, j, k: integer;
+  buf: Pointer;
+  sz: integer;
+  p: Ppatch_t;
 begin
   result := false;
 
@@ -825,6 +829,32 @@ begin
       result := true;
     end;
   end;
+
+  i := wadreader.EntryId('BOMFA0');
+  if i > 0 then // Can't be 0, must be in S_START/S_END namespace
+  begin
+    wadreader.ReadEntry(i, buf, sz);
+
+    p := buf;
+    if (p.leftoffset = -75) and (p.topoffset = -38) then
+    begin
+      wadwriter.AddSeparator('SS_START');
+
+      p.leftoffset := -49;
+      p.topoffset := -64;
+      for k := 0 to 6 do
+      begin
+        wadwriter.AddData('BOMH' + Chr(Ord('A') + k) + '0', p, sz);
+        Dec(p.leftoffset, 5);
+        Inc(p.topoffset, 5);
+      end;
+      wadwriter.AddSeparator('SS_END');
+
+      result := true;
+    end;
+    memfree(buf, sz);
+  end;
+
 
   wadreader.Free;
 end;

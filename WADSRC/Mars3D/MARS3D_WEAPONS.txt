@@ -548,21 +548,22 @@ WEAPON WP_GRENADES
   {
     Up:
     {
-      BOMF A 1 A_Raise
+      BOMG A 1 A_Raise
       Loop
     }
     Down:
     {
-      BOMF A 1 A_Lower
+      BOMG A 1 A_Lower
       Loop
     }
     Ready:
     {
-      BOMF A 1 A_WeaponReady
+      BOMG A 1 A_WeaponReady
       Loop
     }
     Attack:
     {
+      BOMH ABCDEF 1
       BOMF A 6
       BOMF B 6 
       BOMF C 6
@@ -571,12 +572,14 @@ WEAPON WP_GRENADES
       BOMF F 6 
       BOMF J 10 A_ThowGrenade
       BOMF JJJJJJJJJJJJJJJ 1 A_LowerWeapon(8)
-      BOMF AAAAAAAAAAAAAAAAAAAA 1 A_RaiseWeapon(8)
-      BOMF A 1 A_Refire
+      BOMG AAAAAAAAAAAAAAAAAAAA 1 A_RaiseWeapon(8)
+      BOMG A 1 A_Refire
       Goto Ready
     }
     Hold:
     {
+      BOMH ACE 1
+      BOMF A 1
       BOMF B 6 
       BOMF C 6
       BOMF D 6 
@@ -584,8 +587,8 @@ WEAPON WP_GRENADES
       BOMF F 6 
       BOMF J 10 A_ThowGrenade
       BOMF JJJJJJJJJJJJJJJ 1 A_LowerWeapon(8)
-      BOMF AAAAAAAAAAAAAAAAAAAA 1 A_RaiseWeapon(8)
-      BOMF A 1 A_Refire
+      BOMG AAAAAAAAAAAAAAAAAAAA 1 A_RaiseWeapon(8)
+      BOMG A 1 A_Refire
       Goto Ready
     }
   }

@@ -1849,10 +1849,11 @@ type
   end;
 
 const
-  NUM_PSPRITESY = 1;
+  NUM_PSPRITESY = 2;
 
   PSPRITESY: array[0..NUM_PSPRITESY - 1] of pspritey_t = (
-    (sprname: 'FISGA0'; sy: 10 * FRACUNIT)
+    (sprname: 'FISGA0'; sy: 10 * FRACUNIT),
+    (sprname: 'BOMGA0'; sy: 10 * FRACUNIT)
   );
 
 function R_PSpriteSY(const lump: integer): fixed_t;
