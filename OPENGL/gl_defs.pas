@@ -78,6 +78,10 @@ var
   tran_filter_pct: integer = 66;
   use_fog: boolean = false;
   fog_density: integer = 100;
+  use_white_fog: boolean = true;
+  white_fog_density: integer = 200;
+  use_underwater_fog: boolean = true;
+  underwater_fog_density: integer = 200;
   gl_nearclip: integer = 5;
   gl_tex_filter_string: string;
   gl_tex_filter: integer;

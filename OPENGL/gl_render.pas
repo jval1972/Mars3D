@@ -4839,14 +4839,17 @@ var
   FogColor: array[0..3] of TGLfloat; // JVAL: set blue fog color if underwater
 {$ENDIF}
 begin
-  if use_fog then
+  if use_fog or ((players[displayplayer].underwatertics > 0) and use_underwater_fog) then
     if players[displayplayer].fixedcolormap = 0 then
     begin
 {$IFDEF DOOM_OR_STRIFE}
 
       if customcolormap <> nil then
       begin
-        glFogf(GL_FOG_DENSITY, customcolormap.fog_density * fog_density / 1000.0);
+        if players[displayplayer].underwatertics > 0 then
+          glFogf(GL_FOG_DENSITY, underwater_fog_density / 1000.0)
+        else
+          glFogf(GL_FOG_DENSITY, customcolormap.fog_density * fog_density / 1000.0);
 
         FogColor[0] := customcolormap.fog_r;
         FogColor[1] := customcolormap.fog_g;
@@ -4897,7 +4900,7 @@ var
 begin
   if players[displayplayer].fixedcolormap = 0 then
   begin
-    glFogf(GL_FOG_DENSITY, fog_density / 1000.0);
+    glFogf(GL_FOG_DENSITY, white_fog_density / 1000.0);
 
 {$IFDEF DOOM_OR_STRIFE}
     if customcolormap <> nil then
