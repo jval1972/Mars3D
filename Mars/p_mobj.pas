@@ -667,7 +667,7 @@ begin
 
   ceilz := mo.ceilingz;
 
-  if mo.z + mo.height > ceilz then
+  if mo.z + mo.height >= ceilz then
   begin
     // hit the ceiling
     if mo.momz > 0 then
