@@ -8,15 +8,23 @@ ACTOR MT_QUESTIONMARK1 2061
   Height 24
   Mass 100
   Reactiontime 8
-  +MF_SOLID
+  DEFAULTTRANSPARENT
   +MF_NOGRAVITY
   +MF_FLOAT
   +MF_EX_FLOATBOB
+  +MF2_EX_INTERACTIVE
   States
   {
     Spawn:
     {
-      AQ01 A -1
+      AQ01 A 10
+      Loop
+    }
+    Interact:
+    {
+      AQ01 A 10 A_FaceTarget
+      AQ01 A 10 A_Dialog("DIALOG_Q2061.txt")
+      GoTo Spawn
     }
   }
 }
@@ -32,15 +40,23 @@ ACTOR MT_QUESTIONMARK2 2062
   Height 24
   Mass 100
   Reactiontime 8
-  +MF_SOLID
+  DEFAULTTRANSPARENT
   +MF_NOGRAVITY
   +MF_FLOAT
   +MF_EX_FLOATBOB
+  +MF2_EX_INTERACTIVE
   States
   {
     Spawn:
     {
-      AQ01 A -1
+      AQ01 A 10
+      Loop
+    }
+    Interact:
+    {
+      AQ01 A 10 A_FaceTarget
+      AQ01 A 10 A_Dialog("DIALOG_Q2062.txt")
+      GoTo Spawn
     }
   }
 }
@@ -56,22 +72,30 @@ ACTOR MT_QUESTIONMARK3 2063
   Height 24
   Mass 100
   Reactiontime 8
-  +MF_SOLID
+  DEFAULTTRANSPARENT
   +MF_NOGRAVITY
   +MF_FLOAT
   +MF_EX_FLOATBOB
+  +MF2_EX_INTERACTIVE
   States
   {
     Spawn:
     {
-      AQ01 A -1
+      AQ01 A 10
+      Loop
+    }
+    Interact:
+    {
+      AQ01 A 10 A_FaceTarget
+      AQ01 A 10 A_Dialog("DIALOG_Q2063.txt")
+      GoTo Spawn
     }
   }
 }
 
 
 ///////////////////////////////
-// MT_QUESTIONMARK4
+// MT_QUESTIONMARK4 (flawed in the original game ?)
 ///////////////////////////////
 ACTOR MT_QUESTIONMARK4 2064
 {
@@ -80,10 +104,10 @@ ACTOR MT_QUESTIONMARK4 2064
   Height 24
   Mass 100
   Reactiontime 8
-  +MF_SOLID
   +MF_NOGRAVITY
   +MF_FLOAT
   +MF_EX_FLOATBOB
+  +MF2_EX_DONTDRAW
   States
   {
     Spawn:
@@ -104,17 +128,23 @@ ACTOR MT_QUESTIONMARK5 2065
   Height 24
   Mass 100
   Reactiontime 8
-  +MF_SOLID
+  DEFAULTTRANSPARENT
   +MF_NOGRAVITY
   +MF_FLOAT
   +MF_EX_FLOATBOB
+  +MF2_EX_INTERACTIVE
   States
   {
     Spawn:
     {
-      AQ01 A -1
+      AQ01 A 10
+      Loop
+    }
+    Interact:
+    {
+      AQ01 A 10 A_FaceTarget
+      AQ01 A 10 A_Dialog("DIALOG_Q2065.txt")
+      GoTo Spawn
     }
   }
 }
-
-
