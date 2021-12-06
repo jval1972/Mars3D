@@ -1925,6 +1925,7 @@ begin
   MARS_CheckEpisodeMaps;
 
   SUC_Progress(39);
+
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
   W_AutoLoadPakFiles;
 
