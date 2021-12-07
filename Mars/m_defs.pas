@@ -654,8 +654,8 @@ const
      location: @use_fog;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 0;
-     defaultbvalue: false;
+     defaultivalue: 1;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'fog_density';
