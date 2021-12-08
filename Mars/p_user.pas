@@ -544,7 +544,7 @@ begin
       else if Psubsector_t(player.mo.subsector).sector.special = 14 then  // JVAL: Underwater portal sector
         player.mo.momz := 12 * FRACUNIT
       else
-        player.mo.momz := 8 * FRACUNIT;
+        player.mo.momz := 11 * FRACUNIT;
     end;
 
     // JVAL: 20211101 - Crouch

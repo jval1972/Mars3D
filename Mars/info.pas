@@ -184,7 +184,7 @@ begin
   DO_mobjinfo[Ord(MT_PLAYER)].hitobituary := '';
   DO_mobjinfo[Ord(MT_PLAYER)].gender := gender_Default;
   DO_mobjinfo[Ord(MT_PLAYER)].meleerange := 0;
-  DO_mobjinfo[Ord(MT_PLAYER)].maxstepheight := 0;
+  DO_mobjinfo[Ord(MT_PLAYER)].maxstepheight := 32;
   DO_mobjinfo[Ord(MT_PLAYER)].maxdropoffheight := 0;
   DO_mobjinfo[Ord(MT_PLAYER)].gibhealth := 0;
   DO_mobjinfo[Ord(MT_PLAYER)].maxtargetrange := 0;
