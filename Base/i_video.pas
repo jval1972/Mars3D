@@ -474,7 +474,7 @@ var
   i: integer;
 begin
   I_BlitBuffer;
-  
+
   srcrect.Left := 0;
   srcrect.Top := 0;
   srcrect.Right := SCREENWIDTH;
@@ -638,7 +638,7 @@ begin
   printf('I_InitGraphics: Initializing directdraw.'#13#10);
 
   I_EnumDisplayModes;
-  
+
   fu8_64a := TDThread.Create(I_FinishUpdate8_64a);
   fu8_64b := TDThread.Create(I_FinishUpdate8_64a);
   fu8_64c := TDThread.Create(I_FinishUpdate8_64a);

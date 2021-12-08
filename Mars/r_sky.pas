@@ -49,7 +49,7 @@ var
   skytexturemid: integer;
 
 procedure R_InitSkyMap;
-  
+
 implementation
 
 uses

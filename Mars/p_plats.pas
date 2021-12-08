@@ -261,7 +261,7 @@ begin
           plat.status := down;
           MARS_StartSound(@sec.soundorg, snd_PSTART);
         end;
-        
+
       perpetualRaise:
         begin
           plat.speed := PLATSPEED;

@@ -1610,7 +1610,7 @@ var
 
   aimslope: fixed_t;
 
-// JVAL: 3d floors : Moved from P_Sight  
+// JVAL: 3d floors : Moved from P_Sight
   bottomslope: fixed_t; // slopes to top and bottom of target
   topslope: fixed_t;
 
@@ -2887,7 +2887,7 @@ begin
     else
       node := node.m_tnext;
   end;
-  
+
 end;
 
 //----------------------------------------------------------------------------

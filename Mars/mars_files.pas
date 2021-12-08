@@ -69,7 +69,7 @@ begin
       dir := dir + '\';
 
     dir := fixslashpath(dir);
-    
+
     Result := dir + fn1;
     if fexists(Result) then
       Exit;

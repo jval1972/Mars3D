@@ -209,7 +209,7 @@ implementation
 
 uses
   i_system;
-  
+
 constructor TFLIFile.Create;
 begin
   inherited Create;

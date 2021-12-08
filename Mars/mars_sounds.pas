@@ -37,7 +37,7 @@ interface
 
 uses
   p_mobj_h;
-  
+
 type
   marssound_t = (
     snd_ARM1HURT,

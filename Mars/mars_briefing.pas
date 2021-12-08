@@ -130,7 +130,7 @@ begin
 
   if br_tic >= TICRATE then
   begin
-    MARS_BriefingAdvance; // Briefing screens accelerated 
+    MARS_BriefingAdvance; // Briefing screens accelerated
     br_tic := TICRATE - 4;
   end;
 end;

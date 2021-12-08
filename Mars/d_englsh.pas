@@ -22,10 +22,10 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
-//  Printed strings for translation. 
-//  English language support (default). 
-// 
+// DESCRIPTION:
+//  Printed strings for translation.
+//  English language support (default).
+//
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/mars3d/
 //------------------------------------------------------------------------------

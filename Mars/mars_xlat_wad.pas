@@ -728,7 +728,7 @@ begin
 
   wadwriter.AddSeparator('M_END');
 
-  result := true; 
+  result := true;
 end;
 
 function TMarsToWADConverter.GenerateSounds: boolean;

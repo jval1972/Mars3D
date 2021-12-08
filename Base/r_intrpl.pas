@@ -38,7 +38,7 @@ interface
 
 uses
     m_fixed;
-    
+
 procedure R_InitInterpolations;
 
 procedure R_ResetInterpolationBuffer;

@@ -2100,7 +2100,7 @@ begin
   swidth := SCREENWIDTH32PITCH - num_batch_columns * SizeOf(LongWord);
 
   addfactor := dc_alpha;
-    
+
   fraclimit := frac + fracstep * count;
   while frac <= fraclimit do
   begin
@@ -2232,7 +2232,7 @@ begin
   swidth := SCREENWIDTH32PITCH - num_batch_columns * SizeOf(LongWord);
 
   subfactor := dc_alpha;
-    
+
   fraclimit := frac + fracstep * count;
   while frac <= fraclimit do
   begin

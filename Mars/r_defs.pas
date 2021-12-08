@@ -334,7 +334,7 @@ const
   SRF_ROTATE_FLOOR = 128; // JVAL: 20201229 - Texture angle - UNUSED
   SRF_ROTATE_CEILING = 256; // JVAL: 20201229 - Texture angle - UNUSED
   SRF_ROTATE = SRF_ROTATE_FLOOR or SRF_ROTATE_CEILING;  // JVAL: 20201229 - Texture angle - UNUSED
-  SRF_INTERPOLATE_ROTATE = 512; 
+  SRF_INTERPOLATE_ROTATE = 512;
   SRF_INTERPOLATE_FLOORSLOPE = 1024;
   SRF_INTERPOLATE_CEILINGSLOPE = 2048;
   SRF_FOG = 4096;
@@ -392,7 +392,7 @@ type
     iSegID: integer;
 {$ELSE}
     map_length: integer;
-    inv_length: double;      
+    inv_length: double;
 {$ENDIF}
     miniseg: boolean;
   end;

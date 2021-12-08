@@ -38,7 +38,7 @@ interface
 uses
   ps_import,
   ps_compiler,
-  ps_utils;                                             
+  ps_utils;
 
 const
   EventExportedProcs: array [0..9] of record
@@ -49,7 +49,7 @@ const
     {$IFDEF DLL}
     Template: AnsiString;
     {$ENDIF}
-  end = // Must be in sync with TScriptEvents 
+  end = // Must be in sync with TScriptEvents
   (
     (
       Name: 'ONACTORDIED';

@@ -900,7 +900,7 @@ begin
       t.SetAlphaChannel($FF);
     end;
   end;
-  
+
   theight := t.GetHeight;
   tfactor := theight div gltexture.height; // Scaling
   i := 0;

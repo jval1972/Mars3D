@@ -42,7 +42,7 @@ uses
   Windows;
 
 const
-  WINDOW_STYLE = (WS_OVERLAPPED); 
+  WINDOW_STYLE = (WS_OVERLAPPED);
 
 procedure DoomMain;
 

@@ -246,7 +246,7 @@ begin
 
   for i := 0 to frm do
     drawframe(i);
-    
+
   for i := 0 to 320 * 200 - 1 do
     scn32[i] := fpalette[screen[i]];
 

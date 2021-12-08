@@ -2423,7 +2423,7 @@ begin
   end;
 
   originator := self;
-  
+
   if flags and SIXF_ORIGINATOR = 0 then
   begin
     loop := 0;
@@ -3428,7 +3428,7 @@ begin
     s := s + actor.state.params.StrVal[i];
     if i < actor.state.params.Count - 1 then
       s := s + ' ';
-  end;                     
+  end;
 
   PS_SetMapStr(actor.state.params.StrVal[0], s);
 end;

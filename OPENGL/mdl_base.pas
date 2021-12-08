@@ -67,7 +67,7 @@ implementation
 constructor TBaseModel.Create(const name: string;
   const xoffset, yoffset, zoffset: float;
   const xscale, yscale, zscale: float;
-  const additionalframes: TDStringList); 
+  const additionalframes: TDStringList);
 begin
   Inherited Create;
 end;

@@ -40,7 +40,7 @@ uses
   d_delphi,
   d_think;
 
-procedure DEH_Parse(const s: TDStringList); 
+procedure DEH_Parse(const s: TDStringList);
 
 function DEH_CurrentSettings: TDStringList;
 
@@ -61,7 +61,7 @@ type
     name: string;
     {$IFDEF DLL}
     decl: string;
-//    params: string; TODO 
+//    params: string; TODO
     {$ENDIF}
   end;
   Pdeh_action_t = ^deh_action_t;

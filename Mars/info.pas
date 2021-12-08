@@ -1868,7 +1868,7 @@ begin
   DO_states[Ord(S_CPLAY_XDIE9)].misc1 := 0;
   DO_states[Ord(S_CPLAY_XDIE9)].misc2 := 0;
   DO_states[Ord(S_CPLAY_XDIE9)].flags_ex := 0;
-  
+
   ////////////////////////////////////////////////////////////////////////////////
   // S_FPLAY
   DO_states[Ord(S_FPLAY)].sprite := Ord(SPR_ROLE);

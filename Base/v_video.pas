@@ -2124,10 +2124,10 @@ begin
       inc(src);
       src^ := src^ shr 1;
       inc(src);
-      
+
       dec(cnt, 4);
     end;
-    
+
     while cnt > 0 do
     begin
       src^ := src^ shr 1;

@@ -211,7 +211,7 @@ begin
 
   if thing.friendticstime = leveltime then
     Exit;
-    
+
   if not Info_IsMonster(thing._type) then
     Exit;
 

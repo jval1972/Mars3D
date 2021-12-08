@@ -4,7 +4,7 @@ unit xmi_lib;
   {$MODE Delphi}
 {$ENDIF}
 
-interface    
+interface
 
 procedure XMI_Init;
 procedure XMI_ShutDown;

@@ -172,7 +172,7 @@ begin
   for i := 0 to {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} - 1 do
   begin
     fraccol := 0;
-    
+
     frac := fracrow shr FRACBITS;
     if frac >= theight then
       frac := theight - 1;

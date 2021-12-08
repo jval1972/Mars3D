@@ -121,7 +121,7 @@ implementation
 uses
   MMSystem,
   Windows,
-  d_delphi,  
+  d_delphi,
   m_fixed,
   i_system,
   i_threads;

@@ -62,7 +62,7 @@ const
   rsErrUnsupported3 = 'Couldn''t load TGA Image. Only standard 24, 32 bit TGA Images supported.';
 
 var
-  mirrorjpgsshot: Boolean = True;  
+  mirrorjpgsshot: Boolean = True;
 
 implementation
 

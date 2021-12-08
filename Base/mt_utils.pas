@@ -184,28 +184,28 @@ procedure MT_Execute16(
   );
 
 procedure MT_Execute4i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4: pointer
   );
 
 procedure MT_Execute6i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6: pointer
   );
 
 procedure MT_Execute8i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6, parms7, parms8: pointer
   );
 
 procedure MT_Execute12i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6,
   parms7, parms8, parms9, parms10, parms11, parms12: pointer
   );
 
 procedure MT_Execute16i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6, parms7, parms8,
   parms9, parms10, parms11, parms12, parms13, parms14, parms15, parms16: pointer
   );
@@ -1122,7 +1122,7 @@ begin
 end;
 
 procedure MT_Execute4i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4: pointer
   );
 begin
@@ -1144,7 +1144,7 @@ begin
 end;
 
 procedure MT_Execute6i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6: pointer
   );
 begin
@@ -1170,7 +1170,7 @@ begin
 end;
 
 procedure MT_Execute8i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6, parms7, parms8: pointer
   );
 begin
@@ -1201,7 +1201,7 @@ end;
 
 
 procedure MT_Execute12i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6,
   parms7, parms8, parms9, parms10, parms11, parms12: pointer
   );
@@ -1240,7 +1240,7 @@ begin
 end;
 
 procedure MT_Execute16i(
-  const func: threadfunc_t; 
+  const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6, parms7, parms8,
   parms9, parms10, parms11, parms12, parms13, parms14, parms15, parms16: pointer
   );

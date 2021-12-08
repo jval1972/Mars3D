@@ -525,7 +525,7 @@ begin
     fileinfo := malloc(len);
     handle.Seek(header.infotableofs, sFromBeginning);
     handle.Read(fileinfo^, len);
-    // JVAL - Decode MAD file 
+    // JVAL - Decode MAD file
     if ismad then
     begin
       pb := PByteArray(fileinfo);

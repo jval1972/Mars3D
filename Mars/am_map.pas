@@ -47,7 +47,7 @@ uses
   p_local,
   w_wad,
   m_cheat,
-  
+
   dstrings,
   tables,
   m_fixed;

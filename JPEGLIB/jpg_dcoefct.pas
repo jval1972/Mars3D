@@ -44,7 +44,7 @@ interface
 
 uses
   jpg_morecfg,
-  
+
   jpg_utils,
   jpg_lib;
 

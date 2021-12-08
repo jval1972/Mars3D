@@ -306,7 +306,7 @@ begin
     tmp3 := tmp10 - tmp13;
     tmp1 := tmp11 + tmp12;
     tmp2 := tmp11 - tmp12;
-    
+
     { Odd part }
 
     tmp4 := DEQUANTIZE(inptr^[DCTSIZE*1], quantptr^[DCTSIZE*1]);

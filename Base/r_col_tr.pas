@@ -67,7 +67,7 @@ var
   i: integer;
 begin
   count := dc_yh - dc_yl;
-  
+
   if count < 0 then
     exit;
 
@@ -103,7 +103,7 @@ var
   swidth: integer;
 begin
   count := dc_yh - dc_yl;
-  
+
   if count < 0 then
     exit;
 

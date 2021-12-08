@@ -37,7 +37,7 @@ interface
 
 uses
   d_delphi;
-  
+
 type
   ripple_t = array[0..31, 0..127] of integer;
   Pripple_t = ^ripple_t;

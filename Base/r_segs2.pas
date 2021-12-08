@@ -23,7 +23,7 @@
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
-//   Seg rendering loops, fixed point & double precision 
+//   Seg rendering loops, fixed point & double precision
 //
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/mars3d/

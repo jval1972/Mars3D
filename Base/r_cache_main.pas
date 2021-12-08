@@ -23,7 +23,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//  32 bit software rendering texture cache 
+//  32 bit software rendering texture cache
 //
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/mars3d/

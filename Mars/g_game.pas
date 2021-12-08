@@ -1618,7 +1618,7 @@ begin
       exit;
     end;
   end;
-  
+
   if strupper(Copy(name, length(name) - 3, 4)) <> '.SAV' then
     result := name + '.SAV'
   else

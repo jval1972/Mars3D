@@ -275,7 +275,7 @@ var
   savegameshots: array[0..Ord(load_end) - 1] of menuscreenbuffer_t;
 
 var
-  itemOn: smallint;             // selected menu item 
+  itemOn: smallint;             // selected menu item
 
 //
 //      Menu Functions

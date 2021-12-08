@@ -102,7 +102,7 @@ uses
   g_game,
   r_wall32,
   r_cache_main,
-{$IFDEF DOOM_OR_STRIFE}  
+{$IFDEF DOOM_OR_STRIFE}
   r_colormaps,
   r_diher,
 {$ENDIF}
@@ -185,7 +185,7 @@ var
   r2, g2, b2: byte;
   r, g, b: LongWord;
   c: LongWord;
-{$IFDEF DOOM_OR_STRIFE}  
+{$IFDEF DOOM_OR_STRIFE}
   dihertable: Pdihertable_t;
 {$ENDIF}
   twidth: integer;
@@ -937,7 +937,7 @@ var
 begin
   for i := 0 to numtextures - 1 do
     if textures[i] <> nil then  // JVAL: This could happen if wrong IWAD used
-                                //  with PWAD, eg sunlust.wad with DOOM.WAD 
+                                //  with PWAD, eg sunlust.wad with DOOM.WAD
     begin
       if LongWord(textures[i].texture32) > 1 then
         dispose(textures[i].texture32, destroy);

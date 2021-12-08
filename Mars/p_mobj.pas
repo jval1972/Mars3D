@@ -182,7 +182,7 @@ begin
     end;
 
     state := P_ResolvePlayerState(mobj.player, state);
-     
+
     if mobj.validcount <> validcount then
     begin
       mobj.validcount := validcount;
@@ -555,7 +555,7 @@ begin
     else if (mo.flags4_ex and MF4_EX_SWIM <> 0) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then // JVAL: 20211116 - Swim mode (Underwater sectors)
       mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 8) and FINEMASK] div 4;
 
-    // Z friction while swimming 
+    // Z friction while swimming
     if mo.flags4_ex and MF4_EX_SWIM <> 0 then
     begin
       if mo.momz > 0 then

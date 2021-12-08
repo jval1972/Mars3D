@@ -22,8 +22,8 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
-//  DOOM strings, by language. 
+// DESCRIPTION:
+//  DOOM strings, by language.
 //
 // DESCRIPTION:
 // Globally defined strings.

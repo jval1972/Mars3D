@@ -431,7 +431,7 @@ begin
       {$I R_DrawColumnHi_SmallStepLoop.inc}
       end;
     end
-    else               
+    else
     begin
       {$DEFINE INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}

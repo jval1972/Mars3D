@@ -37,13 +37,13 @@ interface
 
 type
   PPointer = ^Pointer;
-  
+
   PString = ^string;
 
   PBoolean = ^Boolean;
 
   PInteger = ^Integer;
-  
+
   PLongWord = ^LongWord;
 
   PShortInt = ^ShortInt;
@@ -108,7 +108,7 @@ type
 type
   string255 = string[255];
   Pstring255 = ^string255;
-  
+
 type
   charset_t = set of char;
 
@@ -181,7 +181,7 @@ function mallocA(var Size: integer; const Align: integer; var original: pointer)
 
 function mallocz(const size: integer): Pointer;
 
-procedure realloc(var p: pointer; const oldsize, newsize: integer); 
+procedure realloc(var p: pointer; const oldsize, newsize: integer);
 
 procedure memfree(var p: pointer; const size: integer);
 
@@ -217,7 +217,7 @@ function decide(const condition: integer;
   const iftrue: pointer; const iffalse: pointer): pointer; overload;
 
 function decidef(const condition: boolean;
-  const iftrue: single; const iffalse: single): single; 
+  const iftrue: single; const iffalse: single): single;
 
 function incp(var p: pointer; const size: integer = 1): pointer;
 
@@ -685,7 +685,7 @@ function lastword(const inp: string; const splitters: charset_t): string; overlo
 
 procedure FreeAndNil(var Obj);
 
-function StrLCopy(Dest: PChar; const Source: PChar; MaxLen: Cardinal): PChar; 
+function StrLCopy(Dest: PChar; const Source: PChar; MaxLen: Cardinal): PChar;
 
 function fabs(const f: float): float;
 
@@ -3622,7 +3622,7 @@ begin
 end;
 
 function StringVal(const Str: PChar): string;
-begin                        
+begin
   sprintf(result, '%s', [Str]);
 end;
 

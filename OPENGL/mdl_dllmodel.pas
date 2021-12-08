@@ -168,7 +168,7 @@ begin
   for i := 0 to drawprocs.Count - 1 do
     if drawproc_t(drawprocs.List[i])(frm1, frm2, offset) then
       Break;
-      
+
   glPopMatrix;
 end;
 

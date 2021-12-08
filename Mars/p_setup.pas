@@ -1594,7 +1594,7 @@ begin
       end;
     end;
 
-    // JVAL: 20211103 - Breakable glass (MARS)  
+    // JVAL: 20211103 - Breakable glass (MARS)
     if li.special = 121 then
       li.renderflags := li.renderflags or LRF_TRANSPARENT;
   end;

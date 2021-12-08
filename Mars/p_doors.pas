@@ -335,7 +335,7 @@ begin
   p.pendingline := pDiff(line, @lines[0], SizeOf(line_t));
   p.pendinglinetype := Ord(_type);
   p.pendinglineuseagain := useagain;
-  result := 1; 
+  result := 1;
 end;
 
 function EV_DoDoor(line: Pline_t; _type: vldoor_e): integer;

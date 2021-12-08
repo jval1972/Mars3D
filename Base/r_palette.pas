@@ -52,7 +52,7 @@ implementation
 uses
   v_data,
   z_zone;
-  
+
 var
   dpal: palette_t;
   flag: boolean = false;

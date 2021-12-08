@@ -71,7 +71,7 @@ uses
   p_underwater, // JVAL: 20211115 - Swimm level
   p_user,
   r_main,
-  
+
   tables;
 
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t): integer;
