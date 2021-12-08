@@ -52,6 +52,13 @@ Features:
 History
 -------
 
+Version 1.0.4.741 (20211208)
+-----------------
+The player can jump higher.
+The player can step-up higher (32 pt instead of 24).
+Fixed problem with the "use_white_fog" console variable in OpenGL mode.
+Default value for "use_fog" console variable set to true.
+
 Version 1.0.3.740 (20211205)
 -----------------
 Fixed OpenGL underwater rendering in NVidia cards.
