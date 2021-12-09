@@ -4664,7 +4664,7 @@ begin
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Draw Crosshair';
-  pmi.cmd := 'drawfps';
+  pmi.cmd := 'drawcrosshair';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @drawcrosshair;
   pmi.alphaKey := 'c';
