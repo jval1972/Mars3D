@@ -822,7 +822,7 @@ begin
   if skytexture < 0 then
     skytexture := R_TextureNumForName('SKY1');
 
-  if demoplayback or demorecording or netgame or not showbriefingscreen then
+  if demoplayback or demorecording or netgame or preparingdemoplayback or not showbriefingscreen then
     gamestate := GS_LEVEL
   else
   begin
@@ -1592,7 +1592,7 @@ end;
 
 procedure G_DoWorldDone;
 begin
-  if demoplayback or demorecording or netgame or not showbriefingscreen then
+  if demoplayback or demorecording or netgame or preparingdemoplayback or not showbriefingscreen then
     gamestate := GS_LEVEL
   else
   begin
