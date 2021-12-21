@@ -696,7 +696,7 @@ var
 
     for i := 0 to mobj_flags4_ex.Count - 1 do
     begin
-      flag := mobj_flags3_ex[i];
+      flag := mobj_flags4_ex[i];
       if Pos('MF4_EX_', flag) = 1 then
         flag := Copy(flag, 8, length(flag) - 7)
       else if Pos('MF3_EX_', flag) = 1 then
@@ -911,7 +911,6 @@ var
           m_states[numstates - 1].nextstate := mobj.crashstate + offs;
           m_states[numstates - 1].has_goto := true;
         end
-        {$IFDEF DOOM_OR_STRIFE}
         else if (mobj.statesdefined and RTL_ST_INTERACT <> 0) and statecheckPos('INTERACT', gotostr) then
         begin
           if length(gotostr) > 8 then
@@ -921,7 +920,6 @@ var
           m_states[numstates - 1].nextstate := mobj.interactstate + offs;
           m_states[numstates - 1].has_goto := true;
         end
-        {$ENDIF}
         else
         begin
           //I_Warning('SC_ActordefToDEH(): Unknown label "goto %s"'#13#10, [gotostr]);
@@ -1251,13 +1249,11 @@ var
           result := ORIGINALSTATEMARKER + inf.crashstate;
           exit;
         end
-        {$IFDEF DOOM_OR_STRIFE}
         else if sss1 = 'INTERACT' then
         begin
           result := ORIGINALSTATEMARKER + inf.interactstate;
           exit;
         end
-        {$ENDIF}
         else
         begin
           result := statenames.IndexOfToken('S_' + strupper(inf.name) + '_' + sss);
@@ -1321,13 +1317,11 @@ var
           result := mobj.crashstate;
           exit;
         end
-        {$IFDEF DOOM_OR_STRIFE}
         else if sss1 = 'INTERACT' then
         begin
           result := mobj.interactstate;
           exit;
         end
-        {$ENDIF}
         else
         begin
           for i := 0 to numstates - 1 do
@@ -1424,9 +1418,7 @@ var
     AddStateRes(mobj.xdeathstate, 'Exploding');
     AddStateRes(mobj.healstate, 'Heal');
     AddStateRes(mobj.crashstate, 'Crash');
-    {$IFDEF DOOM_OR_STRIFE}
     AddStateRes(mobj.interactstate, 'Interact');
-    {$ENDIF}
     AddRes('Death Sound = ' + SC_SoundAlias(mobj.deathsound));
     ismissile := Pos('MF_MISSILE', mobj.flags) > 0;
     if ismissile then
@@ -1828,9 +1820,7 @@ begin
   m_state_tokens.Add('raise:');
   m_state_tokens.Add('heal:');
   m_state_tokens.Add('crash:');
-  {$IFDEF DOOM_OR_STRIFE}
   m_state_tokens.Add('interact:');
-  {$ENDIF}
 
   w_state_tokens := TDStringList.Create;
   w_state_tokens.Add('up:');
@@ -2133,9 +2123,7 @@ begin
       mobj.raisestate := -1;
       mobj.healstate := -1;
       mobj.crashstate := -1;
-      {$IFDEF DOOM_OR_STRIFE}
       mobj.interactstate := -1;
-      {$ENDIF}
       mobj.flags := '';
       {$IFDEF HERETIC_OR_HEXEN}
       mobj.flags2 := '';
@@ -2270,9 +2258,7 @@ begin
           mobj.raisestate := ORIGINALSTATEMARKER + pinf.raisestate;
           mobj.healstate := ORIGINALSTATEMARKER + pinf.healstate;
           mobj.crashstate := ORIGINALSTATEMARKER + pinf.crashstate;
-          {$IFDEF DOOM_OR_STRIFE}
           mobj.interactstate := ORIGINALSTATEMARKER + pinf.interactstate;
-          {$ENDIF}
           if mobj.spawnstate > ORIGINALSTATEMARKER then
             mobj.statesdefined := mobj.statesdefined or RTL_ST_SPAWN;
           if mobj.seestate > ORIGINALSTATEMARKER then
@@ -2293,10 +2279,8 @@ begin
             mobj.statesdefined := mobj.statesdefined or RTL_ST_HEAL;
           if mobj.crashstate > ORIGINALSTATEMARKER then
             mobj.statesdefined := mobj.statesdefined or RTL_ST_CRASH;
-          {$IFDEF DOOM_OR_STRIFE}
           if mobj.interactstate > ORIGINALSTATEMARKER then
             mobj.statesdefined := mobj.statesdefined or RTL_ST_INTERACT;
-          {$ENDIF};
         end;
 
         if not sc.GetString then
@@ -2770,7 +2754,7 @@ begin
         mobj.flags := '0';
       {$IFDEF HERETIC_OR_HEXEN}
       if strtrim(mobj.flags2) = '' then
-        mobj.flags := '0';
+        mobj.flags2 := '0';
       {$ENDIF}
       if strtrim(mobj.flags_ex) = '' then
         mobj.flags_ex := '0';
@@ -2826,14 +2810,12 @@ begin
           mobj.crashstate := numstates;
           repeat until not ParseState(mobj.crashstate);
         end
-        {$IFDEF DOOM_OR_STRIFE}
         else if sc.MatchString('interact:') then
         begin
           mobj.statesdefined := mobj.statesdefined or RTL_ST_INTERACT;
           mobj.interactstate := numstates;
           repeat until not ParseState(mobj.interactstate);
         end
-        {$ENDIF}
         else if sc.MatchString('melee:') then
         begin
           mobj.statesdefined := mobj.statesdefined or RTL_ST_MELEE;
@@ -3141,13 +3123,11 @@ var
       exit;
     end;
 
-    {$IFDEF DOOM_OR_STRIFE}
     if st = m.interactstate then
     begin
       AddLn('Goto Interact');
       exit;
     end;
-    {$ENDIF}
 
     result := false;
   end;
