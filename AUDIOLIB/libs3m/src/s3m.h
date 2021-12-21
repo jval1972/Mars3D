@@ -33,7 +33,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-        
+
 /* Definitions ---------------------------------------------------------------*/
 
 #define S3M_MAX_INSTRUMENTS             128
@@ -109,7 +109,7 @@ typedef struct _pat_entry {
     uint8_t     instr;
     uint8_t     vol;
     uint8_t     cmd;
-    uint8_t     info;  
+    uint8_t     info;
 } pat_entry_t;
 
 typedef struct _pat_row {
@@ -124,15 +124,15 @@ typedef struct _channel {
 
     s3m_instrument_t*   pi;         // pointer to instrument structure
     int8_t*             ps;         // pointer to sample data
-    
+
     int16_t              vol;       // current channel volume
-    
+
     double              sam_pos;    // index to sample position
     double              sam_period; // sample period
     double              sam_target_period; // sample period
     double              sam_last_period; // sample period
     double              sam_incr;   // sample increment
-    
+
     uint8_t             retrig_fr;  // frames between retrigger
 
     bool                do_vol_slide;
@@ -142,7 +142,7 @@ typedef struct _channel {
     bool                do_tremolo;
     bool                do_tremor;
     bool                do_arpeggio;
-    
+
     int8_t              vol_slide; // last applied volume slide parameter
     double              tone_slide; // last applied tone slide parameter
     uint8_t             vibrato_speed;
@@ -159,19 +159,19 @@ typedef struct _runtime {
 
     uint8_t         global_vol;
     uint8_t         master_vol;
-    
+
     bool            playing;            // currently playing or not?
-    
+
     uint32_t        sample_ctr;
     uint32_t        sample_per_frame;
-    
+
     uint8_t         frame_ctr;  // counts every frame, is reset when
-    
+
     uint8_t         pattern_idx;
     uint8_t*        pattern;
     uint8_t         row_ctr;
     uint8_t         skip_rows;  // for FX Cxx: break pattern and in new one goto row xx
-    
+
     uint8_t         order_idx;
     channel_t       chns[S3M_MAX_CHANNELS];
 } runtime_t;
@@ -185,15 +185,15 @@ typedef struct _s3m {
     size_t              filesize;
     uint32_t            samplerate;
     int16_t             vibrato_table[S3M_VIBRATO_TABLE_SIZE];
-    
+
     // extracted data from buffer (NOT a copy, just pointer!!!)
     s3m_header_t*       header;
-    s3m_instrument_t*   instrument[S3M_MAX_INSTRUMENTS];   
+    s3m_instrument_t*   instrument[S3M_MAX_INSTRUMENTS];
     double              instr_c4_incr[S3M_MAX_INSTRUMENTS];
     uint8_t*            sample[S3M_MAX_INSTRUMENTS];
     uint8_t*            pattern[S3M_MAX_PATTERNS];
     uint8_t*            order;                          // orders
-    
+
     runtime_t           rt;                 // runtime data
     s3m_func_t          row_chg_callback;   // row changed callback
     s3m_func_t          row_chg_callback_arg;// row changed callback argument

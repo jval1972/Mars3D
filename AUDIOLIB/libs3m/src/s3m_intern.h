@@ -56,7 +56,7 @@ typedef enum _s3m_chn_type {
     eS3M_CHN_TYPE_S6L,
     eS3M_CHN_TYPE_S7L,
     eS3M_CHN_TYPE_S8L,
-    
+
     eS3M_CHN_TYPE_S1R,
     eS3M_CHN_TYPE_S2R,
     eS3M_CHN_TYPE_S3R,
@@ -65,7 +65,7 @@ typedef enum _s3m_chn_type {
     eS3M_CHN_TYPE_S6R,
     eS3M_CHN_TYPE_S7R,
     eS3M_CHN_TYPE_S8R,
-    
+
     eS3M_CHN_TYPE_A1L,
     eS3M_CHN_TYPE_A2L,
     eS3M_CHN_TYPE_A3L,
@@ -75,7 +75,7 @@ typedef enum _s3m_chn_type {
     eS3M_CHN_TYPE_A7L,
     eS3M_CHN_TYPE_A8L,
     eS3M_CHN_TYPE_A9L,
-    
+
     eS3M_CHN_TYPE_A1R,
     eS3M_CHN_TYPE_A2R,
     eS3M_CHN_TYPE_A3R,
@@ -85,13 +85,13 @@ typedef enum _s3m_chn_type {
     eS3M_CHN_TYPE_A7R,
     eS3M_CHN_TYPE_A8R,
     eS3M_CHN_TYPE_A9R,
-    
+
     eS3M_CHN_TYPE_ABL,
     eS3M_CHN_TYPE_ASL,
     eS3M_CHN_TYPE_ATL,
     eS3M_CHN_TYPE_ACL,
     eS3M_CHN_TYPE_AHL,
-    
+
     eS3M_CHN_TYPE_ABR,
     eS3M_CHN_TYPE_ASR,
     eS3M_CHN_TYPE_ATR,

@@ -139,7 +139,7 @@ int16_t gsm_norm (int32_t a)
 {
 #if 0
 //	assert (a != 0) ;
-#endif        
+#endif
 
 	if (a < 0)
 	{	if (a <= -1073741824) return 0 ;
@@ -230,7 +230,7 @@ int16_t gsm_div (int16_t num, int16_t denum)
 
 #if 0
 //	assert (num >= 0 && denum >= num) ;
-#endif        
+#endif
 	if (num == 0)
 		return 0 ;
 
