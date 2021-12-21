@@ -52,6 +52,12 @@ Features:
 History
 -------
 
+Version 1.0.5.742 (20211221)
+-----------------
+Fixed the crosshair on/off in the menu.
+r_fakecontrast console variable will add contrast to ALL perpendicular lines.
+Don't show briefing while preparing demo playback.
+
 Version 1.0.4.741 (20211208)
 -----------------
 The player can jump higher.
