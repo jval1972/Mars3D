@@ -303,13 +303,6 @@ begin
 
   end;
 
-  // JVAL: 20211116 - Swimming mode (Underwater sectors)
-  if mo.flags4_ex and MF4_EX_SWIM <> 0 then
-  begin
-//    mo.momx := mo.momx div 2;
-//    mo.momy := mo.momy div 2;
-  end;
-
   xmove := mo.momx;
   ymove := mo.momy;
 
@@ -356,16 +349,6 @@ begin
         P_WallBounceMobj(mo, tmbounceline);
         xmove := 0;
         ymove := 0;
-{        mo.momx := mo.momx div 8;
-        mo.momy := mo.momy div 8;
-
-        if P_TryMove(mo, mo.x - xmove, ymove + mo.y) then
-          mo.momy := -mo.momy
-        else
-          mo.momx := -mo.momx;
-
-        xmove := 0;
-        ymove := 0;  }
       end
       else if mo.flags and MF_MISSILE <> 0 then
       begin
