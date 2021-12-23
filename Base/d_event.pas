@@ -32,8 +32,6 @@ unit d_event;
 
 interface
 
-
-
 //
 // Event handling.
 //
