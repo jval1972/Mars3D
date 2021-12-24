@@ -52,6 +52,12 @@ Features:
 History
 -------
 
+Version 1.0.6.743 (20211224)
+-----------------
+Fixed use keycard sequence repeat bug..
+Change line special 136 to 137 in MARS.MAD.
+Fixed problem with the "-" prefix in MF4_EX_xxx flags.
+
 Version 1.0.5.742 (20211221)
 -----------------
 Fixed the crosshair on/off in the menu.
