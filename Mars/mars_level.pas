@@ -326,6 +326,13 @@ begin
   stubx := minx + 64;
   stuby := maxy + 256;
 
+  for i := 0 to numdoomlinedefs - 1 do
+    if doomlinedefs[i].special = 136 then
+    begin
+      doomlinedefs[i].special := 137;
+      changed := true;
+    end;
+
   for i := 0 to numdoomsectors - 1 do
   begin
     if doomsectors[i].special = 14 then
