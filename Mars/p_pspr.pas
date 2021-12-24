@@ -414,7 +414,8 @@ begin
     exit;
   end;
 
-  player.oldreadyweapon := player.readyweapon;
+  if weaponinfo[Ord(player.readyweapon)].flags and WF_WEAPON <> 0 then
+    player.oldreadyweapon := player.readyweapon;
   player.readyweapon := player.pendingweapon;
 
   P_BringUpWeapon(player);

@@ -757,6 +757,7 @@ begin
     line := @lines[player.pendingline];
     if EV_DoDoor(line, vldoor_e(player.pendinglinetype)) <> 0 then
       P_ChangeSwitchTexture(line, player.pendinglineuseagain);
+    player.pendingline := 0;
   end;
 end;
 
