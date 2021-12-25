@@ -1445,31 +1445,31 @@ ACTOR MT_ALIENBOSS 2051
     {
       TNT1 A 0 A_ChangeFlag("MF_SHADOW", RANDOMPICK("TRUE","FALSE"))
     See2:
-      UFO1 C 4 A_Chase
-      UFO1 D 4 A_Chase
-      UFO1 C 4 A_Chase
-      UFO1 D 4 A_Chase
+      UFO1 C 8 A_Chase
+      UFO1 D 8 A_Chase
+      UFO1 C 8 A_Chase
+      UFO1 D 8 A_Chase
       GoTo See2
     }
     Missile:
     {
       TNT1 A 0 A_Jump(170, "Missile2", "Missile3")
-      UFO1 G 3 A_FaceTarget
+      UFO1 G 4 A_FaceTarget
       TNT1 A 0 A_AttackSound
-      UFO1 H 3 A_CustomMissile("MT_BOSSSHOCKMISSILE", 65, 25)
-      UFO1 G 3 A_FaceTarget
+      UFO1 H 4 A_CustomMissile("MT_BOSSSHOCKMISSILE", 65, -25)
+      UFO1 G 4 A_FaceTarget
       TNT1 A 0 A_Jump(120 + GAMESKILL * 15, -3)
       Goto See
     Missile2:
-      UFO1 I 3 A_FaceTarget
-      UFO1 J 3 A_CustomMissile("MT_BOSSFLAMEMISSILE", 65, 25)
-      UFO1 I 3 A_FaceTarget
+      UFO1 I 4 A_FaceTarget
+      UFO1 J 4 A_CustomMissile("MT_BOSSFLAMEMISSILE", 65, -25)
+      UFO1 I 4 A_FaceTarget
       TNT1 A 0 A_Jump(120 + GAMESKILL * 15, -3)
       Goto See
     Missile3:
-      UFO1 I 3 A_FaceTarget
-      UFO1 V 3 A_CustomMissile("MT_BOSSFREEZEMISSILE", 65, 25)
-      UFO1 I 3 A_FaceTarget
+      UFO1 I 4 A_FaceTarget
+      UFO1 V 4 A_CustomMissile("MT_BOSSFREEZEMISSILE", 65, -25)
+      UFO1 I 4 A_FaceTarget
       TNT1 A 0 A_Jump(120 + GAMESKILL * 15, -3)
       Goto See
     }
