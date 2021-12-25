@@ -1361,6 +1361,56 @@ ACTOR "MT_BOSSFLAMEMISSILE"
 
 
 ///////////////////////////////
+// MT_BOSSFREEZEMISSILE
+///////////////////////////////
+ACTOR "MT_BOSSFREEZEMISSILE"
+{
+  Health 1000
+  Width 12
+  Height 12
+  Speed 1572864
+  Damage 20
+  Mass 100
+  Reactiontime 8
+  Seesound GUN3EXP
+  Deathsound GUN3EXP
+  RenderStyle TRANSLUCENT
+  Alpha 0.8
+  Obituary "%o was freezed by the boss"
+  +MF_NOBLOCKMAP
+  +MF_NOGRAVITY
+  +MF_DROPOFF
+  +MF_MISSILE
+  +MF3_EX_ABSOLUTEDAMAGE
+  States
+  {
+    Spawn:
+    {
+      FRES A 3 BRIGHT
+      FRES B 3 BRIGHT A_FlipSprite
+      FRES A 3 BRIGHT
+      FRES B 3 BRIGHT A_NoFlipSprite
+      Loop
+    }
+    Death:
+    {
+      FREE A 3 BRIGHT
+      FREE B 3 BRIGHT
+      FREE C 3 BRIGHT A_PlayerHurtExplode(RANDOMPICK(30,40,50) + GAMESKILL * 20, 64)
+      FREE D 3 BRIGHT
+      FREE E 3 BRIGHT
+      FREE F 3 BRIGHT
+      FREE GGG 1 BRIGHT A_FadeOut(0.05)
+      FREE HHH 1 BRIGHT A_FadeOut(0.05)
+      FREE III 1 BRIGHT A_FadeOut(0.05)
+      FREE JJJJJJ 1 BRIGHT A_FadeOut(0.05)
+      Stop
+    }
+  }
+}
+
+
+///////////////////////////////
 // MT_ALIENBOSS
 ///////////////////////////////
 ACTOR MT_ALIENBOSS 2051
