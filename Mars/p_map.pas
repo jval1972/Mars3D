@@ -417,6 +417,7 @@ begin
 
   // set openrange, opentop, openbottom
   P_LineOpeningTM(ld, true);
+  tmbounceline := ld;
 
   // adjust floor / ceiling heights
   if opentop < tmceilingz then
