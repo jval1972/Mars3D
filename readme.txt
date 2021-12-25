@@ -52,6 +52,14 @@ Features:
 History
 -------
 
+Version 1.0.7.744 (20211225)
+-----------------
+Boss fires green (freeze) missiles.
+Display boss health bar.
+Boss health and difficulty raised.
+Corrected the position that the boss spawns missiles.
+Fixed objects bouncing on wall when hitting lower or higher texture.
+
 Version 1.0.6.743 (20211224)
 -----------------
 Fixed use keycard sequence repeat bug..
