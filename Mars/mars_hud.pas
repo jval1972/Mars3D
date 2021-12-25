@@ -55,8 +55,15 @@ uses
   d_items,
   d_net,
   g_game,
+  hu_stuff,
+  m_fixed,
   mt_utils,
   p_tick,
+  p_local,
+  p_maputl,
+  p_mobj_h,
+  p_setup,
+  p_sight,
   r_data,
   r_defs,
   r_main,
@@ -292,11 +299,140 @@ begin
   end;
 end;
 
+var
+  boss: Pmobj_t;
+
+//
+// PIT_SearchNearbyBoss
+//
+function PIT_SearchNearbyBoss(thing: Pmobj_t): boolean;
+begin
+  // Bosses
+  if thing.flags_ex and MF_EX_BOSS <> 0 then
+  begin
+    boss := thing;
+    result := false;
+    exit;
+  end;
+
+  result := true;
+end;
+
+//
+// P_RadiusAttack
+// Source is the creature that caused the explosion at spot.
+//
+procedure P_SearchNearbyBoss(const dist: fixed_t);
+var
+  x: integer;
+  y: integer;
+  xl: integer;
+  xh: integer;
+  yl: integer;
+  yh: integer;
+begin
+  if internalblockmapformat then
+  begin
+    yh := MapBlockIntY(int64(hud_player.mo.y) + int64(dist) - int64(bmaporgy));
+    yl := MapBlockIntY(int64(hud_player.mo.y) - int64(dist) - int64(bmaporgy));
+    xh := MapBlockIntX(int64(hud_player.mo.x) + int64(dist) - int64(bmaporgx));
+    xl := MapBlockIntX(int64(hud_player.mo.x) - int64(dist) - int64(bmaporgx));
+  end
+  else
+  begin
+    yh := MapBlockInt(hud_player.mo.y + dist - bmaporgy);
+    yl := MapBlockInt(hud_player.mo.y - dist - bmaporgy);
+    xh := MapBlockInt(hud_player.mo.x + dist - bmaporgx);
+    xl := MapBlockInt(hud_player.mo.x - dist - bmaporgx);
+  end;
+
+  boss := nil;
+
+  for y := yl to yh do
+    for x := xl to xh do
+      P_BlockThingsIterator(x, y, PIT_SearchNearbyBoss);
+end;
+
+procedure MARS_HudDrawBossBar;
+var
+  s: string;
+  i: integer;
+  c: integer;
+  x, y: integer;
+  w, w1: integer;
+  pB: PByteArray;
+begin
+  boss := nil;
+
+  if hud_player.plinetarget <> nil then
+    if hud_player.plinetarget.flags_ex and MF_EX_BOSS <> 0 then
+    begin
+      hud_player.mo.flags4_ex := hud_player.mo.flags4_ex or MF4_EX_BOSSENCOUNTER;
+      boss := hud_player.plinetarget;
+    end;
+
+  if boss = nil then
+  begin
+    P_SearchNearbyBoss(4096 * FRACUNIT);
+    if boss = nil then
+      exit;
+  end;
+
+  if boss.health <= 0 then
+    exit;
+
+  if not P_CheckSight(boss, hud_player.mo) then
+    if (hud_player.mo.flags4_ex and MF4_EX_BOSSENCOUNTER = 0) or
+       (P_AproxDistance(boss.x - hud_player.mo.x, boss.y - hud_player.mo.y) > 1024 * FRACUNIT) then
+      exit;
+
+  s := 'ALIEN BOSS';
+  x := 13;
+  y := 10;
+
+  for i := 1 to Length(s) do
+  begin
+    c := Ord(s[i]) - Ord(HU_FONTSTART);
+    if (c < 0) or (c >= HU_FONTSIZE) then
+      x := x + 4
+    else
+    begin
+     V_DrawPatch(x, y, SCN_HUD, hu_fontR[c], false);
+     x := x + hu_fontR[c].width;
+    end;
+  end;
+
+  x := x + 4;
+
+  w := 270 - x;
+  w1 := boss.health * w div boss.info.spawnhealth;
+
+  for y := 10 to 17 do
+  begin
+    pB := @screens[SCN_HUD][y * 320 + x];
+    for i := 0 to w1 do
+      pB[i] := 176;
+    for i := w1 + 1 to w do
+      pB[i] := 232;
+  end;
+end;
+
+procedure MARS_HudDrawerMin;
+begin
+  // Draw crosshair
+  MARS_HudDrawCrossHair;
+
+  // Boss health bar
+  MARS_HudDrawBossBar;
+end;
 
 procedure MARS_HudDrawerSmall;
 begin
   // Draw crosshair
   MARS_HudDrawCrossHair;
+
+  // Boss health bar
+  MARS_HudDrawBossBar;
 
   // Health (bottom left)
   MARS_HudDrawerSmallHealth;
@@ -312,6 +448,9 @@ var
 begin
   // Draw crosshair
   MARS_HudDrawCrossHair;
+
+  // Boss health bar
+  MARS_HudDrawBossBar;
 
   // Draw statusbar
   MARS_HudDrawPatch(0, 200 - STATUSBAR_HEIGHT, statusbarimage);
@@ -375,7 +514,7 @@ begin
     else if screenblocks = 11 then
       MARS_HudDrawerSmall
     else if screenblocks = 12 then
-      MARS_HudDrawCrossHair;
+      MARS_HudDrawerMin;
     v_translation := oldtr;
   end;
 

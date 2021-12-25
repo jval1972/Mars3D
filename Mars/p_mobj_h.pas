@@ -431,6 +431,8 @@ const
   MF4_EX_FORCEUNDERWATERGRAVITY = $2000;
   // Force low gravity in underwater sectors
   MF4_EX_FORCELOWUNDERWATERGRAVITY = $4000;
+  // Player has encounter boss
+  MF4_EX_BOSSENCOUNTER = $8000;
 
 
 type

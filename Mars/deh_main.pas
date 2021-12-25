@@ -2072,6 +2072,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_ABSOLUTEDROPITEMPOS');
   mobj_flags4_ex.Add('MF4_EX_FORCEUNDERWATERGRAVITY');
   mobj_flags4_ex.Add('MF4_EX_FORCELOWUNDERWATERGRAVITY');
+  mobj_flags4_ex.Add('MF4_EX_BOSSENCOUNTER');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
