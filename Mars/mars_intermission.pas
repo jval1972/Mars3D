@@ -71,11 +71,13 @@ uses
   mn_textwrite,
   mars_files,
   r_data,
+  r_defs,
   sounds,
   s_sound,
   v_data,
   v_video,
-  w_wad;
+  w_wad,
+  z_zone;
 
 const
   MAX_INTERMISSION_SCREENS = 100;
@@ -226,7 +228,9 @@ begin
             else
               anm_frametics := (ANM_QueryNumFrames(anmfile) - 1) * ANM_GetInfo(anmfile).tic;
           end;
-        end;
+        end
+        else
+          MARS_IntermissionAdvance;
       end;
     IN_STAGE_ANIM:
       begin
@@ -286,9 +290,17 @@ begin
 end;
 
 procedure MARS_Intermission_Drawer1;
+var
+  p: Ppatch_t;
 begin
   if in_lumps.Count > 0 then
-    V_DrawPatchFullScreenTMP320x200(in_lumps.Numbers[0]);
+  begin
+    p := W_CacheLumpNum(in_lumps.Numbers[0], PU_STATIC);
+    V_DrawPatch(0, 0, SCN_IN, p, false);
+    Z_ChangeTag(p, PU_CACHE);
+  end
+  else
+    memset(screens[SCN_IN], aprox_black, 320 * 200);
 end;
 
 procedure MI_CheckANMInfo(const anm: TANMFile; const inf: Panminfo_t);
@@ -334,7 +346,7 @@ begin
     anm_inrepeat := true;
   end;
 
-  anm.GetFrameImage8(frm, Panmscreen8_t(screens[SCN_TMP]));
+  anm.GetFrameImage8(frm, Panmscreen8_t(screens[SCN_IN]));
 
   anm.Free;
   anmstrm.Free;
@@ -385,11 +397,11 @@ var
     w: integer;
   begin
     w := M_StringWidth(txt, _MA_RIGHT or _MC_UPPER, @mars_fontLG);
-    memset(@screens[SCN_TMP][320 * (9 + ypos) + 7], c1, 165 - w - 7 - 5);
-    memset(@screens[SCN_TMP][320 * (10 + ypos) + 7], c2, 165 - w - 7 - 5);
-    memset(@screens[SCN_TMP][320 * (11 + ypos) + 7], c3, 165 - w - 7 - 5);
-    memset(@screens[SCN_TMP][320 * (12 + ypos) + 7], c4, 165 - w - 7 - 5);
-    M_WriteText(165, ypos + 1, txt, _MA_RIGHT or _MC_UPPER, @mars_fontLG);
+    memset(@screens[SCN_IN][320 * (9 + ypos) + 7], c1, 165 - w - 7 - 5);
+    memset(@screens[SCN_IN][320 * (10 + ypos) + 7], c2, 165 - w - 7 - 5);
+    memset(@screens[SCN_IN][320 * (11 + ypos) + 7], c3, 165 - w - 7 - 5);
+    memset(@screens[SCN_IN][320 * (12 + ypos) + 7], c4, 165 - w - 7 - 5);
+    M_WriteText(165, ypos + 1, txt, _MA_RIGHT or _MC_UPPER, @mars_fontLG, nil, SCN_IN);
   end;
 
 begin
@@ -434,12 +446,12 @@ begin
     IN_STAGE_STATS1..IN_STAGE_STATS4:
       MARS_Intermission_Drawer3;
   else
-    memset(screens[SCN_TMP], aprox_black, 320 * 200);
+    memset(screens[SCN_IN], aprox_black, 320 * 200);
   end;
   {$IFDEF OPENGL}
-  V_RemoveTransparency(SCN_TMP, 0);
+  V_RemoveTransparency(SCN_IN, 0);
   {$ENDIF}
-  V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+  V_CopyRect(0, 0, SCN_IN, 320, 200, 0, 0, SCN_FG, true);
 
   V_FullScreenStretch;
 end;
@@ -469,8 +481,9 @@ begin
   anm_frametics := MAXINT;
   anmfile := '';
   anm_inrepeat := false;
+  memset(screens[SCN_IN], aprox_black, 320 * 200);
   if in_lumps.Count = 0 then
-    MARS_IntermissionAdvanceStage;
+    MARS_IntermissionAdvance;
 end;
 
 end.

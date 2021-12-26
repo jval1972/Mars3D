@@ -51,6 +51,8 @@ Features:
 
 History
 -------
+Fixed intermission screens.
+
 Version 1.0.8.745 (20211226)
 -----------------
 Fixed intermission screen showing a previously closed menu as the background in OpenGL mode.

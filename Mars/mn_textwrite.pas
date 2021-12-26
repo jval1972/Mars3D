@@ -36,6 +36,7 @@ unit mn_textwrite;
 interface
 
 uses
+  v_data,
   r_defs;
 
 type
@@ -54,7 +55,8 @@ const
   _MCASE_MASK = 12;
 
 function M_WriteText(x, y: integer; const str: string; const flags: integer;
-  const font: Ppatch_tPArray; const shadefont: Ppatch_tPArray = nil): menupos_t;
+  const font: Ppatch_tPArray; const shadefont: Ppatch_tPArray = nil;
+  const scn: integer = SCN_TMP): menupos_t;
 
 function M_StringWidth(const str: string; const flags: integer; const font: Ppatch_tPArray): integer;
 
@@ -65,7 +67,6 @@ implementation
 uses
   d_delphi,
   hu_stuff,
-  v_data,
   v_video;
 
 type
@@ -80,7 +81,8 @@ end;
 // Write a string using the font
 //
 function M_WriteText(x, y: integer; const str: string; const flags: integer;
-  const font: Ppatch_tPArray; const shadefont: Ppatch_tPArray = nil): menupos_t;
+  const font: Ppatch_tPArray; const shadefont: Ppatch_tPArray = nil;
+  const scn: integer = SCN_TMP): menupos_t;
 var
   w: integer;
   ch: integer;
@@ -152,8 +154,8 @@ begin
     if (cx + w + 1) > 320 then
       break;
     if shadefont <> nil then
-      V_DrawPatch(cx + 1, cy + 1, SCN_TMP, shadefont[c], false);
-    V_DrawPatch(cx, cy, SCN_TMP, font[c], false);
+      V_DrawPatch(cx + 1, cy + 1, scn, shadefont[c], false);
+    V_DrawPatch(cx, cy, scn, font[c], false);
     cx := cx + w;
   end;
 
