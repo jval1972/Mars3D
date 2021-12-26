@@ -423,20 +423,20 @@ uses
   mars_finale in 'Mars\mars_finale.pas';
 
 exports
-  dd_compile_doom,
-  dd_getavailableunits_doom,
-  dd_getunitfunctions_doom,
-  dd_getconstants_doom,
-  dd_getvariables_doom,
-  dd_getclasses_doom,
-  dd_getdisassembly_doom,
-  dd_gettypes_doom,
-  dd_getevents_doom,
-  dd_getactordeffunctions_doom,
-  dd_getmobjinfocsv_doom,
-  dd_getstatescsv_doom,
-  dd_getspritescsv_doom,
-  dd_getactordef_doom;
+  dd_compile_mars,
+  dd_getavailableunits_mars,
+  dd_getunitfunctions_mars,
+  dd_getconstants_mars,
+  dd_getvariables_mars,
+  dd_getclasses_mars,
+  dd_getdisassembly_mars,
+  dd_gettypes_mars,
+  dd_getevents_mars,
+  dd_getactordeffunctions_mars,
+  dd_getmobjinfocsv_mars,
+  dd_getstatescsv_mars,
+  dd_getspritescsv_mars,
+  dd_getactordef_mars;
 
 begin
 
