@@ -51,8 +51,11 @@ Features:
 
 History
 -------
+Version 1.0.8.745 (20211226)
+-----------------
 Fixed intermission screen showing a previously closed menu as the background in OpenGL mode.
 Barrels can not be destroyed by shock gun, flame gun and disks.
+Some work to support the script library (ddc_mars.dll) by the next version of DelphiDoom IDE & PascalScript command line compiler.
 
 Version 1.0.7.744 (20211225)
 -----------------
