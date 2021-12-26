@@ -94,7 +94,7 @@ const
   FIN_STAGE_FINISHED = 2;
 
 var
-  {$IFNDEF  OPENGL}
+  {$IFNDEF OPENGL}
   oldvideomode: videomode_t;
   {$ENDIF}
   fin_lumps: TDNumberList;
@@ -104,6 +104,18 @@ var
   fli: TFLIFile;
   fli_finished: boolean;
   t1, t2: PTexture;
+
+procedure MARS_Finale_BlancScreen;
+begin
+  {$IFNDEF OPENGL}
+  if videomode = vm32bit then
+  {$ENDIF}
+    ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(LongWord))
+  {$IFNDEF OPENGL}
+  else
+    ZeroMemory(screens[SCN_FG], V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG));
+  {$ENDIF}
+end;
 
 procedure MARS_FinaleAdvance;
 begin
@@ -118,7 +130,7 @@ begin
       fli_finished := false;
       fli.FileName := MARS_FindFile(FINALE_ANIM);
       Inc(finalestage);
-      {$IFNDEF  OPENGL}
+      {$IFNDEF OPENGL}
       oldvideomode := videomode;
       videomode := vm32bit;
       {$ENDIF}
@@ -127,9 +139,10 @@ begin
   end
   else if finalestage = FIN_STAGE_ANIM then
   begin
-    {$IFNDEF  OPENGL}
+    {$IFNDEF OPENGL}
     videomode := oldvideomode;
     {$ENDIF}
+    MARS_Finale_BlancScreen;
     fli_finished := true;
     finalestage := FIN_STAGE_FINISHED;
     D_StartTitle;
@@ -221,18 +234,6 @@ begin
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
 
   V_FullScreenStretch;
-end;
-
-procedure MARS_Finale_BlancScreen;
-begin
-  {$IFNDEF OPENGL}
-  if videomode = vm32bit then
-  {$ENDIF}
-    ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(LongWord))
-  {$IFNDEF OPENGL}
-  else
-    ZeroMemory(screens[SCN_FG], V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG));
-  {$ENDIF}
 end;
 
 procedure MARS_Finale_Drawer;
