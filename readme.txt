@@ -51,7 +51,10 @@ Features:
 
 History
 -------
+Version 1.0.9.746 (20211226)
+-----------------
 Fixed intermission screens.
+Fixed finale wipe after flc playback in 8 bit color mode.
 
 Version 1.0.8.745 (20211226)
 -----------------
