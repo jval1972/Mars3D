@@ -728,6 +728,13 @@ begin
         exit;
       end;
 
+    if tmthing.flags4_ex and MF4_EX_DISKDAMAGE <> 0 then
+      if thing.flags4_ex and MF4_EX_NODISKDAMAGE <> 0 then
+      begin
+        result := true;
+        exit;
+      end;
+
     // damage / explode
     if tmthing.flags3_ex and MF3_EX_ABSOLUTEDAMAGE <> 0 then
       damage := tmthing.info.damage
@@ -2255,6 +2262,13 @@ begin
         exit;
       end;
 
+    if bombsource.flags4_ex and MF4_EX_DISKDAMAGE <> 0 then
+      if thing.flags4_ex and MF4_EX_NODISKDAMAGE <> 0 then
+      begin
+        result := true;
+        exit;
+      end;
+
     if thing.player = nil then
       if bombsource.info.doomednum > 0 then
       begin
@@ -2427,6 +2441,13 @@ begin
 
   if bombsource.flags4_ex and MF4_EX_POISONDAMAGE <> 0 then
     if thing.flags4_ex and MF4_EX_NOPOISONDAMAGE <> 0 then
+    begin
+      result := true;
+      exit;
+    end;
+
+  if bombsource.flags4_ex and MF4_EX_DISKDAMAGE <> 0 then
+    if thing.flags4_ex and MF4_EX_NODISKDAMAGE <> 0 then
     begin
       result := true;
       exit;

@@ -433,6 +433,12 @@ const
   MF4_EX_FORCELOWUNDERWATERGRAVITY = $4000;
   // Player has encounter boss
   MF4_EX_BOSSENCOUNTER = $8000;
+  // Missile causes disk damage
+  MF4_EX_DISKDAMAGE = $10000;
+  // Actor is not hurt by disk damage missile
+  MF4_EX_NODISKDAMAGE = $20000;
+  // Actor is hurt less by disk damage missile
+  MF4_EX_DISKDAMAGERESIST = $40000;
 
 
 type

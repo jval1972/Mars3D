@@ -484,6 +484,10 @@ begin
       if thing.flags4_ex and MF4_EX_NOSHOCKGUNDAMAGE <> 0 then
         damage := 0;
 
+    if bdisk.flags4_ex and MF4_EX_DISKDAMAGE <> 0 then
+      if thing.flags4_ex and MF4_EX_NODISKDAMAGE <> 0 then
+        damage := 0;
+
     if damage > 0 then
       if P_CheckSight(thing, bdisk) then
         P_DamageMobj(thing, bdisk, bdisk, damage);
