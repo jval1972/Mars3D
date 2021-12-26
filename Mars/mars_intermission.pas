@@ -436,6 +436,9 @@ begin
   else
     memset(screens[SCN_TMP], aprox_black, 320 * 200);
   end;
+  {$IFDEF OPENGL}
+  V_RemoveTransparency(SCN_TMP, 0);
+  {$ENDIF}
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
 
   V_FullScreenStretch;
