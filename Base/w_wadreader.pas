@@ -124,6 +124,12 @@ begin
   print('Opening WAD file ' + aname + #13#10);
   {$ENDIF}
   Clear;
+  if not fexists(aname) then
+  begin
+    I_Warning('Can not find WAD file ' + aname + #13#10);
+    exit;
+  end;
+
   fs := TFile.Create(aname, fOpenReadOnly);
 
   ismad := false;
