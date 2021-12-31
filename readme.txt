@@ -51,6 +51,12 @@ Features:
 
 History
 -------
+Fix gravity field inheritance in ACTORDEF declarations.
+TWadReader() error cheching.
+String evaluation in parameters of ACTORDEF functions.
+Speed optimizations to script library.
+Infinite state cycle error message will display the actor's name.
+
 Version 1.0.9.746 (20211226)
 -----------------
 Fixed intermission screens.
