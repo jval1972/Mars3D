@@ -109,6 +109,9 @@ var
   vissprite_p: integer;
   visspritessize: Integer = 0;
 
+var
+  domaskedzbuffer: boolean;
+
 implementation
 
 uses
@@ -148,6 +151,7 @@ uses
   r_dynlights,
   r_vislight,
   r_softlights,
+  r_zbuffer,
 {$ENDIF}
   r_camera,
   r_renderstyle,
@@ -575,6 +579,10 @@ begin
       end
       else
         colfunc;
+
+      if domaskedzbuffer then
+        if renderflags and VSF_TRANSPARENCY = 0 then
+          R_DrawMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -625,6 +633,9 @@ begin
       R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
     else
       colfunc;
+
+    if domaskedzbuffer then
+      R_DrawMaskedColumnToZBuffer;
   end;
 
   dc_texturemid := basetexturemid;
@@ -632,9 +643,9 @@ end;
 
 // JVAL: batch column drawing
 type
-  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; baseclip: integer = -1);
+  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 
-procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1);
+procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -684,6 +695,10 @@ begin
       //  or R_DrawColumnAverage
       //  or R_DrawTranslatedColumn
       batchcolfunc;
+
+      if domaskedzbuffer then
+        if renderflags and VSF_TRANSPARENCY = 0 then
+          R_DrawBatchMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -735,7 +750,7 @@ begin
   parms.proc := batchspritefunc_mt;
 end;
 
-procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; baseclip: integer = -1);
+procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -782,6 +797,10 @@ begin
       R_MaskedAdjustY(dc_yl, dc_yh);
 
       R_FillSpriteInfo_BatchMT(R_SpriteAddMTInfo);
+
+      if domaskedzbuffer then
+        if renderflags and VSF_TRANSPARENCY = 0 then
+          R_DrawBatchMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -860,6 +879,10 @@ begin
       end
       else
         R_FillSpriteInfo_MT(R_SpriteAddMTInfo);
+
+      if domaskedzbuffer then
+        if renderflags and VSF_TRANSPARENCY = 0 then
+          R_DrawMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -1084,7 +1107,7 @@ begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
         dc_x := save_dc_x;
         if num_batch_columns > 1 then
-          dmcproc_batch(column, baseclip)
+          dmcproc_batch(column, baseclip, vis.renderflags)
         else
           dmcproc(column, dbscale, baseclip, vis.renderflags);
         dc_x := last_dc_x;
@@ -1098,7 +1121,7 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
       dc_x := last_dc_x;
       if num_batch_columns > 1 then
-        dmcproc_batch(column, baseclip)
+        dmcproc_batch(column, baseclip, vis.renderflags)
       else
         dmcproc(column, dbscale, baseclip, vis.renderflags);
     end;
@@ -2411,7 +2434,6 @@ begin
   mceilingclip := @cliptop;
 
   R_DrawVisSpriteLight(spr, x1, x2);
-
 end;
 
 procedure R_MarkLights;
@@ -2474,9 +2496,23 @@ begin
   if r_uselightmaps then
   begin
     R_MarkLights;
-    R_DrawLightsSingleThread;
+    if numdlitems > 0 then
+    begin
+      if not r_lightmaponmasked then
+        R_DrawLightsSingleThread;
+      domaskedzbuffer := r_lightmaponmasked;
+      R_DoDrawMasked;
+      if r_lightmaponmasked then
+        R_DrawLightsSingleThread;
+    end
+    else
+      R_DoDrawMasked;
+  end
+  else
+  begin
+    domaskedzbuffer := false;
+    R_DoDrawMasked;
   end;
-  R_DoDrawMasked;
 end;
 
 procedure R_DrawMasked_MultiThread;
@@ -2485,9 +2521,23 @@ begin
   if r_uselightmaps then
   begin
     R_MarkLights;
-    R_DrawLightsMultiThread
+    if numdlitems > 0 then
+    begin
+      if not r_lightmaponmasked then
+        R_DrawLightsMultiThread;
+      domaskedzbuffer := r_lightmaponmasked;
+      R_DoDrawMasked;
+      if r_lightmaponmasked then
+        R_DrawLightsMultiThread;
+    end
+    else
+      R_DoDrawMasked;
+  end
+  else
+  begin
+    domaskedzbuffer := false;
+    R_DoDrawMasked;
   end;
-  R_DoDrawMasked;
 end;
 {$ENDIF}
 
