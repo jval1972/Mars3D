@@ -134,7 +134,6 @@ var
   c: TDoomCompiler;
   i: integer;
 begin
-  DD_InitDoomEngine;
   try
     c := TDoomCompiler.CreateDoomCompiler;
     try
@@ -151,7 +150,6 @@ begin
       c.Free;
     end;
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -215,12 +213,10 @@ procedure dd_getavailableunits_mars(
 var
   unitnames: string;
 begin
-  PS_InitProcLists;
   try
     unitnames := (PS_ImportUnits as TStringList).Text;
     DD_CopyStringToPChar(unitnames, _out, _outsize);
   finally
-    PS_ShutDownProcLists;
   end;
 end;
 
@@ -233,7 +229,6 @@ var
   funcdecls: string;
   idx: integer;
 begin
-  PS_InitProcLists;
   try
     DD_CopyPCharToString(_inp, _inpsize, unitname);
     lst := PS_ImportUnits as TStringList;
@@ -249,7 +244,6 @@ begin
       funcdecls := (lst.Objects[idx] as TProcedureList).GetDeclarations;
     DD_CopyStringToPChar(funcdecls, _out, _outsize);
   finally
-    PS_ShutDownProcLists;
   end;
 end;
 
@@ -512,7 +506,6 @@ var
   pcode: string;
   c: TDoomCompiler;
 begin
-  DD_InitDoomEngine;
   try
     c := TDoomCompiler.CreateDoomCompiler;
     c.OnUses := PS_ScriptOnUsesEx;
@@ -523,7 +516,6 @@ begin
       c.Free;
     end;
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -533,7 +525,6 @@ var
   pcode: string;
   c: TDoomCompiler;
 begin
-  DD_InitDoomEngine;
   try
     c := TDoomCompiler.CreateDoomCompiler;
     c.OnUses := PS_ScriptOnUsesEx;
@@ -544,7 +535,6 @@ begin
       c.Free;
     end;
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -554,7 +544,6 @@ var
   pcode: string;
   c: TDoomCompiler;
 begin
-  DD_InitDoomEngine;
   try
     c := TDoomCompiler.CreateDoomCompiler;
     c.OnUses := PS_ScriptOnUsesEx;
@@ -565,7 +554,6 @@ begin
       c.Free;
     end;
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -575,7 +563,6 @@ var
   pcode: string;
   c: TDoomCompiler;
 begin
-  DD_InitDoomEngine;
   try
     c := TDoomCompiler.CreateDoomCompiler;
     c.OnUses := PS_ScriptOnUsesExClasses;
@@ -586,7 +573,6 @@ begin
       c.Free;
     end;
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -598,7 +584,6 @@ var
   i: integer;
   disasm: string;
 begin
-  DD_InitDoomEngine;
   try
     SetLength(pcode, _inpsize);
     for i := 0 to _inpsize - 1 do
@@ -606,12 +591,10 @@ begin
     if not IFPS3DataToText(pcode, disasm) then
     begin
       _outsize := 0;
-      DD_ShutDownDoomEngine;
       Exit;
     end;
     DD_CopyStringToPChar(disasm, _out, _outsize);
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -633,14 +616,12 @@ var
   afstr: string;
   i: integer;
 begin
-  DD_InitDoomEngine;
   try
     afstr := '';
     for i := 0 to DEHNUMACTIONS - 1 do
       afstr := afstr + deh_actions[i].decl + #13#10;
     DD_CopyStringToPChar(afstr, _out, _outsize);
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -650,14 +631,12 @@ var
   csvstr: string;
   lst: TDStringList;
 begin
-  DD_InitDoomEngine;
   try
     lst := DEH_MobjInfoCSV;
     csvstr := lst.Text;
     lst.Free;
     DD_CopyStringToPChar(csvstr, _out, _outsize);
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -667,14 +646,12 @@ var
   csvstr: string;
   lst: TDStringList;
 begin
-  DD_InitDoomEngine;
   try
     lst := DEH_StatesCSV;
     csvstr := lst.Text;
     lst.Free;
     DD_CopyStringToPChar(csvstr, _out, _outsize);
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -684,14 +661,12 @@ var
   csvstr: string;
   lst: TDStringList;
 begin
-  DD_InitDoomEngine;
   try
     lst := DEH_SpritesCSV;
     csvstr := lst.Text;
     lst.Free;
     DD_CopyStringToPChar(csvstr, _out, _outsize);
   finally
-    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -700,7 +675,6 @@ procedure dd_getactordef_mars(
 var
   actorstr: string;
 begin
-  Info_Init(true);
   try
     if IsIntegerInRange(m, 0, Ord(DO_NUMMOBJTYPES) - 1) then
     begin
@@ -710,9 +684,14 @@ begin
     else
       _outsize := 0;
   finally
-    Info_ShutDown;
   end;
 end;
+
+initialization
+  DD_InitDoomEngine;
+
+finalization
+  DD_ShutDownDoomEngine;
 
 end.
 
