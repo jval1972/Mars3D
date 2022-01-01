@@ -57,6 +57,7 @@ String evaluation in parameters of ACTORDEF functions.
 Speed optimizations to script library.
 Infinite state cycle error message will display the actor's name.
 Software rendering lights affect masked, sprites and voxels.
+Evaluate string parameters.
 
 Version 1.0.9.746 (20211226)
 -----------------

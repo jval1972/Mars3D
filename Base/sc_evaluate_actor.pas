@@ -128,6 +128,8 @@ type
     // Custom params
     function PF_CUSTOMPARAM(p: TDStrings): string;
     function PF_TARGETCUSTOMPARAM(p: TDStrings): string;
+    function PF_MASTERCUSTOMPARAM(p: TDStrings): string;
+    function PF_TRACERCUSTOMPARAM(p: TDStrings): string;
     // States
     function PF_SPAWN(p: TDStrings): string;
     function PF_SEE(p: TDStrings): string;
@@ -138,10 +140,10 @@ type
     function PF_XDEATH(p: TDStrings): string;
     function PF_HEAL(p: TDStrings): string;
     function PF_CRASH(p: TDStrings): string;
-    {$IFDEF DOOM_OR_STRIFE}
     function PF_INTERACT(p: TDStrings): string;
-    {$ENDIF}
     function PF_RAISE(p: TDStrings): string;
+    // Special
+    function PF_EVAL(p: TDStrings): string;
   public
     constructor Create; override;
     function EvaluateActor(const actor: pmobj_t; const aexpr: string): string;
@@ -228,6 +230,10 @@ begin
   AddFunc('PARAM', PF_CUSTOMPARAM, 1);
   AddFunc('TARGETCUSTOMPARAM', PF_TARGETCUSTOMPARAM, 1);
   AddFunc('TARGETPARAM', PF_TARGETCUSTOMPARAM, 1);
+  AddFunc('MASTERCUSTOMPARAM', PF_MASTERCUSTOMPARAM, 1);
+  AddFunc('MASTERPARAM', PF_MASTERCUSTOMPARAM, 1);
+  AddFunc('TRACERCUSTOMPARAM', PF_TRACERCUSTOMPARAM, 1);
+  AddFunc('TRACERPARAM', PF_TRACERCUSTOMPARAM, 1);
   // States
   AddFunc('SPAWN', PF_SPAWN, 0);
   AddFunc('SEE', PF_SEE, 0);
@@ -238,10 +244,9 @@ begin
   AddFunc('XDEATH', PF_XDEATH, 0);
   AddFunc('HEAL', PF_HEAL, 0);
   AddFunc('CRASH', PF_CRASH, 0);
-  {$IFDEF DOOM_OR_STRIFE}
   AddFunc('INTERACT', PF_INTERACT, 0);
-  {$ENDIF}
   AddFunc('RAISE', PF_RAISE, 0);
+  AddFunc('EVAL', PF_EVAL, -1);
 end;
 
 procedure TActorEvaluator.AddFunc(aname: string; afunc: TObjFunc; anump: integer);
@@ -628,6 +633,38 @@ begin
   result := '0';
 end;
 
+function TActorEvaluator.PF_MASTERCUSTOMPARAM(p: TDStrings): string;
+var
+  parm: Pmobjcustomparam_t;
+begin
+  if factor.master <> nil then
+  begin
+    parm := P_GetMobjCustomParam(factor.master, p[0]);
+    if parm <> nil then
+    begin
+      result := itoa(parm.value);
+      exit;
+    end;
+  end;
+  result := '0';
+end;
+
+function TActorEvaluator.PF_TRACERCUSTOMPARAM(p: TDStrings): string;
+var
+  parm: Pmobjcustomparam_t;
+begin
+  if factor.tracer <> nil then
+  begin
+    parm := P_GetMobjCustomParam(factor.tracer, p[0]);
+    if parm <> nil then
+    begin
+      result := itoa(parm.value);
+      exit;
+    end;
+  end;
+  result := '0';
+end;
+
 // States
 function TActorEvaluator.PF_SPAWN(p: TDStrings): string;
 begin
@@ -674,16 +711,25 @@ begin
   result := itoa(factor.info.crashstate);
 end;
 
-{$IFDEF DOOM_OR_STRIFE}
 function TActorEvaluator.PF_INTERACT(p: TDStrings): string;
 begin
   result := itoa(factor.info.interactstate);
 end;
-{$ENDIF}
 
 function TActorEvaluator.PF_RAISE(p: TDStrings): string;
 begin
   result := itoa(factor.info.raisestate);
+end;
+
+function TActorEvaluator.PF_EVAL(p: TDStrings): string;
+begin
+  if p.Count = 0 then
+  begin
+    result := '0';
+    exit;
+  end;
+
+  result := p.Strings[N_Random mod p.Count];
 end;
 
 function TActorEvaluator.EvaluateActor(const actor: pmobj_t; const aexpr: string): string;
