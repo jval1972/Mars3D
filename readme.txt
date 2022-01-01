@@ -58,6 +58,25 @@ Speed optimizations to script library.
 Infinite state cycle error message will display the actor's name.
 Software rendering lights affect masked, sprites and voxels.
 Evaluate string parameters.
+Added ACTORDEF functions:
+ -A_SetMasterCustomParam(param: string, value: integer)
+ -A_AddMasterCustomParam(param: string, value: integer)
+ -A_SubtractMasterCustomParam(param: string, value: integer)
+ -A_JumpIfMasterCustomParam(param: string, value: integer, offset: integer)
+ -A_JumpIfMasterCustomParamLess(param: string, value: integer, offset: integer)
+ -A_JumpIfMasterCustomParamGreater(param: string, value: integer, offset: integer)
+ -A_GoToIfMasterCustomParam(param: string, value: integer, state: state_t)
+ -A_GoToIfMasterCustomParamLess(param: string, value: integer, state: state_t)
+ -A_GoToIfMasterCustomParamGreater(param: string, value: integer, state: state_t)
+ -A_SetTracerCustomParam(param: string, value: integer)
+ -A_AddTracerCustomParam(param: string, value: integer)
+ -A_SubtractTracerCustomParam(param: string, value: integer)
+ -A_JumpIfTracerCustomParam(param: string, value: integer, offset: integer)
+ -A_JumpIfTracerCustomParamLess(param: string, value: integer, offset: integer)
+ -A_JumpIfTracerCustomParamGreater(param: string, value: integer, offset: integer)
+ -A_GoToIfTracerCustomParam(param: string, value: integer, state: state_t)
+ -A_GoToIfTracerCustomParamLess(param: string, value: integer, state: state_t)
+ -A_GoToIfTracerCustomParamGreater(param: string, value: integer, state: state_t)
 
 Version 1.0.9.746 (20211226)
 -----------------
