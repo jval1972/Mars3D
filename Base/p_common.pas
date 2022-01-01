@@ -3601,8 +3601,12 @@ begin
   idx := N_Random mod actor.state.params.Count;
 
   if not actor.state.params.IsComputed[idx] then
-    actor.state.params.IntVal[idx] := P_GetStateFromName(actor, actor.state.params.StrVal[idx]);
-  newstate := actor.state.params.IntVal[idx];
+  begin
+    newstate := P_GetStateFromName(actor, actor.state.params.StrVal[idx]);
+    actor.state.params.IntVal[idx] := newstate;
+  end
+  else
+    newstate := actor.state.params.IntVal[idx];
 
   P_SetMobjState(actor, newstate);
 end;
