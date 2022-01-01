@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -47,7 +47,7 @@ const
   S3M_MAX_CHANNELS = 32;
   S3M_VIBRATO_TABLE_SIZE = 64;
 
-type  
+type
   s3m_header_t = record
     songname    : array[0..S3M_MAX_SONG_NAME - 1] of char;
     hex1Ah      : byte;
