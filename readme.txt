@@ -77,6 +77,7 @@ Added ACTORDEF functions:
  -A_GoToIfTracerCustomParam(param: string, value: integer, state: state_t)
  -A_GoToIfTracerCustomParamLess(param: string, value: integer, state: state_t)
  -A_GoToIfTracerCustomParamGreater(param: string, value: integer, state: state_t)
+Evalueate actor flags in ACTORDEF functions parameters with the FLAG() function.
 
 Version 1.0.9.746 (20211226)
 -----------------
