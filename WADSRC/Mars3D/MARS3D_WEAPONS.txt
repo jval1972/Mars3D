@@ -685,7 +685,7 @@ ACTOR "MT_ROCKETMISSILE"
   Mass 100
   Reactiontime 8
   Seesound GUN8SHT
-  Deathsound BAREXP
+  Deathsound "BARLEXP"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF
@@ -772,7 +772,7 @@ ACTOR "MT_TRACKINGROCKETMISSILE"
   Mass 100
   Reactiontime 8
   Seesound GUN8SHT
-  Deathsound BAREXP
+  Deathsound "BARLEXP"
   +MF_NOBLOCKMAP
   +MF_NOGRAVITY
   +MF_DROPOFF

@@ -3560,7 +3560,7 @@
     '  Mass 100'#13#10 +
     '  Reactiontime 8'#13#10 +
     '  Seesound GUN8SHT'#13#10 +
-    '  Deathsound BAREXP'#13#10 +
+    '  Deathsound "BARLEXP"'#13#10 +
     '  +MF_NOBLOCKMAP'#13#10 +
     '  +MF_NOGRAVITY'#13#10 +
     '  +MF_DROPOFF'#13#10 +
@@ -3647,7 +3647,7 @@
     '  Mass 100'#13#10 +
     '  Reactiontime 8'#13#10 +
     '  Seesound GUN8SHT'#13#10 +
-    '  Deathsound BAREXP'#13#10 +
+    '  Deathsound "BARLEXP"'#13#10 +
     '  +MF_NOBLOCKMAP'#13#10 +
     '  +MF_NOGRAVITY'#13#10 +
     '  +MF_DROPOFF'#13#10 +

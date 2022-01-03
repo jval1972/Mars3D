@@ -80,6 +80,7 @@ Added ACTORDEF functions:
 Evalueate actor flags in ACTORDEF functions parameters with the FLAG() function.
 A_JumpXXXX() ACTORDEF functions will recognize the RANDOM & RANDOMPICK keywords for setting offset.
 Actor evaluator can access player's mobj in weapon functions.
+Fixed rocket explode sound.
 
 Version 1.0.9.746 (20211226)
 -----------------
