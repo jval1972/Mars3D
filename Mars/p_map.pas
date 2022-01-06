@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1192,14 +1192,19 @@ begin
         end;
 
     // JVAL: 20210210 - maxstepheight field
-    if thing.info.maxstepheight > 0 then
-    begin
-      jumpupmargin := thing.info.maxstepheight;
-      if jumpupmargin < 64 then
-        jumpupmargin := jumpupmargin * FRACUNIT;
-    end
+    if thing.flags4_ex and MF4_EX_CANNOTSTEP <> 0 then
+      jumpupmargin := 0
     else
-      jumpupmargin := 24 * FRACUNIT;
+    begin
+      if thing.info.maxstepheight > 0 then
+      begin
+        jumpupmargin := thing.info.maxstepheight;
+        if jumpupmargin < 64 then
+          jumpupmargin := jumpupmargin * FRACUNIT;
+      end
+      else
+        jumpupmargin := 24 * FRACUNIT;
+    end;
 
     // JVAL: Version 205
     if (thing.flags2_ex and MF2_EX_JUMPUP <> 0) and (N_Random > 20) then
@@ -1212,15 +1217,20 @@ begin
       exit;
     end;
 
-    // JVAL: 20210210 - maxdropoffheight field
-    if thing.info.maxdropoffheight > 0 then
-    begin
-      dropoffmargin := thing.info.maxdropoffheight;
-      if dropoffmargin < 64 then
-        dropoffmargin := dropoffmargin * FRACUNIT;
-    end
+    if thing.flags4_ex and MF4_EX_CANNOTDROPOFF <> 0 then
+      dropoffmargin := 0
     else
-      dropoffmargin := 24 * FRACUNIT;
+    begin
+      // JVAL: 20210210 - maxdropoffheight field
+      if thing.info.maxdropoffheight > 0 then
+      begin
+        dropoffmargin := thing.info.maxdropoffheight;
+        if dropoffmargin < 64 then
+          dropoffmargin := dropoffmargin * FRACUNIT;
+      end
+      else
+        dropoffmargin := 24 * FRACUNIT;
+    end;
 
     // JVAL: Version 204
     if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
@@ -1480,14 +1490,19 @@ begin
     exit;
   end;
 
-  if slidemo.info.maxstepheight > 0 then
-  begin
-    margin := slidemo.info.maxstepheight;
-    if margin < 64 then
-      margin := margin * FRACUNIT
-  end
+  if slidemo.flags4_ex and MF4_EX_CANNOTSTEP <> 0 then
+    margin := 0
   else
-    margin := 24 * FRACUNIT;
+  begin
+    if slidemo.info.maxstepheight > 0 then
+    begin
+      margin := slidemo.info.maxstepheight;
+      if margin < 64 then
+        margin := margin * FRACUNIT
+    end
+    else
+      margin := 24 * FRACUNIT;
+  end;
 
   if openbottom - slidemo.z > margin then
   begin

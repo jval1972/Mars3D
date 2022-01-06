@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -81,6 +81,7 @@ Evalueate actor flags in ACTORDEF functions parameters with the FLAG() function.
 A_JumpXXXX() ACTORDEF functions will recognize the RANDOM & RANDOMPICK keywords for setting offset.
 Actor evaluator can access player's mobj in weapon functions.
 Fixed rocket explode sound.
+Added MF4_EX_CANNOTSTEP & MF4_EX_CANNOTDROPOFF mobj flags.
 
 Version 1.0.9.746 (20211226)
 -----------------
