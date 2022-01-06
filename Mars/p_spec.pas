@@ -1688,7 +1688,7 @@ var
   linefunc: linefunc_t;
 begin
   //  Triggers that other things can activate
-  if (thing.player = nil) and (line.special <> 121) then  // JVAL: 20211103 - Bråakable glass (MARS)
+  if (thing.player = nil) and (line.special <> 121) then  // JVAL: 20211103 - Breakable glass (MARS)
     if thing.flags and MF_MISSILE <> 0 then
       exit;
 
