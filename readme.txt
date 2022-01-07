@@ -82,6 +82,7 @@ A_JumpXXXX() ACTORDEF functions will recognize the RANDOM & RANDOMPICK keywords 
 Actor evaluator can access player's mobj in weapon functions.
 Fixed rocket explode sound.
 Added MF4_EX_CANNOTSTEP & MF4_EX_CANNOTDROPOFF mobj flags.
+3D floor logic corrections.
 
 Version 1.0.9.746 (20211226)
 -----------------
