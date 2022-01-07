@@ -83,6 +83,7 @@ Actor evaluator can access player's mobj in weapon functions.
 Fixed rocket explode sound.
 Added MF4_EX_CANNOTSTEP & MF4_EX_CANNOTDROPOFF mobj flags.
 3D floor logic corrections.
+Auto fix interpolation for instant changes in sectors heights and texture offsets.
 
 Version 1.0.9.746 (20211226)
 -----------------
