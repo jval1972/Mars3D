@@ -1114,9 +1114,12 @@ begin
     while sector_list <> nil do
       sector_list := P_DelSecnode(sector_list);
 
-  // stop any playing sound
-  S_StopSound(mobj);
-  S_StopSound(@mobj.soundorg1);
+  // From Woof: [FG] removed map objects may finish their sounds
+  if full_sounds then
+    S_UnlinkSound(mobj)
+  else
+    // stop any playing sound
+    S_StopSound(mobj);
 
   P_RemoveMobjCustomParams(mobj.customparams);
 

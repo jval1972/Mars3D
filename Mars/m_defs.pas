@@ -172,7 +172,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 223;
+  NUMDEFAULTS = 224;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1666,6 +1666,14 @@ const
 
     (name: 'preferewavnamesingamedirectory';
      location: @preferewavnamesingamedirectory;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'full_sounds';
+     location: @full_sounds;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
