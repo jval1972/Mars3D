@@ -57,6 +57,8 @@ String evaluation in parameters of ACTORDEF functions.
 Speed optimizations to script library.
 Infinite state cycle error message will display the actor's name.
 Software rendering lights affect masked, sprites and voxels.
+Added MF4_EX_SELFAPPLYINGLIGHT flag. When set, the lightmap in software rendering mode will apply the light to the emitter.
+Added r_lightmaponemitters console variable. When set, the lightmap in software rendering mode will always the light to the emitter.
 Evaluate string parameters.
 Added ACTORDEF functions:
  -A_SetMasterCustomParam(param: string, value: integer)
@@ -83,7 +85,7 @@ Actor evaluator can access player's mobj in weapon functions.
 Fixed rocket explode sound.
 Added MF4_EX_CANNOTSTEP & MF4_EX_CANNOTDROPOFF mobj flags.
 3D floor logic corrections.
-Auto fix interpolation for instant changes in sectors heights and texture offsets.
+Auto fix interpolation for instant changes in sectors heights and texture offsets. (https://www.doomworld.com/forum/topic/110185-eternity-uncapped-framerate-issue)
 
 Version 1.0.9.746 (20211226)
 -----------------
