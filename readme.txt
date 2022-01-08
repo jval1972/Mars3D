@@ -87,6 +87,7 @@ Added MF4_EX_CANNOTSTEP & MF4_EX_CANNOTDROPOFF mobj flags.
 3D floor logic corrections.
 Auto fix interpolation for instant changes in sectors heights and texture offsets. (https://www.doomworld.com/forum/topic/110185-eternity-uncapped-framerate-issue)
 Added full_sounds console variable. When true, the mobjs will finish their sounds when removed. 
+Added MF4_EX_ALWAYSFINISHSOUND & MF4_EX_NEVERFINISHSOUND mobj flags to overwrite the full_sounds console variable.
 
 Version 1.0.9.746 (20211226)
 -----------------

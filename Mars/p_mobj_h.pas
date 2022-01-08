@@ -445,6 +445,10 @@ const
   MF4_EX_CANNOTDROPOFF = $100000;
   // Self applying lighmap
   MF4_EX_SELFAPPLYINGLIGHT = $400000;
+  // Ignore full_sounds console variable and always finishes sounds
+  MF4_EX_ALWAYSFINISHSOUND = $800000;
+  // Ignore full_sounds console variable and never finishes sounds
+  MF4_EX_NEVERFINISHSOUND = $1000000;
 
 
 type
