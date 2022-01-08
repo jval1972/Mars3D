@@ -1733,7 +1733,7 @@ begin
 
                 if domaskedzbuffer then
                   if renderflags and VSF_TRANSPARENCY = 0 then
-                    R_DrawVoxelPixelToZBuffer(depth, left, top);
+                    R_DrawVoxelPixelToZBuffer(depth, left, top, thing);
               end;
 
           col := col.next;
@@ -1942,7 +1942,7 @@ begin
 
           if domaskedzbuffer then
             if renderflags and VSF_TRANSPARENCY = 0 then
-              R_DrawBatchVoxelColumnToZBuffer(depth);
+              R_DrawBatchVoxelColumnToZBuffer(depth, thing);
 
           col := col.next;
 
@@ -1988,7 +1988,7 @@ begin
 
             if domaskedzbuffer then
               if renderflags and VSF_TRANSPARENCY = 0 then
-                R_DrawBatchVoxelColumnToZBuffer(depth);
+                R_DrawBatchVoxelColumnToZBuffer(depth, thing);
 
             last_top := cur_top;
             last_bot := cur_bot;
@@ -2016,7 +2016,7 @@ begin
 
           if domaskedzbuffer then
             if renderflags and VSF_TRANSPARENCY = 0 then
-              R_DrawBatchVoxelColumnToZBuffer(depth);
+              R_DrawBatchVoxelColumnToZBuffer(depth, thing);
         end;
 
         col := col.next;

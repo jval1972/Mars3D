@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -37,6 +37,7 @@ interface
 
 uses
   doomdef,
+  p_mobj_h,
   r_defs,
   r_column,
   r_span;
@@ -46,6 +47,7 @@ type
     start, stop: integer;
     depth: LongWord;
     seg: Pseg_t;
+    mo: Pmobj_t;
   end;
   Pzbufferitem_t = ^zbufferitem_t;
   zbufferitem_tArray = array[0..$FF] of zbufferitem_t;
@@ -68,15 +70,15 @@ procedure R_DrawSlopeToZBuffer;
 
 procedure R_DrawColumnToZBuffer;
 
-procedure R_DrawMaskedColumnToZBuffer;
+procedure R_DrawMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 
-procedure R_DrawBatchMaskedColumnToZBuffer;
+procedure R_DrawBatchMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 
-procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer);
+procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer; const mo: Pmobj_t);
 
-procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord);
+procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj_t);
 
-procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord);
+procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj_t);
 
 // Returns the z buffer value at (x, y) or screen
 // Lower value means far away
@@ -90,6 +92,8 @@ procedure R_ShutDownZBuffer;
 procedure R_StartZBuffer;
 
 procedure R_StopZBuffer;
+
+procedure R_ClearZBuffer;
 
 var
   zbufferactive: boolean = true;
@@ -146,6 +150,7 @@ begin
     item.depth := Round(FRACUNIT / (planeheight / abs(centery - ds_y)) * FRACUNIT);
 
   item.seg := nil;
+  item.mo := nil;
 
   item.start := ds_x1;
   item.stop := ds_x2;
@@ -176,6 +181,7 @@ begin
     item.depth := Round(FRACUNIT / (planeheight / ddy) * FRACUNIT);
 
   item.seg := nil;
+  item.mo := nil;
 
   item.start := ds_x1;
   item.stop := ds_x2;
@@ -200,12 +206,13 @@ begin
 
   item.depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
   item.seg := curline;
+  item.mo := nil;
 
   item.start := dc_yl;
   item.stop := dc_yh;
 end;
 
-procedure R_DrawMaskedColumnToZBuffer;
+procedure R_DrawMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 var
   item: Pzbufferitem_t;
 begin
@@ -222,18 +229,18 @@ begin
 
   item := R_NewZBufferItem(@Zcolumns[dc_x]);
 
-  item.depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
+  item.depth := depth;
   item.seg := nil;
+  item.mo := mo;
 
   item.start := dc_yl;
   item.stop := dc_yh;
 end;
 
-procedure R_DrawBatchMaskedColumnToZBuffer;
+procedure R_DrawBatchMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 var
   item: Pzbufferitem_t;
   i: integer;
-  depth: integer;
 begin
 {$IFDEF DEBUG}
   if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
@@ -246,20 +253,20 @@ begin
     I_Warning('R_DrawBatchMaskedColumnToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
 {$ENDIF}
 
-  depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
   for i := dc_x to dc_x + num_batch_columns - 1 do
   begin
     item := R_NewZBufferItem(@Zcolumns[i]);
 
     item.depth := depth;
     item.seg := nil;
+    item.mo := mo;
 
     item.start := dc_yl;
     item.stop := dc_yh;
   end;
 end;
 
-procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer);
+procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer; const mo: Pmobj_t);
 var
   item: Pzbufferitem_t;
 begin
@@ -274,12 +281,13 @@ begin
 
   item.depth := depth;
   item.seg := nil;
+  item.mo := mo;
 
   item.start := y;
   item.stop := y;
 end;
 
-procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord);
+procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj_t);
 var
   Z: Pzbuffer_t;
   item: Pzbufferitem_t;
@@ -300,27 +308,29 @@ begin
   begin
     item := @Z.items[Z.numitems - 1];
     if item.seg = nil then
-      if depth = item.depth then
-        if dc_yl <= item.stop + 1 then
-          if dc_yl >= item.start then
-          begin
-            if dc_yh <= item.stop then
+      if item.mo = mo then
+        if depth = item.depth then
+          if dc_yl <= item.stop + 1 then
+            if dc_yl >= item.start then
+            begin
+              if dc_yh <= item.stop then
+                Exit;
+              item.stop := dc_yh;
               Exit;
-            item.stop := dc_yh;
-            Exit;
-          end;
+            end;
   end;
 
   item := R_NewZBufferItem(Z);
 
   item.depth := depth;
   item.seg := nil;
+  item.mo := mo;
 
   item.start := dc_yl;
   item.stop := dc_yh;
 end;
 
-procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord);
+procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj_t);
 var
   Z: Pzbuffer_t;
   item: Pzbufferitem_t;
@@ -344,21 +354,23 @@ begin
     begin
       item := @Z.items[Z.numitems - 1];
       if item.seg = nil then
-        if depth = item.depth then
-          if dc_yl <= item.stop + 1 then
-            if dc_yl >= item.start then
-            begin
-              if dc_yh <= item.stop then
+        if item.mo = mo then
+          if depth = item.depth then
+            if dc_yl <= item.stop + 1 then
+              if dc_yl >= item.start then
+              begin
+                if dc_yh <= item.stop then
+                  Continue;
+                item.stop := dc_yh;
                 Continue;
-              item.stop := dc_yh;
-              Continue;
-            end;
+              end;
     end;
 
     item := R_NewZBufferItem(Z);
 
     item.depth := depth;
     item.seg := nil;
+    item.mo := mo;
 
     item.start := dc_yl;
     item.stop := dc_yh;
@@ -369,8 +381,9 @@ var
   stubzitem: zbufferitem_t = (
     start: 0;
     stop: 0;
-    depth: 0;
+    depth: $00000000;
     seg: nil;
+    mo: nil;
   );
 
 function R_ZBufferAt(const x, y: integer): Pzbufferitem_t;
@@ -514,8 +527,6 @@ begin
 end;
 
 procedure R_StopZBuffer;
-var
-  i: integer;
 begin
   if export_zbuffer then
   begin
@@ -523,6 +534,13 @@ begin
     export_zbuffer := false;
   end;
 
+  R_ClearZBuffer;
+end;
+
+procedure R_ClearZBuffer;
+var
+  i: integer;
+begin
   for i := 0 to viewwidth do
     Zcolumns[i].numitems := 0;
   for i := 0 to viewheight do

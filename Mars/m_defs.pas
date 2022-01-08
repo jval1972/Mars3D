@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -125,6 +125,7 @@ var
   r_bltasync: boolean = true;
   r_blitmultiplier: integer = 1;
   r_lightmaponmasked: boolean = true;
+  r_lightmaponemitters: boolean = false;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -171,7 +172,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 222;
+  NUMDEFAULTS = 223;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -328,6 +329,14 @@ const
      defaultbvalue: false;
      _type: tBoolean),
 
+    (name: 'drawcrosshair';
+     location: @drawcrosshair;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
     (name: 'shademenubackground';
      location: @shademenubackground;
      setable: DFS_ALWAYS;
@@ -343,14 +352,6 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tString),
-
-    (name: 'drawcrosshair';
-     location: @drawcrosshair;
-     setable: DFS_ALWAYS;
-     defaultsvalue: '';
-     defaultivalue: 1;
-     defaultbvalue: true;
-     _type: tBoolean),
 
     (name: 'extendedstatusbar';
      location: @extendedstatusbar;
@@ -575,6 +576,14 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tInteger),
+
+    (name: 'r_lightmaponemitters';
+     location: @r_lightmaponemitters;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
 
     (name: 'lightmapcolorintensity';
      location: @lightmapcolorintensity;

@@ -443,6 +443,8 @@ const
   MF4_EX_CANNOTSTEP = $80000;
   // Can not drop off
   MF4_EX_CANNOTDROPOFF = $100000;
+  // Self applying lighmap
+  MF4_EX_SELFAPPLYINGLIGHT = $400000;
 
 
 type

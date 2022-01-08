@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -39,6 +39,7 @@ interface
 uses
   d_delphi,
   doomdef,
+  p_mobj_h,
   m_fixed,
   r_defs;
 
@@ -49,9 +50,9 @@ var
   maxvissprite: integer;
 
 {$IFNDEF OPENGL}
-procedure R_DrawMaskedColumn(column: Pcolumn_t; const depthscale: fixed_t;
+procedure R_DrawMaskedColumn(column: Pcolumn_t; const depthscale: fixed_t; const mo: Pmobj_t = nil;
   baseclip: integer = -1; const renderflags: LongWord = 0);
-procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
+procedure R_DrawMaskedColumn2(const mc2h: integer; const depthscale: fixed_t); // Use dc_source32
 {$ENDIF}
 
 procedure R_AddSprites(sec: Psector_t);
@@ -124,7 +125,6 @@ uses
   gl_voxels,
   gl_models,
 {$ENDIF}
-  p_mobj_h,
   p_pspr,
   p_pspr_h,
   p_local,
@@ -516,9 +516,9 @@ end;
 //  in posts/runs of opaque pixels.
 //
 type
-  R_DrawMaskedColumn_t = procedure (column: Pcolumn_t; const depthscale: fixed_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+  R_DrawMaskedColumn_t = procedure (column: Pcolumn_t; const depthscale: fixed_t; const mo: Pmobj_t = nil; baseclip: integer = -1; const renderflags: LongWord = 0);
 
-procedure R_DrawMaskedColumn(column: Pcolumn_t; const depthscale: fixed_t;
+procedure R_DrawMaskedColumn(column: Pcolumn_t; const depthscale: fixed_t; const mo: Pmobj_t = nil;
   baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
@@ -582,7 +582,7 @@ begin
 
       if domaskedzbuffer then
         if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawMaskedColumnToZBuffer;
+          R_DrawMaskedColumnToZBuffer(mo, depthscale);
     end;
     if not tallpatch then
     begin
@@ -600,7 +600,7 @@ begin
 end;
 
 // For Walls only
-procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
+procedure R_DrawMaskedColumn2(const mc2h: integer; const depthscale: fixed_t); // Use dc_source32
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -635,7 +635,7 @@ begin
       colfunc;
 
     if domaskedzbuffer then
-      R_DrawMaskedColumnToZBuffer;
+      R_DrawMaskedColumnToZBuffer(nil, depthscale);
   end;
 
   dc_texturemid := basetexturemid;
@@ -643,9 +643,9 @@ end;
 
 // JVAL: batch column drawing
 type
-  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; mo: Pmobj_t; const depthscale: integer; baseclip: integer = -1; const renderflags: LongWord = 0);
 
-procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; mo: Pmobj_t; const depthscale: integer; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -698,7 +698,7 @@ begin
 
       if domaskedzbuffer then
         if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawBatchMaskedColumnToZBuffer;
+          R_DrawBatchMaskedColumnToZBuffer(mo, depthscale);
     end;
     if not tallpatch then
     begin
@@ -750,7 +750,7 @@ begin
   parms.proc := batchspritefunc_mt;
 end;
 
-procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; mo: Pmobj_t; const depthscale: integer; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -800,7 +800,7 @@ begin
 
       if domaskedzbuffer then
         if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawBatchMaskedColumnToZBuffer;
+          R_DrawBatchMaskedColumnToZBuffer(mo, depthscale);
     end;
     if not tallpatch then
     begin
@@ -818,7 +818,7 @@ begin
   dc_texturemid := basetexturemid;
 end;
 
-procedure R_DrawMaskedColumnMT(column: Pcolumn_t; const depthscale: fixed_t;
+procedure R_DrawMaskedColumnMT(column: Pcolumn_t; const depthscale: fixed_t; mo: Pmobj_t;
   baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
@@ -882,7 +882,7 @@ begin
 
       if domaskedzbuffer then
         if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawMaskedColumnToZBuffer;
+          R_DrawMaskedColumnToZBuffer(mo, depthscale);
     end;
     if not tallpatch then
     begin
@@ -1074,7 +1074,7 @@ begin
       texturecolumn := LongWord(frac) shr FRACBITS;
 
       column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
-      dmcproc(column, dbscale, baseclip, vis.renderflags);
+      dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
       frac := frac + xiscale;
       inc(dc_x);
     end;
@@ -1107,9 +1107,9 @@ begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
         dc_x := save_dc_x;
         if num_batch_columns > 1 then
-          dmcproc_batch(column, baseclip, vis.renderflags)
+          dmcproc_batch(column, vis.mo, dbscale, baseclip, vis.renderflags)
         else
-          dmcproc(column, dbscale, baseclip, vis.renderflags);
+          dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
         dc_x := last_dc_x;
       end;
       frac := frac + xiscale;
@@ -1121,9 +1121,9 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
       dc_x := last_dc_x;
       if num_batch_columns > 1 then
-        dmcproc_batch(column, baseclip, vis.renderflags)
+        dmcproc_batch(column, vis.mo, dbscale, baseclip, vis.renderflags)
       else
-        dmcproc(column, dbscale, baseclip, vis.renderflags);
+        dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
     end;
     R_SpriteRenderMT;
   end;
@@ -2493,51 +2493,55 @@ end;
 procedure R_DrawMasked_SingleThread;
 begin
   R_SortVisSprites;
+  domaskedzbuffer := false;
   if r_uselightmaps then
   begin
     R_MarkLights;
     if numdlitems > 0 then
     begin
-      if not r_lightmaponmasked then
-        R_DrawLightsSingleThread;
+      // Draw lights - First pass - only world
+      R_DrawLightsSingleThread(lp_solid);
       domaskedzbuffer := r_lightmaponmasked;
-      R_DoDrawMasked;
+      // Clear ZBuffer
       if r_lightmaponmasked then
-        R_DrawLightsSingleThread;
+        R_ClearZBuffer;
+      R_DoDrawMasked;
+      // Draw lights - Second pass - masked
+      if r_lightmaponmasked then
+        R_DrawLightsSingleThread(lp_masked);
     end
     else
       R_DoDrawMasked;
   end
   else
-  begin
-    domaskedzbuffer := false;
     R_DoDrawMasked;
-  end;
 end;
 
 procedure R_DrawMasked_MultiThread;
 begin
   R_WaitSortVisSpritesMT;
+  domaskedzbuffer := false;
   if r_uselightmaps then
   begin
     R_MarkLights;
     if numdlitems > 0 then
     begin
-      if not r_lightmaponmasked then
-        R_DrawLightsMultiThread;
+      // Draw lights - First pass - only world
+      R_DrawLightsMultiThread(lp_solid);
       domaskedzbuffer := r_lightmaponmasked;
-      R_DoDrawMasked;
+      // Clear ZBuffer
       if r_lightmaponmasked then
-        R_DrawLightsMultiThread;
+        R_ClearZBuffer;
+      R_DoDrawMasked;
+      // Draw lights - Second pass - masked
+      if r_lightmaponmasked then
+        R_DrawLightsMultiThread(lp_masked);
     end
     else
       R_DoDrawMasked;
   end
   else
-  begin
-    domaskedzbuffer := false;
     R_DoDrawMasked;
-  end;
 end;
 {$ENDIF}
 
