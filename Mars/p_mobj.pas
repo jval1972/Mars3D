@@ -1116,6 +1116,7 @@ begin
 
   // stop any playing sound
   S_StopSound(mobj);
+  S_StopSound(@mobj.soundorg1);
 
   P_RemoveMobjCustomParams(mobj.customparams);
 
