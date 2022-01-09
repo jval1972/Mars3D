@@ -101,6 +101,7 @@ implementation
 
 uses
   d_delphi,
+  i_system,
   info,
 //
 // Needs to include the precompiled
@@ -124,11 +125,16 @@ uses
 //
 // P_SetPsprite
 //
+const
+  PSPR_CYCLE_LIMIT = 1000000;
+
 procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: integer);
 var
   psp: Ppspdef_t;
   state: Pstate_t;
+  cycle_counter: integer;
 begin
+  cycle_counter := 0;
   psp := @player.psprites[position];
   repeat
     if Ord(stnum) = 0 then
@@ -162,6 +168,10 @@ begin
 
     stnum := psp.state.nextstate;
 
+    inc(cycle_counter);
+    if cycle_counter > PSPR_CYCLE_LIMIT then
+      I_Error('P_SetPsprite(): Infinite state cycle detected in player sprites (readyweapon=%d, pendinfweapon=%d)!',
+        [Ord(player.readyweapon), Ord(player.pendingweapon)]);
   until psp.tics <> 0;
   // an initial state of 0 could cycle through
 end;
