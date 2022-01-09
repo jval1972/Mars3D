@@ -2502,9 +2502,6 @@ begin
       // Draw lights - First pass - only world
       R_DrawLightsSingleThread(lp_solid);
       domaskedzbuffer := r_lightmaponmasked;
-      // Clear ZBuffer
-      if r_lightmaponmasked then
-        R_ClearZBuffer;
       R_DoDrawMasked;
       // Draw lights - Second pass - masked
       if r_lightmaponmasked then
@@ -2529,9 +2526,6 @@ begin
       // Draw lights - First pass - only world
       R_DrawLightsMultiThread(lp_solid);
       domaskedzbuffer := r_lightmaponmasked;
-      // Clear ZBuffer
-      if r_lightmaponmasked then
-        R_ClearZBuffer;
       R_DoDrawMasked;
       // Draw lights - Second pass - masked
       if r_lightmaponmasked then

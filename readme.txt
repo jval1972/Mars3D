@@ -89,6 +89,7 @@ Auto fix interpolation for instant changes in sectors heights and texture offset
 Added full_sounds console variable. When true, the mobjs will finish their sounds when removed. 
 Added MF4_EX_ALWAYSFINISHSOUND & MF4_EX_NEVERFINISHSOUND mobj flags to overwrite the full_sounds console variable.
 Always check the actor's instance flags, not its info flags.
+Corrected software rendering lights clipping in 3d floors.
 
 Version 1.0.9.746 (20211226)
 -----------------

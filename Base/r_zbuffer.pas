@@ -48,6 +48,8 @@ type
     depth: LongWord;
     seg: Pseg_t;
     mo: Pmobj_t;
+    pass: Integer;
+    planeheightz: Integer;
   end;
   Pzbufferitem_t = ^zbufferitem_t;
   zbufferitem_tArray = array[0..$FF] of zbufferitem_t;
@@ -151,9 +153,11 @@ begin
 
   item.seg := nil;
   item.mo := nil;
+  item.pass := 0;
 
   item.start := ds_x1;
   item.stop := ds_x2;
+  item.planeheightz := planeheightz;
 end;
 
 procedure R_DrawSlopeToZBuffer;
@@ -182,9 +186,11 @@ begin
 
   item.seg := nil;
   item.mo := nil;
+  item.pass := 0;
 
   item.start := ds_x1;
   item.stop := ds_x2;
+  item.planeheightz := MAXINT;
 end;
 
 procedure R_DrawColumnToZBuffer;
@@ -207,6 +213,7 @@ begin
   item.depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
   item.seg := curline;
   item.mo := nil;
+  item.pass := 0;
 
   item.start := dc_yl;
   item.stop := dc_yh;
@@ -232,6 +239,7 @@ begin
   item.depth := depth;
   item.seg := nil;
   item.mo := mo;
+  item.pass := 1;
 
   item.start := dc_yl;
   item.stop := dc_yh;
@@ -260,6 +268,7 @@ begin
     item.depth := depth;
     item.seg := nil;
     item.mo := mo;
+    item.pass := 1;
 
     item.start := dc_yl;
     item.stop := dc_yh;
@@ -282,6 +291,7 @@ begin
   item.depth := depth;
   item.seg := nil;
   item.mo := mo;
+  item.pass := 1;
 
   item.start := y;
   item.stop := y;
@@ -325,6 +335,7 @@ begin
   item.depth := depth;
   item.seg := nil;
   item.mo := mo;
+  item.pass := 1;
 
   item.start := dc_yl;
   item.stop := dc_yh;
@@ -371,6 +382,7 @@ begin
     item.depth := depth;
     item.seg := nil;
     item.mo := mo;
+    item.pass := 1;
 
     item.start := dc_yl;
     item.stop := dc_yh;
@@ -384,6 +396,8 @@ var
     depth: $00000000;
     seg: nil;
     mo: nil;
+    pass: 0;
+    planeheightz: 0;
   );
 
 function R_ZBufferAt(const x, y: integer): Pzbufferitem_t;
