@@ -2568,7 +2568,7 @@ begin
     if (thing.flags2_ex and MF2_EX_GREENBLOOD <> 0) and (MT_GREENGIBS <> Ord(MT_NONE)) then
       st := mobjinfo[MT_GREENGIBS].spawnstate
     else if (thing.flags2_ex and MF2_EX_BLUEBLOOD <> 0) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
-      st := mobjinfo[MT_GREENGIBS].spawnstate
+      st := mobjinfo[MT_BLUEGIBS].spawnstate
     else
       st := Ord(S_GIBS);
     P_SetMobjState(thing, st);
