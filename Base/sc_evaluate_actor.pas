@@ -71,9 +71,7 @@ type
     flastvalue: string;
     // Random functions
     function PF_rand(p: TDStrings): string;
-    {$IFNDEF HEXEN}
     function PF_sysrand(p: TDStrings): string;
-    {$ENDIF}
     function PF_random(p: TDStrings): string;
     function PF_random2(p: TDStrings): string;
     function PF_frandom(p: TDStrings): string;
@@ -120,6 +118,7 @@ type
     function PF_WeaveIndexZ(p: TDStrings): string;
     function PF_SpriteDX(p: TDStrings): string;
     function PF_SpriteDY(p: TDStrings): string;
+    function PF_PainChance(p: TDStrings): string;
     // Pascalscript map & world variables
     function PF_MAPSTR(p: TDStrings): string;
     function PF_WORLDSTR(p: TDStrings): string;
@@ -167,9 +166,7 @@ begin
   flastvalue := '';
   // Ramdom functions
   AddFunc('RAND', PF_rand, 0);
-  {$IFNDEF HEXEN}
   AddFunc('SYSRAND', PF_sysrand, -1);
-  {$ENDIF}
   AddFunc('RANDOM', PF_random, -1);
   AddFunc('RANDOM2', PF_random2, -1);
   AddFunc('FLOATRANDOM', PF_frandom, -1);
@@ -221,6 +218,7 @@ begin
   AddFunc('WEAVEINDEXZ', PF_WeaveIndexZ, 0);
   AddFunc('SPRITEDX', PF_SpriteDX, 0);
   AddFunc('SPRITEDY', PF_SpriteDY, 0);
+  AddFunc('PAINCHANCE', PF_PainChance, 0);
   // Pascalscript map & world variables
   AddFunc('MAPSTR', PF_MAPSTR, 1);
   AddFunc('WORLDSTR', PF_WORLDSTR, 1);
@@ -296,7 +294,6 @@ begin
   result := ftoa(P_Random / 255);
 end;
 
-{$IFNDEF HEXEN}
 function TActorEvaluator.PF_sysrand(p: TDStrings): string;
 var
   f1, f2: float;
@@ -315,7 +312,6 @@ begin
     result := itoa(round(f1) + Sys_Random * (round(f2) - round(f1) + 1) div 256);
   end;
 end;
-{$ENDIF}
 
 function TActorEvaluator.PF_random(p: TDStrings): string;
 var
@@ -445,7 +441,7 @@ end;
 
 function TActorEvaluator.PF_ANGLE(p: TDStrings): string;
 begin
-  result := ftoa(factor.angle / $FFFFFFFF * 2 * pi);
+  result := ftoa(factor.angle / $FFFFFFFF * 360);
 end;
 
 // Actor properties
@@ -588,6 +584,11 @@ end;
 function TActorEvaluator.PF_SpriteDY(p: TDStrings): string;
 begin
   result := itoa(factor.spriteDY);
+end;
+
+function TActorEvaluator.PF_PainChance(p: TDStrings): string;
+begin
+  result := itoa(factor.painchance);
 end;
 
 // Pascalscript map & world variables
