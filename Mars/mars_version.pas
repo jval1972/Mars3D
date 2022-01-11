@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -71,11 +71,11 @@ const
 
 const
   marsversioninfo: array[0..NUM_MARS_VERSION_INFO - 1] of marsversioninfo_t = (
-    (version: mv10sha_mad_small; fastcrc32: 'c0314f5a'; gamemode: shareware;  savepath: 'MARS_SK';  language: korean;  versionstring: 'Mars v1.0 Shareware (KOREAN)'),
-    (version: mv10reg_mad_small; fastcrc32: 'ec408aef'; gamemode: registered; savepath: 'MARS_RK';  language: korean;  versionstring: 'Mars v1.0 Registered (KOREAN)'),
-    (version: mv10reg_mad_big;   fastcrc32: 'dc2ec8ad'; gamemode: registered; savepath: 'MARS_RKB'; language: korean;  versionstring: 'Mars v1.0 Registered (KOREAN) (BIG)'),
-    (version: mv10sha_wad;       fastcrc32: 'e1438da7'; gamemode: shareware;  savepath: 'MARS_SKW'; language: korean;  versionstring: 'Mars v1.0 Shareware (KOREAN) (WAD)'),
-    (version: mv10reg_wad;       fastcrc32: '486fa896'; gamemode: registered; savepath: 'MARS_RKW'; language: korean;  versionstring: 'Mars v1.0 Registered (KOREAN) (WAD)'),
+    (version: mv10sha_mad_small; fastcrc32: 'c0314f5a'; gamemode: shareware;  savepath: 'MARS_SK';  language: chinese;  versionstring: 'Mars v1.0 Shareware (CHINESE)'),
+    (version: mv10reg_mad_small; fastcrc32: 'ec408aef'; gamemode: registered; savepath: 'MARS_RK';  language: chinese;  versionstring: 'Mars v1.0 Registered (CHINESE)'),
+    (version: mv10reg_mad_big;   fastcrc32: 'dc2ec8ad'; gamemode: registered; savepath: 'MARS_RKB'; language: chinese;  versionstring: 'Mars v1.0 Registered (CHINESE) (BIG)'),
+    (version: mv10sha_wad;       fastcrc32: 'e1438da7'; gamemode: shareware;  savepath: 'MARS_SKW'; language: chinese;  versionstring: 'Mars v1.0 Shareware (CHINESE) (WAD)'),
+    (version: mv10reg_wad;       fastcrc32: '486fa896'; gamemode: registered; savepath: 'MARS_RKW'; language: chinese;  versionstring: 'Mars v1.0 Registered (CHINESE) (WAD)'),
     (version: mv20reg_wad;       fastcrc32: '8075888a'; gamemode: registered; savepath: 'MARS_REW'; language: english; versionstring: 'Mars v1.0 Registered (ENGLISH) (WAD)')
   );
 

@@ -1355,7 +1355,7 @@ var
   i: integer;
 begin
   V_DrawPatch(0, 0, SCN_TMP, m_detail, false);
-  if language = korean then
+  if language = chinese then
     V_DrawPatch(29, 144, SCN_TMP, 'M_FIXSL', false);
   M_HorzLine(29, 109, 174, 123);  // JVAL: 20211107 - One extra save slot (9 total)
   V_DrawPatch(28 + m_lgttl.leftoffset, 19 + m_lgttl.topoffset, SCN_TMP, m_lgttl, false);
@@ -1406,7 +1406,7 @@ var
   i: integer;
 begin
   V_DrawPatch(0, 0, SCN_TMP, m_detail, false);
-  if language = korean then
+  if language = chinese then
     V_DrawPatch(29, 144, SCN_TMP, 'M_FIXSL', false);
   M_HorzLine(29, 109, 174, 123);  // JVAL: 20211107 - One extra save slot (9 total)
   V_DrawPatch(28 + m_sgttl.leftoffset, 19 + m_sgttl.topoffset, SCN_TMP, m_sgttl, false);
