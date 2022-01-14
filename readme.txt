@@ -94,6 +94,7 @@ Added A_ChangeSpriteFlip(propability: integer) ACTORDEF function.
 ACTORDEF can remove flags with the MF3_EX_ & MF4_EX_ prefix.
 Infinite state cycle detection while moving player sprites.
 Painchance actor field available in evaluated actor parameters.
+Use sound files in pk3 without WAD equivalent. Supported file formats are WAV, OGG, FLAC, OGA, AU, VOC & SND.
 
 Version 1.0.9.746 (20211226)
 -----------------

@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -392,7 +392,8 @@ uses
   anm_info in 'Base\anm_info.pas',
   flc_lib in 'Base\flc_lib.pas',
   mars_intro in 'Mars\mars_intro.pas',
-  mars_finale in 'Mars\mars_finale.pas';
+  mars_finale in 'Mars\mars_finale.pas',
+  s_pk3sounds in 'Base\s_pk3sounds.pas';
 
 var
   Saved8087CW: Word;

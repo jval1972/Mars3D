@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION (d_main.h):
@@ -196,6 +196,7 @@ uses
   r_lights,
   sounds,
   s_sound,
+  s_pk3sounds,
   sc_actordef,
   sc_states,
   t_main,
@@ -2145,6 +2146,11 @@ begin
   MT_Init;
 
   SUC_Progress(69);
+
+  printf('W_InitPK3Sounds: Initializing sound files in pk3 filesystem'#13#10);
+  W_InitPK3Sounds;
+
+  SUC_Progress(70);
 
   printf('R_Init: Init Rendering Engine.'#13#10);
   R_Init;
