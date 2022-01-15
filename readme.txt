@@ -98,6 +98,7 @@ Use sound files in pk3 without WAD equivalent. Supported file formats are WAV, O
 Small optimizations and corrections to voxel software rendering.
 Fixed intermission screen kill percentage.
 Fixed z-fight of dropped items in OpenGL mode.
+Warnings while checking ACTORDEF function parameters display the actor's name.
 
 Version 1.0.9.746 (20211226)
 -----------------
