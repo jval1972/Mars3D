@@ -97,6 +97,7 @@ Painchance actor field available in evaluated actor parameters.
 Use sound files in pk3 without WAD equivalent. Supported file formats are WAV, OGG, FLAC, OGA, AU, VOC & SND.
 Small optimizations and corrections to voxel software rendering.
 Fixed intermission screen kill percentage.
+Fixed z-fight of dropped items in OpenGL mode.
 
 Version 1.0.9.746 (20211226)
 -----------------

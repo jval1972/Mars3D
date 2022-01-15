@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -4391,6 +4391,8 @@ begin
 end;
 
 procedure gld_DrawSprite(sprite: PGLSprite);
+const
+  DROPPED_ZOFFS = -0.04;
 var
   haswhitefog: boolean; // JVAL: Mars fog sectors
 begin
@@ -4494,6 +4496,19 @@ begin
       gld_StaticLight(sprite.light);
   end;
   glBegin(GL_TRIANGLE_STRIP);
+  if sprite.mo.flags and MF_DROPPED <> 0 then
+  begin
+    glTexCoord2f(sprite.ul, sprite.vt);
+    glVertex3f(sprite.x1, sprite.y1, DROPPED_ZOFFS);
+    glTexCoord2f(sprite.ur, sprite.vt);
+    glVertex3f(sprite.x2, sprite.y1, DROPPED_ZOFFS);
+    glTexCoord2f(sprite.ul, sprite.vb);
+    glVertex3f(sprite.x1, sprite.y2, DROPPED_ZOFFS);
+    glTexCoord2f(sprite.ur, sprite.vb);
+    glVertex3f(sprite.x2, sprite.y2, DROPPED_ZOFFS);
+  end
+  else
+  begin
     glTexCoord2f(sprite.ul, sprite.vt);
     glVertex3f(sprite.x1, sprite.y1, 0.0);
     glTexCoord2f(sprite.ur, sprite.vt);
@@ -4502,6 +4517,7 @@ begin
     glVertex3f(sprite.x1, sprite.y2, 0.0);
     glTexCoord2f(sprite.ur, sprite.vb);
     glVertex3f(sprite.x2, sprite.y2, 0.0);
+  end;
   glEnd;
 
   glPopMatrix;
