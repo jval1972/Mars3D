@@ -1828,20 +1828,24 @@ begin
         right := aleftx;}
 //------------------------------------------------------
 
+      if right < left then
+        Continue;
+
       left := left + centerx;
       right := right + centerx;
       if left < 0 then
         left := 0
       else if left >= viewwidth then
-        left := viewwidth - 1;
+        Continue;
+
       if right >= viewwidth then
         right := viewwidth - 1
       else if right < 0 then
-        right := 0;
+        Continue;
 
       if vx_simpleclip then
       begin
-        num_batch_columns := right - left;
+        num_batch_columns := right - left + 1;
         dc_x := left;
       end;
 
@@ -1930,19 +1934,22 @@ begin
           else
             dc_yh := bottom;
 
-          if depthbufferactive then
+          if dc_yl <= dc_yh then
           begin
-            if renderflags and VSF_TRANSPARENCY <> 0 then
-              R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+            if depthbufferactive then
+            begin
+              if renderflags and VSF_TRANSPARENCY <> 0 then
+                R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+              else
+                R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+            end
             else
-              R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
-          end
-          else
-            batchcolfunc;
+              batchcolfunc;
 
-          if domaskedzbuffer then
-            if renderflags and VSF_TRANSPARENCY = 0 then
-              R_DrawBatchVoxelColumnToZBuffer(depth, thing);
+            if domaskedzbuffer then
+              if renderflags and VSF_TRANSPARENCY = 0 then
+                R_DrawBatchVoxelColumnToZBuffer(depth, thing);
+          end;
 
           col := col.next;
 
