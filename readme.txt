@@ -100,6 +100,7 @@ Fixed intermission screen kill percentage.
 Fixed z-fight of dropped items in OpenGL mode.
 Warnings while checking ACTORDEF function parameters display the actor's name.
 Support for the wait keyword in ACTORDEF.
+Display warning message when a pk3 file can not be loaded.
 
 Version 1.0.9.746 (20211226)
 -----------------

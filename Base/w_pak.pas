@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -489,18 +489,22 @@ begin
   result := false;
   Fn := strupper(FileName);
   if PAKS.IndexOf(Fn) > -1 then
+  begin
+    I_Warning('TPakManager.PAddFile(): Trying to add twice file "%s"'#13#10, [FileName]);
     exit;
+  end;
 
-  pkid := PAKS.Add(Fn);
-  PAKS.Objects[pkid] := nil;
-
-  if not fopen(F, fn, fOpenReadOnly) then
+  if not fopen(F, Fn, fOpenReadOnly) then
+  begin
+    I_Warning('TPakManager.PAddFile(): Can not open file "%s"'#13#10, [FileName]);
     exit;
+  end;
 
   Blockread(F, Id, 4, N);
   if N <> 4 then
   begin
     close(F);
+    I_Warning('TPakManager.PAddFile(): Can read file "%s"'#13#10, [FileName]);
     exit;
   end;
   if (Id <> Pakid) and (Id <> WAD2Id) and (Id <> WAD3Id){$IFNDEF FPC} and (id <> ZIPFILESIGNATURE) {$ENDIF} and
@@ -508,8 +512,12 @@ begin
   begin
     result := false;
     close(F);
+    I_Warning('TPakManager.PAddFile(): Unknown file type "%s"'#13#10, [FileName]);
     exit;
   end;
+
+  pkid := PAKS.Add(Fn);
+  PAKS.Objects[pkid] := nil;
 
   wads := nil;
 
