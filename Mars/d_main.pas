@@ -823,7 +823,8 @@ begin
       exit;
     try
       wadfiles.Add(fname);
-      PAK_AddFile(fname);
+      if fname <> GAME_CNV_FILE then
+        PAK_AddFile(fname);
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
     // GL_xxxx lumps has lower priority from GWA files, that's for we

@@ -445,6 +445,7 @@ function TPakManager.PAddFile(const FileName: string): boolean; // Add A Pak fil
 var
   Nr: Integer;
   N, Id, Ofs:Integer;
+  sId: string[4];
   F: file;
   P: Pointer;
   I, J: Integer;
@@ -507,12 +508,14 @@ begin
     I_Warning('TPakManager.PAddFile(): Can read file "%s"'#13#10, [FileName]);
     exit;
   end;
+  sId := Chr(Id and $FF) + Chr((Id shr 8) and $FF) + Chr((Id shr 16) and $FF) + Chr((Id shr 24) and $FF);
   if (Id <> Pakid) and (Id <> WAD2Id) and (Id <> WAD3Id){$IFNDEF FPC} and (id <> ZIPFILESIGNATURE) {$ENDIF} and
      (Id <> IWAD) and (Id <> PWAD) and (Id <> DWAD) then
   begin
     result := false;
     close(F);
-    I_Warning('TPakManager.PAddFile(): Unknown file type "%s"'#13#10, [FileName]);
+    if (sId <> 'CD&M') and (sId <> 'WORL') then
+      I_Warning('TPakManager.PAddFile(): Unknown file type "%s"'#13#10, [FileName]);
     exit;
   end;
 
