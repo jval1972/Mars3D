@@ -51,6 +51,8 @@ Features:
 
 History
 -------
+Version 1.0.10.747 (20220115)
+-----------------
 Fix gravity field inheritance in ACTORDEF declarations.
 TWadReader() error cheching.
 String evaluation in parameters of ACTORDEF functions.
