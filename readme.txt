@@ -51,6 +51,8 @@ Features:
 
 History
 -------
+"ACTIVE SOUND" alias for "ACTION SOUND" DEHACKED field.
+
 Version 1.0.10.747 (20220115)
 -----------------
 Fix gravity field inheritance in ACTORDEF declarations.
