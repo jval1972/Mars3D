@@ -357,7 +357,8 @@ begin
           13: mobjinfo[mobj_no].xdeathstate := mobj_val;
           14: mobjinfo[mobj_no].deathsound := S_GetSoundNumForName(token2);
           15: mobjinfo[mobj_no].speed := mobj_val;
-          16: mobjinfo[mobj_no].radius := mobj_val;
+          16,
+          67: mobjinfo[mobj_no].radius := mobj_val;
           17: mobjinfo[mobj_no].height := mobj_val;
           18: mobjinfo[mobj_no].mass := mobj_val;
           19: mobjinfo[mobj_no].damage := mobj_val;
@@ -1901,6 +1902,7 @@ begin
   mobj_tokens.Add('SPRITE DX');          // .spriteDX                 // 64
   mobj_tokens.Add('SPRITE DY');          // .spriteDY                 // 65
   mobj_tokens.Add('ACTIVE SOUND');       // .activesound              // 66 - Alias for 20
+  mobj_tokens.Add('RADIUS');             // .radius                   // 67 - Alias for 16
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

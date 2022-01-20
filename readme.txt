@@ -53,6 +53,7 @@ History
 -------
 "ACTIVE SOUND" alias for "ACTION SOUND" DEHACKED field.
 Fog sectors will use lightlevel > 256. Lightlevel 256 is full bright. (https://www.doomworld.com/forum/topic/118126-doom-sector-light-levels/)
+"RADIUS" alias for "WIDTH" DEHACKED field.
 
 Version 1.0.10.747 (20220115)
 -----------------
