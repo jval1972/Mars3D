@@ -98,6 +98,7 @@ uses
   vx_voxelsprite,
   v_video;
 
+
 const
   DFS_NEVER = 0;
   DFS_SINGLEPLAYER = 1;
