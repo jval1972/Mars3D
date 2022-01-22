@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -786,7 +786,7 @@ begin
   end
   else if (mobj.z <> mobj.floorz) or (mobj.momz <> 0) then
   begin
-    if mobj.flags2_ex and MF2_EX_PASSMOBJ <> 0 then
+    if (mobj.player <> nil) or (mobj.flags2_ex and MF2_EX_PASSMOBJ <> 0) then
     begin
       onmo := P_CheckOnmobj(mobj);
       if onmo = nil then
