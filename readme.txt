@@ -55,6 +55,7 @@ History
 Fog sectors will use lightlevel > 256. Lightlevel 256 is full bright. (https://www.doomworld.com/forum/topic/118126-doom-sector-light-levels/)
 "RADIUS" alias for "WIDTH" DEHACKED field.
 Fix some problems with player movement clipping when landing on other actors.
+Emulates correctly the ripple effect in OpenGL mode.
 
 Version 1.0.10.747 (20220115)
 -----------------
