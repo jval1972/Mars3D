@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -574,9 +574,7 @@ uses
   r_data,
   r_main,
   r_plane,
-  {$IFNDEF OPENGL}
   r_ripple,
-  {$ENDIF}
   info_h,
   tables,
   g_game,
@@ -2989,9 +2987,7 @@ begin
     end;
   end;
 
-  {$IFNDEF OPENGL}
   curripple := @r_defripple[leveltime and 31];
-  {$ENDIF}
 
   // ANIMATE LINE SPECIALS
   for i := 0 to numlinespecials - 1 do

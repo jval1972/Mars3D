@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -62,6 +62,7 @@ uses
   dglOpenGL,
   doomdef,
   d_delphi,
+  p_tick,
   m_fixed,
   tables,
   gl_defs,
@@ -267,8 +268,16 @@ begin
 
   glColor4f(l.r, l.g, l.b, 1.0);
 
-  tex := gld_RegisterFlat(l.lump, true, l.flat);
-  gld_BindFlat(tex);
+  if l.sec.renderflags and SRF_RIPPLE_FLOOR <> 0 then
+  begin
+    tex := gld_RegisterFlat(l.lump, true, l.flat);
+    gld_BindFlat(tex, leveltime and 31);
+  end
+  else
+  begin
+    tex := gld_RegisterFlat(l.lump, true, l.flat);
+    gld_BindFlat(tex, -1);
+  end;
 
 {$IFDEF DOOM_OR_STRIFE}
   xoffs := l.sec.floor_xoffs * tex.texturescale / FLATUVSCALE;

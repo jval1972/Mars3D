@@ -393,7 +393,8 @@ uses
   flc_lib in 'Base\flc_lib.pas',
   mars_intro in 'Mars\mars_intro.pas',
   mars_finale in 'Mars\mars_finale.pas',
-  s_pk3sounds in 'Base\s_pk3sounds.pas';
+  s_pk3sounds in 'Base\s_pk3sounds.pas',
+  r_ripple in 'Base\r_ripple.pas';
 
 var
   Saved8087CW: Word;
