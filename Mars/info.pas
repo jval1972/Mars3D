@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -69,23 +69,6 @@ procedure Info_ResolveActordefActors;
 const
   DEFPUSHFACTOR = FRACUNIT div 4;
 
-implementation
-
-uses
-  m_argv,
-  p_enemy,
-  p_pspr,
-  p_mobj_h,
-  p_gender,
-  p_spec,
-  info_common,
-  info_export,
-  r_renderstyle,
-  sounds;
-
-var
-  DO_states: array[0..Ord(DO_NUMSTATES) - 1] of state_t;
-
 const
   DO_sprnames: array[0..Ord(DO_NUMSPRITES)] of string[4] = (
     'TNT1', 'BLUD', 'PUFF', 'TFOG', 'IFOG', 'ROLE', 'POL5', 'DOGS',
@@ -103,6 +86,23 @@ const
     'SP90', 'SP91', 'SP92', 'SP93', 'SP94', 'SP95', 'SP96', 'SP97', 'SP98', 'SP99',
     'NULL', ''
   );
+
+implementation
+
+uses
+  m_argv,
+  p_enemy,
+  p_pspr,
+  p_mobj_h,
+  p_gender,
+  p_spec,
+  info_common,
+  info_export,
+  r_renderstyle,
+  sounds;
+
+var
+  DO_states: array[0..Ord(DO_NUMSTATES) - 1] of state_t;
 
 var
   DO_mobjinfo: array[0..Ord(DO_NUMMOBJTYPES) - 1] of mobjinfo_t;
