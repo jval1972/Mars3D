@@ -57,6 +57,7 @@ Fog sectors will use lightlevel > 256. Lightlevel 256 is full bright. (https://w
 Fix some problems with player movement clipping when landing on other actors.
 Emulates correctly the ripple effect in OpenGL mode.
 Speed optimizations in string manipulation.
+Corrected flat scale for big flats in OpenGL mode.
 
 Version 1.0.10.747 (20220115)
 -----------------
