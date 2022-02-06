@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ begin
   if not cmdssorted then
     C_QuickSortCmds;
 
-  name := strupper(name);
+  strupperproc(name);
   l := 0;
   h := numcmds - 1;
   while l <= h do
@@ -228,7 +228,7 @@ begin
   if not cmdssorted then
     C_QuickSortCmds;
 
-  name := strupper(name);
+  strupperproc(name);
   l := 0;
   h := numcmds - 1;
   while l <= h do
@@ -280,7 +280,7 @@ function C_BoolEval(parm: string; const default: boolean): boolean;
 var
   i: integer;
 begin
-  parm := strupper(parm);
+  strupperproc(parm);
 
   for i := low(TRUE_VALUES) to high(TRUE_VALUES) do
     if parm = TRUE_VALUES[i] then
