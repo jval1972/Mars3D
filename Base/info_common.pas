@@ -159,7 +159,7 @@ begin
   begin
     if Pos(check, mobjinfo_aliases.Strings[i]) = 1 then
     begin
-      splitstring(mobjinfo_aliases.Strings[i], check, snum, '=');
+      splitstring_ch(mobjinfo_aliases.Strings[i], check, snum, '=');
       result := atoi(snum);
       exit;
     end;

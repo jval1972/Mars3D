@@ -259,7 +259,7 @@ var
   utoken: string;
 begin
   realloc(pointer(fList), fNumItems * SizeOf(customparam_t), (fNumItems + 1) * SizeOf(customparam_t));
-  splitstring(value, token1, token);
+  splitstring_ch(value, token1, token);
   utoken := strupper(token1);
   if (utoken = 'RANDOM') and (parmtype = GLBF_RANDOM) then
   begin
@@ -273,7 +273,7 @@ begin
     end
     else
     begin
-      splitstring(token, token1, token2);
+      splitstring_ch(token, token1, token2);
       if token2 = '' then
       begin
         fList[fNumItems].i_parm1 := 0;
@@ -298,7 +298,7 @@ begin
     end
     else
     begin
-      splitstring(token, token1, token2);
+      splitstring_ch(token, token1, token2);
       if token2 = '' then
       begin
         fList[fNumItems].f_parm1 := 0;

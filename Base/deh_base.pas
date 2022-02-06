@@ -530,7 +530,7 @@ begin
     begin
       for j := 0 to states[i].owners.Count - 1 do
         s2 := s2 + '"' + strtrim(mobjinfo[states[i].owners.Numbers[j]].name) + '" ';
-      s2 := strtrim(s2);
+      trimproc(s2);
     end;
     result := result + s1 + '=' + s2 + #13#10;
   end;
@@ -630,7 +630,7 @@ begin
           end
           else if headstr <> '' then
           begin
-            splitstring(strtrim(cs.Strings[i]), s1, s2, '=');
+            splitstring_ch(strtrim(cs.Strings[i]), s1, s2, '=');
             headstr := headstr + ';' + '"' + strtrim(s1) + '"';
           end;
         end;
@@ -646,7 +646,7 @@ begin
         if Pos('//', strtrim(cs.Strings[i])) < 1 then
           if Pos('THING ', strtrim(strupper(cs.Strings[i]))) < 1 then
           begin
-            splitstring(strtrim(cs.Strings[i]), s1, s2, '=');
+            splitstring_ch(strtrim(cs.Strings[i]), s1, s2, '=');
             datstr := datstr + ';' + '"' + strtrim(s2) + '"';
           end
           else
@@ -724,7 +724,7 @@ begin
           end
           else if headstr <> '' then
           begin
-            splitstring(strtrim(cs.Strings[i]), s1, s2, '=');
+            splitstring_ch(strtrim(cs.Strings[i]), s1, s2, '=');
             headstr := headstr + ';' + '"' + strtrim(s1) + '"';
           end;
         end;
@@ -741,7 +741,7 @@ begin
         if Pos('//', strtrim(cs.Strings[i])) < 1 then
           if Pos('FRAME ', strtrim(strupper(cs.Strings[i]))) <> 1 then
           begin
-            splitstring(strtrim(cs.Strings[i]), s1, s2, '=');
+            splitstring_ch(strtrim(cs.Strings[i]), s1, s2, '=');
             for j := 1 to length(s2) do
               if s2[j] = '"' then
                 s2[j] := ' ';

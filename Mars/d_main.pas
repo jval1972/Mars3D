@@ -862,14 +862,14 @@ procedure D_WadsAutoLoad(fnames: string);
 var
   s1, s2: string;
 begin
-  fnames := strtrim(fnames);
+  trimproc(fnames);
   if fnames = '' then
     exit;
 
   if Pos(';', fnames) > 0 then
-    splitstring(fnames, s1, s2, ';')
+    splitstring_ch(fnames, s1, s2, ';')
   else
-    splitstring(fnames, s1, s2, ',');
+    splitstring_ch(fnames, s1, s2, ',');
   D_AddFile(s1);
   D_WadsAutoLoad(s2);
 end;
@@ -878,14 +878,14 @@ procedure D_PaksAutoload(fnames: string);
 var
   s1, s2: string;
 begin
-  fnames := strtrim(fnames);
+  trimproc(fnames);
   if fnames = '' then
     exit;
 
   if Pos(';', fnames) > 0 then
-    splitstring(fnames, s1, s2, ';')
+    splitstring_ch(fnames, s1, s2, ';')
   else
-    splitstring(fnames, s1, s2, ',');
+    splitstring_ch(fnames, s1, s2, ',');
   PAK_AddFile(s1);
   D_PaksAutoload(s2);
 end;

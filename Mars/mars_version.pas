@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION
@@ -178,7 +178,7 @@ begin
   wad.OpenWadFile(filename);
   numlumps := wad.NumEntries;
 
-  splitstring(fname(filename), name, s, '.');
+  splitstring_ch(fname(filename), name, s, '.');
   nummaps1 := 0;
   nummaps2 := 0;
 

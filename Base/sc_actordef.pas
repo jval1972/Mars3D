@@ -1111,7 +1111,7 @@ var
       end;
 
       bright := false;
-      stmp := strtrim(stmp);
+      trimproc(stmp);
       if strupper(firstword(stmp)) = 'BRIGHT' then
       begin
         bright := true;
@@ -1377,12 +1377,12 @@ var
       ppp := Pos('-', st);
       if pps > 0 then
       begin
-        splitstring(st, fw, sw, '+');
+        splitstring_ch(st, fw, sw, '+');
         ret := _stindex(fw) + atoi(sw, 0);
       end
       else if ppp > 0 then
       begin
-        splitstring(st, fw, sw, '-');
+        splitstring_ch(st, fw, sw, '-');
         ret := _stindex(fw) - atoi(sw, 0);
       end;
     end;
@@ -1637,12 +1637,12 @@ var
       ppp := Pos('-', st);
       if pps > 0 then
       begin
-        splitstring(st, fw, sw, '+');
+        splitstring_ch(st, fw, sw, '+');
         ret := _stindex(fw) + atoi(sw, 0);
       end
       else if ppp > 0 then
       begin
-        splitstring(st, fw, sw, '-');
+        splitstring_ch(st, fw, sw, '-');
         ret := _stindex(fw) - atoi(sw, 0);
       end;
     end;
@@ -2950,7 +2950,7 @@ begin
       if stmp <> '' then
       begin
         splitstring(stmp, str1, str2, [' ', '=', Chr($09)]);
-        str2 := strtrim(str2);
+        trimproc(str2);
         if str2 <> '' then
         begin
           {$IFDEF HEXEN}
@@ -2970,7 +2970,7 @@ begin
           else
           begin
           {$ENDIF}
-          str1 := strtrim(str1);
+          trimproc(str1);
           soundaliases.Add('%s=%s', [str1, str2]);
           {$IFDEF HEXEN}
             for j := 1 to Ord(DO_NUMSFX) - 1 do

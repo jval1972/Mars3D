@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -575,7 +575,7 @@ begin
   check := strupper(glmapname) = strupper(char8tostring(W_GetNameForNum(glmaplump)));
   for i := 0 to sglinf.Count - 1 do
   begin
-    splitstring(sglinf.Strings[i], s1, s2, '=');
+    splitstring_ch(sglinf.Strings[i], s1, s2, '=');
     if s1 = 'CHECKSUM' then
       result := atoui(s2)
     else if not check and (s1 = 'MAPNAME') then

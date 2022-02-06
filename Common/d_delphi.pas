@@ -4122,7 +4122,7 @@ begin
     exit;
   end;
 
-  splitstring(st, result, tmp, ' ');
+  splitstring_ch(st, result, tmp, ' ');
 end;
 
 function secondword(const inp: string; const splitter: string = ' '): string;
@@ -4711,7 +4711,7 @@ begin
   begin
     if inp[i] in splitters then
     begin
-      stmp := strtrim(stmp);
+      trimproc(stmp);
       if stmp <> '' then
       begin
         result.Add(stmp);

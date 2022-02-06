@@ -904,7 +904,7 @@ begin
       Exit;
   end;
 
-  Name := strtrim(Name);
+  trimproc(Name);
   if Name = '' then
     Exit;
 

@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -715,7 +715,7 @@ var
   allinparenthesis: boolean;
 begin
   result := TDStringList.Create;
-  inp := strtrim(inp);
+  trimproc(inp);
   if inp = '' then
     exit;
 
@@ -739,7 +739,7 @@ begin
     begin
       inp[1] := ' ';
       inp[length(inp)] := ' ';
-      inp := strtrim(inp);
+      trimproc(inp);
       if inp = '' then
         exit;
     end;
@@ -754,7 +754,7 @@ begin
     if inp[i] = ',' then
       if not inquotes and (parenthesislevel = 0) then
       begin
-        stmp := strtrim(stmp);
+        trimproc(stmp);
         if stmp <> '' then
         begin
           result.Add(stmp);
@@ -776,7 +776,7 @@ begin
     end else if inp[i] = '"' then
       inquotes := not inquotes;
   end;
-  stmp := strtrim(stmp);
+  trimproc(stmp);
   if stmp <> '' then
     result.Add(stmp);
 end;
