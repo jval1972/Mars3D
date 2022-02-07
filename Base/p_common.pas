@@ -647,6 +647,8 @@ procedure P_LocalEarthQuake(const actor: Pmobj_t; const tics: integer; const int
 
 function P_CheckFlag(const mo: Pmobj_t; const aflag: string): boolean;
 
+procedure A_FindTracer1(actor: Pmobj_t);
+
 implementation
 
 uses
@@ -6953,6 +6955,217 @@ begin
   end;
 
   result := false;
+end;
+
+//
+// mbf21: P_CheckFov
+// Returns true if t2 is within t1's field of view.
+// Not directly related to P_CheckSight, but often
+// used in tandem.
+//
+// Adapted from Eternity, so big thanks to Quasar
+//
+function P_CheckFov(t1, t2: Pmobj_t; ffov: angle_t): boolean;
+var
+  angle, minang, maxang: angle_t;
+begin
+  angle := R_PointToAngle2(t1.x, t1.y, t2.x, t2.y);
+  minang := t1.angle - ffov div 2;
+  maxang := t1.angle + ffov div 2;
+
+  if minang > maxang then
+    result := (angle >= minang) or (angle <= maxang)
+  else
+    result := (angle >= minang) and (angle <= maxang);
+end;
+
+//
+// mbf21: RoughBlockCheck
+// [XA] adapted from Hexen -- used by P_RoughTargetSearch
+//
+function RoughBlockCheck(mo: Pmobj_t; index: integer; ffov: angle_t): Pmobj_t;
+var
+  mobj: Pmobj_t;
+  link: Pblocklinkitem_t;
+  i: integer;
+begin
+  link := @blocklinks[index];
+
+  for i := 0 to link.size - 1 do
+  begin
+    mobj := link.links[i];
+
+    // skip non-shootable actors
+    if mobj.flags and MF_COUNTKILL = 0 then
+      continue;
+
+    // skip the projectile's owner
+    if mobj = mo.target then
+      continue;
+
+    // skip actors on the same "team", unless infighting or deathmatching
+    if mo.target <> nil then
+      if P_BothFriends(mobj, mo.target) and (mobj <> mo.target.target) then
+        continue;
+
+    // skip actors outside of specified FOV
+    if (ffov > 0) and not P_CheckFov(mo, mobj, ffov) then
+      continue;
+
+    // skip actors not in line of sight
+    if not P_CheckSight(mo, mobj) then
+      continue;
+
+    // all good! return it.
+    result := mobj;
+    exit;
+  end;
+
+  // couldn't find a valid target
+  result := nil;
+end;
+
+//
+// P_RoughTargetSearch
+//
+// Searches though the surrounding mapblocks for monsters/players
+//    distance is in MAPBLOCKUNITS
+
+function P_RoughTargetSearch(mo: Pmobj_t; ffov: angle_t; distance: integer): Pmobj_t;
+var
+  blockX: integer;
+  blockY: integer;
+  startX, startY: integer;
+  blockIndex: integer;
+  firstStop: integer;
+  secondStop: integer;
+  thirdStop: integer;
+  finalStop: integer;
+  count: integer;
+begin
+  if internalblockmapformat then
+  begin
+    startX := MapBlockIntX(int64(mo.x) - int64(bmaporgx));
+    startY := MapBlockIntY(int64(mo.y) - int64(bmaporgy));
+  end
+  else
+  begin
+    startX := MapBlockInt(mo.x - bmaporgx);
+    startY := MapBlockInt(mo.y - bmaporgy);
+  end;
+
+  if (startX >= 0) and (startX < bmapwidth) and (startY >= 0) and (startY < bmapheight) then
+  begin
+    result := RoughBlockCheck(mo, startY * bmapwidth + startX, ffov);
+    if result <> nil then
+    begin // found a target right away
+      exit;
+    end;
+  end;
+
+  for count := 1 to distance do
+  begin
+    blockX := startX - count;
+    blockY := startY - count;
+
+    if blockY < 0 then
+      blockY := 0
+    else if blockY >= bmapheight then
+      blockY := bmapheight - 1;
+
+    if blockX < 0 then
+      blockX := 0
+    else if blockX >= bmapwidth then
+      blockX := bmapwidth - 1;
+
+    blockIndex := blockY * bmapwidth + blockX;
+    firstStop := startX + count;
+    if firstStop < 0 then
+      continue;
+
+    if firstStop >= bmapwidth then
+      firstStop := bmapwidth - 1;
+
+    secondStop := startY + count;
+    if secondStop < 0 then
+      continue;
+
+    if secondStop >= bmapheight then
+      secondStop := bmapheight - 1;
+
+    thirdStop := secondStop * bmapwidth + blockX;
+    secondStop := secondStop * bmapwidth + firstStop;
+    firstStop := firstStop + blockY * bmapwidth;
+    finalStop := blockIndex;
+
+    // Trace the first block section (along the top)
+    while blockIndex <= firstStop do
+    begin
+      result := RoughBlockCheck(mo, blockIndex, ffov);
+      if result <> nil then
+      begin
+        exit;
+      end;
+      inc(blockIndex);
+    end;
+
+    // Trace the second block section (right edge)
+    dec(blockIndex);
+    while blockIndex <= secondStop do
+    begin
+      result := RoughBlockCheck(mo, blockIndex, ffov);
+      if result <> nil then
+      begin
+        exit;
+      end;
+      blockIndex := blockIndex + bmapwidth;
+    end;
+
+    // Trace the third block section (bottom edge)
+    blockIndex := blockIndex - bmapwidth;
+    while blockIndex >= thirdStop do
+    begin
+      result := RoughBlockCheck(mo, blockIndex, ffov);
+      if result <> nil then
+      begin
+        exit;
+      end;
+      dec(blockIndex);
+    end;
+
+    // Trace the final block section (left edge)
+    inc(blockindex);
+    while blockIndex > finalStop do
+    begin
+      result := RoughBlockCheck(mo, blockIndex, ffov);
+      if result <> nil then
+      begin
+        exit;
+      end;
+      blockIndex := blockIndex - bmapwidth;
+    end;
+  end;
+  result := nil;
+end;
+
+//
+// A_FindTracer1(fov: angle; blockdist: integer)
+//
+procedure A_FindTracer1(actor: Pmobj_t);
+var
+  ffov: angle_t;
+  dist: integer;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.tracer <> nil then
+    exit;
+
+  ffov := actor.state.params.IntVal[0] * ANG1;
+  dist := actor.state.params.IntVal[1];
+
+  actor.tracer := P_RoughTargetSearch(actor, ffov, dist);
 end;
 
 end.

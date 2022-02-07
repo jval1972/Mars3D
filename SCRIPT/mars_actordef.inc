@@ -3652,12 +3652,14 @@
     '  +MF_NOGRAVITY'#13#10 +
     '  +MF_DROPOFF'#13#10 +
     '  +MF_MISSILE'#13#10 +
+    '  +MF_EX_SEEKERMISSILE'#13#10 +
     '  States'#13#10 +
     '  {'#13#10 +
     '    Spawn:'#13#10 +
     '    {'#13#10 +
-    '      DEVS A 3 BRIGHT'#13#10 +
-    '      DEVS B 3 BRIGHT A_Tracer'#13#10 +
+    '      DEVS A 2 BRIGHT'#13#10 +
+    '      DEVS A 1 BRIGHT A_FindTracer1(90, 32)'#13#10 +
+    '      DEVS BΒΒ 1 BRIGHT A_Tracer'#13#10 +
     '      Loop'#13#10 +
     '    }'#13#10 +
     '    Death:'#13#10 +
@@ -3705,7 +3707,7 @@
     '    {'#13#10 +
     '      DEVF A 5'#13#10 +
     '      DEVF B 5'#13#10 +
-    '      DEVF C 5 A_FireRocketMissile'#13#10 +
+    '      DEVF C 5 A_FireTrackingMissile'#13#10 +
     '      DEVF D 5'#13#10 +
     '      DEVF D 0 A_Refire'#13#10 +
     '      Goto Ready'#13#10 +

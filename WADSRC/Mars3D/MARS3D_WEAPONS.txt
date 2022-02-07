@@ -777,12 +777,14 @@ ACTOR "MT_TRACKINGROCKETMISSILE"
   +MF_NOGRAVITY
   +MF_DROPOFF
   +MF_MISSILE
+  +MF_EX_SEEKERMISSILE
   States
   {
     Spawn:
     {
-      DEVS A 3 BRIGHT
-      DEVS B 3 BRIGHT A_Tracer
+      DEVS A 2 BRIGHT
+      DEVS A 1 BRIGHT A_FindTracer1(90, 32)
+      DEVS BΒΒ 1 BRIGHT A_Tracer
       Loop
     }
     Death:
@@ -830,7 +832,7 @@ WEAPON WP_TRACKINGMISSILE
     {
       DEVF A 5
       DEVF B 5
-      DEVF C 5 A_FireRocketMissile
+      DEVF C 5 A_FireTrackingMissile
       DEVF D 5
       DEVF D 0 A_Refire
       Goto Ready

@@ -1847,6 +1847,8 @@ begin
   th.momx := FixedMul(speed, finecosine[an]);
   th.momy := FixedMul(speed, finesine[an]);
   th.momz := FixedMul(speed, slope);
+  if th.flags_ex and MF_EX_SEEKERMISSILE <> 0 then
+    th.tracer := linetarget;
 
   P_CheckMissileSpawn(th);
 end;
