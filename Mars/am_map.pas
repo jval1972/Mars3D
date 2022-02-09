@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -144,34 +144,34 @@ const
 
 type
   fpoint_t = record
-    x : integer;
-    y : integer;
+    x: integer;
+    y: integer;
   end;
   Pfpoint_t = ^fpoint_t;
 
   fline_t = record
-    a : fpoint_t;
-    b : fpoint_t;
+    a: fpoint_t;
+    b: fpoint_t;
   end;
   Pfline_t = ^fline_t;
 
   mpoint_t = record
-    x : fixed_t;
-    y : fixed_t;
+    x: fixed_t;
+    y: fixed_t;
   end;
   Pmpoint_t = ^mpoint_t;
 
   mline_t = record
-    a : mpoint_t;
-    b : mpoint_t;
+    a: mpoint_t;
+    b: mpoint_t;
   end;
   Pmline_t = ^mline_t;
   mline_tArray = packed array[0..$FFFF] of mline_t;
   Pmline_tArray = ^mline_tArray;
 
   islope_t = record
-    slp : fixed_t;
-    islp : fixed_t;
+    slp: fixed_t;
+    islp: fixed_t;
   end;
   Pislope_t = ^islope_t;
 
@@ -361,22 +361,22 @@ begin
   result := trunc(FRACUNIT / 1.02);
 end;
 
-function FTOM(x : integer): integer;
+function FTOM(x: integer): integer;
 begin
   result := FixedMul(x * FRACUNIT, scale_ftom);
 end;
 
-function MTOF(x : integer): integer;
+function MTOF(x: integer): integer;
 begin
   result := FixedInt64(FixedMul64(x, scale_mtof));
 end;
 
-function CXMTOF(x : integer): integer;
+function CXMTOF(x: integer): integer;
 begin
   result := f_x + MTOF(x) - MTOF(m_x);
 end;
 
-function CYMTOF(y : integer): integer;
+function CYMTOF(y: integer): integer;
 begin
   result := f_y + (f_h - MTOF(y) + MTOF(m_y));
 end;
@@ -1033,7 +1033,7 @@ const
   BOTTOM = 4;
   TOP = 8;
 var
-  outcode1, outcode2, outside : integer;
+  outcode1, outcode2, outside: integer;
   tmp: fpoint_t;
   dx, dy: integer;
 
