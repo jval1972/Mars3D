@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -2200,7 +2200,7 @@ begin
         16     : SetInfo(8, true);
       end;
     {Only 1 byte (8 bits) is supported}
-    COLOR_RGB, COLOR_RGBALPHA:  SetInfo(24, false);
+    COLOR_RGB, COLOR_RGBALPHA: SetInfo(24, false);
   end {case ColorType};
   {Number of bytes for each scanline}
   BytesPerRow := (((BitmapInfo.bmiHeader.biBitCount * Width) + 31)
@@ -2836,30 +2836,32 @@ begin
     {R, G, B values for each pixel}
     COLOR_RGB:
       case Header.BitDepth of
-        8:  CopyProc := CopyInterlacedRGB8;
-       16:  CopyProc := CopyInterlacedRGB16;
+        8: CopyProc := CopyInterlacedRGB8;
+       16: CopyProc := CopyInterlacedRGB16;
       end {case Header.BitDepth};
     {Palette}
     COLOR_PALETTE, COLOR_GRAYSCALE:
       case Header.BitDepth of
-        1, 4, 8: CopyProc := CopyInterlacedPalette148;
-        2      : if Header.ColorType = COLOR_PALETTE then
-                   CopyProc := CopyInterlacedPalette2
-                 else
-                   CopyProc := CopyInterlacedGray2;
-        16     : CopyProc := CopyInterlacedGrayscale16;
+        1, 4, 8:
+          CopyProc := CopyInterlacedPalette148;
+        2:
+          if Header.ColorType = COLOR_PALETTE then
+            CopyProc := CopyInterlacedPalette2
+          else
+            CopyProc := CopyInterlacedGray2;
+        16: CopyProc := CopyInterlacedGrayscale16;
       end;
     {RGB followed by alpha}
     COLOR_RGBALPHA:
       case Header.BitDepth of
-        8:  CopyProc := CopyInterlacedRGBAlpha8;
-       16:  CopyProc := CopyInterlacedRGBAlpha16;
+        8: CopyProc := CopyInterlacedRGBAlpha8;
+       16: CopyProc := CopyInterlacedRGBAlpha16;
       end;
     {Grayscale followed by alpha}
     COLOR_GRAYSCALEALPHA:
       case Header.BitDepth of
-        8:  CopyProc := CopyInterlacedGrayscaleAlpha8;
-       16:  CopyProc := CopyInterlacedGrayscaleAlpha16;
+        8: CopyProc := CopyInterlacedGrayscaleAlpha8;
+       16: CopyProc := CopyInterlacedGrayscaleAlpha16;
       end;
   end {case Header.ColorType};
 
@@ -3273,7 +3275,7 @@ begin
 
   {Call special methods for the different interlace methods}
   case Owner.InterlaceMethod of
-    imNone:  DecodeNonInterlaced(stream, ZLIBStream, Size, crcfile);
+    imNone: DecodeNonInterlaced(stream, ZLIBStream, Size, crcfile);
     imAdam7: DecodeInterlacedAdam7(stream, ZLIBStream, size, crcfile);
   end;
 
@@ -3577,8 +3579,10 @@ begin
     {Palette and grayscale values}
     COLOR_GRAYSCALE, COLOR_PALETTE:
       case Header.BitDepth of
-        1, 4, 8: CopyProc := EncodeNonInterlacedPalette148;
-             16: CopyProc := EncodeNonInterlacedGrayscale16;
+        1, 4, 8:
+          CopyProc := EncodeNonInterlacedPalette148;
+        16:
+          CopyProc := EncodeNonInterlacedGrayscale16;
       end;
     {RGB with a following alpha value}
     COLOR_RGBALPHA:
@@ -3589,8 +3593,8 @@ begin
     {Grayscale images followed by an alpha}
     COLOR_GRAYSCALEALPHA:
       case Header.BitDepth of
-        8:  CopyProc := EncodeNonInterlacedGrayscaleAlpha8;
-       16:  CopyProc := EncodeNonInterlacedGrayscaleAlpha16;
+        8: CopyProc := EncodeNonInterlacedGrayscaleAlpha8;
+       16: CopyProc := EncodeNonInterlacedGrayscaleAlpha16;
       end;
   end {case Header.ColorType};
 
@@ -3840,8 +3844,9 @@ begin
     {Grayscale and palette}
     COLOR_PALETTE, COLOR_GRAYSCALE:
       case Header.BitDepth of
-        1, 4, 8: CopyProc := EncodeInterlacedPalette148;
-             16: CopyProc := EncodeInterlacedGrayscale16;
+        1, 4, 8:
+          CopyProc := EncodeInterlacedPalette148;
+        16: CopyProc := EncodeInterlacedGrayscale16;
       end;
     {RGB followed by alpha}
     COLOR_RGBALPHA:
@@ -3870,9 +3875,10 @@ begin
     {Get current row index}
     CurrentRow := RowStart[CurrentPass];
     {Get a pointer to the current row image data}
-    Data := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ImageData) + Header.BytesPerRow *
-      (ImageHeight - 1 - CurrentRow));
-    Trans := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ImageAlpha) + ImageWidth * CurrentRow);
+    Data := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ImageData) +
+      Header.BytesPerRow * (ImageHeight - 1 - CurrentRow));
+    Trans := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ImageAlpha) +
+      ImageWidth * CurrentRow);
 
     {Process all the image rows}
     if Row_Bytes > 0 then
@@ -4227,7 +4233,8 @@ begin
     RaiseError(EInvalidSpec);
     Exit;
   end;
-  if Bitdepth = 2 then Bitdepth := 4;
+  if Bitdepth = 2 then
+    Bitdepth := 4;
 
   {Add the basis chunks}
   InitializeGamma;

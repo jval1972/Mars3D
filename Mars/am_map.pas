@@ -1026,7 +1026,7 @@ end;
 // faster reject and precalculated slopes.  If the speed is needed,
 // use a hash algorithm to handle  the common cases.
 //
-function AM_clipMline(ml:  Pmline_t; fl: Pfline_t): boolean;
+function AM_clipMline(ml: Pmline_t; fl: Pfline_t): boolean;
 const
   LEFT = 1;
   RIGHT  = 2;
