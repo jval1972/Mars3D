@@ -50,6 +50,7 @@ uses
   p_user,
   p_adjust,
   p_obituaries,
+  p_underwater,
   i_system,
   i_mp3,
   i_music,
@@ -174,7 +175,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 225;
+  NUMDEFAULTS = 226;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -643,6 +644,14 @@ const
      defaultivalue: 0;
      defaultbvalue: true;
      _type: tBoolean),
+
+    (name: 'u_disp_strength_pct';
+     location: @u_disp_strength_pct;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '0.00';
+     defaultivalue: 2;
+     defaultbvalue: true;
+     _type: tInteger),
 
     (name: 'OpenGL';
      location: nil;

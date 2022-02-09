@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -70,6 +70,7 @@ var
   u: underwater_t;
   uviewheight: integer;
   uviewwidth: integer;
+  old_disp_strength_pct: integer = -1;
 
 const
   U_CALC_INTERVAL = FRACUNIT div LONGTICS_FACTOR;
@@ -78,16 +79,18 @@ procedure R_UnderwaterCalcX;
 var
   i: integer;
 begin
+  u_disp_strength_pct := GetIntegerInRange(u_disp_strength_pct, 0, 2);
   for i := 0 to LONGTICS_FACTOR * uviewwidth - 1 do
-    u.XDisp[i] := Trunc(fixedsine[(i * U_CALC_INTERVAL) div uviewwidth] / FRACUNIT * U_DISP_STRENGTH_PCT * uviewwidth / 100);
+    u.XDisp[i] := Trunc(fixedsine[(i * U_CALC_INTERVAL) div uviewwidth] / FRACUNIT * u_disp_strength_pct * uviewwidth / 100);
 end;
 
 procedure R_UnderwaterCalcY;
 var
   i: integer;
 begin
+  u_disp_strength_pct := GetIntegerInRange(u_disp_strength_pct, 0, 2);
   for i := 0 to LONGTICS_FACTOR * uviewheight - 1 do
-    u.YDisp[i] := Trunc(fixedcosine[(i * U_CALC_INTERVAL) div uviewheight] / FRACUNIT * U_DISP_STRENGTH_PCT * uviewheight / 100);
+    u.YDisp[i] := Trunc(fixedcosine[(i * U_CALC_INTERVAL) div uviewheight] / FRACUNIT * u_disp_strength_pct * uviewheight / 100);
 end;
 
 procedure R_InitUnderwater;
@@ -249,16 +252,18 @@ begin
   tic64 := U_INTERVAL_FACTOR * tic64 * uviewwidth div (LONGTICS_FACTOR * TICRATE);
   underwatertic := tic64;
 
-  if uviewwidth <> viewwidth then
+  if (uviewwidth <> viewwidth) or (old_disp_strength_pct <> u_disp_strength_pct) then
   begin
     uviewwidth := viewwidth;
     R_UnderwaterCalcX;
   end;
-  if uviewheight <> viewheight then
+  if (uviewheight <> viewheight) or (old_disp_strength_pct <> u_disp_strength_pct) then
   begin
     uviewheight := viewheight;
     R_UnderwaterCalcY;
   end;
+
+  old_disp_strength_pct := u_disp_strength_pct;
 
   if videomode = vm32bit then
     R_UnderwaterReadScreen32

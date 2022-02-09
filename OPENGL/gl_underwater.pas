@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -141,13 +141,25 @@ begin
   tic64 := tic64 * viewwidth div (LONGTICS_FACTOR * TICRATE * U_INTERVAL_FACTOR);
   tic64 := tic64 mod viewwidth;
   ftic := tic64 / viewwidth;
-  ufactor := U_DISP_STRENGTH_PCT / 100;
 
-  for i := 0 to UMATRIX_SIZE do
+  if u_disp_strength_pct = 0 then
   begin
-    f := (ftic + i / UMATRIX_SIZE) * 2 * Pi;
-    sines[i] := ufactor * Sin(f);
-    cosines[i] := ufactor * Cos(f);
+    for i := 0 to UMATRIX_SIZE do
+    begin
+      sines[i] := 0.0;
+      cosines[i] := 0.0;
+    end;
+  end
+  else
+  begin
+    ufactor := u_disp_strength_pct / 100;
+
+    for i := 0 to UMATRIX_SIZE do
+    begin
+      f := (ftic + i / UMATRIX_SIZE) * 2 * Pi;
+      sines[i] := ufactor * Sin(f);
+      cosines[i] := ufactor * Cos(f);
+    end;
   end;
 
   for i := 0 to UMATRIX_SIZE do

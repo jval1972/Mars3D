@@ -59,6 +59,7 @@ Emulates correctly the ripple effect in OpenGL mode.
 Speed optimizations in string manipulation.
 Corrected flat scale for big flats in OpenGL mode.
 Fixed tracking missiles player weapon.
+The strength of the underwater effect can be configured from the menu. (Menu/Display/Appearance/Underwater effect strength)
 
 Version 1.0.10.747 (20220115)
 -----------------

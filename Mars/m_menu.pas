@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -204,6 +204,7 @@ uses
   p_user,
   p_adjust,
   p_obituaries,
+  p_underwater,
   r_aspect,
   r_data,
   r_defs,
@@ -574,6 +575,7 @@ type
     od_showdemoplaybackprogress,
     od_showobituaries,
     od_confcoloredblood,
+    od_underwaterstrength,
     optdispappearance_end
   );
 
@@ -2676,6 +2678,15 @@ const
   menubackrounds: array[0..2] of string =
     ('NONE', 'SHADOW', 'TEXTURE');
 
+procedure M_ChangeUnderwater(choice: integer);
+begin
+  u_disp_strength_pct := (u_disp_strength_pct + 1) mod 3;
+end;
+
+const
+  underwatereffect: array[0..2] of string =
+    ('NONE', 'MEDIUM', 'NORMAL');
+
 procedure M_DrawDisplayAppearanceOptions;
 var
   ppos: menupos_t;
@@ -2685,6 +2696,9 @@ begin
 
   ppos := M_WriteTextOption(OptionsDisplayAppearanceDef.x, OptionsDisplayAppearanceDef.y + OptionsDisplayAppearanceDef.itemheight * Ord(od_shademenubackground), 'Menu background: ', _MA_LEFT or _MC_UPPER);
   M_WriteTextValue(ppos.x, ppos.y, menubackrounds[shademenubackground mod 3], _MA_LEFT or _MC_UPPER);
+
+  ppos := M_WriteTextOption(OptionsDisplayAppearanceDef.x, OptionsDisplayAppearanceDef.y + OptionsDisplayAppearanceDef.itemheight * Ord(od_underwaterstrength), 'Underwater effect strength: ', _MA_LEFT or _MC_UPPER);
+  M_WriteTextValue(ppos.x, ppos.y, underwatereffect[u_disp_strength_pct mod 3], _MA_LEFT or _MC_UPPER);
 end;
 
 procedure M_DrawDisplayAutomapOptions;
@@ -4729,6 +4743,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @p_confcoloredblood;
   pmi.alphaKey := 'c';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Underwater effect strength';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeUnderwater;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'u';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAppearanceDef
