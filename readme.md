@@ -36,6 +36,8 @@ New enemies and pickups, using the original game resources.
 
 ## Downloads
 
+[version 1.0.11.748 (20220209 - win32)](https://sourceforge.net/projects/mars3d/files/Mars3D_1.0/Mars3D_1.0.11.748_bin.zip/download)
+
 [version 1.0.10.747 (20220115 - win32)](https://sourceforge.net/projects/mars3d/files/Mars3D_1.0/Mars3D_1.0.10.747_bin.zip/download)
 
 [version 1.0.9.746 (20211226 - win32)](https://sourceforge.net/projects/mars3d/files/Mars3D_1.0/Mars3D_1.0.9.746_bin.zip/download)
