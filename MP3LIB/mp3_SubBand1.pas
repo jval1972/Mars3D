@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -133,6 +133,11 @@ begin
   FSampleNumber := 0;
 end;
 
+//==============================================================================
+//
+// TSubBandLayer1.PutNextSample
+//
+//==============================================================================
 function TSubBandLayer1.PutNextSample(Channels: TChannels; Filter1,
   Filter2: TSynthesisFilter): Boolean;
 var ScaledSample: Single;
@@ -146,6 +151,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TSubBandLayer1.ReadAllocation
+//
+//==============================================================================
 procedure TSubBandLayer1.ReadAllocation(Stream: TBitStream;
   Header: THeader; CRC: TCRC16);
 begin
@@ -164,6 +174,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TSubBandLayer1.ReadSampleData
+//
+//==============================================================================
 function TSubBandLayer1.ReadSampleData(Stream: TBitStream): Boolean;
 begin
   if FAllocation <> 0 then
@@ -179,6 +194,11 @@ begin
     result := false;
 end;
 
+//==============================================================================
+//
+// TSubBandLayer1.ReadScaleFactor
+//
+//==============================================================================
 procedure TSubBandLayer1.ReadScaleFactor(Stream: TBitStream;
   Header: THeader);
 begin
@@ -188,6 +208,11 @@ end;
 
 { TSubBandLayer1IntensityStereo }
 
+//==============================================================================
+//
+// TSubBandLayer1IntensityStereo.PutNextSample
+//
+//==============================================================================
 function TSubBandLayer1IntensityStereo.PutNextSample(Channels: TChannels;
   Filter1, Filter2: TSynthesisFilter): Boolean;
 var Sample1, Sample2: Single;
@@ -217,6 +242,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TSubBandLayer1IntensityStereo.ReadScaleFactor
+//
+//==============================================================================
 procedure TSubBandLayer1IntensityStereo.ReadScaleFactor(Stream: TBitStream;
   Header: THeader);
 begin
@@ -229,6 +259,11 @@ end;
 
 { TSubBandLayer1Stereo }
 
+//==============================================================================
+//
+// TSubBandLayer1Stereo.PutNextSample
+//
+//==============================================================================
 function TSubBandLayer1Stereo.PutNextSample(Channels: TChannels; Filter1,
   Filter2: TSynthesisFilter): Boolean;
 var
@@ -247,6 +282,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TSubBandLayer1Stereo.ReadAllocation
+//
+//==============================================================================
 procedure TSubBandLayer1Stereo.ReadAllocation(Stream: TBitStream;
   Header: THeader; CRC: TCRC16);
 begin
@@ -273,6 +313,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TSubBandLayer1Stereo.ReadSampleData
+//
+//==============================================================================
 function TSubBandLayer1Stereo.ReadSampleData(Stream: TBitStream): Boolean;
 begin
   result := inherited ReadSampleData(Stream);
@@ -281,6 +326,11 @@ begin
     FChannel2Sample := Stream.GetBitsFloat(FChannel2SampleLength);
 end;
 
+//==============================================================================
+//
+// TSubBandLayer1Stereo.ReadScaleFactor
+//
+//==============================================================================
 procedure TSubBandLayer1Stereo.ReadScaleFactor(Stream: TBitStream;
   Header: THeader);
 begin

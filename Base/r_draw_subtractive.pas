@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -32,10 +32,33 @@ unit r_draw_subtractive;
 
 interface
 
+//==============================================================================
+// R_DrawColumnSubtractLowest
+//
 // Alpha column drawers (transparency effects)
+//
+//==============================================================================
 procedure R_DrawColumnSubtractLowest;
+
+//==============================================================================
+//
+// R_DrawColumnSubtractLow
+//
+//==============================================================================
 procedure R_DrawColumnSubtractLow;
+
+//==============================================================================
+//
+// R_DrawColumnSubtractMedium
+//
+//==============================================================================
 procedure R_DrawColumnSubtractMedium;
+
+//==============================================================================
+//
+// R_DrawColumnSubtractHi
+//
+//==============================================================================
 procedure R_DrawColumnSubtractHi;
 
 implementation
@@ -49,6 +72,11 @@ uses
   r_trans8,
   r_main;
 
+//==============================================================================
+//
+// R_DrawColumnSubtractLowest
+//
+//==============================================================================
 procedure R_DrawColumnSubtractLowest;
 var
   count: integer;
@@ -102,6 +130,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnSubtractLow
+//
+//==============================================================================
 procedure R_DrawColumnSubtractLow;
 var
   count: integer;
@@ -149,6 +182,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnSubtractMedium
+//
+//==============================================================================
 procedure R_DrawColumnSubtractMedium;
 var
   count: integer;
@@ -190,6 +228,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnSubtractHi
+//
+//==============================================================================
 procedure R_DrawColumnSubtractHi;
 var
   count: integer;

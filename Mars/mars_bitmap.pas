@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -38,13 +38,33 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// MARS_RotatebitmapBuffer90
+//
+//==============================================================================
 procedure MARS_RotatebitmapBuffer90(const buf: PByteArray; const w, h: integer);
 
+//==============================================================================
+//
+// MARS_FlipbitmapbufferHorz
+//
+//==============================================================================
 procedure MARS_FlipbitmapbufferHorz(const buf: PByteArray; const w, h: integer);
 
+//==============================================================================
+//
+// MARS_BltImageBuffer
+//
+//==============================================================================
 procedure MARS_BltImageBuffer(const inbuf: PByteArray; const inw, inh: integer;
   const outbuf: PByteArray; const x1, x2: integer; const y1, y2: integer);
 
+//==============================================================================
+//
+// MARS_ColorReplace
+//
+//==============================================================================
 procedure MARS_ColorReplace(const buf: PByteArray; const w, h: integer; const oldc, newc: byte);
 
 type
@@ -74,6 +94,11 @@ type
 
 implementation
 
+//==============================================================================
+//
+// MARS_RotatebitmapBuffer90
+//
+//==============================================================================
 procedure MARS_RotatebitmapBuffer90(const buf: PByteArray; const w, h: integer);
 var
   i, j: integer;
@@ -96,6 +121,11 @@ begin
   memfree(pointer(img), w * h);
 end;
 
+//==============================================================================
+//
+// MARS_FlipbitmapbufferHorz
+//
+//==============================================================================
 procedure MARS_FlipbitmapbufferHorz(const buf: PByteArray; const w, h: integer);
 var
   i, j: integer;
@@ -118,6 +148,11 @@ begin
   memfree(pointer(img), w * h);
 end;
 
+//==============================================================================
+//
+// MARS_BltImageBuffer
+//
+//==============================================================================
 procedure MARS_BltImageBuffer(const inbuf: PByteArray; const inw, inh: integer;
   const outbuf: PByteArray; const x1, x2: integer; const y1, y2: integer);
 var
@@ -139,6 +174,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// MARS_ColorReplace
+//
+//==============================================================================
 procedure MARS_ColorReplace(const buf: PByteArray; const w, h: integer; const oldc, newc: byte);
 var
   i: integer;
@@ -165,6 +205,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.ApplyTranslationTable
+//
+//==============================================================================
 procedure TMarsBitmap.ApplyTranslationTable(const trans: PByteArray);
 var
   i: integer;
@@ -173,6 +218,11 @@ begin
     fimg[i] := trans[fimg[i]];
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.AttachImage
+//
+//==============================================================================
 procedure TMarsBitmap.AttachImage(const buf: PByteArray; const awidth, aheight: integer);
 var
   i: integer;
@@ -183,6 +233,11 @@ begin
     fimg[i] := buf[i];
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.Clear
+//
+//==============================================================================
 procedure TMarsBitmap.Clear(const color: byte);
 var
   i: integer;
@@ -191,6 +246,11 @@ begin
     fimg[i] := color;
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.RightCrop
+//
+//==============================================================================
 procedure TMarsBitmap.RightCrop(const color: byte);
 
   function _do_crop_right: boolean;
@@ -220,11 +280,21 @@ begin
   repeat until not _do_crop_right;
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.pos2idx
+//
+//==============================================================================
 function TMarsBitmap.pos2idx(const x, y: integer): integer;
 begin
   result := x * fheight + y;
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.Resize
+//
+//==============================================================================
 procedure TMarsBitmap.Resize(const awidth, aheight: integer);
 var
   oldsz, newsz: integer;
@@ -239,6 +309,11 @@ begin
     realloc(pointer(fimg), oldsz, newsz);
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.SetWidth
+//
+//==============================================================================
 procedure TMarsBitmap.SetWidth(const awidth: integer);
 var
   oldsz, newsz: integer;
@@ -252,6 +327,11 @@ begin
     realloc(pointer(fimg), oldsz, newsz);
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.SetHeight
+//
+//==============================================================================
 procedure TMarsBitmap.SetHeight(const aheight: integer);
 var
   oldsz, newsz: integer;
@@ -265,6 +345,11 @@ begin
     realloc(pointer(fimg), oldsz, newsz);
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.GetPixel
+//
+//==============================================================================
 function TMarsBitmap.GetPixel(x, y: integer): byte;
 begin
   if not IsIntegerInRange(x, 0, fwidth - 1) then
@@ -280,6 +365,11 @@ begin
   result := fimg[pos2idx(x, y)];
 end;
 
+//==============================================================================
+//
+// TMarsBitmap.SetPixel
+//
+//==============================================================================
 procedure TMarsBitmap.SetPixel(x, y: integer; const apixel: byte);
 begin
   if not IsIntegerInRange(x, 0, fwidth - 1) then

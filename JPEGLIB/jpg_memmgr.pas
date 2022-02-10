@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -65,6 +65,12 @@ uses
   When this is called, only the error manager pointer is valid in cinfo! }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_memory_mgr
+//
+//==============================================================================
 procedure jinit_memory_mgr(cinfo: j_common_ptr);
 
 implementation
@@ -81,7 +87,6 @@ uses
     usually stored as bytes while coefficients are shorts or ints.  Thus,
     in machines where byte pointers have a different representation from
     word pointers, the resulting machine code could not be the same.  }
-
 
 { Many machines require storage alignment: longs must start on 4-byte
   boundaries, doubles on 8-byte boundaries, etc.  On such machines, malloc()
@@ -104,7 +109,6 @@ uses
 type
   ALIGN_TYPE = double;
 {$endif}
-
 
 { We allocate objects from "pools", where each pool is gotten with a single
   request to jpeg_get_small() or jpeg_get_large().  There is no per-object
@@ -139,7 +143,6 @@ type
              end);
     1:(dummy: ALIGN_TYPE);             { included in union to ensure alignment }
   end; {large_pool_hdr;}
-
 
 { Here is the full definition of a memory manager object. }
 
@@ -212,6 +215,12 @@ type
 {$ifdef MEM_STATS}        { optional extra stuff for statistics }
 
 {LOCAL}
+
+//==============================================================================
+//
+// print_mem_stats 
+//
+//==============================================================================
 procedure print_mem_stats (cinfo: j_common_ptr; pool_id: int);
 var
   mem: my_mem_ptr;
@@ -248,8 +257,13 @@ end;
 
 {$endif} { MEM_STATS }
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// out_of_memory 
+//
+//==============================================================================
 procedure out_of_memory (cinfo: j_common_ptr; which: int);
 { Report an out-of-memory error and stop execution }
 { If we compiled MEM_STATS support, report alloc requests before dying }
@@ -259,7 +273,6 @@ begin
 {$endif}
   ERREXIT1(cinfo, JERR_OUT_OF_MEMORY, which);
 end;
-
 
 { Allocation of "small" objects.
 
@@ -285,8 +298,13 @@ const
 const
   MIN_SLOP = 50;    { greater than 0 to avoid futile looping }
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// alloc_small 
+//
+//==============================================================================
 function alloc_small (cinfo: j_common_ptr;
                       pool_id: int;
                       sizeofobject: size_t): pointer; far;
@@ -366,7 +384,6 @@ begin
   alloc_small := pointer(data_ptr);
 end;
 
-
 { Allocation of "large" objects.
 
   The external semantics of these are the same as "small" objects,
@@ -380,6 +397,12 @@ end;
   deliberately bunch rows together to ensure a large request size. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// alloc_large 
+//
+//==============================================================================
 function alloc_large (cinfo: j_common_ptr; pool_id: int;
   sizeofobject: size_t): pointer; FAR;
 { Allocate a "large" object }
@@ -426,7 +449,6 @@ begin
   alloc_large := dest_ptr;
 end;
 
-
 { Creation of 2-D sample arrays.
   The pointers are in near heap, the samples themselves in FAR heap.
 
@@ -439,6 +461,12 @@ end;
   a virtual array. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// alloc_sarray
+//
+//==============================================================================
 function alloc_sarray(cinfo: j_common_ptr; pool_id: int;
   samplesperrow: JDIMENSION; numrows: JDIMENSION): JSAMPARRAY; far;
 { Allocate a 2-D sample array }
@@ -488,11 +516,16 @@ begin
   alloc_sarray := the_result;
 end;
 
-
 { Creation of 2-D coefficient-block arrays.
   This is essentially the same as the code for sample arrays, above. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// alloc_barray 
+//
+//==============================================================================
 function alloc_barray (cinfo: j_common_ptr; pool_id: int;
   blocksperrow: JDIMENSION; numrows: JDIMENSION): JBLOCKARRAY; far;
 { Allocate a 2-D coefficient-block array }
@@ -541,7 +574,6 @@ begin
   alloc_barray := the_result;
 end;
 
-
 { About virtual array management:
 
   The above "normal" array routines are only used to allocate strip buffers
@@ -576,8 +608,13 @@ end;
   boundaries.  The code will still work with overlapping access requests,
   but it doesn't handle bufferload overlaps very efficiently. }
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// request_virt_sarray
+//
+//==============================================================================
 function request_virt_sarray(cinfo: j_common_ptr; pool_id: int;
   pre_zero: boolean; samplesperrow: JDIMENSION; numrows: JDIMENSION;
   maxaccess: JDIMENSION): jvirt_sarray_ptr; far;
@@ -608,8 +645,13 @@ begin
   request_virt_sarray := the_result;
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// request_virt_barray
+//
+//==============================================================================
 function request_virt_barray(cinfo: j_common_ptr; pool_id: int; pre_zero: boolean;
   blocksperrow: JDIMENSION; numrows: JDIMENSION; maxaccess: JDIMENSION): jvirt_barray_ptr; far;
 { Request a virtual 2-D coefficient-block array }
@@ -639,8 +681,13 @@ begin
   request_virt_barray := the_result;
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// realize_virt_arrays
+//
+//==============================================================================
 procedure realize_virt_arrays(cinfo: j_common_ptr); far;
 { Allocate the in-memory buffers for any unrealized virtual arrays }
 var
@@ -772,8 +819,13 @@ begin
   end;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// do_sarray_io 
+//
+//==============================================================================
 procedure do_sarray_io (cinfo: j_common_ptr;
                         ptr: jvirt_sarray_ptr;
                         writing: boolean);
@@ -822,8 +874,13 @@ begin
   end;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// do_barray_io 
+//
+//==============================================================================
 procedure do_barray_io (cinfo: j_common_ptr;
                        ptr: jvirt_barray_ptr;
                        writing: boolean);
@@ -870,8 +927,13 @@ begin
   end;
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// access_virt_sarray 
+//
+//==============================================================================
 function access_virt_sarray (cinfo: j_common_ptr; ptr: jvirt_sarray_ptr;
   start_row: JDIMENSION; num_rows: JDIMENSION; writable: boolean): JSAMPARRAY; far;
 { Access the part of a virtual sample array starting at start_row }
@@ -916,7 +978,6 @@ begin
     else
     begin
       { use long arithmetic here to avoid overflow & unsigned problems }
-
 
       ltemp := long(end_row) - long(ptr^.rows_in_mem);
       if (ltemp < 0) then
@@ -970,8 +1031,13 @@ begin
   access_virt_sarray := JSAMPARRAY(@ ptr^.mem_buffer^[start_row - ptr^.cur_start_row]);
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// access_virt_barray 
+//
+//==============================================================================
 function access_virt_barray (cinfo: j_common_ptr;
                              ptr: jvirt_barray_ptr;
                  start_row: JDIMENSION;
@@ -1074,10 +1140,15 @@ begin
   access_virt_barray := JBLOCKARRAY(@ ptr^.mem_buffer^[start_row - ptr^.cur_start_row]);
 end;
 
-
 { Release all objects belonging to a specified pool. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// free_pool 
+//
+//==============================================================================
 procedure free_pool (cinfo: j_common_ptr; pool_id: int); far;
 var
   mem: my_mem_ptr;
@@ -1159,11 +1230,16 @@ begin
   end;
 end;
 
-
 { Close up shop entirely.
   Note that this cannot be called unless cinfo^.mem is non-nil. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// self_destruct 
+//
+//==============================================================================
 procedure self_destruct (cinfo: j_common_ptr); far;
 var
   pool: int;
@@ -1184,11 +1260,16 @@ begin
   jpeg_mem_term(cinfo);    { system-dependent cleanup }
 end;
 
-
 { Memory manager initialization.
   When this is called, only the error manager pointer is valid in cinfo! }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_memory_mgr 
+//
+//==============================================================================
 procedure jinit_memory_mgr (cinfo: j_common_ptr);
 var
   mem: my_mem_ptr;

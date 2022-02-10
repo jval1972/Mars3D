@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -32,12 +32,32 @@ unit info_export;
 
 interface
 
+//==============================================================================
+//
+// Info_GetMobjinfoPascal
+//
+//==============================================================================
 function Info_GetMobjinfoPascal(const astart: integer = 0; const afinish: integer = -1): string;
 
+//==============================================================================
+//
+// Info_GetMobjinfoPascalConst
+//
+//==============================================================================
 function Info_GetMobjinfoPascalConst(const astart: integer = 0; const afinish: integer = -1): string;
 
+//==============================================================================
+//
+// Info_GetStatesPascal
+//
+//==============================================================================
 function Info_GetStatesPascal(const astart: integer = 0; const afinish: integer = -1): string;
 
+//==============================================================================
+//
+// Info_InitExportCommands
+//
+//==============================================================================
 procedure Info_InitExportCommands;
 
 implementation
@@ -57,6 +77,11 @@ uses
   r_renderstyle,
   sounds;
 
+//==============================================================================
+//
+// _state_name_Ord
+//
+//==============================================================================
 function _state_name_Ord(const x: Integer): string;
 begin
   if x < 0 then
@@ -67,6 +92,11 @@ begin
     Result := itoa(x);
 end;
 
+//==============================================================================
+//
+// _state_name
+//
+//==============================================================================
 function _state_name(const x: Integer): string;
 begin
   if x < 0 then
@@ -77,6 +107,11 @@ begin
     Result := 'statenum_t(' + itoa(x) + ')';
 end;
 
+//==============================================================================
+//
+// _sound_name_Ord
+//
+//==============================================================================
 function _sound_name_Ord(const x: Integer): string;
 begin
   if x < 0 then
@@ -87,6 +122,11 @@ begin
     Result := itoa(x);
 end;
 
+//==============================================================================
+//
+// _mobjinfo_name_Ord
+//
+//==============================================================================
 function _mobjinfo_name_Ord(const x: Integer): string;
 begin
   if x < 0 then
@@ -97,6 +137,11 @@ begin
     Result := itoa(x);
 end;
 
+//==============================================================================
+//
+// _gender_name
+//
+//==============================================================================
 function _gender_name(const x: Integer): string;
 begin
   if x < 0 then
@@ -107,6 +152,11 @@ begin
     Result := 'gender_t(' + itoa(x) + ')';
 end;
 
+//==============================================================================
+//
+// _pascal_name
+//
+//==============================================================================
 function _pascal_name(const s: string): string;
 var
   i: integer;
@@ -121,6 +171,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// _renderstyle_name
+//
+//==============================================================================
 function _renderstyle_name(const x: Integer): string;
 begin
   if x < 0 then
@@ -131,6 +186,11 @@ begin
     Result := 'mobjrenderstyle_t(' + itoa(x) + ')';
 end;
 
+//==============================================================================
+//
+// itoa_FRACUNIT
+//
+//==============================================================================
 function itoa_FRACUNIT(const x: integer): string;
 begin
   if Abs(x) < FRACUNIT then
@@ -145,6 +205,11 @@ begin
     Result := itoa(x);
 end;
 
+//==============================================================================
+//
+// itoa_FLAGS
+//
+//==============================================================================
 function itoa_FLAGS(const x: Integer; const flags: TDTextList): string;
 var
   i: integer;
@@ -182,6 +247,11 @@ begin
   sl.Free;
 end;
 
+//==============================================================================
+//
+// _spritenum_name_Ord
+//
+//==============================================================================
 function _spritenum_name_Ord(const x: Integer): string;
 begin
   if x < 0 then
@@ -192,6 +262,11 @@ begin
     Result := itoa(x);
 end;
 
+//==============================================================================
+//
+// _action_name
+//
+//==============================================================================
 function _action_name(const action: actionf_t): string;
 var
   i: integer;
@@ -208,6 +283,11 @@ begin
   Result := 'nil';
 end;
 
+//==============================================================================
+//
+// Info_GetMobjinfoPascal
+//
+//==============================================================================
 function Info_GetMobjinfoPascal(const astart: integer = 0; const afinish: integer = -1): string;
 var
   ret: string;
@@ -330,6 +410,11 @@ begin
   Result := ret;
 end;
 
+//==============================================================================
+//
+// Info_GetMobjinfoPascalConst
+//
+//==============================================================================
 function Info_GetMobjinfoPascalConst(const astart: integer = 0; const afinish: integer = -1): string;
 var
   ret: string;
@@ -474,6 +559,11 @@ begin
   Result := ret;
 end;
 
+//==============================================================================
+//
+// Info_GetStatesPascal
+//
+//==============================================================================
 function Info_GetStatesPascal(const astart: integer = 0; const afinish: integer = -1): string;
 var
   ret: string;
@@ -531,6 +621,11 @@ begin
   Result := ret;
 end;
 
+//==============================================================================
+//
+// CmdExportInfoPascal
+//
+//==============================================================================
 procedure CmdExportInfoPascal(const fname: string);
 var
   fname1: string;
@@ -562,6 +657,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// CmdExportInfoPascalBI
+//
+//==============================================================================
 procedure CmdExportInfoPascalBI(const fname: string);
 var
   fname1: string;
@@ -593,6 +693,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// CmdExportInfoPascalConst
+//
+//==============================================================================
 procedure CmdExportInfoPascalConst(const fname: string);
 var
   fname1: string;
@@ -624,6 +729,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// CmdExportInfoPascalConstBI
+//
+//==============================================================================
 procedure CmdExportInfoPascalConstBI(const fname: string);
 var
   fname1: string;
@@ -658,6 +768,11 @@ end;
 var
   export_commands_registered: boolean = false;
 
+//==============================================================================
+//
+// Info_InitExportCommands
+//
+//==============================================================================
 procedure Info_InitExportCommands;
 begin
   if export_commands_registered then

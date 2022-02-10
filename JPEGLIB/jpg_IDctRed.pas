@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -29,7 +29,6 @@
 {$I Mars3D.inc}
 
 unit jpg_IDctRed;
-
 
 { This file contains inverse-DCT routines that produce reduced-size output:
   either 4x4, 2x2, or 1x1 pixels from an 8x8 DCT block.
@@ -44,7 +43,6 @@ unit jpg_IDctRed;
   1x1 is trivial: just take the DC coefficient divided by 8.
 
   See jidctint.c for additional comments. }
-
 
 { Original: jidctred.c ; Copyright (C) 1994-1998, Thomas G. Lane. }
 
@@ -61,6 +59,12 @@ uses
   producing a reduced-size 1x1 output block. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_1x1
+//
+//==============================================================================
 procedure jpeg_idct_1x1(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 
@@ -68,6 +72,12 @@ procedure jpeg_idct_1x1(cinfo: j_decompress_ptr; compptr: jpeg_component_info_pt
   producing a reduced-size 2x2 output block. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_2x2
+//
+//==============================================================================
 procedure jpeg_idct_2x2(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 
@@ -75,6 +85,12 @@ procedure jpeg_idct_2x2(cinfo: j_decompress_ptr; compptr: jpeg_component_info_pt
   producing a reduced-size 4x4 output block. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_4x4
+//
+//==============================================================================
 procedure jpeg_idct_4x4(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 
@@ -85,7 +101,6 @@ implementation
 {$ifndef DCTSIZE_IS_8}
   Sorry, this code only copes with 8x8 DCTs. { deliberate syntax err }
 {$endif}
-
 
 { Scaling is the same as in jidctint.c. }
 
@@ -115,7 +130,6 @@ const
   FIX_2_562915447 = INT32(Round((INT32(1) shl CONST_BITS) * 2.562915447)); {20995}
   FIX_3_624509785 = INT32(Round((INT32(1) shl CONST_BITS) * 3.624509785)); {29692}
 
-
 { Multiply an INT32 variable by an INT32 constant to yield an INT32 result.
   For 8-bit samples with the recommended scaling, all the variable
   and constant values involved are no more than 16 bits wide, so a
@@ -138,7 +152,6 @@ const
      Multiply := X*INT32(Y);
    end;
 
-
 {$else}
    function Multiply(X, Y: INT32): INT32;
    begin
@@ -146,21 +159,29 @@ const
    end;
 {$endif}
 
-
 { Dequantize a coefficient by multiplying it by the multiplier-table
   entry; produce an int result.  In this module, both inputs and result
   are 16 bits or less, so either int or short multiply will work. }
 
+//==============================================================================
+//
+// DEQUANTIZE
+//
+//==============================================================================
 function DEQUANTIZE(coef,quantval: int): int;
 begin
   Dequantize := ( ISLOW_MULT_TYPE(coef) * quantval);
 end;
 
-
 { Descale and correctly round an INT32 value that's scaled by N bits.
   We assume RIGHT_SHIFT rounds towards minus infinity, so adding
   the fudge factor is correct for either sign of X. }
 
+//==============================================================================
+//
+// DESCALE
+//
+//==============================================================================
 function DESCALE(x: INT32; n: int): INT32;
 var
   shift_temp: INT32;
@@ -180,6 +201,12 @@ end;
   producing a reduced-size 4x4 output block. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_4x4
+//
+//==============================================================================
 procedure jpeg_idct_4x4(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 type
@@ -360,11 +387,16 @@ begin
   end;
 end;
 
-
 { Perform dequantization and inverse DCT on one block of coefficients,
   producing a reduced-size 2x2 output block. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_2x2
+//
+//==============================================================================
 procedure jpeg_idct_2x2(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 type
@@ -500,11 +532,16 @@ begin
   end;
 end;
 
-
 { Perform dequantization and inverse DCT on one block of coefficients,
   producing a reduced-size 1x1 output block. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_1x1
+//
+//==============================================================================
 procedure jpeg_idct_1x1(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 var

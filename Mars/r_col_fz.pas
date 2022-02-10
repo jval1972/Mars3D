@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -32,11 +32,33 @@ unit r_col_fz;
 
 interface
 
+//==============================================================================
+//
+// R_InitFuzzTable
+//
+//==============================================================================
 procedure R_InitFuzzTable;
 
+//==============================================================================
+// R_DrawFuzzColumn
+//
 // The Spectre/Invisibility effect.
+//
+//==============================================================================
 procedure R_DrawFuzzColumn;
+
+//==============================================================================
+//
+// R_DrawFuzzColumn32
+//
+//==============================================================================
 procedure R_DrawFuzzColumn32;
+
+//==============================================================================
+//
+// R_DrawFuzzColumnHi
+//
+//==============================================================================
 procedure R_DrawFuzzColumnHi;
 
 //
@@ -70,6 +92,8 @@ uses
   r_column,
   r_hires;
 
+//==============================================================================
+// R_DrawFuzzColumn
 //
 // Framebuffer postprocessing.
 // Creates a fuzzy image by copying pixels
@@ -78,6 +102,7 @@ uses
 //  could create the SHADOW effect,
 //  i.e. spectres and invisible players.
 //
+//==============================================================================
 procedure R_DrawFuzzColumn;
 var
   count: integer;
@@ -122,6 +147,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawFuzzColumn32
+//
+//==============================================================================
 procedure R_DrawFuzzColumn32;
 var
   count: integer;
@@ -166,6 +196,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawFuzzColumnHi
+//
+//==============================================================================
 procedure R_DrawFuzzColumnHi;
 var
   count: integer;
@@ -203,6 +238,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_InitFuzzTable
+//
+//==============================================================================
 procedure R_InitFuzzTable;
 var
   i: integer;

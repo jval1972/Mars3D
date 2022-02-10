@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -45,12 +45,32 @@ const
   C_START = 'C_START';
   C_END = 'C_END';
 
+//==============================================================================
+//
+// R_InitCustomColormaps
+//
+//==============================================================================
 procedure R_InitCustomColormaps;
 
+//==============================================================================
+//
+// R_ShutDownCustomColormaps
+//
+//==============================================================================
 procedure R_ShutDownCustomColormaps;
 
+//==============================================================================
+//
+// R_CustomColorMapForName
+//
+//==============================================================================
 function R_CustomColorMapForName(const s: string): integer;
 
+//==============================================================================
+//
+// R_RecalcColormaps
+//
+//==============================================================================
 procedure R_RecalcColormaps;
 
 type
@@ -83,6 +103,12 @@ var
   customcolormaps: Pcustomcolormap_tArray = nil;
 
 {$IFNDEF OPENGL}
+
+//==============================================================================
+//
+// R_CustomColorMapColor32
+//
+//==============================================================================
 function R_CustomColorMapColor32(const cm: Pcustomcolormap_t; const color: LongWord): LongWord;
 {$ENDIF}
 
@@ -97,6 +123,11 @@ uses
   w_wad,
   z_zone;
 
+//==============================================================================
+//
+// R_InitCustomColormaps
+//
+//==============================================================================
 procedure R_InitCustomColormaps;
 var
   in_c: Boolean;
@@ -153,7 +184,6 @@ begin
     end;
     Z_ChangeTag(pal, PU_CACHE);
 
-
     customcolormaps := mallocz(numcustomcolormaps * SizeOf(customcolormap_t));
     for i := 0 to numcustomcolormaps - 1 do
     begin
@@ -194,6 +224,11 @@ begin
   lumps.Free;
 end;
 
+//==============================================================================
+//
+// R_ShutDownCustomColormaps
+//
+//==============================================================================
 procedure R_ShutDownCustomColormaps;
 begin
   if numcustomcolormaps > 0 then
@@ -203,6 +238,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_CustomColorMapForName
+//
+//==============================================================================
 function R_CustomColorMapForName(const s: string): integer;
 var
   i: integer;
@@ -219,6 +259,11 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// R_RecalcColormaps
+//
+//==============================================================================
 procedure R_RecalcColormaps;
 var
   i, j: integer;
@@ -278,6 +323,12 @@ begin
 end;
 
 {$IFNDEF OPENGL}
+
+//==============================================================================
+//
+// R_CustomColorMapColor32
+//
+//==============================================================================
 function R_CustomColorMapColor32(const cm: Pcustomcolormap_t; const color: LongWord): LongWord;
 var
   i, j, k: byte;

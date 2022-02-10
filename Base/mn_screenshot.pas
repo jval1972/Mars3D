@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -57,10 +57,25 @@ var
   mn_screenshotbuffer: menuscreenbuffer_t;
   mn_makescreenshot: boolean = false;
 
+//==============================================================================
+//
+// MN_ScreenShotFromBlitBuffer
+//
+//==============================================================================
 procedure MN_ScreenShotFromBlitBuffer;
 
+//==============================================================================
+//
+// MN_ScreenShotFromSaveGame
+//
+//==============================================================================
 procedure MN_ScreenShotFromSaveGame(const path: string; const outbuff: Pmenuscreenbuffer_t);
 
+//==============================================================================
+//
+// MN_ValidScreenShot
+//
+//==============================================================================
 function MN_ValidScreenShot(const mnbuf: Pmenuscreenbuffer_t): boolean;
 
 implementation
@@ -76,6 +91,11 @@ uses
   r_draw,
   v_video;
 
+//==============================================================================
+//
+// MN_ScreenShotFromBlitBuffer
+//
+//==============================================================================
 procedure MN_ScreenShotFromBlitBuffer;
 var
   i, x, y: integer;
@@ -115,6 +135,11 @@ begin
   mn_makescreenshot := false;
 end;
 
+//==============================================================================
+//
+// MN_ScreenShotFromSaveGame
+//
+//==============================================================================
 procedure MN_ScreenShotFromSaveGame(const path: string; const outbuff: Pmenuscreenbuffer_t);
 var
   f: TFile;
@@ -137,6 +162,11 @@ begin
   f.Free;
 end;
 
+//==============================================================================
+//
+// MN_ValidScreenShot
+//
+//==============================================================================
 function MN_ValidScreenShot(const mnbuf: Pmenuscreenbuffer_t): boolean;
 var
   i: integer;

@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -32,13 +32,41 @@ unit r_col_av;
 
 interface
 
+//==============================================================================
+// R_DrawColumnAverageLowest
+//
 // Average column drawers (transparency effects)
+//
+//==============================================================================
 procedure R_DrawColumnAverageLowest;
-procedure R_DrawColumnAverageLow;
-procedure R_DrawColumnAverageMedium;
-procedure R_DrawColumnAverageHi;
-procedure R_DrawColumnAverageUltra;
 
+//==============================================================================
+//
+// R_DrawColumnAverageLow
+//
+//==============================================================================
+procedure R_DrawColumnAverageLow;
+
+//==============================================================================
+//
+// R_DrawColumnAverageMedium
+//
+//==============================================================================
+procedure R_DrawColumnAverageMedium;
+
+//==============================================================================
+//
+// R_DrawColumnAverageHi
+//
+//==============================================================================
+procedure R_DrawColumnAverageHi;
+
+//==============================================================================
+//
+// R_DrawColumnAverageUltra
+//
+//==============================================================================
+procedure R_DrawColumnAverageUltra;
 
 implementation
 
@@ -51,6 +79,11 @@ uses
   r_column,
   r_trans8;
 
+//==============================================================================
+//
+// R_DrawColumnAverageLowest
+//
+//==============================================================================
 procedure R_DrawColumnAverageLowest;
 var
   count: integer;
@@ -104,6 +137,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnAverageLow
+//
+//==============================================================================
 procedure R_DrawColumnAverageLow;
 var
   count: integer;
@@ -151,6 +189,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnAverageMedium
+//
+//==============================================================================
 procedure R_DrawColumnAverageMedium;
 var
   count: integer;
@@ -192,7 +235,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// R_DrawColumnAverageHi
+//
+//==============================================================================
 procedure R_DrawColumnAverageHi;
 var
   count: integer;
@@ -236,6 +283,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnAverageUltra
+//
+//==============================================================================
 procedure R_DrawColumnAverageUltra;
 var
   count: integer;

@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -38,6 +38,11 @@ interface
 uses
   p_mobj_h;
 
+//==============================================================================
+//
+// A_MusicChanger
+//
+//==============================================================================
 procedure A_MusicChanger(actor: Pmobj_t);
 
 const
@@ -49,8 +54,18 @@ const
   MUSICCHANGER_HI = 14164;
   MUSICCHANGER = 14165;
 
+//==============================================================================
+//
+// P_InitMusInfo
+//
+//==============================================================================
 procedure P_InitMusInfo;
 
+//==============================================================================
+//
+// P_FindMusinfoMusic
+//
+//==============================================================================
 function P_FindMusinfoMusic(const id: integer; const mapname: string): integer;
 
 implementation
@@ -76,6 +91,11 @@ const
 const
   MUSINFOTICS = 30;
 
+//==============================================================================
+//
+// A_MusicChanger
+//
+//==============================================================================
 procedure A_MusicChanger(actor: Pmobj_t);
 var
   countdown: integer;
@@ -165,6 +185,11 @@ var
   nummusinfo: integer = 0;
   musinfo: musinfo_tArray;
 
+//==============================================================================
+//
+// P_AddMusInfo
+//
+//==============================================================================
 procedure P_AddMusInfo(const mapname: string; const musid: integer; const musname: string);
 var
   i, idx: integer;
@@ -203,6 +228,11 @@ begin
   pm.musname := stringtochar8(strupper(musname));
 end;
 
+//==============================================================================
+//
+// P_InitMusInfo
+//
+//==============================================================================
 procedure P_InitMusInfo;
 var
   sc: TScriptEngine;
@@ -260,6 +290,11 @@ begin
   sc.Free;
 end;
 
+//==============================================================================
+//
+// P_FindMusinfoMusic
+//
+//==============================================================================
 function P_FindMusinfoMusic(const id: integer; const mapname: string): integer;
 var
   check: char8_t;

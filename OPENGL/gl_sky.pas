@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -35,10 +35,25 @@ interface
 uses
   r_sky;
 
+//==============================================================================
+//
+// gld_CalculateSky
+//
+//==============================================================================
 procedure gld_CalculateSky(const aSize : Double);
 
+//==============================================================================
+//
+// gld_DrawSky
+//
+//==============================================================================
 procedure gld_DrawSky(const up, down: boolean);
 
+//==============================================================================
+//
+// gld_SkyDone
+//
+//==============================================================================
 procedure gld_SkyDone;
 
 implementation
@@ -56,6 +71,11 @@ var
   fSkyListUpper: GLuint;
   fSkyListLower: GLuint;
 
+//==============================================================================
+//
+// gld_CalculateSky
+//
+//==============================================================================
 procedure gld_CalculateSky(const aSize : Double);
 {$IFDEF STRIFE}
     (*
@@ -325,6 +345,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// gld_DrawSky
+//
+//==============================================================================
 procedure gld_DrawSky(const up, down: boolean);
 var
   stex: PGLTexture;
@@ -338,6 +363,11 @@ begin
     glCallList(fSkyListLower);
 end;
 
+//==============================================================================
+//
+// gld_SkyDone
+//
+//==============================================================================
 procedure gld_SkyDone;
 begin
   glDeleteLists(fSkyListLower, 1);

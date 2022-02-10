@@ -79,14 +79,39 @@ const
     (version: mv20reg_wad;       fastcrc32: '8075888a'; gamemode: registered; savepath: 'MARS_REW'; language: english; versionstring: 'Mars v1.0 Registered (ENGLISH) (WAD)')
   );
 
+//==============================================================================
+//
+// MARS_GameModeFromCrc32
+//
+//==============================================================================
 function MARS_GameModeFromCrc32(const crc: string): Gamemode_t;
 
+//==============================================================================
+//
+// MARS_MADVersionFromCrc32
+//
+//==============================================================================
 function MARS_MADVersionFromCrc32(const crc: string): marsversion_t;
 
+//==============================================================================
+//
+// MARS_VersionStringFromCrc32
+//
+//==============================================================================
 function MARS_VersionStringFromCrc32(const crc: string): string;
 
+//==============================================================================
+//
+// MARS_CheckUnknownWad
+//
+//==============================================================================
 function MARS_CheckUnknownWad(const filename: string): boolean;
 
+//==============================================================================
+//
+// MARS_GetSavePath
+//
+//==============================================================================
 function MARS_GetSavePath: string;
 
 const
@@ -95,6 +120,11 @@ const
 var
   num_episode_maps: array[1..MARS_MAX_EPISODES] of integer;
 
+//==============================================================================
+//
+// MARS_CheckEpisodeMaps
+//
+//==============================================================================
 procedure MARS_CheckEpisodeMaps;
 
 implementation
@@ -108,6 +138,11 @@ uses
 var
   savepath: string = 'MARS';
 
+//==============================================================================
+//
+// MARS_GameModeFromCrc32
+//
+//==============================================================================
 function MARS_GameModeFromCrc32(const crc: string): Gamemode_t;
 var
   i: integer;
@@ -125,6 +160,11 @@ begin
   result := indetermined;
 end;
 
+//==============================================================================
+//
+// MARS_MADVersionFromCrc32
+//
+//==============================================================================
 function MARS_MADVersionFromCrc32(const crc: string): marsversion_t;
 var
   i: integer;
@@ -143,7 +183,11 @@ begin
   result := mvunknown;
 end;
 
-
+//==============================================================================
+//
+// MARS_VersionStringFromCrc32
+//
+//==============================================================================
 function MARS_VersionStringFromCrc32(const crc: string): string;
 var
   i: integer;
@@ -161,6 +205,11 @@ begin
   result := 'Game mode indeterminate';
 end;
 
+//==============================================================================
+//
+// MARS_CheckUnknownWad
+//
+//==============================================================================
 function MARS_CheckUnknownWad(const filename: string): boolean;
 const
   sNUMS = '0123456789';
@@ -210,7 +259,11 @@ begin
     savepath := name + '_' + crc;
 end;
 
-
+//==============================================================================
+//
+// MARS_GetSavePath
+//
+//==============================================================================
 function MARS_GetSavePath: string;
 var
   s: string;
@@ -224,6 +277,11 @@ begin
   result := 'DATA\SAVES\' + savepath + '\';
 end;
 
+//==============================================================================
+//
+// MARS_CheckEpisodeMaps
+//
+//==============================================================================
 procedure MARS_CheckEpisodeMaps;
 var
   epi, mp: integer;

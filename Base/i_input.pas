@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -32,14 +32,39 @@ unit i_input;
 
 interface
 
+//==============================================================================
+//
+// I_InitInput
+//
+//==============================================================================
 procedure I_InitInput;
 
+//==============================================================================
+//
+// I_ProcessInput
+//
+//==============================================================================
 procedure I_ProcessInput;
 
+//==============================================================================
+//
+// I_ShutDownInput
+//
+//==============================================================================
 procedure I_ShutDownInput;
 
+//==============================================================================
+//
+// I_SynchronizeInput
+//
+//==============================================================================
 procedure I_SynchronizeInput(active: boolean);
 
+//==============================================================================
+//
+// I_SetMouseClicks
+//
+//==============================================================================
 procedure I_SetMouseClicks(val: integer);
 
 var
@@ -61,6 +86,11 @@ uses
   i_mainwindow,
   i_system;
 
+//==============================================================================
+//
+// TranslateKey
+//
+//==============================================================================
 function TranslateKey(keycode: integer): integer;
 begin
   case keycode of
@@ -116,6 +146,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TranslateSysKey
+//
+//==============================================================================
 function TranslateSysKey(keycode: integer): integer;
 begin
   case keycode of
@@ -156,6 +191,11 @@ var
   setcursorposfunc: setcursorposfunc_t;
   user32inst: THandle;
 
+//==============================================================================
+//
+// I_InitMouse
+//
+//==============================================================================
 procedure I_InitMouse;
 begin
   user32inst := LoadLibrary(user32);
@@ -167,11 +207,21 @@ begin
     setcursorposfunc := GetProcAddress(user32inst, 'SetCursorPos');
 end;
 
+//==============================================================================
+//
+// I_ShutDownMouse
+//
+//==============================================================================
 procedure I_ShutDownMouse;
 begin
   FreeLibrary(user32inst);
 end;
 
+//==============================================================================
+//
+// I_ResetMouse
+//
+//==============================================================================
 procedure I_ResetMouse;
 begin
   mlastx := SCREENWIDTH div 2;
@@ -180,6 +230,9 @@ begin
   mflags := 0;
 end;
 
+//==============================================================================
+// I_InitInput
+//
 //-----------------------------------------------------------------------------
 // Name: CreateDInput()
 // Desc: Initialize the DirectInput variables using:
@@ -188,6 +241,8 @@ end;
 //           IDirectInputDevice::SetDataFormat
 //           IDirectInputDevice::SetCooperativeLevel
 //-----------------------------------------------------------------------------
+//
+//==============================================================================
 procedure I_InitInput;
 var
   hres: HRESULT;
@@ -280,6 +335,8 @@ end;
 // Name: I_ShutDownInput
 // Desc: Terminate our usage of DirectInput
 //-----------------------------------------------------------------------------
+//
+//==============================================================================
 procedure I_ShutDownInput;
 begin
   if usedirectinput then
@@ -311,6 +368,8 @@ end;
 // Name: I_ProcessInput;
 // Desc: The game plays here. Read keyboard data and displaying it.
 //-----------------------------------------------------------------------------
+//
+//==============================================================================
 procedure I_ProcessInput;
 
   function DIKEYtoVK(Key: Byte): Integer;
@@ -536,6 +595,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// I_SetMouseClicks
+//
+//==============================================================================
 procedure I_SetMouseClicks(val: integer);
 begin
   if val > 0 then
@@ -547,6 +611,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// I_SynchronizeInput
+//
+//==============================================================================
 procedure I_SynchronizeInput(active: boolean);
 begin
   if active then

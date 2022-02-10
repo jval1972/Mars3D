@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -76,12 +76,32 @@ const
   PTROP_UNSAFEMASTER = 2;
   PTROP_NOSAFEGUARDS = PTROP_UNSAFETARGET or PTROP_UNSAFEMASTER;
 
+//==============================================================================
+//
+// COPY_AAPTR
+//
+//==============================================================================
 function COPY_AAPTR(const origin: Pmobj_t; const selector: integer): Pmobj_t;
 
+//==============================================================================
+//
+// ASSIGN_AAPTR
+//
+//==============================================================================
 procedure ASSIGN_AAPTR(const toActor: Pmobj_t; const toSlot: integer; const ptr: Pmobj_t; const flags: integer);
 
+//==============================================================================
+//
+// VerifyTargetChain
+//
+//==============================================================================
 procedure VerifyTargetChain(const self: Pmobj_t);
 
+//==============================================================================
+//
+// VerifyMasterChain
+//
+//==============================================================================
 procedure VerifyMasterChain(const self: Pmobj_t);
 
 implementation
@@ -98,6 +118,11 @@ uses
   g_game,
   p_map;
 
+//==============================================================================
+//
+// AAPTR_RESOLVE_PLAYERNUM
+//
+//==============================================================================
 function AAPTR_RESOLVE_PLAYERNUM(const playernum: integer): Pmobj_t;
 begin
   if not IsIntegerInRange(playernum, 0, MAXPLAYERS - 1) then
@@ -112,6 +137,11 @@ begin
     result := nil;
 end;
 
+//==============================================================================
+//
+// COPY_AAPTR
+//
+//==============================================================================
 function COPY_AAPTR(const origin: Pmobj_t; const selector: integer): Pmobj_t;
 var
   i: integer;
@@ -219,6 +249,11 @@ begin
   result := origin;
 end;
 
+//==============================================================================
+//
+// VerifyTargetChain
+//
+//==============================================================================
 procedure VerifyTargetChain(const self: Pmobj_t);
 var
   origin, next, compare: Pmobj_t;
@@ -256,6 +291,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// VerifyMasterChain
+//
+//==============================================================================
 procedure VerifyMasterChain(const self: Pmobj_t);
 var
   origin, next, compare: Pmobj_t;
@@ -285,6 +325,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ASSIGN_AAPTR
+//
+//==============================================================================
 procedure ASSIGN_AAPTR(const toActor: Pmobj_t; const toSlot: integer; const ptr: Pmobj_t; const flags: integer);
 begin
   case toSlot of

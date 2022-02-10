@@ -42,20 +42,60 @@ uses
   info_h,
   d_items;
 
+//==============================================================================
+//
+// SC_ParseSndInfoLumps
+//
+//==============================================================================
 procedure SC_ParseSndInfoLumps;
 
+//==============================================================================
+//
+// SC_ParseActordefLumps
+//
+//==============================================================================
 procedure SC_ParseActordefLumps;
 
+//==============================================================================
+//
+// SC_ParseActordefLump
+//
+//==============================================================================
 procedure SC_ParseActordefLump(const in_text: string);
 
+//==============================================================================
+//
+// SC_Init
+//
+//==============================================================================
 procedure SC_Init;
 
+//==============================================================================
+//
+// SC_ShutDown
+//
+//==============================================================================
 procedure SC_ShutDown;
 
+//==============================================================================
+//
+// SC_SoundAlias
+//
+//==============================================================================
 function SC_SoundAlias(const snd: string): string;
 
+//==============================================================================
+//
+// SC_GetActordefDeclaration
+//
+//==============================================================================
 function SC_GetActordefDeclaration(const m: Pmobjinfo_t): string;
 
+//==============================================================================
+//
+// SC_GetWeapondefDeclaration
+//
+//==============================================================================
 function SC_GetWeapondefDeclaration(const w: Pweaponinfo_t): string;
 
 var
@@ -101,6 +141,11 @@ var
 const
   MAXSTATES = 512;
 
+//==============================================================================
+//
+// fixsndaliasstr
+//
+//==============================================================================
 function fixsndaliasstr(const src: string): string;
 var
   i: integer;
@@ -117,6 +162,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SC_SoundAlias
+//
+//==============================================================================
 function SC_SoundAlias(const snd: string): string;
 var
   check: string;
@@ -181,6 +231,11 @@ type
     function MatchFlag4Ex(const flag4_ex: string): boolean;
   end;
 
+//==============================================================================
+//
+// TActordefScriptEngine.AddFlagAliases
+//
+//==============================================================================
 procedure TActordefScriptEngine.AddFlagAliases;
 begin
   AddAlias('CANPASS', 'PASSMOBJ');
@@ -194,6 +249,11 @@ begin
   AddAlias('-FRIENDLY', '-FRIEND');
 end;
 
+//==============================================================================
+//
+// TActordefScriptEngine.MatchFlag
+//
+//==============================================================================
 function TActordefScriptEngine.MatchFlag(const flag: string): boolean;
 begin
   AddFlagAliases;
@@ -206,6 +266,12 @@ begin
 end;
 
 {$IFDEF HERETIC_OR_HEXEN}
+
+//==============================================================================
+//
+// TActordefScriptEngine.MatchFlag2
+//
+//==============================================================================
 function TActordefScriptEngine.MatchFlag2(const flag: string): boolean;
 begin
   AddFlagAliases;
@@ -220,6 +286,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// TActordefScriptEngine.MatchFlagEx
+//
+//==============================================================================
 function TActordefScriptEngine.MatchFlagEx(const flag_ex: string): boolean;
 begin
   AddFlagAliases;
@@ -233,6 +304,11 @@ begin
   ClearAliases;
 end;
 
+//==============================================================================
+//
+// TActordefScriptEngine.MatchFlag2Ex
+//
+//==============================================================================
 function TActordefScriptEngine.MatchFlag2Ex(const flag2_ex: string): boolean;
 begin
   AddFlagAliases;
@@ -246,6 +322,11 @@ begin
   ClearAliases;
 end;
 
+//==============================================================================
+//
+// TActordefScriptEngine.MatchFlag3Ex
+//
+//==============================================================================
 function TActordefScriptEngine.MatchFlag3Ex(const flag3_ex: string): boolean;
 begin
   AddFlagAliases;
@@ -259,6 +340,11 @@ begin
   ClearAliases;
 end;
 
+//==============================================================================
+//
+// TActordefScriptEngine.MatchFlag4Ex
+//
+//==============================================================================
 function TActordefScriptEngine.MatchFlag4Ex(const flag4_ex: string): boolean;
 begin
   AddFlagAliases;
@@ -278,6 +364,11 @@ const
   DECORATELUMPNAME = 'DECORATE';
   SNDINFOLUMPNAME = 'SNDINFO';
 
+//==============================================================================
+//
+// SC_DoParseActordefLump
+//
+//==============================================================================
 procedure SC_DoParseActordefLump(const in_text: string);
 var
   mobj: rtl_mobjinfo_t;
@@ -2888,6 +2979,11 @@ begin
   w_state_tokens.Free;
 end;
 
+//==============================================================================
+//
+// SC_ParseActordefLump
+//
+//==============================================================================
 procedure SC_ParseActordefLump(const in_text: string);
 begin
   SC_DoParseActordefLump(SC_Preprocess(in_text, false));
@@ -2896,6 +2992,11 @@ end;
 var
   sound_tx: string;
 
+//==============================================================================
+//
+// SC_DoRetrieveSndInfo
+//
+//==============================================================================
 procedure SC_DoRetrieveSndInfo(const in_text: string);
 begin
   if sound_tx = '' then
@@ -2904,11 +3005,21 @@ begin
     sound_tx := sound_tx + #13#10 + in_text;
 end;
 
+//==============================================================================
+//
+// SC_RetrieveSndInfo
+//
+//==============================================================================
 procedure SC_RetrieveSndInfo(const in_text: string);
 begin
   SC_DoRetrieveSndInfo(SC_Preprocess(in_text, false));
 end;
 
+//==============================================================================
+//
+// SC_ParseSndInfoLumps
+//
+//==============================================================================
 procedure SC_ParseSndInfoLumps;
 var
   i, p: integer;
@@ -2986,6 +3097,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SC_ParseActordefLumps
+//
+//==============================================================================
 procedure SC_ParseActordefLumps;
 var
   i: integer;
@@ -3039,6 +3155,11 @@ begin
   {$ENDIF}
 end;
 
+//==============================================================================
+//
+// SC_Init
+//
+//==============================================================================
 procedure SC_Init;
 begin
   soundaliases := TDStringList.Create;
@@ -3052,6 +3173,11 @@ begin
   C_AddCmd('DEH_SaveStateOwners, SaveStateOwners', @DEH_SaveStateOwners);
 end;
 
+//==============================================================================
+//
+// SC_ShutDown
+//
+//==============================================================================
 procedure SC_ShutDown;
 begin
   soundaliases.Free;
@@ -3060,6 +3186,11 @@ begin
   SC_ShutDownActorEvaluator;
 end;
 
+//==============================================================================
+//
+// SC_GetActordefDeclaration
+//
+//==============================================================================
 function SC_GetActordefDeclaration(const m: Pmobjinfo_t): string;
 var
   ret: string;
@@ -3384,6 +3515,11 @@ begin
   result := ret;
 end;
 
+//==============================================================================
+//
+// SC_GetWeapondefDeclaration
+//
+//==============================================================================
 function SC_GetWeapondefDeclaration(const w: Pweaponinfo_t): string;
 var
   ret: string;

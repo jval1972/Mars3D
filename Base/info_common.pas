@@ -36,48 +36,158 @@ uses
   d_delphi,
   info_h;
 
+//==============================================================================
+//
+// Info_GetMobjNumForDoomNum
+//
+//==============================================================================
 function Info_GetMobjNumForDoomNum(const dn: integer): integer;
 
+//==============================================================================
+//
+// Info_InitDnLookUp
+//
+//==============================================================================
 procedure Info_InitDnLookUp;
 
+//==============================================================================
+//
+// Info_ShutDownDnLookUp
+//
+//==============================================================================
 procedure Info_ShutDownDnLookUp;
 
+//==============================================================================
+//
+// Info_CheckStates
+//
+//==============================================================================
 procedure Info_CheckStates;
 
+//==============================================================================
+//
+// Info_GetNewState
+//
+//==============================================================================
 function Info_GetNewState: integer;
 
+//==============================================================================
+//
+// Info_GetNewMobjInfo
+//
+//==============================================================================
 function Info_GetNewMobjInfo: integer;
 
+//==============================================================================
+//
+// Info_GetSpriteNumForName
+//
+//==============================================================================
 function Info_GetSpriteNumForName(const name: string): integer;
 
+//==============================================================================
+//
+// Info_GetSpriteNameForNum
+//
+//==============================================================================
 function Info_GetSpriteNameForNum(const id: integer): string;
 
+//==============================================================================
+//
+// Info_CheckSpriteNumForName
+//
+//==============================================================================
 function Info_CheckSpriteNumForName(const name: string): integer;
 
+//==============================================================================
+//
+// Info_GetMobjNumForName
+//
+//==============================================================================
 function Info_GetMobjNumForName(const name: string): integer;
 
+//==============================================================================
+//
+// Info_SetMobjName
+//
+//==============================================================================
 procedure Info_SetMobjName(const mobj_no: integer; const name: string);
 
+//==============================================================================
+//
+// Info_GetMobjName
+//
+//==============================================================================
 function Info_GetMobjName(const mobj_no: integer): string; overload;
 
+//==============================================================================
+//
+// Info_GetMobjName
+//
+//==============================================================================
 function Info_GetMobjName(const minfo: Pmobjinfo_t): string; overload;
 
+//==============================================================================
+//
+// Info_ShutDown
+//
+//==============================================================================
 procedure Info_ShutDown;
 
+//==============================================================================
+//
+// Info_GetInheritance
+//
+//==============================================================================
 function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
 
+//==============================================================================
+//
+// Info_AddMobjNameAlias
+//
+//==============================================================================
 function Info_AddMobjNameAlias(const alias1: string; const alias2: string): boolean;
 
+//==============================================================================
+//
+// Info_GetStatesForMobjInfo
+//
+//==============================================================================
 function Info_GetStatesForMobjInfo(const mobjno: integer): TDNumberList;
 
+//==============================================================================
+//
+// Info_AddStateOwner
+//
+//==============================================================================
 procedure Info_AddStateOwner(const st: Pstate_t; const moidx: integer);
 
+//==============================================================================
+//
+// Info_InitStateOwners
+//
+//==============================================================================
 procedure Info_InitStateOwners;
 
+//==============================================================================
+//
+// Info_ResolveMobjType
+//
+//==============================================================================
 function Info_ResolveMobjType(const name: string; const mt: PInteger): boolean;
 
+//==============================================================================
+//
+// Info_SaveActions
+//
+//==============================================================================
 procedure Info_SaveActions;
 
+//==============================================================================
+//
+// Info_RestoreActions
+//
+//==============================================================================
 function Info_RestoreActions: boolean;
 
 implementation
@@ -98,7 +208,11 @@ const
 var
   mobjinfo_aliases: TDStringList = nil;
 
-
+//==============================================================================
+//
+// Info_InitDnLookUp
+//
+//==============================================================================
 procedure Info_InitDnLookUp;
 begin
   if dnLookUp = nil then
@@ -108,6 +222,11 @@ begin
     mobjinfo_aliases := TDStringList.Create;
 end;
 
+//==============================================================================
+//
+// Info_ShutDownDnLookUp
+//
+//==============================================================================
 procedure Info_ShutDownDnLookUp;
 begin
   memfree(pointer(dnLookUp), DNLOOKUPSIZE * SizeOf(integer));
@@ -115,6 +234,11 @@ begin
   mobjinfo_aliases := nil;
 end;
 
+//==============================================================================
+//
+// Info_AddMobjNameAlias
+//
+//==============================================================================
 function Info_AddMobjNameAlias(const alias1: string; const alias2: string): boolean;
 var
   num1, num2: integer;
@@ -142,6 +266,11 @@ begin
   result := (num1 >= 0) or (num2 >= 0);
 end;
 
+//==============================================================================
+//
+// Info_GetMobjNumForAlias
+//
+//==============================================================================
 function Info_GetMobjNumForAlias(const name: string): integer;
 var
   i: integer;
@@ -168,6 +297,11 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// Info_GetMobjNumForDoomNum
+//
+//==============================================================================
 function Info_GetMobjNumForDoomNum(const dn: integer): integer;
 var
   i: integer;
@@ -221,6 +355,11 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// Info_CheckStates
+//
+//==============================================================================
 procedure Info_CheckStates;
 var
   i: integer;
@@ -245,6 +384,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Info_GetNewState
+//
+//==============================================================================
 function Info_GetNewState: integer;
 begin
   realloc(pointer(states), numstates * SizeOf(state_t), (numstates + 1) * SizeOf(state_t));
@@ -257,6 +401,11 @@ begin
   inc(numstates);
 end;
 
+//==============================================================================
+//
+// Info_GetNewMobjInfo
+//
+//==============================================================================
 function Info_GetNewMobjInfo: integer;
 begin
   realloc(pointer(mobjinfo), nummobjtypes * SizeOf(mobjinfo_t), (nummobjtypes + 1) * SizeOf(mobjinfo_t));
@@ -274,6 +423,11 @@ begin
   inc(nummobjtypes);
 end;
 
+//==============================================================================
+//
+// Info_GetSpriteNumForName
+//
+//==============================================================================
 function Info_GetSpriteNumForName(const name: string): integer;
 var
   spr_name: string;
@@ -284,7 +438,6 @@ begin
 
   if (result >= 0) and (result < numsprites) and (itoa(result) = name) then
     exit;
-
 
   if Length(name) <> 4 then
     I_Error('Info_GetSpriteNumForName(): Sprite name "%s" must have 4 characters', [name]);
@@ -311,6 +464,11 @@ begin
   sprnames[numsprites] := 0;
 end;
 
+//==============================================================================
+//
+// Info_GetSpriteNameForNum
+//
+//==============================================================================
 function Info_GetSpriteNameForNum(const id: integer): string;
 var
   check: LongWord;
@@ -323,6 +481,11 @@ begin
   result := Chr(check and $FF) + Chr((check shr 8) and $FF) + Chr((check shr 16) and $FF) + Chr((check shr 24) and $FF);
 end;
 
+//==============================================================================
+//
+// Info_CheckSpriteNumForName
+//
+//==============================================================================
 function Info_CheckSpriteNumForName(const name: string): integer;
 var
   spr_name: string;
@@ -333,7 +496,6 @@ begin
 
   if (result >= 0) and (result < numsprites) and (itoa(result) = name) then
     exit;
-
 
   if Length(name) <> 4 then
     I_Error('Info_CheckSpriteNumForName(): Sprite name "%s" must have 4 characters', [name]);
@@ -355,6 +517,11 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// Info_GetMobjNumForName
+//
+//==============================================================================
 function Info_GetMobjNumForName(const name: string): integer;
 var
   mobj_name: string;
@@ -403,6 +570,11 @@ begin
   result := Info_GetMobjNumForAlias(mobj_name);
 end;
 
+//==============================================================================
+//
+// Info_SetMobjName
+//
+//==============================================================================
 procedure Info_SetMobjName(const mobj_no: integer; const name: string);
 var
   i: integer;
@@ -417,6 +589,11 @@ begin
     mobjinfo[mobj_no].name[i] := #0;
 end;
 
+//==============================================================================
+//
+// Info_GetMobjName
+//
+//==============================================================================
 function Info_GetMobjName(const mobj_no: integer): string;
 var
   i: integer;
@@ -434,6 +611,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// Info_GetMobjName
+//
+//==============================================================================
 function Info_GetMobjName(const minfo: Pmobjinfo_t): string; overload;
 var
   i: integer;
@@ -451,6 +633,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// Info_ShutDown
+//
+//==============================================================================
 procedure Info_ShutDown;
 var
   i: integer;
@@ -477,6 +664,11 @@ begin
   memfree(pointer(sprnames), (numsprites + 1) * 4);
 end;
 
+//==============================================================================
+//
+// Info_GetInheritance
+//
+//==============================================================================
 function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
 var
   mo: Pmobjinfo_t;
@@ -510,6 +702,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// Info_GetStatesForMobjInfo
+//
+//==============================================================================
 function Info_GetStatesForMobjInfo(const mobjno: integer): TDNumberList;
 var
   N: TDNumberList;
@@ -566,6 +763,11 @@ begin
   result := N;
 end;
 
+//==============================================================================
+//
+// Info_AddStateOwner
+//
+//==============================================================================
 procedure Info_AddStateOwner(const st: Pstate_t; const moidx: integer);
 begin
   if (moidx < 0) or (moidx >= nummobjtypes) then
@@ -577,6 +779,11 @@ begin
     st.owners.Add(moidx);
 end;
 
+//==============================================================================
+//
+// Info_InitStateOwners
+//
+//==============================================================================
 procedure Info_InitStateOwners;
 var
   N: TDNumberList;
@@ -591,6 +798,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Info_ResolveMobjType
+//
+//==============================================================================
 function Info_ResolveMobjType(const name: string; const mt: PInteger): boolean;
 begin
   if mt^ >= 0 then
@@ -609,6 +821,11 @@ var
   save_actions: array[0..Ord(DO_NUMSTATES) - 1] of actionf_t;
   actions_saved: boolean = false;
 
+//==============================================================================
+//
+// Info_SaveActions
+//
+//==============================================================================
 procedure Info_SaveActions;
 var
   i: integer;
@@ -618,6 +835,11 @@ begin
   actions_saved := true;
 end;
 
+//==============================================================================
+//
+// Info_RestoreActions
+//
+//==============================================================================
 function Info_RestoreActions: boolean;
 var
   i: integer;

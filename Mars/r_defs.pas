@@ -71,7 +71,6 @@ var
 const
   NUMCOLORMAPS = 32;
 
-
 type
 //
 // INTERNAL MAP TYPES
@@ -585,7 +584,6 @@ type
   Pspriteframe_t = ^spriteframe_t;
   spriteframe_tArray = packed array[0..$FFFF] of spriteframe_t;
   Pspriteframe_tArray = ^spriteframe_tArray;
-
 
 //
 // A sprite definition:

@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -39,19 +39,49 @@ uses
   d_delphi,
   i_threads;
 
+//==============================================================================
+//
+// MT_Init
+//
+//==============================================================================
 procedure MT_Init;
 
+//==============================================================================
+//
+// MT_ShutDown
+//
+//==============================================================================
 procedure MT_ShutDown;
 
+//==============================================================================
+//
+// MT_ZeroMemory
+//
+//==============================================================================
 procedure MT_ZeroMemory(const dest0: pointer;
   const count0: integer; threadsuse: integer = 0);
 
+//==============================================================================
+//
+// MT_memset
+//
+//==============================================================================
 procedure MT_memset(const dest0: pointer; const val: integer;
   const count0: integer; threadsuse: integer = 0);
 
+//==============================================================================
+//
+// MT_memseti
+//
+//==============================================================================
 procedure MT_memseti(const dest0: pointer; const val: integer;
   const count0: integer; threadsuse: integer = 0);
 
+//==============================================================================
+//
+// MT_memcpy
+//
+//==============================================================================
 procedure MT_memcpy(const dest0: pointer; const src0: pointer;
   const count0: integer; threadsuse: integer = 0);
 
@@ -225,18 +255,48 @@ type
   end;
   iterator_p = ^iterator_t;
 
+//==============================================================================
+//
+// MT_Iterate
+//
+//==============================================================================
 procedure MT_Iterate(const func: threadfunc_t; const data: pointer;
   const nthreads: integer = 0);
 
+//==============================================================================
+// MT_ScheduleTask
+//
 // Background tasks
+//
+//==============================================================================
 function MT_ScheduleTask(const proc: PProcedure): integer;
 
+//==============================================================================
+//
+// MT_ExecutePendingTask
+//
+//==============================================================================
 procedure MT_ExecutePendingTask(const id: integer);
 
+//==============================================================================
+//
+// MT_ExecutePendingTasks
+//
+//==============================================================================
 procedure MT_ExecutePendingTasks;
 
+//==============================================================================
+//
+// MT_WaitTask
+//
+//==============================================================================
 procedure MT_WaitTask(const id: integer);
 
+//==============================================================================
+//
+// MT_WaitTasks
+//
+//==============================================================================
 procedure MT_WaitTasks;
 
 // JVAL: Execute code threads
@@ -280,12 +340,22 @@ type
   zmparams_p = ^zmparams_t;
   zmparams_a = array[0..MAXGPTHREADS - 1] of zmparams_t;
 
+//==============================================================================
+//
+// MT_ZeroMemory_thr
+//
+//==============================================================================
 function MT_ZeroMemory_thr(p: pointer): integer; stdcall;
 begin
   ZeroMemory(zmparams_p(p).dest, zmparams_p(p).size);
   result := 1;
 end;
 
+//==============================================================================
+//
+// MT_ZeroMemory
+//
+//==============================================================================
 procedure MT_ZeroMemory(const dest0: pointer;
   const count0: integer; threadsuse: integer = 0);
 var
@@ -328,7 +398,6 @@ begin
     gp_threads[i].Wait;
 end;
 
-
 //
 // MT_memset, MT_memseti
 //
@@ -341,18 +410,33 @@ type
   msparams_p = ^msparams_t;
   msparams_a = array[0..MAXGPTHREADS - 1] of msparams_t;
 
+//==============================================================================
+//
+// MT_memset_thr
+//
+//==============================================================================
 function MT_memset_thr(p: pointer): integer; stdcall;
 begin
   memset(msparams_p(p).dest, msparams_p(p).value, msparams_p(p).size);
   result := 1;
 end;
 
+//==============================================================================
+//
+// MT_memseti_thr
+//
+//==============================================================================
 function MT_memseti_thr(p: pointer): integer; stdcall;
 begin
   memseti(msparams_p(p).dest, msparams_p(p).value, msparams_p(p).size);
   result := 1;
 end;
 
+//==============================================================================
+//
+// MT_memset
+//
+//==============================================================================
 procedure MT_memset(const dest0: pointer; const val: integer;
   const count0: integer; threadsuse: integer = 0);
 var
@@ -396,6 +480,11 @@ begin
     gp_threads[i].Wait;
 end;
 
+//==============================================================================
+//
+// MT_memseti
+//
+//==============================================================================
 procedure MT_memseti(const dest0: pointer; const val: integer;
   const count0: integer; threadsuse: integer = 0);
 var
@@ -449,12 +538,22 @@ type
   mcparams_p = ^mcparams_t;
   mcparams_a = array[0..MAXGPTHREADS - 1] of mcparams_t;
 
+//==============================================================================
+//
+// MT_memcpy_thr
+//
+//==============================================================================
 function MT_memcpy_thr(p: pointer): integer; stdcall;
 begin
   memcpy(mcparams_p(p).dest, mcparams_p(p).src, mcparams_p(p).size);
   result := 1;
 end;
 
+//==============================================================================
+//
+// MT_memcpy
+//
+//==============================================================================
 procedure MT_memcpy(const dest0: pointer; const src0: pointer;
   const count0: integer; threadsuse: integer = 0);
 var
@@ -500,6 +599,11 @@ begin
     gp_threads[i].Wait;
 end;
 
+//==============================================================================
+//
+// MT_Init
+//
+//==============================================================================
 procedure MT_Init;
 var
   i: integer;
@@ -518,6 +622,11 @@ begin
   mt_initialized := true;
 end;
 
+//==============================================================================
+//
+// MT_ShutDown
+//
+//==============================================================================
 procedure MT_ShutDown;
 var
   i: integer;
@@ -1199,7 +1308,6 @@ begin
   mt_execute_fetched := False;
 end;
 
-
 procedure MT_Execute12i(
   const func: threadfunc_t;
   const parms1, parms2, parms3, parms4, parms5, parms6,
@@ -1286,6 +1394,11 @@ begin
   mt_execute_fetched := False;
 end;
 
+//==============================================================================
+//
+// MT_Iterate
+//
+//==============================================================================
 procedure MT_Iterate(const func: threadfunc_t; const data: pointer;
   const nthreads: integer = 0);
 var
@@ -1334,6 +1447,11 @@ type
 var
   tasks: array[0..NUMTASKTHREADS - 1] of taskinfo_t;
 
+//==============================================================================
+//
+// _execute_task
+//
+//==============================================================================
 function _execute_task(p: pointer): integer; stdcall;
 var
   pt: Ptaskinfo_t;
@@ -1345,6 +1463,11 @@ begin
   pt.proc := nil;
 end;
 
+//==============================================================================
+//
+// MT_ScheduleTask
+//
+//==============================================================================
 function MT_ScheduleTask(const proc: PProcedure): integer;
 var
   i: integer;
@@ -1361,12 +1484,22 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// MT_ExecutePendingTask
+//
+//==============================================================================
 procedure MT_ExecutePendingTask(const id: integer);
 begin
   if Assigned(tasks[id].proc) then
     task_threads[id].Activate(_execute_task, @tasks[id]);
 end;
 
+//==============================================================================
+//
+// MT_ExecutePendingTasks
+//
+//==============================================================================
 procedure MT_ExecutePendingTasks;
 var
   i: integer;
@@ -1376,7 +1509,11 @@ begin
       task_threads[i].Activate(_execute_task, @tasks[i]);
 end;
 
-
+//==============================================================================
+//
+// MT_WaitTask
+//
+//==============================================================================
 procedure MT_WaitTask(const id: integer);
 begin
   if (id < 0) or (id >= NUMTASKTHREADS) then
@@ -1385,6 +1522,11 @@ begin
     task_threads[id].Wait;
 end;
 
+//==============================================================================
+//
+// MT_WaitTasks
+//
+//==============================================================================
 procedure MT_WaitTasks;
 var
   i: integer;

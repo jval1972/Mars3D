@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION
@@ -35,10 +35,25 @@ unit mars_hud;
 
 interface
 
+//==============================================================================
+//
+// MARS_InitHud
+//
+//==============================================================================
 procedure MARS_InitHud;
 
+//==============================================================================
+//
+// MARS_ShutDownHud
+//
+//==============================================================================
 procedure MARS_ShutDownHud;
 
+//==============================================================================
+//
+// MARS_HudDrawer
+//
+//==============================================================================
 procedure MARS_HudDrawer;
 
 var
@@ -130,6 +145,11 @@ const
 var
   hud_translation: PByteArray;
 
+//==============================================================================
+//
+// MARS_InitHud
+//
+//==============================================================================
 procedure MARS_InitHud;
 var
   i: integer;
@@ -175,16 +195,31 @@ begin
   st_map := W_CacheLumpName('ST_MAP', PU_STATIC);
 end;
 
+//==============================================================================
+//
+// MARS_ShutDownHud
+//
+//==============================================================================
 procedure MARS_ShutDownHud;
 begin
   memfree(Pointer(hud_translation), 256 * SizeOf(Byte));
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawPatch
+//
+//==============================================================================
 procedure MARS_HudDrawPatch(const x, y: integer; const patch: Ppatch_t);
 begin
   V_DrawPatch(x + patch.leftoffset, y + patch.topoffset, SCN_HUD, patch, false);
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawCrossHair
+//
+//==============================================================================
 procedure MARS_HudDrawCrossHair;
 var
   cidx: integer;
@@ -211,6 +246,11 @@ begin
     V_DrawPatch(160, 100 - STATUSBAR_HEIGHT div 2, SCN_HUD, p, false);
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawCompass
+//
+//==============================================================================
 procedure MARS_HudDrawCompass(const x, y: integer);
 var
   an: angle_t;
@@ -226,6 +266,11 @@ begin
   MARS_HudDrawPatch(x, y, compass[an]);
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawBigNumberR
+//
+//==============================================================================
 function MARS_HudDrawBigNumberR(const x, y: integer; const num: integer): integer;
 var
   num1: integer;
@@ -250,6 +295,11 @@ begin
   Result := x - xpos;
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawBigNumberL
+//
+//==============================================================================
 function MARS_HudDrawBigNumberL(const x, y: integer; const num: integer): integer;
 var
   num1: integer;
@@ -278,6 +328,11 @@ begin
   Result := xpos - x;
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawerSmallHealth
+//
+//==============================================================================
 procedure MARS_HudDrawerSmallHealth;
 var
   p: Ppatch_t;
@@ -287,6 +342,11 @@ begin
   MARS_HudDrawBigNumberL(1 + p.width + 1, 200 - bignums[0].height - 1, hud_player.health);
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawerSmallAmmo
+//
+//==============================================================================
 procedure MARS_HudDrawerSmallAmmo;
 var
   p: Ppatch_t;
@@ -302,9 +362,11 @@ end;
 var
   boss: Pmobj_t;
 
+//==============================================================================
 //
 // PIT_SearchNearbyBoss
 //
+//==============================================================================
 function PIT_SearchNearbyBoss(thing: Pmobj_t): boolean;
 begin
   // Bosses
@@ -318,10 +380,13 @@ begin
   result := true;
 end;
 
+//==============================================================================
+// P_SearchNearbyBoss
 //
 // P_RadiusAttack
 // Source is the creature that caused the explosion at spot.
 //
+//==============================================================================
 procedure P_SearchNearbyBoss(const dist: fixed_t);
 var
   x: integer;
@@ -353,6 +418,11 @@ begin
       P_BlockThingsIterator(x, y, PIT_SearchNearbyBoss);
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawBossBar
+//
+//==============================================================================
 procedure MARS_HudDrawBossBar;
 var
   s: string;
@@ -417,6 +487,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawerMin
+//
+//==============================================================================
 procedure MARS_HudDrawerMin;
 begin
   // Draw crosshair
@@ -426,6 +501,11 @@ begin
   MARS_HudDrawBossBar;
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawerSmall
+//
+//==============================================================================
 procedure MARS_HudDrawerSmall;
 begin
   // Draw crosshair
@@ -441,6 +521,11 @@ begin
   MARS_HudDrawerSmallAmmo;
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawerStatusBar
+//
+//==============================================================================
 procedure MARS_HudDrawerStatusBar;
 var
   i: integer;
@@ -496,6 +581,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// MARS_HudDrawer
+//
+//==============================================================================
 procedure MARS_HudDrawer;
 var
   oldtr: PByteArray;

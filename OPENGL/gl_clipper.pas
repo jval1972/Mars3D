@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -35,12 +35,32 @@ interface
 uses
   tables;
 
+//==============================================================================
+//
+// gld_clipper_SafeCheckRange
+//
+//==============================================================================
 function gld_clipper_SafeCheckRange(const startAngle, endAngle: angle_t): boolean;
 
+//==============================================================================
+//
+// gld_clipper_SafeAddClipRange
+//
+//==============================================================================
 procedure gld_clipper_SafeAddClipRange(const startAngle, endAngle: angle_t);
 
+//==============================================================================
+//
+// gld_ClipperAddViewRange
+//
+//==============================================================================
 procedure gld_ClipperAddViewRange;
 
+//==============================================================================
+//
+// gld_ClipperDone
+//
+//==============================================================================
 procedure gld_ClipperDone;
 
 implementation
@@ -95,6 +115,11 @@ var
   clipnodes: Pclipnode_t = nil;
   cliphead: Pclipnode_t = nil;
 
+//==============================================================================
+//
+// gld_clipnode_GetNew
+//
+//==============================================================================
 function gld_clipnode_GetNew: Pclipnode_t;
 begin
   if freelist <> nil then
@@ -107,6 +132,11 @@ begin
     result := malloc(SizeOf(clipnode_t));
 end;
 
+//==============================================================================
+//
+// gld_clipnode_NewRange
+//
+//==============================================================================
 function gld_clipnode_NewRange(const start, finish: angle_t): Pclipnode_t;
 begin
   result := gld_clipnode_GetNew;
@@ -116,6 +146,11 @@ begin
   result.prev := nil;
 end;
 
+//==============================================================================
+//
+// gld_clipper_IsRangeVisible
+//
+//==============================================================================
 function gld_clipper_IsRangeVisible(const startAngle, endAngle: angle_t): boolean;
 var
   ci: Pclipnode_t;
@@ -143,6 +178,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// gld_clipper_SafeCheckRange
+//
+//==============================================================================
 function gld_clipper_SafeCheckRange(const startAngle, endAngle: angle_t): boolean;
 begin
   if startAngle > endAngle then
@@ -151,12 +191,22 @@ begin
     result := gld_clipper_IsRangeVisible(startAngle, endAngle);
 end;
 
+//==============================================================================
+//
+// gld_clipnode_Free
+//
+//==============================================================================
 procedure gld_clipnode_Free(node: Pclipnode_t);
 begin
   node.next := freelist;
   freelist := node;
 end;
 
+//==============================================================================
+//
+// gld_clipper_RemoveRange
+//
+//==============================================================================
 procedure gld_clipper_RemoveRange(range: Pclipnode_t);
 begin
   if range = cliphead then
@@ -172,6 +222,11 @@ begin
   gld_clipnode_Free(range);
 end;
 
+//==============================================================================
+//
+// gld_clipper_AddClipRange
+//
+//==============================================================================
 procedure gld_clipper_AddClipRange(start, finish: angle_t);
 var
   node, temp, prevNode: Pclipnode_t;
@@ -266,6 +321,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// gld_clipper_SafeAddClipRange
+//
+//==============================================================================
 procedure gld_clipper_SafeAddClipRange(const startAngle, endAngle: angle_t);
 begin
   if startAngle > endAngle then
@@ -281,6 +341,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// gld_clipper_Clear
+//
+//==============================================================================
 procedure gld_clipper_Clear;
 var
   node: Pclipnode_t;
@@ -297,6 +362,11 @@ begin
   cliphead := nil;
 end;
 
+//==============================================================================
+//
+// gld_FrustumAngle
+//
+//==============================================================================
 function gld_FrustumAngle: angle_t;
 var
   tilt: single;
@@ -317,6 +387,11 @@ begin
     result := ANGLE_MAX;
 end;
 
+//==============================================================================
+//
+// gld_ClipperAddViewRange
+//
+//==============================================================================
 procedure gld_ClipperAddViewRange;
 var
   a1: angle_t;
@@ -326,6 +401,11 @@ begin
   gld_clipper_SafeAddClipRange(viewangle + a1, viewangle - a1);
 end;
 
+//==============================================================================
+//
+// gld_ClipperDone
+//
+//==============================================================================
 procedure gld_ClipperDone;
 var
   node: Pclipnode_t;
@@ -341,6 +421,5 @@ begin
 
   cliphead := nil;
 end;
-
 
 end.

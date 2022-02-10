@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -35,8 +35,18 @@ unit d_notifications;
 
 interface
 
+//==============================================================================
+//
+// D_NotifyVideoModeChange
+//
+//==============================================================================
 procedure D_NotifyVideoModeChange(const newwidth, newheight: integer);
 
+//==============================================================================
+//
+// D_RunNotifications
+//
+//==============================================================================
 procedure D_RunNotifications;
 
 implementation
@@ -54,6 +64,11 @@ var
   n_screenwidth: integer;
   n_screenheight: integer;
 
+//==============================================================================
+//
+// D_NotifyVideoModeChange
+//
+//==============================================================================
 procedure D_NotifyVideoModeChange(const newwidth, newheight: integer);
 begin
   n_changevideomode := true;
@@ -61,6 +76,11 @@ begin
   n_screenheight := newheight;
 end;
 
+//==============================================================================
+//
+// D_RunNotifications
+//
+//==============================================================================
 procedure D_RunNotifications;
 begin
   if n_changevideomode then

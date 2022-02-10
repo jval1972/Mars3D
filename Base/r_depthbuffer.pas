@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -48,36 +48,116 @@ var
   db_distance: LongWord;
   depthbufferactive: boolean;
 
+//==============================================================================
+//
+// R_DrawSpanToDepthBuffer
+//
+//==============================================================================
 procedure R_DrawSpanToDepthBuffer;
 
+//==============================================================================
+//
+// R_StoreSpanToDepthBufferMT
+//
+//==============================================================================
 procedure R_StoreSpanToDepthBufferMT; // Store span information for Multithread depthbuffer drawing
 
+//==============================================================================
+//
+// R_FlashSpansToDepthBufferMT
+//
+//==============================================================================
 procedure R_FlashSpansToDepthBufferMT; // Flash stored span information using multiple threads
 
+//==============================================================================
+//
+// R_DrawColumnWithDepthBufferCheckWrite
+//
+//==============================================================================
 procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure); overload;
 
+//==============================================================================
+//
+// R_DrawColumnWithDepthBufferCheckWrite
+//
+//==============================================================================
 procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
 
+//==============================================================================
+//
+// R_DrawBatchColumnWithDepthBufferCheckWrite
+//
+//==============================================================================
 procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure); overload;
 
+//==============================================================================
+//
+// R_DrawBatchColumnWithDepthBufferCheckWrite
+//
+//==============================================================================
 procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
 
+//==============================================================================
+//
+// R_DrawColumnWithDepthBufferCheckOnly
+//
+//==============================================================================
 procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure); overload;
 
+//==============================================================================
+//
+// R_DrawColumnWithDepthBufferCheckOnly
+//
+//==============================================================================
 procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure; const depth: LongWord); overload;
 
+//==============================================================================
+//
+// R_DrawBatchColumnWithDepthBufferCheckOnly
+//
+//==============================================================================
 procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure); overload;
 
+//==============================================================================
+//
+// R_DrawBatchColumnWithDepthBufferCheckOnly
+//
+//==============================================================================
 procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure; const depth: LongWord); overload;
 
+//==============================================================================
+//
+// R_DepthBufferAt
+//
+//==============================================================================
 function R_DepthBufferAt(const x, y: integer): LongWord;
 
+//==============================================================================
+//
+// R_InitDepthBuffer
+//
+//==============================================================================
 procedure R_InitDepthBuffer;
 
+//==============================================================================
+//
+// R_ShutDownDepthBuffer
+//
+//==============================================================================
 procedure R_ShutDownDepthBuffer;
 
+//==============================================================================
+//
+// R_StartDepthBuffer
+//
+//==============================================================================
 procedure R_StartDepthBuffer;
 
+//==============================================================================
+//
+// R_StopDepthBuffer
+//
+//==============================================================================
 procedure R_StopDepthBuffer;
 
 var
@@ -106,7 +186,11 @@ var
   ylookupdb: array[0..NUMDEPTHBUFFERS - 1] of array[0..MAXHEIGHT - 1] of PLongWordArray;
   curbuffer: integer = NUMDEPTHBUFFERS - 1;
 
-
+//==============================================================================
+//
+// R_DrawSpanToDepthBuffer
+//
+//==============================================================================
 procedure R_DrawSpanToDepthBuffer;
 var
   destl: PLongWord;
@@ -133,6 +217,11 @@ var
   dbspan_y_min: integer;
   dbspan_y_max: integer;
 
+//==============================================================================
+//
+// R_GrowDBSpanCacheInfo
+//
+//==============================================================================
 procedure R_GrowDBSpanCacheInfo;
 var
   newsize: integer;
@@ -146,7 +235,12 @@ begin
   inc(dbspancacheinfo_size);
 end;
 
+//==============================================================================
+// R_StoreSpanToDepthBufferMT
+//
 // Store span information for Multithread depthbuffer drawing
+//
+//==============================================================================
 procedure R_StoreSpanToDepthBufferMT;
 var
   info: PdbSpanCacheInfo_t;
@@ -164,6 +258,11 @@ begin
   info.y := ds_y;
 end;
 
+//==============================================================================
+//
+// _thr_span_db_writer
+//
+//==============================================================================
 function _thr_span_db_writer(p: mt_range_p): integer; stdcall;
 var
   i: integer;
@@ -178,7 +277,12 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+// R_FlashSpansToDepthBufferMT
+//
 // Flash stored span information using multiple threads
+//
+//==============================================================================
 procedure R_FlashSpansToDepthBufferMT;
 var
   r1, r2, r3, r4: mt_range_t;
@@ -252,12 +356,22 @@ begin
   dbspancacheinfo_size := 0;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnWithDepthBufferCheckWrite
+//
+//==============================================================================
 procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure);
 // db_distance := rw_scale/fracunit;
 begin
   R_DrawColumnWithDepthBufferCheckWrite(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
 end;
 
+//==============================================================================
+//
+// R_DrawColumnWithDepthBufferCheckWrite
+//
+//==============================================================================
 procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
 var
   count: integer;
@@ -314,11 +428,21 @@ begin
   dc_yl := old_yl;
 end;
 
+//==============================================================================
+//
+// R_DrawBatchColumnWithDepthBufferCheckWrite
+//
+//==============================================================================
 procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure); overload;
 begin
   R_DrawBatchColumnWithDepthBufferCheckWrite(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
 end;
 
+//==============================================================================
+//
+// R_DrawBatchColumnWithDepthBufferCheckWrite
+//
+//==============================================================================
 procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
 // db_distance := rw_scale/fracunit;
 var
@@ -386,11 +510,21 @@ begin
   num_batch_columns := old_n;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnWithDepthBufferCheckOnly
+//
+//==============================================================================
 procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure);
 begin
   R_DrawColumnWithDepthBufferCheckOnly(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
 end;
 
+//==============================================================================
+//
+// R_DrawColumnWithDepthBufferCheckOnly
+//
+//==============================================================================
 procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure; const depth: LongWord);
 // db_distance := rw_scale/fracunit;
 var
@@ -447,11 +581,21 @@ begin
   dc_yl := old_yl;
 end;
 
+//==============================================================================
+//
+// R_DrawBatchColumnWithDepthBufferCheckOnly
+//
+//==============================================================================
 procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure); overload;
 begin
   R_DrawBatchColumnWithDepthBufferCheckOnly(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
 end;
 
+//==============================================================================
+//
+// R_DrawBatchColumnWithDepthBufferCheckOnly
+//
+//==============================================================================
 procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure; const depth: LongWord); overload;
 // db_distance := rw_scale/fracunit;
 var
@@ -518,6 +662,11 @@ begin
   num_batch_columns := old_n;
 end;
 
+//==============================================================================
+//
+// R_DepthBufferAt
+//
+//==============================================================================
 function R_DepthBufferAt(const x, y: integer): LongWord;
 begin
   result := PLongWord(@((ylookupdb[curbuffer][y]^)[columnofs[x]]))^;
@@ -533,7 +682,12 @@ type
   end;
   Pdbclear_t = ^dbclear_t;
 
+//==============================================================================
+// _cleardb_thread_worker
+//
 // JVAL: Thread function to clean depth buffer in the background
+//
+//==============================================================================
 function _cleardb_thread_worker(parms: Pdbclear_t): integer; stdcall;
 begin
   ZeroMemory(depthbuffer[parms.curbuffer], SCREENWIDTH * viewheight * SizeOf(LongWord));
@@ -542,6 +696,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// R_InitDepthBuffer
+//
+//==============================================================================
 procedure R_InitDepthBuffer;
 var
   i: integer;
@@ -558,12 +717,22 @@ begin
   depthbufferactive := false;
 end;
 
+//==============================================================================
+//
+// R_WaitDepthBuffer
+//
+//==============================================================================
 procedure R_WaitDepthBuffer;
 begin
   if depthbufferthread <> nil then
     depthbufferthread.Wait;
 end;
 
+//==============================================================================
+//
+// R_ShutDownDepthBuffer
+//
+//==============================================================================
 procedure R_ShutDownDepthBuffer;
 var
   i: integer;
@@ -585,6 +754,11 @@ var
   lastscreenwidth: Integer = -1;
   lastscreenheight: Integer = -1;
 
+//==============================================================================
+//
+// R_StartDepthBuffer
+//
+//==============================================================================
 procedure R_StartDepthBuffer;
 var
   i, n: integer;
@@ -618,6 +792,11 @@ end;
 var
   parms: dbclear_t;
 
+//==============================================================================
+//
+// R_StopDepthBuffer
+//
+//==============================================================================
 procedure R_StopDepthBuffer;
 begin
   depthbufferactive := false;

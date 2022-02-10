@@ -337,14 +337,39 @@ type
   GLNode_tArray = array[0..$FFFF] of GLNode_t;
   PGLNode_tArray = ^GLNode_tArray;
 
+//==============================================================================
+//
+// gld_GetGLNodesVersion
+//
+//==============================================================================
 function gld_GetGLNodesVersion(const base: integer): integer;
 
+//==============================================================================
+//
+// gld_GetGLVertexes
+//
+//==============================================================================
 procedure gld_GetGLVertexes(v: Pvertex_t; lump: integer; count: integer; ver: integer);
 
+//==============================================================================
+//
+// gld_GetGLMapLump
+//
+//==============================================================================
 function gld_GetGLMapLump(const maplump: integer): integer;
 
+//==============================================================================
+//
+// gld_BuildNodes
+//
+//==============================================================================
 function gld_BuildNodes(const wadfile, gwafile: string): boolean;
 
+//==============================================================================
+//
+// ND_GetNodes
+//
+//==============================================================================
 function ND_GetNodes(const mapname: string): string;
 
 type
@@ -373,14 +398,39 @@ type
     property mapsegs: PGLSeg3_tArray read fmapsegs;
   end;
 
+//==============================================================================
+//
+// ND_LoadVertexes
+//
+//==============================================================================
 procedure ND_LoadVertexes(lump: integer; gwa: TGWAFile);
 
+//==============================================================================
+//
+// ND_LoadSubsectors
+//
+//==============================================================================
 procedure ND_LoadSubsectors(gwa: TGWAFile);
 
+//==============================================================================
+//
+// ND_LoadNodes
+//
+//==============================================================================
 procedure ND_LoadNodes(gwa: TGWAFile);
 
+//==============================================================================
+//
+// ND_LoadSegs
+//
+//==============================================================================
 procedure ND_LoadSegs(gwa: TGWAFile);
 
+//==============================================================================
+//
+// ND_NodesCheck
+//
+//==============================================================================
 procedure ND_NodesCheck(const lumpname: string);
 
 implementation
@@ -397,10 +447,13 @@ uses
   r_main,
   z_zone;
 
+//==============================================================================
+// gld_GetGLNodesVersion
 //
 // JVAL
 //  Returns the glbsp nodes version.
 //
+//==============================================================================
 function gld_GetGLNodesVersion(const base: integer): integer;
 var
   data: pointer;
@@ -460,6 +513,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// gld_GetGLVertexes
+//
+//==============================================================================
 procedure gld_GetGLVertexes(v: Pvertex_t; lump: integer; count: integer; ver: integer);
 var
   i: integer;
@@ -502,6 +560,11 @@ end;
 const
   MOD_ADLER = 65521;
 
+//==============================================================================
+//
+// GetMapAdler32
+//
+//==============================================================================
 function GetMapAdler32(maplump: integer): LongWord;
 var
   data: PByteArray;
@@ -536,10 +599,12 @@ begin
 
 end;
 
+//==============================================================================
 //
 // GetGLMapAdler32
 // JVAL: This function returns the Adler-32 value of glBSP utility
 //
+//==============================================================================
 function GetGLMapAdler32(glmaplump: integer; glmapname: string): LongWord;
 var
   txt: string;
@@ -592,7 +657,11 @@ begin
     result := 0;
 end;
 
-
+//==============================================================================
+//
+// gld_GetGLMapLump
+//
+//==============================================================================
 function gld_GetGLMapLump(const maplump: integer): integer;
 var
   adler32: LongWord;
@@ -4255,6 +4324,11 @@ const
     $69, $6D, $70, $5F, $5F, $66, $77, $72, $69, $74, $65, $00
   );
 
+//==============================================================================
+//
+// gld_BuildNodes
+//
+//==============================================================================
 function gld_BuildNodes(const wadfile, gwafile: string): boolean;
 var
   size: integer;
@@ -4279,6 +4353,11 @@ begin
     I_Warning('gld_BuildNodes(): Failed to build GL-Friendly nodes for %s'#13#10, [wadfile]);
 end;
 
+//==============================================================================
+//
+// HextW
+//
+//==============================================================================
 function HextW(w: Word): string;
 const
   h: array[0..15] of Char = '0123456789abcdef';
@@ -4286,6 +4365,11 @@ begin
   result := h[Hi(w) shr 4] + h[Hi(w) and $F] + h[Lo(w) shr 4] + h[Lo(w) and $F];
 end;
 
+//==============================================================================
+//
+// HextL
+//
+//==============================================================================
 function HextL(l: Longint): string;
 type
   Long = record
@@ -4297,6 +4381,11 @@ begin
     result := HextW(HiWord) + HextW(LoWord);
 end;
 
+//==============================================================================
+//
+// ND_GetNodes
+//
+//==============================================================================
 function ND_GetNodes(const mapname: string): string;
 var
   header: wadinfo_t;
@@ -4570,6 +4659,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// ND_LoadVertexes
+//
+//==============================================================================
 procedure ND_LoadVertexes(lump: integer; gwa: TGWAFile);
 var
   data: pointer;
@@ -4635,7 +4729,6 @@ begin
   // Free buffer memory.
   Z_Free(data);
 
-
   for i := 0 to numglverts - 1 do
   begin
     li.x := gwa.glvertexes[i].x;
@@ -4645,9 +4738,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// ND_LoadSubsectors
 //
 // P_LoadSubsectors
 //
+//==============================================================================
 procedure ND_LoadSubsectors(gwa: TGWAFile);
 var
   i: integer;
@@ -4666,6 +4762,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ND_LoadNodes
+//
+//==============================================================================
 procedure ND_LoadNodes(gwa: TGWAFile);
 var
   i: integer;
@@ -4694,6 +4795,12 @@ begin
 end;
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// gldist
+//
+//==============================================================================
 function gldist(dx, dy: integer): float;
 var
   fx, fy: float;
@@ -4704,6 +4811,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// CheckGLVertex
+//
+//==============================================================================
 function CheckGLVertex(num: integer): integer;
 begin
   if glnodesver <= 2 then
@@ -4733,6 +4845,11 @@ begin
   result := num;
 end;
 
+//==============================================================================
+//
+// GetOffset
+//
+//==============================================================================
 function GetOffset(v1, v2: Pvertex_t): fixed_t;
 var
   a, b: single;
@@ -4742,6 +4859,11 @@ begin
   result := round(sqrt(a * a + b * b) * FRACUNIT);
 end;
 
+//==============================================================================
+//
+// ND_LoadSegs
+//
+//==============================================================================
 procedure ND_LoadSegs(gwa: TGWAFile);
 var
   i: integer;
@@ -4816,12 +4938,15 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // ND_NodesCheck
 //
 // Checks is nodes are available in wad map
 // If not we will build the nodes.
 // This routine allows to load levels without building the nodes (eg slige.out)
+//
+//==============================================================================
 procedure ND_NodesCheck(const lumpname: string);
 var
   lumpnum: integer;

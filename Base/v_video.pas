@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -45,25 +45,66 @@ uses
   r_defs,
   v_data;
 
-
+//==============================================================================
+//
+// V_GetScreenWidth
+//
+//==============================================================================
 function V_GetScreenWidth(scrn: integer): integer;
 
+//==============================================================================
+//
+// V_GetScreenHeight
+//
+//==============================================================================
 function V_GetScreenHeight(scrn: integer): integer;
 
+//==============================================================================
+//
+// V_SetPalette
+//
+//==============================================================================
 procedure V_SetPalette(const palette: PByteArray);
 
 {$IFNDEF OPENGL}
 {$IFDEF DOOM_OR_STRIFE}
+
+//==============================================================================
+//
+// V_CalcColorMapPalette
+//
+//==============================================================================
 procedure V_CalcColorMapPalette;
 {$ENDIF}
 {$ENDIF}
 
+//==============================================================================
+// V_Init
+//
 // Allocates buffer screens, call before R_Init.
+//
+//==============================================================================
 procedure V_Init;
+
+//==============================================================================
+//
+// V_ReInit
+//
+//==============================================================================
 procedure V_ReInit;
 
+//==============================================================================
+//
+// V_ShutDown
+//
+//==============================================================================
 procedure V_ShutDown;
 
+//==============================================================================
+//
+// V_ScreensSize
+//
+//==============================================================================
 function V_ScreensSize(const scrn: integer = -1): integer;
 
 procedure V_CopyCustomScreen(
@@ -111,68 +152,207 @@ procedure V_CopyScreenTransparent(
   destscrn: integer; srcoffs: integer = 0; destoffs: integer = 0; size: integer = -1);
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// V_ShadeBackground
+//
+//==============================================================================
 procedure V_ShadeBackground(const ofs: integer = 0;
   const count: integer = -1);
 {$ELSE}
+
+//==============================================================================
+//
+// V_ShadeScreen
+//
+//==============================================================================
 procedure V_ShadeScreen(const scn: integer; const ofs: integer = 0;
   const count: integer = -1);
 {$ENDIF}
 
+//==============================================================================
+//
+// V_CopyRawDataToScreen
+//
+//==============================================================================
 procedure V_CopyRawDataToScreen(scrn: integer; const lumpname: string);
 
+//==============================================================================
+//
+// V_RemoveTransparency
+//
+//==============================================================================
 procedure V_RemoveTransparency(const scn: integer; const ofs: integer;
   const count: integer = -1);
 
+//==============================================================================
+//
+// V_DrawPatch
+//
+//==============================================================================
 procedure V_DrawPatch(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean); overload;
 
+//==============================================================================
+//
+// V_DrawPatch
+//
+//==============================================================================
 procedure V_DrawPatch(x, y: integer; scrn: integer; const patchname: string; preserve: boolean); overload;
 
+//==============================================================================
+//
+// V_DrawPatch
+//
+//==============================================================================
 procedure V_DrawPatch(x, y: integer; scrn: integer; const lump: integer; preserve: boolean); overload;
 
+//==============================================================================
+//
+// V_DrawPatchTransparent
+//
+//==============================================================================
 procedure V_DrawPatchTransparent(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
 
 {$IFNDEF OPENGL}
+
+//==============================================================================
+//
+// V_DrawPatchTransparentMT
+//
+//==============================================================================
 procedure V_DrawPatchTransparentMT(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
 {$ENDIF}
 
+//==============================================================================
+//
+// V_DrawPatchZoomed
+//
+//==============================================================================
 procedure V_DrawPatchZoomed(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean; fraczoom: fixed_t);
 
+//==============================================================================
+//
+// V_DrawPatchFlipped
+//
+//==============================================================================
 procedure V_DrawPatchFlipped(x, y: integer; scrn: integer; patch: Ppatch_t);
 
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP320x200
+//
+//==============================================================================
 procedure V_DrawPatchFullScreenTMP320x200(p: Ppatch_t); overload;
 
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP320x200
+//
+//==============================================================================
 procedure V_DrawPatchFullScreenTMP320x200(const pname: string); overload;
 
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP320x200
+//
+//==============================================================================
 procedure V_DrawPatchFullScreenTMP320x200(const lump: integer); overload;
 
+//==============================================================================
+//
+// V_PageDrawer
+//
+//==============================================================================
 procedure V_PageDrawer(const pagename: string);
 
+//==============================================================================
+// V_DrawBlock
+//
 // Draw a linear block of pixels into the view buffer.
+//
+//==============================================================================
 procedure V_DrawBlock(x, y: integer; scrn: integer; width, height: integer; src: PByteArray);
 
+//==============================================================================
+//
+// V_DrawLongBlock
+//
+//==============================================================================
 procedure V_DrawLongBlock(x, y: integer; width, height: integer; src: PLongWordArray);
 
+//==============================================================================
+// V_GetBlock
+//
 // Reads a linear block of pixels into the view buffer.
+//
+//==============================================================================
 procedure V_GetBlock(x, y: integer; scrn: integer; width, height: integer; dest: PByteArray);
 
+//==============================================================================
+//
+// V_PreserveX
+//
+//==============================================================================
 function V_PreserveX(const x: integer): integer;
 
+//==============================================================================
+//
+// V_PreserveY
+//
+//==============================================================================
 function V_PreserveY(const y: integer): integer;
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// V_PreserveGLX
+//
+//==============================================================================
 function V_PreserveGLX(const x: integer): integer;
 
+//==============================================================================
+//
+// V_PreserveGLY
+//
+//==============================================================================
 function V_PreserveGLY(const y: integer): integer;
 {$ENDIF}
 
+//==============================================================================
+//
+// V_PreserveW
+//
+//==============================================================================
 function V_PreserveW(const x: integer; const w: integer): integer;
 
+//==============================================================================
+//
+// V_PreserveH
+//
+//==============================================================================
 function V_PreserveH(const y: integer; const h: integer): integer;
 
+//==============================================================================
+//
+// V_NeedsPreserve
+//
+//==============================================================================
 function V_NeedsPreserve(const destscrn, srcscrn: integer): boolean; overload;
 
+//==============================================================================
+//
+// V_NeedsPreserve
+//
+//==============================================================================
 function V_NeedsPreserve(const destscrn, srcscrn: integer; preserve: boolean): boolean; overload;
 
+//==============================================================================
+//
+// V_CalcPreserveTables
+//
+//==============================================================================
 procedure V_CalcPreserveTables;
 
 const
@@ -278,12 +458,27 @@ var
   {$ENDIF}
 {$ENDIF}
 
+//==============================================================================
+//
+// V_FindAproxColorIndex
+//
+//==============================================================================
 function V_FindAproxColorIndex(const pal: PLongWordArray; const c: LongWord;
   const start: integer = 0; const finish: integer = 255): integer;
 
+//==============================================================================
+//
+// V_FindAproxColorIndexExcluding
+//
+//==============================================================================
 function V_FindAproxColorIndexExcluding(const pal: PLongWordArray; const c: LongWord;
   const start: integer = 0; const finish: integer = 255; const exclude: integer = -1): integer;
 
+//==============================================================================
+//
+// V_FullScreenStretch
+//
+//==============================================================================
 procedure V_FullScreenStretch;
 
 var
@@ -320,18 +515,33 @@ var
   widthintmultiplier: Integer = 0;
   heightintmultiplier: Integer = 0;
 
+//==============================================================================
+//
+// V_NeedsPreserve
+//
+//==============================================================================
 function V_NeedsPreserve(const destscrn, srcscrn: integer): boolean; overload;
 begin
   result := (V_GetScreenWidth(srcscrn) <> V_GetScreenWidth(destscrn)) or
             (V_GetScreenHeight(srcscrn) <> V_GetScreenHeight(destscrn));
 end;
 
+//==============================================================================
+//
+// V_NeedsPreserve
+//
+//==============================================================================
 function V_NeedsPreserve(const destscrn, srcscrn: integer; preserve: boolean): boolean; overload;
 begin
   result := preserve and V_NeedsPreserve(destscrn, srcscrn);
 end;
 
+//==============================================================================
+// V_PreserveX
+//
 // preserve x coordinates
+//
+//==============================================================================
 function V_PreserveX(const x: integer): integer;
 begin
   if x <= 0 then
@@ -346,7 +556,12 @@ begin
     result := preserveX[x];
 end;
 
+//==============================================================================
+// V_PreserveY
+//
 // preserve y coordinates
+//
+//==============================================================================
 function V_PreserveY(const y: integer): integer;
 begin
   if y <= 0 then
@@ -362,25 +577,45 @@ begin
 end;
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// V_PreserveGLX
+//
+//==============================================================================
 function V_PreserveGLX(const x: integer): integer;
 begin
   result := Round(x * GLDRAWWIDTH / SCREENWIDTH);
 end;
 
+//==============================================================================
+//
+// V_PreserveGLY
+//
+//==============================================================================
 function V_PreserveGLY(const y: integer): integer;
 begin
   result := Round(y * GLDRAWHEIGHT / SCREENHEIGHT);
 end;
 {$ENDIF}
 
-
+//==============================================================================
+// V_PreserveW
+//
 // preserve width coordinates
+//
+//==============================================================================
 function V_PreserveW(const x: integer; const w: integer): integer;
 begin
   result := V_PreserveX(x + w) - V_PreserveX(x);
 end;
 
+//==============================================================================
+// V_PreserveH
+//
 // preserve height coordinates
+//
+//==============================================================================
 function V_PreserveH(const y: integer; const h: integer): integer;
 begin
   result := V_PreserveY(y + h) - V_PreserveY(y);
@@ -1358,6 +1593,11 @@ type
   end;
   th_copyrect_p = ^th_copyrect_t;
 
+//==============================================================================
+//
+// V_CopyRect8_thr
+//
+//==============================================================================
 function V_CopyRect8_thr(p: iterator_p): integer; stdcall;
 var
   crp: th_copyrect_p;
@@ -1378,6 +1618,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// V_CopyRect32_thr
+//
+//==============================================================================
 function V_CopyRect32_thr(p: iterator_p): integer; stdcall;
 var
   crp: th_copyrect_p;
@@ -1722,7 +1967,6 @@ begin
   end;
 end;
 
-
 procedure V_CopyRectTransparent32(
   srcx: integer;
   srcy: integer;
@@ -1949,6 +2193,11 @@ type
   end;
   th_copyrecttransparent32_p = ^th_copyrecttransparent32_t;
 
+//==============================================================================
+//
+// V_CopyRectTransparent8_thr
+//
+//==============================================================================
 function V_CopyRectTransparent8_thr(it: iterator_p): integer; stdcall;
 var
   p8: th_copyrecttransparent8_p;
@@ -1960,6 +2209,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// V_CopyRectTransparent32_thr
+//
+//==============================================================================
 function V_CopyRectTransparent32_thr(it: iterator_p): integer; stdcall;
 var
   p32: th_copyrecttransparent32_p;
@@ -2023,6 +2277,12 @@ begin
 end;
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// V_ShadeBackground
+//
+//==============================================================================
 procedure V_ShadeBackground(const ofs: integer = 0;
   const count: integer = -1);
 var
@@ -2048,6 +2308,12 @@ begin
   end;
 end;
 {$ELSE}
+
+//==============================================================================
+//
+// V_ShadeScreen
+//
+//==============================================================================
 procedure V_ShadeScreen(const scn: integer; const ofs: integer = 0;
   const count: integer = -1);
 var
@@ -2225,6 +2491,11 @@ begin
     V_CopyScreenTransparent8(srcscrn, destscrn, srcoffs, destoffs, size);
 end;
 
+//==============================================================================
+//
+// V_CopyRawDataToScreen
+//
+//==============================================================================
 procedure V_CopyRawDataToScreen(scrn: integer; const lumpname: string);
 var
   len: integer;
@@ -2254,6 +2525,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// V_RemoveTransparency
+//
+//==============================================================================
 procedure V_RemoveTransparency(const scn: integer; const ofs: integer;
   const count: integer = -1);
 var
@@ -2278,16 +2554,31 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// V_GetScreenWidth
+//
+//==============================================================================
 function V_GetScreenWidth(scrn: integer): integer;
 begin
   result := screendimentions[scrn].width;
 end;
 
+//==============================================================================
+//
+// V_GetScreenHeight
+//
+//==============================================================================
 function V_GetScreenHeight(scrn: integer): integer;
 begin
   result := screendimentions[scrn].height;
 end;
 
+//==============================================================================
+//
+// V_DrawPatch8
+//
+//==============================================================================
 procedure V_DrawPatch8(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
 var
   count: integer;
@@ -2438,6 +2729,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// V_DrawPatch32
+//
+//==============================================================================
 procedure V_DrawPatch32(x, y: integer; patch: Ppatch_t; preserve: boolean);
 var
   count: integer;
@@ -2586,9 +2882,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // V_DrawPatch
 //
+//==============================================================================
 procedure V_DrawPatch(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
 begin
   if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (scrn = SCN_FG) then
@@ -2597,6 +2895,11 @@ begin
     V_DrawPatch8(x, y, scrn, patch, preserve);
 end;
 
+//==============================================================================
+//
+// V_DrawPatch
+//
+//==============================================================================
 procedure V_DrawPatch(x, y: integer; scrn: integer; const patchname: string; preserve: boolean);
 var
   patch: Ppatch_t;
@@ -2606,6 +2909,11 @@ begin
   Z_ChangeTag(patch, PU_CACHE);
 end;
 
+//==============================================================================
+//
+// V_DrawPatch
+//
+//==============================================================================
 procedure V_DrawPatch(x, y: integer; scrn: integer; const lump: integer; preserve: boolean); overload;
 var
   patch: Ppatch_t;
@@ -2619,6 +2927,12 @@ end;
 // V_DrawPatchTransparent
 //
 {$IFNDEF OPENGL}
+
+//==============================================================================
+//
+// V_DrawPatchTransparent8
+//
+//==============================================================================
 procedure V_DrawPatchTransparent8(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
 var
   count: integer;
@@ -2932,6 +3246,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// V_DrawPatchTransparent32
+//
+//==============================================================================
 procedure V_DrawPatchTransparent32(x, y: integer; patch: Ppatch_t; preserve: boolean);
 var
   count: integer;
@@ -3260,6 +3579,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// V_DrawPatchTransparent
+//
+//==============================================================================
 procedure V_DrawPatchTransparent(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
 begin
   {$IFDEF OPENGL}
@@ -3285,6 +3609,11 @@ type
   end;
   th_drawpathctransparent_p = ^th_drawpathctransparent_t;
 
+//==============================================================================
+//
+// V_DrawPatchTransparent8_thr
+//
+//==============================================================================
 function V_DrawPatchTransparent8_thr(p: iterator_p): integer; stdcall;
 var
   param: th_drawpathctransparent_p;
@@ -3295,6 +3624,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// V_DrawPatchTransparent32_thr
+//
+//==============================================================================
 function V_DrawPatchTransparent32_thr(p: iterator_p): integer; stdcall;
 var
   param: th_drawpathctransparent_p;
@@ -3305,6 +3639,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// V_DrawPatchTransparentMT
+//
+//==============================================================================
 procedure V_DrawPatchTransparentMT(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
 var
   parm: th_drawpathctransparent_t;
@@ -3324,9 +3663,12 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+// V_DrawPatchZoomed8
 //
 // V_DrawPatchZoomed
 //
+//==============================================================================
 procedure V_DrawPatchZoomed8(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean; fraczoom: fixed_t);
 var
   count: integer;
@@ -3436,6 +3778,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// V_DrawPatchZoomed32
+//
+//==============================================================================
 procedure V_DrawPatchZoomed32(x, y: integer; patch: Ppatch_t; preserve: boolean; fraczoom: fixed_t);
 var
   count: integer;
@@ -3545,6 +3892,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// V_DrawPatchZoomed
+//
+//==============================================================================
 procedure V_DrawPatchZoomed(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean; fraczoom: fixed_t);
 begin
   if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (scrn = SCN_FG) then
@@ -3553,11 +3905,13 @@ begin
     V_DrawPatchZoomed8(x, y, scrn, patch, preserve, fraczoom);
 end;
 
+//==============================================================================
 //
 // V_DrawPatchFlipped
 // Masks a column based masked pic to the screen.
 // Flips horizontally, e.g. to mirror face.
 //
+//==============================================================================
 procedure V_DrawPatchFlipped(x, y: integer; scrn: integer; patch: Ppatch_t);
 var
   count: integer;
@@ -3616,6 +3970,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// V_ScaleBuffer8
+//
+//==============================================================================
 procedure V_ScaleBuffer8(var FData: pointer; const FWidth, FHeight: integer; const AWidth, AHeight: integer);
 var
   xs, ys, xi, yi, x, y: integer;
@@ -3646,6 +4005,11 @@ begin
   FData := newimage;
 end;
 
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP320x200
+//
+//==============================================================================
 procedure V_DrawPatchFullScreenTMP320x200(p: Ppatch_t);
 var
   oldscreen, newscreen: PByteArray;
@@ -3674,6 +4038,11 @@ begin
   screendimentions[SCN_TMP].height := 200;
 end;
 
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP320x200
+//
+//==============================================================================
 procedure V_DrawPatchFullScreenTMP320x200(const pname: string); overload;
 var
   p: Ppatch_t;
@@ -3683,6 +4052,11 @@ begin
   Z_ChangeTag(p, PU_CACHE);
 end;
 
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP320x200
+//
+//==============================================================================
 procedure V_DrawPatchFullScreenTMP320x200(const lump: integer); overload;
 var
   p: Ppatch_t;
@@ -3693,6 +4067,12 @@ begin
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
+
+//==============================================================================
+//
+// V_PageDrawer
+//
+//==============================================================================
 procedure V_PageDrawer(const pagename: string);
 var
   p: Ppatch_t;
@@ -3744,6 +4124,12 @@ begin
   V_FullScreenStretch;
 end;
 {$ELSE}
+
+//==============================================================================
+//
+// V_PageDrawer
+//
+//==============================================================================
 procedure V_PageDrawer(const pagename: string);
 {$IFDEF OPENGL}
 var
@@ -3783,10 +4169,13 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+// V_DrawBlock8
 //
 // V_DrawBlock
 // Draw a linear block of pixels into the view buffer.
 //
+//==============================================================================
 procedure V_DrawBlock8(x, y: integer; scrn: integer; width, height: integer; src: PByteArray);
 var
   dest: PByteArray;
@@ -3804,6 +4193,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// V_DrawBlock32
+//
+//==============================================================================
 procedure V_DrawBlock32(x, y: integer; width, height: integer; src: PByteArray);
 var
   dest: PLongWordArray;
@@ -3823,6 +4217,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// V_DrawBlock
+//
+//==============================================================================
 procedure V_DrawBlock(x, y: integer; scrn: integer; width, height: integer; src: PByteArray);
 begin
   if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (scrn = SCN_FG) then
@@ -3831,6 +4230,11 @@ begin
     V_DrawBlock8(x, y, scrn, width, height, src)
 end;
 
+//==============================================================================
+//
+// V_DrawLongBlock
+//
+//==============================================================================
 procedure V_DrawLongBlock(x, y: integer; width, height: integer; src: PLongWordArray);
 var
   dest: PLongWordArray;
@@ -3848,10 +4252,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // V_GetBlock
 // Gets a linear block of pixels from the view buffer.
 //
+//==============================================================================
 procedure V_GetBlock(x, y: integer; scrn: integer; width, height: integer; dest: PByteArray);
 var
   src: PByteArray;
@@ -3870,6 +4276,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// V_CalcPreserveTables
+//
+//==============================================================================
 procedure V_CalcPreserveTables;
 var
   i: integer;
@@ -3893,13 +4304,13 @@ begin
 
 end;
 
+//==============================================================================
 //
 // V_Init
 //
-
-//
 // V_SetPalette
 //
+//==============================================================================
 procedure V_SetPalette(const palette: PByteArray);
 var
   dest: PLongWord;
@@ -3952,6 +4363,12 @@ end;
 
 {$IFNDEF OPENGL}
 {$IFDEF DOOM_OR_STRIFE}
+
+//==============================================================================
+//
+// V_CalcColorMapPalette
+//
+//==============================================================================
 procedure V_CalcColorMapPalette;
 var
   p: pointer;
@@ -3992,6 +4409,11 @@ end;
 {$ENDIF}
 {$ENDIF}
 
+//==============================================================================
+//
+// V_InitDefaultPalette
+//
+//==============================================================================
 procedure V_InitDefaultPalette;
 var
   playpal: PByteArray;
@@ -4010,6 +4432,11 @@ end;
 var
   vsize: integer = 0;
 
+//==============================================================================
+//
+// V_Init
+//
+//==============================================================================
 procedure V_Init;
 var
   i: integer;
@@ -4096,12 +4523,22 @@ begin
 
 end;
 
+//==============================================================================
+//
+// V_ReInit
+//
+//==============================================================================
 procedure V_ReInit;
 begin
   V_ShutDown;
   V_Init;
 end;
 
+//==============================================================================
+//
+// V_ShutDown
+//
+//==============================================================================
 procedure V_ShutDown;
 var
   base: pointer;
@@ -4110,6 +4547,11 @@ begin
   memfree(base, vsize);
 end;
 
+//==============================================================================
+//
+// V_ScreensSize
+//
+//==============================================================================
 function V_ScreensSize(const scrn: integer = -1): integer;
 var
   i: integer;
@@ -4140,11 +4582,14 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // V_FindAproxColorIndex
 //
 // JVAL: Calculates the euclidian square distance of a given color from all
 //       pal items and return the nearest
+//
+//==============================================================================
 function V_FindAproxColorIndex(const pal: PLongWordArray; const c: LongWord;
   const start: integer = 0; const finish: integer = 255): integer;
 var
@@ -4182,6 +4627,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// V_FindAproxColorIndexExcluding
+//
+//==============================================================================
 function V_FindAproxColorIndexExcluding(const pal: PLongWordArray; const c: LongWord;
   const start: integer = 0; const finish: integer = 255; const exclude: integer = -1): integer;
 var
@@ -4222,6 +4672,12 @@ begin
 end;
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// V_FullScreenStretch
+//
+//==============================================================================
 procedure V_FullScreenStretch;
 var
   x, y: integer;
@@ -4261,6 +4717,12 @@ begin
 end;
 
 {$ELSE}
+
+//==============================================================================
+//
+// V_FullScreenStretch
+//
+//==============================================================================
 procedure V_FullScreenStretch;
 var
   x, y: integer;

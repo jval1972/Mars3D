@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -37,12 +37,32 @@ interface
 uses
   info_h;
 
+//==============================================================================
+//
+// Info_SelectRandomMonster
+//
+//==============================================================================
 function Info_SelectRandomMonster(_type: integer): integer;
 
+//==============================================================================
+//
+// Info_InitRandom
+//
+//==============================================================================
 procedure Info_InitRandom;
 
+//==============================================================================
+//
+// Info_ShutDownRandom
+//
+//==============================================================================
 procedure Info_ShutDownRandom;
 
+//==============================================================================
+//
+// Info_IsMonster
+//
+//==============================================================================
 function Info_IsMonster(_type: integer): boolean;
 
 implementation
@@ -68,6 +88,11 @@ var
   rnd_monsters: array[0..NUMMONSTERSCATEGORIES - 1] of randompool_t;
   rnd_monstersinitialized: boolean = false;
 
+//==============================================================================
+//
+// Info_InitRandomMonsters
+//
+//==============================================================================
 procedure Info_InitRandomMonsters;
 var
   i: integer;
@@ -99,6 +124,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// Info_ShutDownRandomMonsters
+//
+//==============================================================================
 procedure Info_ShutDownRandomMonsters;
 var
   i: integer;
@@ -112,6 +142,11 @@ begin
   rnd_monstersinitialized := false;
 end;
 
+//==============================================================================
+//
+// Info_SelectRandomMonster
+//
+//==============================================================================
 function Info_SelectRandomMonster(_type: integer): integer;
 var
   idx: integer;
@@ -129,22 +164,36 @@ begin
   result := rnd_monsters[idx].list[N_Random mod rnd_monsters[idx].list.Count];
 end;
 
+//==============================================================================
+//
+// Info_InitRandom
+//
+//==============================================================================
 procedure Info_InitRandom;
 begin
   Info_InitRandomMonsters
 end;
 
+//==============================================================================
+//
+// Info_ShutDownRandom
+//
+//==============================================================================
 procedure Info_ShutDownRandom;
 begin
   Info_ShutDownRandomMonsters
 end;
 
+//==============================================================================
+//
+// Info_IsMonster
+//
+//==============================================================================
 function Info_IsMonster(_type: integer): boolean;
 begin
   result := (mobjinfo[_type].doomednum > MAXPLAYERS) and // Not player
             (mobjinfo[_type].flags and MF_SHOOTABLE <> 0) and  // Shootable
             ((mobjinfo[_type].flags and MF_COUNTKILL <> 0) or (mobjinfo[_type].missilestate <> 0) or (mobjinfo[_type].meleestate <> 0));  // Count kill or can attack
 end;
-
 
 end.

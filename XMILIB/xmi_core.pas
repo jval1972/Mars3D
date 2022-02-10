@@ -269,6 +269,11 @@ implementation
 
 {$R *.dfm}
 
+//==============================================================================
+//
+// SongData_PutInt
+//
+//==============================================================================
 procedure SongData_PutInt(Name: string; Val: integer);
 var
   Row: integer;
@@ -281,6 +286,11 @@ begin
   SongData.InsertRow(Name, IntToStr(Val), True);
 end;
 
+//==============================================================================
+//
+// SongData_PutDWord
+//
+//==============================================================================
 procedure SongData_PutDWord(Name: string; Val: cardinal);
 var
   Row: integer;
@@ -293,6 +303,11 @@ begin
   SongData.InsertRow(Name, IntToStr(Val), True);
 end;
 
+//==============================================================================
+//
+// SongData_PutFloat
+//
+//==============================================================================
 procedure SongData_PutFloat(Name: string; Val: single);
 var
   Row: integer;
@@ -305,6 +320,11 @@ begin
   SongData.InsertRow(Name, FloatToStr(Val), True);
 end;
 
+//==============================================================================
+//
+// SongData_PutStr
+//
+//==============================================================================
 procedure SongData_PutStr(Name, Val: string);
 var
   Row: integer;
@@ -317,6 +337,11 @@ begin
   SongData.InsertRow(Name, Val, True);
 end;
 
+//==============================================================================
+//
+// SongData_PutArray
+//
+//==============================================================================
 procedure SongData_PutArray(Name: string; A: array of byte); overload;
 var
   I, Row: integer;
@@ -333,6 +358,11 @@ begin
   SongData.InsertRow(Name, S, True);
 end;
 
+//==============================================================================
+//
+// SongData_PutArray
+//
+//==============================================================================
 procedure SongData_PutArray(Name: string; A: array of word); overload;
 var
   I, Row: integer;
@@ -349,6 +379,11 @@ begin
   SongData.InsertRow(Name, S, True);
 end;
 
+//==============================================================================
+//
+// SongData_GetByte
+//
+//==============================================================================
 function SongData_GetByte(Name: string; var B: byte): boolean;
 var
   Row, Code: integer;
@@ -360,6 +395,11 @@ begin
   Result := Code = 0;
 end;
 
+//==============================================================================
+//
+// SongData_GetSInt
+//
+//==============================================================================
 function SongData_GetSInt(Name: string; var I: shortint): boolean;
 var
   Row, Code: integer;
@@ -371,6 +411,11 @@ begin
   Result := Code = 0;
 end;
 
+//==============================================================================
+//
+// SongData_GetInt
+//
+//==============================================================================
 function SongData_GetInt(Name: string; var I: integer): boolean;
 var
   Row, Code: integer;
@@ -382,6 +427,11 @@ begin
   Result := Code = 0;
 end;
 
+//==============================================================================
+//
+// SongData_GetWord
+//
+//==============================================================================
 function SongData_GetWord(Name: string; var W: word): boolean;
 var
   Row, Code: integer;
@@ -393,6 +443,11 @@ begin
   Result := Code = 0;
 end;
 
+//==============================================================================
+//
+// SongData_GetDWord
+//
+//==============================================================================
 function SongData_GetDWord(Name: string; var DW: cardinal): boolean;
 var
   Row, Code: integer;
@@ -404,6 +459,11 @@ begin
   Result := Code = 0;
 end;
 
+//==============================================================================
+//
+// SongData_GetFloat
+//
+//==============================================================================
 function SongData_GetFloat(Name: string; var Fl: single): boolean;
 var
   Row: integer;
@@ -419,6 +479,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SongData_GetStr
+//
+//==============================================================================
 function SongData_GetStr(Name: string; var S: string): boolean;
 var
   Row: integer;
@@ -430,6 +495,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// SongData_GetArray
+//
+//==============================================================================
 function SongData_GetArray(Name: string; var A: array of byte): boolean; overload;
 var
   Row, I: integer;
@@ -457,6 +527,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// SongData_GetArray
+//
+//==============================================================================
 function SongData_GetArray(Name: string; var A: array of word): boolean; overload;
 var
   Row, I: integer;
@@ -484,6 +559,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// SongData_Delete
+//
+//==============================================================================
 function SongData_Delete(Name: string): boolean;
 var
   Row: integer;
@@ -495,6 +575,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// GetFiles
+//
+//==============================================================================
 function GetFiles(const StartDir, Mask: string; const List: TStrings): boolean;
 var
   SRec: TSearchRec;
@@ -520,6 +605,11 @@ begin
   Result := (List.Count > 0);
 end;
 
+//==============================================================================
+//
+// ReadVarVal
+//
+//==============================================================================
 function ReadVarVal(var F: TMemoryStream; var Error: byte): UInt64;
 var
   B, I: byte;
@@ -555,6 +645,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ReadVarVal_XMI
+//
+//==============================================================================
 function ReadVarVal_XMI(var F: TMemoryStream; var Error: byte): UInt64;
 var
   B: byte;
@@ -585,6 +680,11 @@ begin
     Result := Result + B;
 end;
 
+//==============================================================================
+//
+// ReadVarVal_MUS
+//
+//==============================================================================
 function ReadVarVal_MUS(var F: TMemoryStream; var Error: byte): UInt64;
 var
   B: byte;
@@ -612,6 +712,11 @@ begin
   Result := Result + B;
 end;
 
+//==============================================================================
+//
+// WriteVarVal
+//
+//==============================================================================
 procedure WriteVarVal(var F: TMemoryStream; Val: UInt64);
 var
   I: integer;
@@ -633,6 +738,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// WriteVarVal_XMI
+//
+//==============================================================================
 procedure WriteVarVal_XMI(var F: TMemoryStream; Val: UInt64);
 var
   B: byte;
@@ -647,6 +757,11 @@ begin
     F.WriteBuffer(Val, 1);
 end;
 
+//==============================================================================
+//
+// WriteVarVal_MUS
+//
+//==============================================================================
 procedure WriteVarVal_MUS(var F: TMemoryStream; Val: UInt64);
 var
   B: byte;
@@ -661,6 +776,11 @@ begin
   F.WriteBuffer(B, 1);
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectMIDI
+//
+//==============================================================================
 function TXMICore.DetectMIDI(var F: TMemoryStream): boolean;
 var
   Head: array[0..3] of AnsiChar;
@@ -673,6 +793,11 @@ begin
   Result := (Head = 'MThd') or (Head = 'MTrk');
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectRMI
+//
+//==============================================================================
 function TXMICore.DetectRMI(var F: TMemoryStream): boolean;
 var
   Nodes: IFFNodes;
@@ -681,6 +806,11 @@ begin
   Result := IFFSearchNode(Nodes, 'RIFF', 'RMID') > 0;
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectMIDS
+//
+//==============================================================================
 function TXMICore.DetectMIDS(var F: TMemoryStream): boolean;
 var
   Nodes: IFFNodes;
@@ -689,6 +819,11 @@ begin
   Result := IFFSearchNode(Nodes, 'RIFF', 'MIDS') > 0;
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectXMI
+//
+//==============================================================================
 function TXMICore.DetectXMI(var F: TMemoryStream): boolean;
 var
   Nodes: IFFNodes;
@@ -698,6 +833,11 @@ begin
     (IFFSearchNode(Nodes, 'FORM', 'XMID') > 0);
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectCMF
+//
+//==============================================================================
 function TXMICore.DetectCMF(var F: TMemoryStream): boolean;
 var
   Head: array[0..3] of AnsiChar;
@@ -710,6 +850,11 @@ begin
   Result := Head = 'CTMF';
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectROL
+//
+//==============================================================================
 function TXMICore.DetectROL(var F: TMemoryStream): boolean;
 var
   W: word;
@@ -731,6 +876,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectMUS
+//
+//==============================================================================
 function TXMICore.DetectMUS(var F: TMemoryStream): boolean;
 var
   W: word;
@@ -743,6 +893,11 @@ begin
   Result := W = 1;
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectSOP
+//
+//==============================================================================
 function TXMICore.DetectSOP(var F: TMemoryStream): boolean;
 var
   sign: array[0..7] of byte;
@@ -768,6 +923,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadMIDI
+//
+//==============================================================================
 function TXMICore.ReadMIDI(var F: TMemoryStream): boolean;
 type
   TrackInfo = record
@@ -942,6 +1102,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadRMI
+//
+//==============================================================================
 function TXMICore.ReadRMI(var F: TMemoryStream): boolean;
 var
   Nodes, FNodes, WNodes: IFFNodes;
@@ -998,6 +1163,11 @@ begin
   M.Free;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadMIDS
+//
+//==============================================================================
 function TXMICore.ReadMIDS(var F: TMemoryStream): boolean;
 var
   Nodes, FNodes: IFFNodes;
@@ -1080,6 +1250,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadXMI
+//
+//==============================================================================
 function TXMICore.ReadXMI(var F: TMemoryStream): boolean;
 type
   TrackInfo = record
@@ -1232,6 +1407,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadCMF
+//
+//==============================================================================
 function TXMICore.ReadCMF(var F: TMemoryStream): boolean;
 type
   CMFInstrument = array[0..15] of byte;
@@ -1392,6 +1572,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// ROL_LoadBank
+//
+//==============================================================================
 function ROL_LoadBank(FileName: string): boolean;
 var
   M: TMemoryStream;
@@ -1480,6 +1665,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadROL
+//
+//==============================================================================
 function TXMICore.ReadROL(var F: TMemoryStream; FileName: string): boolean;
 var
   W: word;
@@ -1671,6 +1861,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// MUS_LoadBank
+//
+//==============================================================================
 function MUS_LoadBank(FileName: string): boolean;
 var
   M: TMemoryStream;
@@ -1732,6 +1927,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadMUS
+//
+//==============================================================================
 function TXMICore.ReadMUS(var F: TMemoryStream; FileName: string): boolean;
 var
   MIDILength, totalTick, nrCommand, totalTickAct, nrCommandAct: DWORD;
@@ -1923,6 +2123,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadSOP
+//
+//==============================================================================
 function TXMICore.ReadSOP(var F: TMemoryStream): boolean;
 var
   sign: array[0..7] of AnsiChar;
@@ -2074,6 +2279,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadHERAD
+//
+//==============================================================================
 function TXMICore.ReadHERAD(var F: TMemoryStream): boolean;
 const
   szSDB = 50;
@@ -2642,6 +2852,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadRaw
+//
+//==============================================================================
 function TXMICore.ReadRaw(var F: TMemoryStream): boolean;
 begin
   LogOutput('[*] Reading raw MIDI data...');
@@ -2666,6 +2881,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadSYX
+//
+//==============================================================================
 function TXMICore.ReadSYX(var F: TMemoryStream): boolean;
 begin
   LogOutput('[*] Reading System Exclusive data...');
@@ -2689,6 +2909,11 @@ begin
   RefTrackList;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadTrackData
+//
+//==============================================================================
 procedure TXMICore.ReadTrackData(var F: TMemoryStream; var Trk: Chunk);
 var
   J: integer;
@@ -3243,6 +3468,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadTrackData_SYX
+//
+//==============================================================================
 procedure TXMICore.ReadTrackData_SYX(var F: TMemoryStream; var Trk: Chunk);
 var
   B: byte;
@@ -3286,6 +3516,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadTrackData_MIDS
+//
+//==============================================================================
 procedure TXMICore.ReadTrackData_MIDS(var F: TMemoryStream; var Trk: Chunk);
 var
   Sz, DW: LongWord;
@@ -3367,6 +3602,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadTrackData_XMI
+//
+//==============================================================================
 procedure TXMICore.ReadTrackData_XMI(var F: TMemoryStream; var Trk: Chunk);
 var
   J: integer;
@@ -3933,6 +4173,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadTrackData_MUS
+//
+//==============================================================================
 procedure TXMICore.ReadTrackData_MUS(var F: TMemoryStream; var Trk: Chunk);
 var
   J: integer;
@@ -4485,6 +4730,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadTrackData_SOP
+//
+//==============================================================================
 procedure TXMICore.ReadTrackData_SOP(var F: TMemoryStream; var Trk: Chunk);
 var
   I: integer;
@@ -4564,6 +4814,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.ReadTrackData_HERAD
+//
+//==============================================================================
 procedure TXMICore.ReadTrackData_HERAD(var F: TMemoryStream; var Trk: Chunk);
 var
   isM32, isV2: boolean;
@@ -4720,6 +4975,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteMIDI
+//
+//==============================================================================
 procedure TXMICore.WriteMIDI(var F: TMemoryStream);
 label
   Done;
@@ -4799,6 +5059,11 @@ begin
   F.Seek(0, soFromEnd);
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteRMI
+//
+//==============================================================================
 procedure TXMICore.WriteRMI(var F: TMemoryStream);
 const
   RIFF = 'RIFF';
@@ -4838,6 +5103,11 @@ begin
   F.Seek(F.Size, soFromBeginning);
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteXMI
+//
+//==============================================================================
 procedure TXMICore.WriteXMI(var F: TMemoryStream);
 const
   FORM = 'FORM';
@@ -4978,6 +5248,11 @@ begin
   F.Seek(F.Size, soFromBeginning);
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteCMF
+//
+//==============================================================================
 procedure TXMICore.WriteCMF(var F: TMemoryStream);
 const
   CTMF = 'CTMF';
@@ -5104,6 +5379,11 @@ begin
   F.Seek(0, soFromEnd);
 end;
 
+//==============================================================================
+//
+// ROL_SaveBank
+//
+//==============================================================================
 function ROL_SaveBank(FileName: string): boolean;
 var
   M: TMemoryStream;
@@ -5203,6 +5483,11 @@ begin
   M.Free;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteROL
+//
+//==============================================================================
 procedure TXMICore.WriteROL(var F: TMemoryStream; FileName: string);
 var
   I, J: integer;
@@ -5376,6 +5661,11 @@ begin
     LogOutput('[*] Saved instrument bank: ' + S);
 end;
 
+//==============================================================================
+//
+// MUS_SaveBank
+//
+//==============================================================================
 function MUS_SaveBank(FileName: string): boolean;
 var
   M: TMemoryStream;
@@ -5427,6 +5717,11 @@ begin
   M.Free;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteMUS
+//
+//==============================================================================
 procedure TXMICore.WriteMUS(var F: TMemoryStream; FileName: string);
 var
   I, J: integer;
@@ -5564,6 +5859,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteSOP
+//
+//==============================================================================
 procedure TXMICore.WriteSOP(var F: TMemoryStream);
 const
   sign: ansistring = 'sopepos';
@@ -5706,6 +6006,11 @@ begin
   F.Seek(0, soFromEnd);
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteHERAD
+//
+//==============================================================================
 procedure TXMICore.WriteHERAD(var F: TMemoryStream);
 const
   MaxTracks = 21;
@@ -5777,6 +6082,11 @@ begin
   F.Seek(0, soFromEnd);
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteRaw
+//
+//==============================================================================
 procedure TXMICore.WriteRaw(var F: TMemoryStream);
 var
   I: integer;
@@ -5788,6 +6098,11 @@ begin
   LogOutput('[+] Wrote ' + IntToStr(F.Size) + ' bytes.');
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteSYX
+//
+//==============================================================================
 procedure TXMICore.WriteSYX(var F: TMemoryStream);
 var
   I: integer;
@@ -5798,6 +6113,11 @@ begin
   LogOutput('[+] Wrote ' + IntToStr(F.Size) + ' bytes.');
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteTrackData
+//
+//==============================================================================
 procedure TXMICore.WriteTrackData(var F: TMemoryStream; var Trk: Chunk);
 var
   S: PAnsiChar;
@@ -5902,6 +6222,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteTrackData_XMI
+//
+//==============================================================================
 procedure TXMICore.WriteTrackData_XMI(var F: TMemoryStream; var Trk: Chunk);
 var
   S: PAnsiChar;
@@ -6002,6 +6327,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteTrackData_MUS
+//
+//==============================================================================
 procedure TXMICore.WriteTrackData_MUS(var F: TMemoryStream; var Trk: Chunk);
 var
   S: PAnsiChar;
@@ -6119,6 +6449,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteTrackData_SOP
+//
+//==============================================================================
 procedure TXMICore.WriteTrackData_SOP(var F: TMemoryStream; var Trk: Chunk);
 var
   I: integer;
@@ -6208,6 +6543,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteTrackData_HERAD
+//
+//==============================================================================
 procedure TXMICore.WriteTrackData_HERAD(var F: TMemoryStream; var Trk: Chunk);
 var
   I, Ch: integer;
@@ -6275,6 +6615,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.WriteTrackData_SYX
+//
+//==============================================================================
 procedure TXMICore.WriteTrackData_SYX(var F: TMemoryStream; var Trk: Chunk);
 var
   I: integer;
@@ -6299,6 +6644,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// ROL_MIDIDrum
+//
+//==============================================================================
 procedure ROL_MIDIDrum(var C: Command);
 var
   B: byte;
@@ -6364,6 +6714,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// CMF_MIDIDrum
+//
+//==============================================================================
 procedure CMF_MIDIDrum(var C: Command);
 var
   B: byte;
@@ -6430,6 +6785,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MID_FixTempo
+//
+//==============================================================================
 procedure TXMICore.Convert_MID_FixTempo;
 var
   InitTempo: cardinal;
@@ -6445,6 +6805,11 @@ begin
   SongData_PutDWord('InitTempo', MIDIStdTempo);
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_XMI_MID
+//
+//==============================================================================
 procedure TXMICore.Convert_XMI_MID;
 type
   NoteDur = packed record
@@ -6604,6 +6969,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MID_XMI
+//
+//==============================================================================
 procedure TXMICore.Convert_MID_XMI;
 type
   TNote = record
@@ -6742,6 +7112,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MUS_MID
+//
+//==============================================================================
 procedure TXMICore.Convert_MUS_MID;
 var
   TPB: word;
@@ -6966,6 +7341,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MUS_MDI
+//
+//==============================================================================
 procedure TXMICore.Convert_MUS_MDI;
 var
   TPB: word;
@@ -7135,6 +7515,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MDI_MID
+//
+//==============================================================================
 procedure TXMICore.Convert_MDI_MID;
 type
   TInst = array[0..13 + 13 + 2 - 1] of byte;
@@ -7389,6 +7774,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MID_MUS
+//
+//==============================================================================
 procedure TXMICore.Convert_MID_MUS;
 var
   InitTempo: cardinal;
@@ -7509,6 +7899,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MDI_MUS
+//
+//==============================================================================
 procedure TXMICore.Convert_MDI_MUS;
 type
   TInst = record
@@ -7758,6 +8153,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_CMF_MID
+//
+//==============================================================================
 procedure TXMICore.Convert_CMF_MID;
 var
   I, J: integer;
@@ -7857,6 +8257,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_CMF_MDI
+//
+//==============================================================================
 procedure TXMICore.Convert_CMF_MDI;
 type
   TOPLRegs = packed record
@@ -8080,6 +8485,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MDI_CMF
+//
+//==============================================================================
 procedure TXMICore.Convert_MDI_CMF;
 type
   TOPLRegs = packed record
@@ -8423,6 +8833,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_ROL_MID
+//
+//==============================================================================
 procedure TXMICore.Convert_ROL_MID;
 var
   I, J, K: integer;
@@ -8636,6 +9051,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MUS_ROL
+//
+//==============================================================================
 procedure TXMICore.Convert_MUS_ROL;
 type
   TROLInst = record
@@ -9121,6 +9541,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_MDI_ROL
+//
+//==============================================================================
 procedure TXMICore.Convert_MDI_ROL;
 type
   TROLInst = record
@@ -9659,6 +10084,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_IMS_MID
+//
+//==============================================================================
 procedure TXMICore.Convert_IMS_MID;
 var
   TPB: word;
@@ -9901,6 +10331,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_IMS_ROL
+//
+//==============================================================================
 procedure TXMICore.Convert_IMS_ROL;
 type
   TTickData = record
@@ -10335,6 +10770,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_SOP_MID
+//
+//==============================================================================
 procedure TXMICore.Convert_SOP_MID;
 type
   NoteDur = packed record
@@ -10584,6 +11024,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_SOP_MUS
+//
+//==============================================================================
 procedure TXMICore.Convert_SOP_MUS;
 type
   NoteDur = packed record
@@ -10923,6 +11368,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_HERAD_MID
+//
+//==============================================================================
 procedure TXMICore.Convert_HERAD_MID;
 begin
   LogOutput('[*] Converting Cryo HERAD to Standard MIDI...');
@@ -10930,6 +11380,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.Convert_HERAD_HERAD_V2
+//
+//==============================================================================
 procedure TXMICore.Convert_HERAD_HERAD_V2;
 var
   B: byte;
@@ -10957,6 +11412,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.RefTrackList
+//
+//==============================================================================
 procedure TXMICore.RefTrackList;
 var
   I: integer;
@@ -10971,6 +11431,11 @@ begin
         ' | ' + TrackData[I].Title);
 end;
 
+//==============================================================================
+//
+// GetSongLengthTicks
+//
+//==============================================================================
 function GetSongLengthTicks: UInt64;
 var
   Ver: word;
@@ -11006,6 +11471,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.MCalcLenClick
+//
+//==============================================================================
 procedure TXMICore.MCalcLenClick(Sender: TObject);
 var
   SMPTE: shortint;
@@ -11036,6 +11506,11 @@ begin
   MessageBox(Handle, PChar(S), 'Song length', mb_IconInformation or mb_Ok);
 end;
 
+//==============================================================================
+//
+// TXMICore.Changechannel1Click
+//
+//==============================================================================
 procedure TXMICore.Changechannel1Click(Sender: TObject);
 var
   I, Trk: integer;
@@ -11048,6 +11523,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.ChkButtons
+//
+//==============================================================================
 procedure TXMICore.ChkButtons;
 begin
   bPlay.Enabled := Opened and (MIDIThrId = 0) and (PlayerMode <> PLAY_REC);
@@ -11068,6 +11548,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.NewEvent
+//
+//==============================================================================
 procedure TXMICore.NewEvent(Trk, Idx: integer; E, Parm: byte);
 var
   I: integer;
@@ -11242,6 +11727,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.AddEvent
+//
+//==============================================================================
 procedure TXMICore.AddEvent(E, Parm: byte);
 var
   Trk, Pos: UInt64;
@@ -11259,6 +11749,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MDelTracksClick
+//
+//==============================================================================
 procedure TXMICore.MDelTracksClick(Sender: TObject);
 var
   Idx, I: integer;
@@ -11276,6 +11771,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.OnEventChange
+//
+//==============================================================================
 procedure TXMICore.OnEventChange(var Msg: TMessage);
 begin
   if Msg.LParam <> TrkCh.ItemIndex then
@@ -11284,12 +11784,22 @@ begin
   vTrkIndex := Msg.LParam;
 end;
 
+//==============================================================================
+//
+// TXMICore.OnTrackChange
+//
+//==============================================================================
 procedure TXMICore.OnTrackChange(var Msg: TMessage);
 begin
   vTrkIndex := Msg.WParam;
   vChangeTrack := True;
 end;
 
+//==============================================================================
+//
+// TXMICore.OnVUChange
+//
+//==============================================================================
 procedure TXMICore.OnVUChange(var Msg: TMessage);
 begin
   if not Msg.WParam in [0..15] then
@@ -11300,6 +11810,11 @@ begin
     VU[Msg.WParam] := Msg.LParam;
 end;
 
+//==============================================================================
+//
+// TXMICore.OnPlayerChange
+//
+//==============================================================================
 procedure TXMICore.OnPlayerChange(var Msg: TMessage);
 begin
   case Msg.WParam of
@@ -11330,6 +11845,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.OnPlayerRefresh
+//
+//==============================================================================
 procedure TXMICore.OnPlayerRefresh(var Msg: TMessage);
 begin
   if Msg.WParam <> TrkCh.ItemIndex then
@@ -11341,6 +11861,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.OnEventRequest
+//
+//==============================================================================
 procedure TXMICore.OnEventRequest(var Msg: TMessage);
 var
   StepEvent: PStepEvent;
@@ -11351,6 +11876,11 @@ begin
   gStepEvent.Send := False;
 end;
 
+//==============================================================================
+//
+// MIDIPlayer
+//
+//==============================================================================
 procedure MIDIPlayer(Param: PPlaySet);
 const
   PROFILE_MID = 0;
@@ -12074,6 +12604,11 @@ begin
   PostMessage(XMICore.Handle, WM_PLAYCTRL, PLAYER_STOP, 0);
 end;
 
+//==============================================================================
+//
+// midiInCallback
+//
+//==============================================================================
 procedure midiInCallback(Handle: HMIDIIn; uMsg: uint;
   dwInstance, dwParam1, dwParam2: dword); stdcall;
 var
@@ -12142,6 +12677,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.MMSysError
+//
+//==============================================================================
 procedure TXMICore.MMSysError(Err: DWord);
 var
   Str: string;
@@ -12174,6 +12714,11 @@ begin
   MessageBox(Handle, PChar(Str), 'Multimedia System Error', MB_ICONERROR or MB_OK);
 end;
 
+//==============================================================================
+//
+// TXMICore.bPlayClick
+//
+//==============================================================================
 procedure TXMICore.bPlayClick(Sender: TObject);
 var
   Err: DWORD;
@@ -12221,6 +12766,11 @@ begin
   ResumeThread(MIDIThr);
 end;
 
+//==============================================================================
+//
+// TXMICore.bPlayPosClick
+//
+//==============================================================================
 procedure TXMICore.bPlayPosClick(Sender: TObject);
 var
   Err: DWORD;
@@ -12267,6 +12817,11 @@ begin
   ResumeThread(MIDIThr);
 end;
 
+//==============================================================================
+//
+// TXMICore.bStepClick
+//
+//==============================================================================
 procedure TXMICore.bStepClick(Sender: TObject);
 var
   Err: DWORD;
@@ -12311,6 +12866,11 @@ begin
   ResumeThread(MIDIThr);
 end;
 
+//==============================================================================
+//
+// GetTempo
+//
+//==============================================================================
 function GetTempo(Trk, Idx: integer): cardinal;
 var
   I: integer;
@@ -12330,6 +12890,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TXMICore.bRecordClick
+//
+//==============================================================================
 procedure TXMICore.bRecordClick(Sender: TObject);
 var
   Err: DWORD;
@@ -12407,6 +12972,11 @@ begin
   midiInStart(MIDIIn);
 end;
 
+//==============================================================================
+//
+// TXMICore.bStopClick
+//
+//==============================================================================
 procedure TXMICore.bStopClick(Sender: TObject);
 begin
   MIDIThrId := 0;
@@ -12430,6 +13000,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.LoadFile
+//
+//==============================================================================
 function TXMICore.LoadFile(FileName, Fmt: string): boolean;
 var
   Ext: string;
@@ -12678,6 +13253,11 @@ begin
   Result := Opened;
 end;
 
+//==============================================================================
+//
+// TXMICore.SaveFileToStream
+//
+//==============================================================================
 function TXMICore.SaveFileToStream(FileName: string; M: TMemoryStream): boolean;
 var
   Ext: string;
@@ -12863,6 +13443,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.SaveFile
+//
+//==============================================================================
 function TXMICore.SaveFile(FileName: string): boolean;
 var
   Idx: integer;
@@ -12895,6 +13480,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.SaveFileToPointer
+//
+//==============================================================================
 function TXMICore.SaveFileToPointer(FileName: string; var p: pointer; var sz: integer): boolean;
 var
   Idx: integer;
@@ -12932,6 +13522,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.DetectFile
+//
+//==============================================================================
 function TXMICore.DetectFile(var F: TMemoryStream): string;
 begin
   Result := '';
@@ -12993,6 +13588,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.FormCreate
+//
+//==============================================================================
 procedure TXMICore.FormCreate(Sender: TObject);
 begin
   SongData := TValueListEditor.Create(nil);
@@ -13013,11 +13613,21 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.FormDestroy
+//
+//==============================================================================
 procedure TXMICore.FormDestroy(Sender: TObject);
 begin
   SongData.Free;
 end;
 
+//==============================================================================
+//
+// TXMICore.FormResize
+//
+//==============================================================================
 procedure TXMICore.FormResize(Sender: TObject);
 begin
   if Events.VisibleRowCount <> VisRows then
@@ -13028,22 +13638,42 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.TrkChChange
+//
+//==============================================================================
 procedure TXMICore.TrkChChange(Sender: TObject);
 begin
   FillEvents(TrkCh.ItemIndex);
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.EventsClick
+//
+//==============================================================================
 procedure TXMICore.EventsClick(Sender: TObject);
 begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.EventsKeyPress
+//
+//==============================================================================
 procedure TXMICore.EventsKeyPress(Sender: TObject; var Key: char);
 begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFindNextClick
+//
+//==============================================================================
 procedure TXMICore.MFindNextClick(Sender: TObject);
 var
   I, J: integer;
@@ -13171,6 +13801,11 @@ begin
   LogOutput('[*] Search complete.');
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatMIDClick
+//
+//==============================================================================
 procedure TXMICore.MFormatMIDClick(Sender: TObject);
 var
   Idx: integer;
@@ -13183,6 +13818,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatMDIClick
+//
+//==============================================================================
 procedure TXMICore.MFormatMDIClick(Sender: TObject);
 var
   Idx: integer;
@@ -13195,6 +13835,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatCMFClick
+//
+//==============================================================================
 procedure TXMICore.MFormatCMFClick(Sender: TObject);
 var
   Idx: integer;
@@ -13207,6 +13852,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatXMIClick
+//
+//==============================================================================
 procedure TXMICore.MFormatXMIClick(Sender: TObject);
 var
   Idx: integer;
@@ -13219,6 +13869,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatROLClick
+//
+//==============================================================================
 procedure TXMICore.MFormatROLClick(Sender: TObject);
 var
   Idx: integer;
@@ -13231,6 +13886,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatMUSClick
+//
+//==============================================================================
 procedure TXMICore.MFormatMUSClick(Sender: TObject);
 var
   Idx: integer;
@@ -13243,6 +13903,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatIMSClick
+//
+//==============================================================================
 procedure TXMICore.MFormatIMSClick(Sender: TObject);
 var
   Idx: integer;
@@ -13255,6 +13920,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatSOPClick
+//
+//==============================================================================
 procedure TXMICore.MFormatSOPClick(Sender: TObject);
 var
   Idx: integer;
@@ -13267,6 +13937,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.MFormatHERADClick
+//
+//==============================================================================
 procedure TXMICore.MFormatHERADClick(Sender: TObject);
 var
   Idx: integer;
@@ -13279,6 +13954,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.GetInstType
+//
+//==============================================================================
 function TXMICore.GetInstType(Chn: byte): string;
 begin
   if Chn = 9 then
@@ -13294,6 +13974,11 @@ begin
       Result := 'Instrument';
 end;
 
+//==============================================================================
+//
+// TXMICore.GetInstName
+//
+//==============================================================================
 function TXMICore.GetInstName(Prog: byte; Chn: byte): string;
 begin
   if Chn = 9 then
@@ -13324,6 +14009,11 @@ begin
       Result := '';
 end;
 
+//==============================================================================
+//
+// TXMICore.FillEvents
+//
+//==============================================================================
 procedure TXMICore.FillEvents(Idx: integer);
 var
   I, J, Cnt: integer;
@@ -14095,11 +14785,21 @@ begin
   end; // track read
 end;
 
+//==============================================================================
+//
+// TXMICore.EventsTopLeftChanged
+//
+//==============================================================================
 procedure TXMICore.EventsTopLeftChanged(Sender: TObject);
 begin
   FillEvents(TrkCh.ItemIndex);
 end;
 
+//==============================================================================
+//
+// TXMICore.DelEvent
+//
+//==============================================================================
 function TXMICore.DelEvent(Trk, Idx: integer; TimeSave: boolean): boolean;
 var
   I: integer;
@@ -14121,6 +14821,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TXMICore.DelRange
+//
+//==============================================================================
 function TXMICore.DelRange(Trk, From, Count: integer; TimeSave: boolean): boolean;
 var
   I: integer;
@@ -14148,6 +14853,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TXMICore.LogSongInfo
+//
+//==============================================================================
 procedure TXMICore.LogSongInfo;
 var
   Ver, Division: string;
@@ -14168,6 +14878,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.AddTrack
+//
+//==============================================================================
 procedure TXMICore.AddTrack;
 begin
   SetLength(TrackData, Length(TrackData) + 1);
@@ -14179,6 +14894,11 @@ begin
   LogOutput('[*] Track ' + IntToStr(Length(TrackData) - 1) + ' added.');
 end;
 
+//==============================================================================
+//
+// TXMICore.DelTrack
+//
+//==============================================================================
 procedure TXMICore.DelTrack(Idx: integer);
 var
   I: integer;
@@ -14194,6 +14914,11 @@ begin
     LogOutput('[*] Track ' + IntToStr(Idx) + ' (' + Title + ') deleted.');
 end;
 
+//==============================================================================
+//
+// TXMICore.TimeBetween
+//
+//==============================================================================
 function TXMICore.TimeBetween(Trk, Idx1, Idx2: integer): UInt64;
 var
   I: integer;
@@ -14203,6 +14928,11 @@ begin
     Result := Result + TrackData[Trk].Data[I].Ticks;
 end;
 
+//==============================================================================
+//
+// TXMICore.ConvertEvents
+//
+//==============================================================================
 procedure TXMICore.ConvertEvents(DestProfile: ansistring);
 begin
   if EventProfile = 'mid' then
@@ -14352,6 +15082,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TXMICore.ConvertTicks
+//
+//==============================================================================
 procedure TXMICore.ConvertTicks(RelToAbs: boolean; var Data: array of Command);
 var
   I: integer;
@@ -14374,6 +15109,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TXMICore.MergeTracksUsingTicks
+//
+//==============================================================================
 function TXMICore.MergeTracksUsingTicks(Tracks: array of integer;
   EOT: boolean): Chunk;
 var
@@ -14443,6 +15183,11 @@ begin
   ConvertTicks(False, Result.Data);
 end;
 
+//==============================================================================
+//
+// TXMICore.MergeTracksByTicks
+//
+//==============================================================================
 procedure TXMICore.MergeTracksByTicks(Trk: array of integer);
 var
   I, Idx: integer;
@@ -14482,6 +15227,11 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.MergeTracksByOrder
+//
+//==============================================================================
 procedure TXMICore.MergeTracksByOrder(Trk: array of integer);
 var
   I, J, Idx: integer;
@@ -14530,11 +15280,21 @@ begin
   LogOutput('[+] Done.');
 end;
 
+//==============================================================================
+//
+// TXMICore.CopyEvent
+//
+//==============================================================================
 procedure TXMICore.CopyEvent(SrcTrk, SrcIdx, DestTrk, DestIdx: integer);
 begin
   TrackData[DestTrk].Data[DestIdx] := TrackData[SrcTrk].Data[SrcIdx];
 end;
 
+//==============================================================================
+//
+// TXMICore.MOptimizeClick
+//
+//==============================================================================
 procedure TXMICore.MOptimizeClick(Sender: TObject);
 var
   I, J, K, L: integer;
@@ -14726,6 +15486,11 @@ begin
   ChkButtons;
 end;
 
+//==============================================================================
+//
+// TXMICore.LogOutput
+//
+//==============================================================================
 procedure TXMICore.LogOutput(const s: string);
 begin
   Log.Lines.Add(s);

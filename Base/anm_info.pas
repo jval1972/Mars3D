@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -46,10 +46,25 @@ type
   anminfo_tArray = array[0..$FF] of anminfo_t;
   Panminfo_tArray = ^anminfo_tArray;
 
+//==============================================================================
+//
+// ANM_InfoInit
+//
+//==============================================================================
 procedure ANM_InfoInit;
 
+//==============================================================================
+//
+// ANM_InfoShutDown
+//
+//==============================================================================
 procedure ANM_InfoShutDown;
 
+//==============================================================================
+//
+// ANM_GetInfo
+//
+//==============================================================================
 function ANM_GetInfo(const anmfile: string): anminfo_t;
 
 implementation
@@ -68,6 +83,11 @@ var
   anminfo: Panminfo_tArray;
   numanminfo: integer;
 
+//==============================================================================
+//
+// ANM_ClearItemInfo
+//
+//==============================================================================
 procedure ANM_ClearItemInfo(const inf: Panminfo_t);
 begin
   inf.name := '';
@@ -76,6 +96,11 @@ begin
   inf.tic := 1;
 end;
 
+//==============================================================================
+//
+// ANM_AddInfo
+//
+//==============================================================================
 procedure ANM_AddInfo(const inf: Panminfo_t);
 var
   i: integer;
@@ -102,6 +127,11 @@ begin
   anminfo[i] := inf^;
 end;
 
+//==============================================================================
+//
+// ANM_DoParseText
+//
+//==============================================================================
 procedure ANM_DoParseText(const in_text: string);
 var
   sc: TScriptEngine;
@@ -147,11 +177,21 @@ begin
   sc.Free;
 end;
 
+//==============================================================================
+//
+// ANM_ParseText
+//
+//==============================================================================
 procedure ANM_ParseText(const in_text: string);
 begin
   ANM_DoParseText(SC_Preprocess(in_text, false));
 end;
 
+//==============================================================================
+//
+// ANM_InfoInit
+//
+//==============================================================================
 procedure ANM_InfoInit;
 var
   i: integer;
@@ -163,11 +203,15 @@ begin
     if char8tostring(W_GetNameForNum(i)) = ANMINFOLUMPNAME then
       ANM_ParseText(W_TextLumpNum(i));
 
-
   PAK_StringIterator(ANMINFOLUMPNAME, ANM_ParseText);
   PAK_StringIterator(ANMINFOLUMPNAME + '.txt', ANM_ParseText);
 end;
 
+//==============================================================================
+//
+// ANM_InfoShutDown
+//
+//==============================================================================
 procedure ANM_InfoShutDown;
 begin
   if numanminfo > 0 then
@@ -177,6 +221,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ANM_GetInfo
+//
+//==============================================================================
 function ANM_GetInfo(const anmfile: string): anminfo_t;
 var
   i: integer;

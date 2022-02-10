@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -38,20 +38,50 @@ interface
 uses
   d_event;
 
+//==============================================================================
+//
+// MARS_InitBriefing
+//
+//==============================================================================
 procedure MARS_InitBriefing;
 
+//==============================================================================
+//
+// MARS_ShutDownBriefing
+//
+//==============================================================================
 procedure MARS_ShutDownBriefing;
 
+//==============================================================================
+//
+// MARS_BriefingResponder
+//
+//==============================================================================
 function MARS_BriefingResponder(ev: Pevent_t): boolean;
 
+//==============================================================================
+// MARS_Briefing_Ticker
+//
 // Called by main loop
+//
+//==============================================================================
 procedure MARS_Briefing_Ticker;
 
+//==============================================================================
+// MARS_Briefing_Drawer
+//
 // Called by main loop,
 // draws the briefing screens directly into the screen buffer.
+//
+//==============================================================================
 procedure MARS_Briefing_Drawer;
 
+//==============================================================================
+// MARS_Briefing_Start
+//
 // Setup the briefing screens.
+//
+//==============================================================================
 procedure MARS_Briefing_Start;
 
 var
@@ -75,11 +105,21 @@ var
   br_lumps: TDNumberList;
   br_tic: integer;
 
+//==============================================================================
+//
+// MARS_InitBriefing
+//
+//==============================================================================
 procedure MARS_InitBriefing;
 begin
   br_lumps := TDNumberList.Create;
 end;
 
+//==============================================================================
+//
+// MARS_ShutDownBriefing
+//
+//==============================================================================
 procedure MARS_ShutDownBriefing;
 begin
   br_lumps.Free;
@@ -88,6 +128,11 @@ end;
 var
   br_key_down: boolean;
 
+//==============================================================================
+//
+// MARS_BriefingAdvance
+//
+//==============================================================================
 procedure MARS_BriefingAdvance;
 begin
   if br_lumps.Count > 0 then
@@ -96,6 +141,11 @@ begin
     gamestate := GS_LEVEL;
 end;
 
+//==============================================================================
+//
+// MARS_BriefingResponder
+//
+//==============================================================================
 function MARS_BriefingResponder(ev: Pevent_t): boolean;
 begin
   if ev._type <> ev_keydown then
@@ -115,6 +165,11 @@ end;
 var
   br_music_changed: boolean;
 
+//==============================================================================
+//
+// MARS_Briefing_Ticker
+//
+//==============================================================================
 procedure MARS_Briefing_Ticker;
 begin
   inc(br_tic);
@@ -135,6 +190,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_Briefing_Drawer
+//
+//==============================================================================
 procedure MARS_Briefing_Drawer;
 begin
   if br_lumps.Count > 0 then
@@ -144,6 +204,11 @@ begin
   V_FullScreenStretch;
 end;
 
+//==============================================================================
+//
+// MARS_Briefing_Start
+//
+//==============================================================================
 procedure MARS_Briefing_Start;
 var
   i: integer;

@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -46,14 +46,39 @@ var
   EndLumpName: string = 'ENDTEXT';
   displayendscreen: boolean;
 
+//==============================================================================
+//
+// E_Responder
+//
+//==============================================================================
 function E_Responder(ev: Pevent_t): boolean;
 
+//==============================================================================
+//
+// E_Init
+//
+//==============================================================================
 procedure E_Init;
 
+//==============================================================================
+//
+// E_Drawer
+//
+//==============================================================================
 procedure E_Drawer;
 
+//==============================================================================
+//
+// E_ShutDown
+//
+//==============================================================================
 procedure E_ShutDown;
 
+//==============================================================================
+//
+// E_Ticker
+//
+//==============================================================================
 procedure E_Ticker;
 
 {$IFDEF OPENGL}
@@ -86,6 +111,11 @@ var
   e_blink: boolean = true;
   e_needsupdate: boolean = true;
 
+//==============================================================================
+//
+// E_Responder
+//
+//==============================================================================
 function E_Responder(ev: Pevent_t): boolean;
 begin
   if ev._type <> ev_keyup then
@@ -131,6 +161,11 @@ const
 var
   fontpalcolors: array[0..15] of byte;
 
+//==============================================================================
+//
+// E_Init
+//
+//==============================================================================
 procedure E_Init;
 var
   dosfontlump: integer;
@@ -169,6 +204,11 @@ type
   endoomchar_tArray = array[0..1999] of endoomchar_t;
   Pendoomchar_tArray = ^endoomchar_tArray;
 
+//==============================================================================
+//
+// E_Drawer
+//
+//==============================================================================
 procedure E_Drawer;
 var
   endoom: Pendoomchar_tArray;
@@ -242,6 +282,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// E_ShutDown
+//
+//==============================================================================
 procedure E_ShutDown;
 begin
   if e_ticks > 0 then
@@ -255,6 +300,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// E_Ticker
+//
+//==============================================================================
 procedure E_Ticker;
 var
   blink: boolean;

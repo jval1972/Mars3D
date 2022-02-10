@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -37,16 +37,63 @@ uses
   m_fixed,
   r_main;
 
+//==============================================================================
+// R_DrawTallColumnLowest
+//
 // Column drawers
+//
+//==============================================================================
 procedure R_DrawTallColumnLowest;
+
+//==============================================================================
+//
+// R_DrawTallColumnLow
+//
+//==============================================================================
 procedure R_DrawTallColumnLow;
+
+//==============================================================================
+//
+// R_DrawTallColumnMedium
+//
+//==============================================================================
 procedure R_DrawTallColumnMedium;
+
+//==============================================================================
+//
+// R_DrawTallColumnHi
+//
+//==============================================================================
 procedure R_DrawTallColumnHi;
+
+//==============================================================================
+//
+// R_DrawTallColumnUltra
+//
+//==============================================================================
 procedure R_DrawTallColumnUltra;
 {$IFDEF HEXEN}
+
+//==============================================================================
+//
+// R_DrawTallColumnHi_Fog
+//
+//==============================================================================
 procedure R_DrawTallColumnHi_Fog;
+
+//==============================================================================
+//
+// R_DrawTallColumnUltra_Fog
+//
+//==============================================================================
 procedure R_DrawTallColumnUltra_Fog;
 {$ENDIF}
+
+//==============================================================================
+//
+// R_DrawTallColumnBase32
+//
+//==============================================================================
 procedure R_DrawTallColumnBase32;
 
 var
@@ -65,6 +112,11 @@ uses
   r_column,
   r_draw;
 
+//==============================================================================
+//
+// R_DrawTallColumnLowest
+//
+//==============================================================================
 procedure R_DrawTallColumnLowest;
 var
   count: integer;
@@ -118,6 +170,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawTallColumnLow
+//
+//==============================================================================
 procedure R_DrawTallColumnLow;
 var
   count: integer;
@@ -165,6 +222,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawTallColumnMedium
+//
+//==============================================================================
 procedure R_DrawTallColumnMedium;
 var
   count: integer;
@@ -279,6 +341,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawTallColumnBase32
+//
+//==============================================================================
 procedure R_DrawTallColumnBase32;
 var
   count: integer;
@@ -307,6 +374,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawTallColumnHi
+//
+//==============================================================================
 procedure R_DrawTallColumnHi;
 var
   count: integer;
@@ -393,6 +465,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawTallColumnUltra
+//
+//==============================================================================
 procedure R_DrawTallColumnUltra;
 var
   count: integer;
@@ -456,6 +533,12 @@ begin
 end;
 
 {$IFDEF HEXEN}
+
+//==============================================================================
+//
+// R_DrawTallColumnHi_Fog
+//
+//==============================================================================
 procedure R_DrawTallColumnHi_Fog;
 var
   count: integer;
@@ -541,6 +624,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawTallColumnUltra_Fog
+//
+//==============================================================================
 procedure R_DrawTallColumnUltra_Fog;
 var
   count: integer;

@@ -40,14 +40,39 @@ uses
   m_fixed,
   p_mobj_h;
 
+//==============================================================================
+//
+// P_SetupUnderwaterSectors
+//
+//==============================================================================
 procedure P_SetupUnderwaterSectors;
 
+//==============================================================================
+//
+// P_ResolveSwimmSurface
+//
+//==============================================================================
 procedure P_ResolveSwimmSurface(const thing: Pmobj_t);
 
+//==============================================================================
+//
+// P_ResolveSwimmFloorHeight
+//
+//==============================================================================
 function P_ResolveSwimmFloorHeight(const thing: Pmobj_t; const oldfloorz: fixed_t): fixed_t;
 
+//==============================================================================
+//
+// P_GlobalAdjustSwimming
+//
+//==============================================================================
 procedure P_GlobalAdjustSwimming;
 
+//==============================================================================
+//
+// P_CheckPlayerWaterSector
+//
+//==============================================================================
 procedure P_CheckPlayerWaterSector(const p: Pplayer_t);
 
 const
@@ -84,6 +109,11 @@ uses
   r_intrpl,
   r_main;
 
+//==============================================================================
+//
+// P_RecursiveUnderwaterSector
+//
+//==============================================================================
 procedure P_RecursiveUnderwaterSector(const sec: Psector_t);
 var
   i: integer;
@@ -105,6 +135,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_SetupUnderwaterSectors
+//
+//==============================================================================
 procedure P_SetupUnderwaterSectors;
 var
   i: integer;
@@ -119,10 +154,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_ResolveSwimmSurface
 // JVAL: 20211115 - New function, checks the MF4_EX_CANSWIMMONFAKESURFACE flag
 //
+//==============================================================================
 procedure P_ResolveSwimmSurface(const thing: Pmobj_t);
 var
   sec, hsec: Psector_t;
@@ -143,10 +180,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_ResolveSwimmFloorHeight
 // JVAL: 20211115 - New function, checks the MF4_EX_CANSWIMMONFAKESURFACE flag
 //
+//==============================================================================
 function P_ResolveSwimmFloorHeight(const thing: Pmobj_t; const oldfloorz: fixed_t): fixed_t;
 var
   sec, hsec: Psector_t;
@@ -165,11 +204,13 @@ begin
     result := hsec.floorheight;
 end;
 
+//==============================================================================
 //
 // P_GlobalAdjustSwimming
 // JVAL: 20211115 - New function, checks the MF4_EX_CANSWIMMONFAKESURFACE flag
 //       for all mobj's at loading level
 //
+//==============================================================================
 procedure P_GlobalAdjustSwimming;
 var
   th: Pthinker_t;
@@ -187,9 +228,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // PIT_CheckWaterPortalThing
 //
+//==============================================================================
 function PIT_CheckWaterPortalThing(thing: Pmobj_t): boolean;
 var
   blockdist: fixed_t;
@@ -258,9 +301,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_WaterPortalMove
 //
+//==============================================================================
 function P_WaterPortalMove(thing: Pmobj_t; newsec: Psector_t; x, y, z: fixed_t): boolean;
 var
   xl: integer;
@@ -359,6 +404,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// P_PlayerSwimFlag
+//
+//==============================================================================
 procedure P_PlayerSwimFlag(const p: Pplayer_t);
 begin
   if Psubsector_t(p.mo.subsector).sector.renderflags and SRF_UNDERWATER <> 0 then
@@ -367,6 +417,11 @@ begin
     p.mo.flags4_ex := p.mo.flags4_ex and not MF4_EX_SWIM;
 end;
 
+//==============================================================================
+//
+// P_CheckPlayerWaterSector
+//
+//==============================================================================
 procedure P_CheckPlayerWaterSector(const p: Pplayer_t);
 var
   pmo: Pmobj_t;
@@ -416,7 +471,6 @@ begin
 
   if sec2 = nil then
     exit; // No matching sector to move
-
 
   newx := pmo.x - sec1.bbox[BOXLEFT] + sec2.bbox[BOXLEFT];
   newy := pmo.y - sec1.bbox[BOXTOP] + sec2.bbox[BOXTOP];

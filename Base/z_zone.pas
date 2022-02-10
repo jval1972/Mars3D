@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -60,31 +60,109 @@ const
   PU_CACHE = 101;
   PU_HITAG = 101;
 
+//==============================================================================
+//
+// Z_Init
+//
+//==============================================================================
 procedure Z_Init;
+
+//==============================================================================
+//
+// Z_ShutDown
+//
+//==============================================================================
 procedure Z_ShutDown;
 
+//==============================================================================
+//
+// Z_Malloc
+//
+//==============================================================================
 function Z_Malloc(size: integer; tag: integer; user: pointer): pointer;
+
+//==============================================================================
+//
+// Z_Malloc2
+//
+//==============================================================================
 function Z_Malloc2(size: integer; tag: integer; user: pointer): pointer;
+
+//==============================================================================
+//
+// Z_Realloc
+//
+//==============================================================================
 function Z_Realloc(ptr: pointer; size: integer; tag: integer; user: pointer): pointer;
 
+//==============================================================================
+//
+// Z_Free
+//
+//==============================================================================
 procedure Z_Free(ptr: pointer);
 
+//==============================================================================
+//
+// Z_FreeTags
+//
+//==============================================================================
 function Z_FreeTags(lowtag: integer; hightag: integer): boolean;
 
+//==============================================================================
+//
+// Z_DumpHeap
+//
+//==============================================================================
 procedure Z_DumpHeap(lowtag: integer; hightag: integer);
 
+//==============================================================================
+//
+// Z_FileDumpHeapf
+//
+//==============================================================================
 procedure Z_FileDumpHeapf(var f: file);
 
+//==============================================================================
+//
+// Z_FileDumpHeap
+//
+//==============================================================================
 procedure Z_FileDumpHeap(const filename: string);
 
+//==============================================================================
+//
+// Z_CheckMemory
+//
+//==============================================================================
 procedure Z_CheckMemory;
 
+//==============================================================================
+//
+// Z_CheckHeap
+//
+//==============================================================================
 procedure Z_CheckHeap;
 
+//==============================================================================
+//
+// Z_ChangeTag
+//
+//==============================================================================
 procedure Z_ChangeTag(ptr: pointer; tag: integer);
 
+//==============================================================================
+//
+// Z_FreeMemory
+//
+//==============================================================================
 function Z_FreeMemory: integer;
 
+//==============================================================================
+//
+// Z_CacheMemory
+//
+//==============================================================================
 function Z_CacheMemory: integer;
 
 // including the header and possibly tiny fragments
@@ -140,9 +218,11 @@ type
 var
   mainzone: Pmemzone_t;
 
+//==============================================================================
 //
 // Z_FreeMemory
 //
+//==============================================================================
 function Z_FreeMemory: integer;
 var
   block: Pmemblock_t;
@@ -158,6 +238,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Z_CacheMemory
+//
+//==============================================================================
 function Z_CacheMemory: integer;
 var
   block: Pmemblock_t;
@@ -173,6 +258,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Z_CmdZoneMem
+//
+//==============================================================================
 procedure Z_CmdZoneMem;
 var
   fr: integer;
@@ -188,6 +278,11 @@ begin
   printf('%6d KB zone memory available for Z_Malloc().'#13#10, [fr div 1024]);
 end;
 
+//==============================================================================
+//
+// Z_CmdMem
+//
+//==============================================================================
 procedure Z_CmdMem;
 var
   imgsize: integer;
@@ -205,6 +300,11 @@ begin
   I_Warning('Z_CmdMem(): Old zone code is obsolete.'#13#10);
 end;
 
+//==============================================================================
+//
+// Z_CmdZoneMemDump
+//
+//==============================================================================
 procedure Z_CmdZoneMemDump(const parm1, parm2: string);
 var
   lowtag: integer;
@@ -226,9 +326,11 @@ begin
     Z_DumpHeap(PU_LOTAG, PU_HITAG);
 end;
 
+//==============================================================================
 //
 // Z_Init
 //
+//==============================================================================
 procedure Z_Init;
 var
   block: Pmemblock_t;
@@ -263,52 +365,75 @@ begin
 
 end;
 
+//==============================================================================
+//
+// Z_ShutDown
+//
+//==============================================================================
 procedure Z_ShutDown;
 begin
   memmanager.Free;
   I_ZoneFree(pointer(mainzone));
 end;
 
+//==============================================================================
 //
 // Z_Free
 //
+//==============================================================================
 procedure Z_Free(ptr: pointer);
 begin
   memmanager.M_Free(ptr);
 end;
 
+//==============================================================================
 //
 // Z_Malloc
 // You can pass a NULL user if the tag is < PU_PURGELEVEL.
 //
+//==============================================================================
 function Z_Malloc(size: integer; tag: integer; user: pointer): pointer;
 begin
   result := memmanager.M_Malloc(size, tag, user);
 end;
 
+//==============================================================================
+//
+// Z_Malloc2
+//
+//==============================================================================
 function Z_Malloc2(size: integer; tag: integer; user: pointer): pointer;
 begin
   result := memmanager.M_Malloc(size, tag, user);
 end;
 
+//==============================================================================
+//
+// Z_Realloc
+//
+//==============================================================================
 function Z_Realloc(ptr: pointer; size: integer; tag: integer; user: pointer): pointer;
 begin
   result := memmanager.M_Realloc(ptr, size, tag, user);
 end;
 
+//==============================================================================
 //
 // Z_FreeTags
 //
+//==============================================================================
 function Z_FreeTags(lowtag: integer; hightag: integer): boolean;
 begin
   memmanager.M_FreeTags(lowtag, hightag);
   result := True;
 end;
 
+//==============================================================================
 //
 // Z_DumpHeap
 // Note: TFileDumpHeap( stdout ) ?
 //
+//==============================================================================
 procedure Z_DumpHeap(lowtag: integer; hightag: integer);
 var
   block: Pmemblock_t;
@@ -346,6 +471,11 @@ begin
   I_Warning('Z_DumpHeap(): Old zone code is obsolete.'#13#10);
 end;
 
+//==============================================================================
+//
+// Z_FileDumpHeapf
+//
+//==============================================================================
 procedure Z_FileDumpHeapf(var f: file);
 var
   block: Pmemblock_t;
@@ -379,6 +509,11 @@ begin
   I_Warning('Z_DumpHeap(): Old zone code is obsolete.'#13#10);
 end;
 
+//==============================================================================
+//
+// Z_FileDumpHeap
+//
+//==============================================================================
 procedure Z_FileDumpHeap(const filename: string);
 var
   f: file;
@@ -398,9 +533,11 @@ begin
     I_Warning('Z_FileDumpHeap(): Can not create output file: %s'#13#10, [filename]);
 end;
 
+//==============================================================================
 //
 // Z_CheckMemory
 //
+//==============================================================================
 procedure Z_CheckMemory;
 var
   block: Pmemblock_t;
@@ -414,9 +551,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // Z_CheckHeap
 //
+//==============================================================================
 procedure Z_CheckHeap;
 var
   block: Pmemblock_t;
@@ -443,9 +582,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // Z_ChangeTag
 //
+//==============================================================================
 procedure Z_ChangeTag(ptr: pointer; tag: integer);
 begin
   memmanager.M_ChangeTag(ptr, tag);

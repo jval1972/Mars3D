@@ -450,7 +450,6 @@ const
   // Ignore full_sounds console variable and never finishes sounds
   MF4_EX_NEVERFINISHSOUND = $1000000;
 
-
 type
   // Same as degenmobj_t
   soundorg_t = packed record

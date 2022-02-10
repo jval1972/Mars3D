@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -40,13 +40,33 @@ uses
   d_delphi,
   r_defs;
 
+//==============================================================================
+// R_ClearClipSegs
+//
 // BSP?
+//
+//==============================================================================
 procedure R_ClearClipSegs;
+
+//==============================================================================
+//
+// R_ClearDrawSegs
+//
+//==============================================================================
 procedure R_ClearDrawSegs;
 
-
+//==============================================================================
+//
+// R_RenderBSPNode
+//
+//==============================================================================
 procedure R_RenderBSPNode(bspnum: integer);
 
+//==============================================================================
+//
+// R_FakeFlat
+//
+//==============================================================================
 function R_FakeFlat(sec: Psector_t; tempsec: Psector_t;
   floorlightlevel, ceilinglightlevel: PSmallInt; back: boolean): Psector_t;
 
@@ -66,6 +86,11 @@ var
   drawsegs: array[0..MAXDRAWSEGS - 1] of Pdrawseg_t;
   doorclosed: boolean;
 
+//==============================================================================
+//
+// R_UnderWater
+//
+//==============================================================================
 function R_UnderWater: boolean;
 
 implementation
@@ -96,6 +121,8 @@ uses
   gl_clipper, // JVAL OPENGL
   gl_defs{$ENDIF}; // JVAL OPENGL
 
+//==============================================================================
+// R_FakeFlat
 //
 // killough 3/7/98: Hack floor/ceiling heights for deep water etc.
 //
@@ -108,7 +135,7 @@ uses
 //
 // killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
 //
-
+//==============================================================================
 function R_FakeFlat(sec: Psector_t; tempsec: Psector_t;
   floorlightlevel, ceilinglightlevel: PSmallInt; back: boolean): Psector_t;
 var
@@ -151,7 +178,6 @@ begin
 
     tempsec.floorheight := ss.floorheight;
     tempsec.ceilingheight := ss.ceilingheight;
-
 
     // Replace floor and ceiling height with other sector's heights.
     if (underwater and notback1) or (viewz <= ss.floorheight) then
@@ -265,6 +291,11 @@ begin
   result := sec;
 end;
 
+//==============================================================================
+//
+// R_UnderWater
+//
+//==============================================================================
 function R_UnderWater: boolean;
 begin
   if viewplayer <> nil then
@@ -277,9 +308,11 @@ begin
   result := false;
 end;
 
+//==============================================================================
 //
 // R_ClearDrawSegs
 //
+//==============================================================================
 procedure R_ClearDrawSegs;
 begin
   ds_p := 0;
@@ -327,6 +360,12 @@ var
 //  that entirely block the view.
 //
 {$IFNDEF OPENGL}
+
+//==============================================================================
+//
+// R_ClipSolidWallSegment
+//
+//==============================================================================
 procedure R_ClipSolidWallSegment(first, last: integer);
 var
   next: Pcliprange_t;
@@ -418,6 +457,7 @@ begin
   crunch;
 end;
 
+//==============================================================================
 //
 // R_ClipPassWallSegment
 // Clips the given range of columns,
@@ -425,6 +465,7 @@ end;
 // Does handle windows,
 //  e.g. LineDefs with upper and lower texture.
 //
+//==============================================================================
 procedure R_ClipPassWallSegment(first, last: integer);
 var
   start: Pcliprange_t;
@@ -470,9 +511,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
 //
 // R_ClearClipSegs
 //
+//==============================================================================
 procedure R_ClearClipSegs;
 begin
   newend := @solidsegs[0];
@@ -494,6 +537,11 @@ var
 var
   tempsec_back, tempsec_front: sector_t;
 
+//==============================================================================
+//
+// R_CheckClip
+//
+//==============================================================================
 function R_CheckClip(seg: Pseg_t; frontsector, backsector: Psector_t): boolean;
 begin
   backsector := R_FakeFlat(backsector, @tempsec_back, nil, nil, true);
@@ -560,12 +608,17 @@ begin
   result := false;
 end;
 {$ELSE}
+
+//==============================================================================
+// R_DoorClosed
+//
 // killough 1/18/98 -- This function is used to fix the automap bug which
 // showed lines behind closed doors simply because the door had a dropoff.
 //
 // It assumes that Doom has already ruled out a door being closed because
 // of front-back closure (e.g. front floor is taller than back ceiling).
-
+//
+//==============================================================================
 function R_DoorClosed: boolean;
 begin
   result :=
@@ -586,11 +639,13 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
 //
 // R_AddLine
 // Clips the given segment
 // and adds any visible pieces to the line list.
 //
+//==============================================================================
 procedure R_AddLine(line: Pseg_t);
 var
 {$IFNDEF OPENGL}
@@ -785,6 +840,11 @@ const
     (0, 0, 0, 0)
   );
 
+//==============================================================================
+//
+// R_CheckBBox
+//
+//==============================================================================
 function R_CheckBBox(bspcoordA: Pfixed_tArray; const side: integer): boolean;
 var
   bspcoord: Pfixed_tArray;
@@ -891,7 +951,6 @@ begin
     angle2 := -clipangle;
   end;
 
-
   // Find the first clippost
   //  that touches the source post
   //  (adjacent pixels are touching).
@@ -928,6 +987,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// R_SectorFloorFlat
+//
+//==============================================================================
 function R_SectorFloorFlat(const sec: Psector_t): integer;
 begin
   result := sec.floorpic;
@@ -936,6 +1000,11 @@ begin
       result := sec.sky;
 end;
 
+//==============================================================================
+//
+// R_SectorCeilingFlat
+//
+//==============================================================================
 function R_SectorCeilingFlat(const sec: Psector_t): integer;
 begin
   result := sec.ceilingpic;
@@ -944,12 +1013,14 @@ begin
       result := sec.sky;
 end;
 
+//==============================================================================
 //
 // R_Subsector
 // Determine floor/ceiling planes.
 // Add sprites of things in sector.
 // Draw one or more line segments.
 //
+//==============================================================================
 procedure R_Subsector(const num: integer);
 var
   count: integer;
@@ -1227,11 +1298,15 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+// R_RenderBSPNode
 //
 // RenderBSPNode
 // Renders all subsectors below a given node,
 //  traversing subtree recursively.
 // Just call with BSP root.
+//
+//==============================================================================
 procedure R_RenderBSPNode(bspnum: integer);
 var
   bsp: Pnode_t;

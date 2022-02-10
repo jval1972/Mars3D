@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -38,8 +38,18 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// Mars2Stream_Game
+//
+//==============================================================================
 procedure Mars2Stream_Game(const handle: TDStream);
 
+//==============================================================================
+//
+// Mars2WAD_Game
+//
+//==============================================================================
 procedure Mars2WAD_Game(const fout: string);
 
 implementation
@@ -101,12 +111,22 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.Clear
+//
+//==============================================================================
 procedure TMarsToWADConverter.Clear;
 begin
   if wadwriter <> nil then
     wadwriter.Free;
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.ReadFile
+//
+//==============================================================================
 function TMarsToWADConverter.ReadFile(const aname: string; var p: pointer; var sz: integer): boolean;
 var
   fname: string;
@@ -140,6 +160,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.GeneratePalette
+//
+//==============================================================================
 function TMarsToWADConverter.GeneratePalette: boolean;
 var
   p: pointer;
@@ -204,6 +229,11 @@ begin
   wadwriter.AddData('PLAYPAL', @playpal, SizeOf(playpal));
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.GenerateTranslationTables
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateTranslationTables: boolean;
 var
   p: pointer;
@@ -224,6 +254,11 @@ begin
   memfree(p, size);
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.GenerateMenuTranslation
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateMenuTranslation: boolean;
 var
   trn: packed array[0..255] of byte;
@@ -237,6 +272,11 @@ begin
   wadwriter.AddData('TR_MENU', @trn, 256);
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.GenerateFonts
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateFonts: boolean;
 const
   NUM_SMALL_FONT_COLORS = 5;
@@ -476,7 +516,12 @@ begin
   memfree(pointer(imgout), 18 * 21);
 end;
 
+//==============================================================================
+// TMarsToWADConverter.GenerateDosFonts
+//
 // Generate DOS font in various colors
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateDosFonts: boolean;
 const
   NUM_DOS_FONT_COLORS = 2;
@@ -555,6 +600,11 @@ begin
   memfree(pointer(imgout), 8 * 8);
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.GenerateMarsFonts
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateMarsFonts: boolean;
 const
   NUM_MARS_FONT_COLORS = 2;
@@ -683,6 +733,11 @@ begin
   memfree(pointer(imgout), 8 * 16);
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.GenerateMusic
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateMusic: boolean;
 var
   xmifilename: string;
@@ -731,6 +786,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.GenerateSounds
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateSounds: boolean;
 var
   i: integer;
@@ -749,6 +809,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.GenerateLevels
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateLevels: boolean;
 var
   wadreader: TWadReader;
@@ -786,6 +851,11 @@ var
     $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
   );
 
+//==============================================================================
+//
+// TMarsToWADConverter.GenerateSprites
+//
+//==============================================================================
 function TMarsToWADConverter.GenerateSprites: boolean;
 var
   wadreader: TWadReader;
@@ -855,10 +925,14 @@ begin
     memfree(buf, sz);
   end;
 
-
   wadreader.Free;
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.ConvertGame
+//
+//==============================================================================
 procedure TMarsToWADConverter.ConvertGame;
 begin
   Clear;
@@ -877,16 +951,31 @@ begin
   GenerateSprites;
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.SavetoFile
+//
+//==============================================================================
 procedure TMarsToWADConverter.SavetoFile(const fname: string);
 begin
   wadwriter.SaveToFile(fname);
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.SavetoStream
+//
+//==============================================================================
 procedure TMarsToWADConverter.SavetoStream(const strm: TDStream);
 begin
   wadwriter.SaveToStream(strm);
 end;
 
+//==============================================================================
+//
+// Mars2Stream_Game
+//
+//==============================================================================
 procedure Mars2Stream_Game(const handle: TDStream);
 var
   cnv: TMarsToWADConverter;
@@ -900,6 +989,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Mars2WAD_Game
+//
+//==============================================================================
 procedure Mars2WAD_Game(const fout: string);
 var
   cnv: TMarsToWADConverter;

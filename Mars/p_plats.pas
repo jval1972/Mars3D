@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -42,16 +42,46 @@ uses
 var
   activeplats: array[0..MAXPLATS - 1] of Pplat_t;
 
+//==============================================================================
+//
+// T_PlatRaise
+//
+//==============================================================================
 procedure T_PlatRaise(plat: Pplat_t);
 
+//==============================================================================
+//
+// EV_DoPlat
+//
+//==============================================================================
 function EV_DoPlat(line: Pline_t; _type: plattype_e; amount: integer): integer;
 
+//==============================================================================
+//
+// P_ActivateInStasis
+//
+//==============================================================================
 procedure P_ActivateInStasis(tag: integer);
 
+//==============================================================================
+//
+// EV_StopPlat
+//
+//==============================================================================
 function EV_StopPlat(line: Pline_t): integer;
 
+//==============================================================================
+//
+// P_AddActivePlat
+//
+//==============================================================================
 procedure P_AddActivePlat(plat: Pplat_t);
 
+//==============================================================================
+//
+// P_RemoveActivePlat
+//
+//==============================================================================
 procedure P_RemoveActivePlat(plat: Pplat_t);
 
 implementation
@@ -72,6 +102,11 @@ uses
   sounds,
   z_zone;
 
+//==============================================================================
+//
+// T_PlatRaise
+//
+//==============================================================================
 procedure T_PlatRaise(plat: Pplat_t);
 var
   res: result_e;
@@ -166,10 +201,13 @@ begin
   end;
 end;
 
+//==============================================================================
+// EV_DoPlat
 //
 // Do Platforms
 //  "amount" is only used for SOME platforms.
 //
+//==============================================================================
 function EV_DoPlat(line: Pline_t; _type: plattype_e; amount: integer): integer;
 var
   plat: Pplat_t;
@@ -293,6 +331,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_ActivateInStasis
+//
+//==============================================================================
 procedure P_ActivateInStasis(tag: integer);
 var
   i: integer;
@@ -314,7 +357,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// EV_StopPlat
+//
+//==============================================================================
 function EV_StopPlat(line: Pline_t): integer;
 var
   i: integer;
@@ -336,6 +383,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_AddActivePlat
+//
+//==============================================================================
 procedure P_AddActivePlat(plat: Pplat_t);
 var
   i: integer;
@@ -350,6 +402,11 @@ begin
   I_Error('P_AddActivePlat(): no more plats!');
 end;
 
+//==============================================================================
+//
+// P_RemoveActivePlat
+//
+//==============================================================================
 procedure P_RemoveActivePlat(plat: Pplat_t);
 var
   i: integer;

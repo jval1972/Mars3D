@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -233,6 +233,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TFLIFile.SetActive
+//
+//==============================================================================
 procedure TFLIFile.SetActive(Value: boolean);
 begin
   if fActive = Value then
@@ -244,6 +249,11 @@ begin
     Interval := 0;
 end;
 
+//==============================================================================
+//
+// TFLIFile.SetFliFile
+//
+//==============================================================================
 procedure TFLIFile.SetFliFile(Value: string);
 var
   Header: fliheader_t;
@@ -302,11 +312,21 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.SetInterval
+//
+//==============================================================================
 procedure TFLIFile.SetInterval(Value: word);
 begin
   fInterval := Value;
 end;
 
+//==============================================================================
+//
+// TFLIFile.NextFrame
+//
+//==============================================================================
 procedure TFLIFile.NextFrame;
 var
   FrameHeader: frameheader_t;
@@ -332,6 +352,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.DrawFrame
+//
+//==============================================================================
 procedure TFLIFile.DrawFrame(const FrameData: Pointer; Chunks: word);
 var
   Chunk: Pflichunk_t;
@@ -373,6 +398,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.FliPalette
+//
+//==============================================================================
 procedure TFLIFile.FliPalette(const PaletteData: Pflipalentries_t);
 var
   Color: word;
@@ -407,6 +437,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.FliPalette256
+//
+//==============================================================================
 procedure TFLIFile.FliPalette256(const PaletteData: Pflipalentries_t);
 var
   Color: word;
@@ -441,6 +476,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.UnPackData
+//
+//==============================================================================
 function TFLIFile.UnPackData(var x: smallint; y: smallint; const Data: Pflidatapacket_t;
   Size: word): word;
 begin
@@ -458,6 +498,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.FliDrawPartial
+//
+//==============================================================================
 procedure TFLIFile.FliDrawPartial(const DrawData: Pflidraw_t);
 var
   Packet: Pflidrawpacket_t;
@@ -486,6 +531,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.FliDrawPartialW
+//
+//==============================================================================
 procedure TFLIFile.FliDrawPartialW(var DrawData);
 var
   fpos: integer;
@@ -577,7 +627,11 @@ begin
    end;
  end;
 
-
+//==============================================================================
+//
+// TFLIFile.FliBrun
+//
+//==============================================================================
 procedure TFLIFile.FliBrun(const BrunData: Pflibrun_t);
 var
   x, y: smallint;
@@ -602,6 +656,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.FliCopy
+//
+//==============================================================================
 procedure TFLIFile.FliCopy(const CopyData: Pbitmapdata_t);
 var
   i: integer;
@@ -614,6 +673,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.GetPalette
+//
+//==============================================================================
 procedure TFLIFile.GetPalette(const pl: Pflipalette_t);
 var
   i: integer;
@@ -622,6 +686,11 @@ begin
     pl[i] := fpalette[i];
 end;
 
+//==============================================================================
+//
+// TFLIFile.GetFrameImage8
+//
+//==============================================================================
 function TFLIFile.GetFrameImage8(const frm: integer; const scn8: Pfliscreen8_t): boolean;
 var
   i: integer;
@@ -651,6 +720,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFLIFile.GetFrameImage32
+//
+//==============================================================================
 function TFLIFile.GetFrameImage32(const frm: integer; const scn32: Pfliscreen32_t): boolean;
 var
   i: Integer;

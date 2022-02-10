@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -55,6 +55,12 @@ uses
 { Initialize postprocessing controller. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_d_post_controller 
+//
+//==============================================================================
 procedure jinit_d_post_controller (cinfo: j_decompress_ptr;
                                    need_full_buffer: boolean);
 implementation
@@ -84,17 +90,35 @@ type
 
 { Forward declarations }
 {METHODDEF}
+
+//==============================================================================
+//
+// post_process_1pass
+//
+//==============================================================================
 procedure post_process_1pass(cinfo: j_decompress_ptr; input_buf: JSAMPIMAGE;
   var in_row_group_ctr: JDIMENSION; in_row_groups_avail: JDIMENSION;
   output_buf: JSAMPARRAY; var out_row_ctr: JDIMENSION;
   out_rows_avail: JDIMENSION); far; forward;
 {$ifdef QUANT_2PASS_SUPPORTED}
 {METHODDEF}
+
+//==============================================================================
+//
+// post_process_prepass
+//
+//==============================================================================
 procedure post_process_prepass(cinfo: j_decompress_ptr; input_buf: JSAMPIMAGE;
   var in_row_group_ctr: JDIMENSION; in_row_groups_avail: JDIMENSION;
   output_buf: JSAMPARRAY; var out_row_ctr: JDIMENSION;
   out_rows_avail: JDIMENSION); far;  forward;
 {METHODDEF}
+
+//==============================================================================
+//
+// post_process_2pass
+//
+//==============================================================================
 procedure post_process_2pass(cinfo: j_decompress_ptr;
                   input_buf: JSAMPIMAGE;
                              var in_row_group_ctr: JDIMENSION;
@@ -104,10 +128,15 @@ procedure post_process_2pass(cinfo: j_decompress_ptr;
                  out_rows_avail: JDIMENSION); far;  forward;
 {$endif}
 
-
 { Initialize for a processing pass. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// start_pass_dpost 
+//
+//==============================================================================
 procedure start_pass_dpost (cinfo: j_decompress_ptr; pass_mode: J_BUF_MODE); far;
 var
   post: my_post_ptr;
@@ -161,11 +190,16 @@ begin
   post^.starting_row := 0;
 end;
 
-
 { Process some data in the one-pass (strip buffer) case.
   This is used for color precision reduction as well as one-pass quantization. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// post_process_1pass 
+//
+//==============================================================================
 procedure post_process_1pass (cinfo: j_decompress_ptr; input_buf: JSAMPIMAGE;
   var in_row_group_ctr: JDIMENSION; in_row_groups_avail: JDIMENSION;
   output_buf: JSAMPARRAY; var out_row_ctr: JDIMENSION; out_rows_avail: JDIMENSION);
@@ -198,12 +232,17 @@ begin
   inc(out_row_ctr, num_rows);
 end;
 
-
 {$ifdef QUANT_2PASS_SUPPORTED}
 
 { Process some data in the first pass of 2-pass quantization. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// post_process_prepass
+//
+//==============================================================================
 procedure post_process_prepass(cinfo: j_decompress_ptr; input_buf: JSAMPIMAGE;
   var in_row_group_ctr: JDIMENSION; in_row_groups_avail: JDIMENSION;
   output_buf: JSAMPARRAY; var out_row_ctr: JDIMENSION; out_rows_avail:JDIMENSION);
@@ -233,7 +272,6 @@ begin
   begin
     num_rows := post^.next_row - old_next_row;
 
-
     cinfo^.cquantize^.color_quantize (cinfo,
                       JSAMPARRAY(@ post^.buffer^[old_next_row]),
       JSAMPARRAY(nil),
@@ -249,10 +287,15 @@ begin
   end;
 end;
 
-
 { Process some data in the second pass of 2-pass quantization. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// post_process_2pass
+//
+//==============================================================================
 procedure post_process_2pass(cinfo: j_decompress_ptr; input_buf: JSAMPIMAGE;
   var in_row_group_ctr: JDIMENSION; in_row_groups_avail: JDIMENSION;
   output_buf: JSAMPARRAY; var out_row_ctr: JDIMENSION; out_rows_avail: JDIMENSION);
@@ -298,10 +341,15 @@ end;
 
 {$endif} { QUANT_2PASS_SUPPORTED }
 
-
 { Initialize postprocessing controller. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_d_post_controller 
+//
+//==============================================================================
 procedure jinit_d_post_controller (cinfo: j_decompress_ptr;
                                    need_full_buffer: boolean);
 var

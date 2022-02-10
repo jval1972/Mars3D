@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -38,6 +38,11 @@ interface
 uses
   r_defs;
 
+//==============================================================================
+//
+// MARS_SpawnBrokenGlass
+//
+//==============================================================================
 procedure MARS_SpawnBrokenGlass(line: Pline_t);
 
 implementation
@@ -60,6 +65,11 @@ var
   MT_GLASS2: integer = -2;
   MT_GLASS3: integer = -2;
 
+//==============================================================================
+//
+// MARS_SpawnBrokenGlass
+//
+//==============================================================================
 procedure MARS_SpawnBrokenGlass(line: Pline_t);
 const
   DEBRIS_STEP = 32 * FRACUNIT;
@@ -115,7 +125,6 @@ begin
   for i := 0 to 2 do
     if A[i] < 0 then
       exit; // At this point we didn't find any glass debris :(
-
 
   dx := x2 - x1;
   dy := y2 - y1;

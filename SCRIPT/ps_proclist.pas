@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -86,7 +86,6 @@ begin
   inherited Create;
 end;
 
-
 destructor TProcedureList.Destroy;
 var
   i: integer;
@@ -106,6 +105,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TProcedureList.Add
+//
+//==============================================================================
 procedure TProcedureList.Add(const decl: string; const proc: pointer);
 const
   REALLOCSTEP = 16;
@@ -138,6 +142,11 @@ begin
   inc(fNumItems);
 end;
 
+//==============================================================================
+//
+// TProcedureList.AddWithCustomResult
+//
+//==============================================================================
 procedure TProcedureList.AddWithCustomResult(const decl: string; const ret: string;
       const decl2: string; proc: pointer);
 const
@@ -172,6 +181,11 @@ begin
   inc(fNumItems);
 end;
 
+//==============================================================================
+//
+// TProcedureList.RegisterProcsComp
+//
+//==============================================================================
 procedure TProcedureList.RegisterProcsComp(Sender: TPSPascalCompiler);
 var
   i: integer;
@@ -191,6 +205,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TProcedureList.RegisterProcsExec
+//
+//==============================================================================
 procedure TProcedureList.RegisterProcsExec(Sender: TPSExec);
 var
   i: integer;
@@ -200,6 +219,11 @@ begin
       Sender.RegisterDelphiFunction(fList[i].proc, fList[i].name.str, cdRegister);
 end;
 
+//==============================================================================
+//
+// TProcedureList.Reset
+//
+//==============================================================================
 procedure TProcedureList.Reset;
 var
   i: integer;
@@ -208,6 +232,11 @@ begin
     fList[i].iscomputed := false;
 end;
 
+//==============================================================================
+//
+// TProcedureList.GetDeclarations
+//
+//==============================================================================
 function TProcedureList.GetDeclarations: string;
 var
   i: integer;
@@ -217,6 +246,11 @@ begin
     Result := Result + flist[i].exportdecl.str + #13#10;
 end;
 
+//==============================================================================
+//
+// TProcedureList.GetFunctionNames
+//
+//==============================================================================
 function TProcedureList.GetFunctionNames: string;
 var
   i: integer;

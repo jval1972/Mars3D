@@ -39,20 +39,50 @@ uses
   d_player,
   d_event;
 
+//==============================================================================
+//
+// MARS_InitIntermission
+//
+//==============================================================================
 procedure MARS_InitIntermission;
 
+//==============================================================================
+//
+// MARS_ShutDownIntermission
+//
+//==============================================================================
 procedure MARS_ShutDownIntermission;
 
+//==============================================================================
+//
+// MARS_IntermissionResponder
+//
+//==============================================================================
 function MARS_IntermissionResponder(ev: Pevent_t): boolean;
 
+//==============================================================================
+// MARS_Intermission_Ticker
+//
 // Called by main loop
+//
+//==============================================================================
 procedure MARS_Intermission_Ticker;
 
+//==============================================================================
+// MARS_Intermission_Drawer
+//
 // Called by main loop,
 // draws the intermission screens directly into the screen buffer.
+//
+//==============================================================================
 procedure MARS_Intermission_Drawer;
 
+//==============================================================================
+// MARS_Intermission_Start
+//
 // Setup the intermission screens.
+//
+//==============================================================================
 procedure MARS_Intermission_Start(wbstartstruct: Pwbstartstruct_t);
 
 var
@@ -105,11 +135,21 @@ var
   anm_autoadvance: boolean;
   anm_frametics: integer;
 
+//==============================================================================
+//
+// MARS_InitIntermission
+//
+//==============================================================================
 procedure MARS_InitIntermission;
 begin
   in_lumps := TDNumberList.Create;
 end;
 
+//==============================================================================
+//
+// MARS_ShutDownIntermission
+//
+//==============================================================================
 procedure MARS_ShutDownIntermission;
 begin
   in_lumps.Free;
@@ -143,6 +183,11 @@ var
     false
   );
 
+//==============================================================================
+//
+// MARS_IntermissionAdvanceStage
+//
+//==============================================================================
 procedure MARS_IntermissionAdvanceStage;
 begin
   inc(in_stage);
@@ -155,6 +200,11 @@ begin
     G_WorldDone;
 end;
 
+//==============================================================================
+//
+// MARS_IntermissionAdvance
+//
+//==============================================================================
 procedure MARS_IntermissionAdvance;
 begin
   case in_stage of
@@ -241,6 +291,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_IntermissionResponder
+//
+//==============================================================================
 function MARS_IntermissionResponder(ev: Pevent_t): boolean;
 begin
   if ev._type <> ev_keydown then
@@ -260,6 +315,11 @@ end;
 var
   in_music_changed: boolean;
 
+//==============================================================================
+//
+// MARS_Intermission_Ticker
+//
+//==============================================================================
 procedure MARS_Intermission_Ticker;
 begin
   inc(in_tic);
@@ -289,6 +349,11 @@ begin
         MARS_IntermissionAdvance;
 end;
 
+//==============================================================================
+//
+// MARS_Intermission_Drawer1
+//
+//==============================================================================
 procedure MARS_Intermission_Drawer1;
 var
   p: Ppatch_t;
@@ -303,6 +368,11 @@ begin
     memset(screens[SCN_IN], aprox_black, 320 * 200);
 end;
 
+//==============================================================================
+//
+// MI_CheckANMInfo
+//
+//==============================================================================
 procedure MI_CheckANMInfo(const anm: TANMFile; const inf: Panminfo_t);
 begin
   if (inf.maxframe < 0) or (inf.maxframe >= anm.FrameCount) then
@@ -313,6 +383,11 @@ begin
     inf.repeatframe := 0;
 end;
 
+//==============================================================================
+//
+// MI_DrawAnim
+//
+//==============================================================================
 procedure MI_DrawAnim;
 var
   anm: TANMFile;
@@ -352,11 +427,21 @@ begin
   anmstrm.Free;
 end;
 
+//==============================================================================
+//
+// MARS_Intermission_Drawer2
+//
+//==============================================================================
 procedure MARS_Intermission_Drawer2;
 begin
   MI_DrawAnim;
 end;
 
+//==============================================================================
+//
+// MARS_Intermission_Drawer3
+//
+//==============================================================================
 procedure MARS_Intermission_Drawer3;
 var
   c1, c2, c3, c4: Byte;
@@ -436,6 +521,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_Intermission_Drawer
+//
+//==============================================================================
 procedure MARS_Intermission_Drawer;
 begin
   case in_stage of
@@ -456,6 +546,11 @@ begin
   V_FullScreenStretch;
 end;
 
+//==============================================================================
+//
+// MARS_Intermission_Start
+//
+//==============================================================================
 procedure MARS_Intermission_Start(wbstartstruct: Pwbstartstruct_t);
 var
   i: integer;

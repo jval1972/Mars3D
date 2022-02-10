@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -39,8 +39,18 @@ uses
   p_mobj_h,
   r_defs;
 
+//==============================================================================
+//
+// P_WallBounceMobj
+//
+//==============================================================================
 procedure P_WallBounceMobj(const mo: Pmobj_t; const line: Pline_t);
 
+//==============================================================================
+//
+// P_MobjBounceMobj
+//
+//==============================================================================
 procedure P_MobjBounceMobj(const mo: Pmobj_t; const othermo: Pmobj_t);
 
 implementation
@@ -51,6 +61,11 @@ uses
   p_map,
   r_main;
 
+//==============================================================================
+//
+// MARS_PointLineSqrDistance
+//
+//==============================================================================
 function MARS_PointLineSqrDistance(const x, y: fixed_t; const line: Pline_t): integer;
 var
   A, B, C, D: integer;
@@ -101,6 +116,11 @@ begin
   result := (dx * dx) + (dy * dy);
 end;
 
+//==============================================================================
+//
+// P_WallBounceMobj
+//
+//==============================================================================
 procedure P_WallBounceMobj(const mo: Pmobj_t; const line: Pline_t);
 var
   s1, s2: boolean;
@@ -132,6 +152,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_MobjBounceMobj
+//
+//==============================================================================
 procedure P_MobjBounceMobj(const mo: Pmobj_t; const othermo: Pmobj_t);
 var
   d, wall, reflect: vec2_t;
@@ -145,6 +170,5 @@ begin
   mo.momy := Round(reflect[1] * FRACUNIT);
   mo.angle := R_PointToAngle2(0, 0, mo.momx, mo.momy);
 end;
-
 
 end.

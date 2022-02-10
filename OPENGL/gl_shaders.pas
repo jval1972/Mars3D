@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -41,8 +41,18 @@ interface
 uses
   dglOpenGL;
 
+//==============================================================================
+//
+// gld_InitShaders
+//
+//==============================================================================
 procedure gld_InitShaders;
 
+//==============================================================================
+//
+// gld_ShadersDone
+//
+//==============================================================================
 procedure gld_ShadersDone;
 
 implementation
@@ -67,6 +77,11 @@ var
   shaders: Pshader_tArray;
   numshaders: integer;
 
+//==============================================================================
+//
+// gld_LoadShader
+//
+//==============================================================================
 function gld_LoadShader(const fs, vs: string): GLHandleARB;
 var
   fsObj, vsObj: GLHandleARB;
@@ -132,6 +147,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// gld_AddShader
+//
+//==============================================================================
 function gld_AddShader(const fs, vs: string): integer;
 var
   i: integer;
@@ -158,6 +178,11 @@ begin
   ps.handle := gld_LoadShader(fs1, vs1);
 end;
 
+//==============================================================================
+//
+// gld_InitShaders
+//
+//==============================================================================
 procedure gld_InitShaders;
 begin
   Read_GL_ARB_Shader_Objects;
@@ -165,7 +190,11 @@ begin
   numshaders := 0;
 end;
 
-
+//==============================================================================
+//
+// gld_ShadersDone
+//
+//==============================================================================
 procedure gld_ShadersDone;
 var
   i: integer;

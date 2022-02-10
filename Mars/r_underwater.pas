@@ -38,10 +38,25 @@ interface
 uses
   d_player;
 
+//==============================================================================
+//
+// R_InitUnderwater
+//
+//==============================================================================
 procedure R_InitUnderwater;
 
+//==============================================================================
+//
+// R_ShutDownUnderwater
+//
+//==============================================================================
 procedure R_ShutDownUnderwater;
 
+//==============================================================================
+//
+// R_UnderwaterExecute
+//
+//==============================================================================
 procedure R_UnderwaterExecute(const p: Pplayer_t);
 
 implementation
@@ -75,6 +90,11 @@ var
 const
   U_CALC_INTERVAL = FRACUNIT div LONGTICS_FACTOR;
 
+//==============================================================================
+//
+// R_UnderwaterCalcX
+//
+//==============================================================================
 procedure R_UnderwaterCalcX;
 var
   i: integer;
@@ -84,6 +104,11 @@ begin
     u.XDisp[i] := Trunc(fixedsine[(i * U_CALC_INTERVAL) div uviewwidth] / FRACUNIT * u_disp_strength_pct * uviewwidth / 100);
 end;
 
+//==============================================================================
+//
+// R_UnderwaterCalcY
+//
+//==============================================================================
 procedure R_UnderwaterCalcY;
 var
   i: integer;
@@ -93,6 +118,11 @@ begin
     u.YDisp[i] := Trunc(fixedcosine[(i * U_CALC_INTERVAL) div uviewheight] / FRACUNIT * u_disp_strength_pct * uviewheight / 100);
 end;
 
+//==============================================================================
+//
+// R_InitUnderwater
+//
+//==============================================================================
 procedure R_InitUnderwater;
 begin
   uviewwidth := SCREENWIDTH;  // JVAL: normally viewwidth, but in case it is not calced
@@ -108,6 +138,11 @@ begin
     I_Error('R_InitUnderwater(): Underwater palette not found');
 end;
 
+//==============================================================================
+//
+// R_ShutDownUnderwater
+//
+//==============================================================================
 procedure R_ShutDownUnderwater;
 begin
   memfree(pointer(u.XDisp), SCREENWIDTH * LONGTICS_FACTOR * SizeOf(integer));
@@ -116,6 +151,11 @@ begin
   memfree(pointer(u.screen32), SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
 end;
 
+//==============================================================================
+//
+// R_UnderwaterReadScreen8
+//
+//==============================================================================
 procedure R_UnderwaterReadScreen8;
 var
   i: integer;
@@ -132,6 +172,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// R_UnderwaterReadScreen32
+//
+//==============================================================================
 procedure R_UnderwaterReadScreen32;
 var
   i: integer;
@@ -151,6 +196,11 @@ end;
 var
   underwatertic: integer;
 
+//==============================================================================
+//
+// R_UnderwaterDoExecute
+//
+//==============================================================================
 procedure R_UnderwaterDoExecute(const threadid, numlthreads: integer);
 var
   tic: integer;
@@ -236,12 +286,22 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// _UnderwaterExecute_thr
+//
+//==============================================================================
 function _UnderwaterExecute_thr(p: iterator_p): integer; stdcall;
 begin
   R_UnderwaterDoExecute(p.idx, p.numidxs);
   result := 0;
 end;
 
+//==============================================================================
+//
+// R_UnderwaterExecute
+//
+//==============================================================================
 procedure R_UnderwaterExecute(const p: Pplayer_t);
 var
   tic64: int64;

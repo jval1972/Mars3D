@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -60,7 +60,6 @@ type
     procedure Draw(const frm1, frm2: integer; const offset: float); virtual; abstract;
     procedure DrawSimple(const frm: integer); virtual; abstract;
   end;
-
 
 implementation
 

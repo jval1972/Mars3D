@@ -84,8 +84,18 @@ var
   voxelstates: Pvoxelstate_tArray;
   numvoxelstates: integer;
 
+//==============================================================================
+//
+// VX_InitVoxels
+//
+//==============================================================================
 procedure VX_InitVoxels;
 
+//==============================================================================
+//
+// VX_VoxelsDone
+//
+//==============================================================================
 procedure VX_VoxelsDone;
 
 var
@@ -109,6 +119,11 @@ uses
   w_wad,
   w_pak;
 
+//==============================================================================
+//
+// VX_AddVoxel
+//
+//==============================================================================
 function VX_AddVoxel(const item: voxelmanageritem_t): integer;
 var
   i: integer;
@@ -140,6 +155,11 @@ begin
   inc(voxelmanager.size);
 end;
 
+//==============================================================================
+//
+// VX_AddVoxelState
+//
+//==============================================================================
 procedure VX_AddVoxelState(const item: voxelstate_t);
 begin
   if item.state < 0 then
@@ -156,12 +176,14 @@ end;
 const
   SPRITEFRAMECHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]';
 
+//==============================================================================
 //
 // VX_CheckVoxelSprite
 // JVAL 20191204
 //    Add the sprname and the it's voxel source
 //    Only one voxel (first parsed) per sprite though
 //
+//==============================================================================
 procedure VX_CheckVoxelSprite(const sprname: string; const voxelsrc: string);
 var
   s1, s2, check: string;
@@ -191,10 +213,13 @@ end;
 const
   VOXELDEFLUMPNAME = 'VOXELDEF';
 
+//==============================================================================
+// SC_DoParseVoxelDefinition
 //
 // SC_ParseVoxelDefinition
 // JVAL: Parse VOXELDEF LUMP
 //
+//==============================================================================
 procedure SC_DoParseVoxelDefinition(const in_text: string);
 var
   sc: TScriptEngine;
@@ -421,15 +446,22 @@ begin
   tokens.Free;
 end;
 
+//==============================================================================
+//
+// SC_ParseVoxelDefinition
+//
+//==============================================================================
 procedure SC_ParseVoxelDefinition(const in_text: string);
 begin
   SC_DoParseVoxelDefinition(SC_Preprocess(in_text, false));
 end;
 
+//==============================================================================
 //
 // SC_ParseVoxelDefinitions
 // JVAL: Parse all VOXELDEF lumps
 //
+//==============================================================================
 procedure SC_ParseVoxelDefinitions;
 var
   i: integer;
@@ -459,6 +491,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// Cmd_VoxelMapping
+//
+//==============================================================================
 procedure Cmd_VoxelMapping;
 var
   i: integer;
@@ -478,6 +515,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// VX_InitVoxels
+//
+//==============================================================================
 procedure VX_InitVoxels;
 begin
   voxelmanager.size := 0;
@@ -490,7 +532,11 @@ begin
   C_AddCmd('voxelmapping', @Cmd_VoxelMapping);
 end;
 
-
+//==============================================================================
+//
+// VX_VoxelsDone
+//
+//==============================================================================
 procedure VX_VoxelsDone;
 var
   i: integer;

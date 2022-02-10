@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -35,8 +35,18 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// R_BatchColorAdd32_MMX
+//
+//==============================================================================
 function R_BatchColorAdd32_MMX(const dest0: PLongWord; const color: LongWord; const numpixels: integer): boolean;
 
+//==============================================================================
+//
+// R_BatchColorShade_AMD
+//
+//==============================================================================
 function R_BatchColorShade_AMD(const dest0: PByte; const numbytes: integer): boolean;
 
 implementation
@@ -46,6 +56,11 @@ type
     dwords: array[0..1] of LongWord;
   end;
 
+//==============================================================================
+//
+// R_BatchColorAdd32_MMX
+//
+//==============================================================================
 function R_BatchColorAdd32_MMX(const dest0: PLongWord; const color: LongWord; const numpixels: integer): boolean;
 var
   data: rec_2lw;
@@ -166,7 +181,11 @@ begin
 
 end;
 
-
+//==============================================================================
+//
+// R_BatchColorShade_AMD
+//
+//==============================================================================
 function R_BatchColorShade_AMD(const dest0: PByte; const numbytes: integer): boolean;
 var
   data: rec_2lw;
@@ -284,6 +303,5 @@ begin
   end;
 
 end;
-
 
 end.

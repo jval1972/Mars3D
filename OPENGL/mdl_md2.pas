@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -332,8 +332,12 @@ begin
 
 end;
 
+//==============================================================================
+// TMD2Model.MergeFrames
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 function TMD2Model.MergeFrames(const m: TBaseModel): boolean;
 var
   i: integer;
@@ -401,8 +405,12 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+// TMD2Model.Draw
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure TMD2Model.Draw(const frm1, frm2: integer; const offset: float);
 var
   w2: float;
@@ -447,8 +455,12 @@ begin
   glEnd;
 end;
 
+//==============================================================================
+// TMD2Model.DrawSimple
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure TMD2Model.DrawSimple(const frm: integer);
 var
   i: integer;
@@ -473,8 +485,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// TMD2Model.StartFrame
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 function TMD2Model.StartFrame(const i: integer): integer;
 begin
   result := -1;
@@ -483,8 +499,12 @@ begin
       result := (frameNames.Objects[i] as TFrameIndexInfo).StartFrame;
 end;
 
+//==============================================================================
+// TMD2Model.EndFrame
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 function TMD2Model.EndFrame(const i: integer): integer;
 begin
   result := -1;
@@ -493,8 +513,12 @@ begin
       result := (frameNames.Objects[i] as TFrameIndexInfo).EndFrame;
 end;
 
+//==============================================================================
+// TMD2Model.StartFrame
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 function TMD2Model.StartFrame(const frame: string): integer;
 begin
   result := StartFrame(frameNames.IndexOf(frame));
@@ -502,8 +526,12 @@ begin
     result := StartFrame(frameNames.IndexOf(strupper(frame)));
 end;
 
+//==============================================================================
+// TMD2Model.EndFrame
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 function TMD2Model.EndFrame(const frame: string): integer;
 begin
   result := EndFrame(frameNames.IndexOf(frame));
@@ -511,8 +539,12 @@ begin
     result := EndFrame(frameNames.IndexOf(strupper(frame)));
 end;
 
+//==============================================================================
+// TMD2Model.FrameName
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 function TMD2Model.FrameName(const i: integer): string;
 begin
   if IsIntegerInRange(i, 0, frameNames.Count - 1) then
@@ -521,8 +553,12 @@ begin
     result := '';
 end;
 
+//==============================================================================
+// TMD2Model.FrameIndex
+//
 //------------------------------------------------------------------------------
-
+//
+//==============================================================================
 function TMD2Model.FrameIndex(const frame: string): integer;
 begin
   result := frameNames.IndexOf(frame);

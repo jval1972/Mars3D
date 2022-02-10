@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -38,39 +38,118 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+// P_ArchivePlayers
+//
 // Persistent storage/archiving.
 // These are the load / save game routines.
+//
+//==============================================================================
 procedure P_ArchivePlayers;
 
+//==============================================================================
+//
+// P_UnArchivePlayers
+//
+//==============================================================================
 procedure P_UnArchivePlayers;
 
+//==============================================================================
+//
+// P_ArchiveWorld
+//
+//==============================================================================
 procedure P_ArchiveWorld;
 
+//==============================================================================
+//
+// P_UnArchiveWorld
+//
+//==============================================================================
 procedure P_UnArchiveWorld;
 
+//==============================================================================
+//
+// P_ArchiveThinkers
+//
+//==============================================================================
 procedure P_ArchiveThinkers;
 
+//==============================================================================
+//
+// P_UnArchiveThinkers
+//
+//==============================================================================
 procedure P_UnArchiveThinkers;
 
+//==============================================================================
+//
+// P_ArchiveSpecials
+//
+//==============================================================================
 procedure P_ArchiveSpecials;
 
+//==============================================================================
+//
+// P_UnArchiveSpecials
+//
+//==============================================================================
 procedure P_UnArchiveSpecials;
 
+//==============================================================================
+//
+// P_ArchiveVariables
+//
+//==============================================================================
 procedure P_ArchiveVariables;
 
+//==============================================================================
+//
+// P_UnArchiveVariables
+//
+//==============================================================================
 procedure P_UnArchiveVariables;
 
+//==============================================================================
+//
+// P_ArchivePSMapScript
+//
+//==============================================================================
 procedure P_ArchivePSMapScript;
 
+//==============================================================================
+//
+// P_UnArchivePSMapScript
+//
+//==============================================================================
 procedure P_UnArchivePSMapScript;
 
+//==============================================================================
+//
+// P_ArchiveOverlay
+//
+//==============================================================================
 procedure P_ArchiveOverlay;
 
+//==============================================================================
+//
+// P_UnArchiveOverlay
+//
+//==============================================================================
 procedure P_UnArchiveOverlay;
 
-
+//==============================================================================
+//
+// P_ArchiveScreenShot
+//
+//==============================================================================
 procedure P_ArchiveScreenShot;
 
+//==============================================================================
+//
+// P_UnArchiveScreenShot
+//
+//==============================================================================
 procedure P_UnArchiveScreenShot;
 var
   save_p: PByteArray;
@@ -117,18 +196,24 @@ uses
   w_wad,
   z_zone;
 
+//==============================================================================
+// PADSAVEP
+//
 // Pads save_p to a 4-byte boundary
 //  so that the load/save works on SGI&Gecko.
-
+//
+//==============================================================================
 procedure PADSAVEP;
 begin
   if savegameversion < VERSION122 then
     save_p := PByteArray(integer(save_p) + ((4 - (integer(save_p) and 3) and 3)));
 end;
 
+//==============================================================================
 //
 // P_ArchivePlayers
 //
+//==============================================================================
 procedure P_ArchivePlayers;
 var
   i: integer;
@@ -154,9 +239,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_UnArchivePlayers
 //
+//==============================================================================
 procedure P_UnArchivePlayers;
 var
   i: integer;
@@ -188,9 +275,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_ArchiveWorld
 //
+//==============================================================================
 procedure P_ArchiveWorld;
 var
   i: integer;
@@ -332,9 +421,11 @@ begin
   save_p := PByteArray(put);
 end;
 
+//==============================================================================
 //
 // P_UnArchiveWorld
 //
+//==============================================================================
 procedure P_UnArchiveWorld;
 var
   i: integer;
@@ -583,9 +674,11 @@ end;
 type
   thinkerclass_t = (tc_end, tc_mobj);
 
+//==============================================================================
 //
 // P_ArchiveThinkers
 //
+//==============================================================================
 procedure P_ArchiveThinkers;
 var
   th: Pthinker_t;
@@ -637,6 +730,7 @@ end;
 
 // P_UnArchiveThinkers
 //
+//==============================================================================
 procedure P_UnArchiveThinkers;
 var
   i: integer;
@@ -768,8 +862,8 @@ type
     tc_endspecials
   );
 
-
-
+//==============================================================================
+// P_ArchiveSpecials
 //
 // Things to handle:
 //
@@ -781,6 +875,7 @@ type
 // T_Glow, (glow_t: sector_t *),
 // T_PlatRaise, (plat_t: sector_t *), - active list
 //
+//==============================================================================
 procedure P_ArchiveSpecials;
 var
   th: Pthinker_t;
@@ -979,9 +1074,11 @@ begin
   save_p := @save_p[1];
 end;
 
+//==============================================================================
 //
 // P_UnArchiveSpecials
 //
+//==============================================================================
 procedure P_UnArchiveSpecials;
 var
   tclass: byte;
@@ -1245,6 +1342,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_ArchiveGlobalVariables
+//
+//==============================================================================
 procedure P_ArchiveGlobalVariables(const vars: TGlobalVariablesList);
 var
   sz: integer;
@@ -1256,12 +1358,22 @@ begin
   incp(pointer(save_p), sz);
 end;
 
+//==============================================================================
+//
+// P_ArchiveVariables
+//
+//==============================================================================
 procedure P_ArchiveVariables;
 begin
   P_ArchiveGlobalVariables(mapvars);
   P_ArchiveGlobalVariables(worldvars);
 end;
 
+//==============================================================================
+//
+// P_ArchivePSMapScript
+//
+//==============================================================================
 procedure P_ArchivePSMapScript;
 var
   fname: string;
@@ -1282,6 +1394,11 @@ begin
   incp(Pointer(save_p), sz);
 end;
 
+//==============================================================================
+//
+// P_UnArchiveGlobalVariables
+//
+//==============================================================================
 procedure P_UnArchiveGlobalVariables(const vars: TGlobalVariablesList);
 var
   sz: integer;
@@ -1295,12 +1412,22 @@ begin
   incp(pointer(save_p), sz);
 end;
 
+//==============================================================================
+//
+// P_UnArchiveVariables
+//
+//==============================================================================
 procedure P_UnArchiveVariables;
 begin
   P_UnArchiveGlobalVariables(mapvars);
   P_UnArchiveGlobalVariables(worldvars);
 end;
 
+//==============================================================================
+//
+// P_UnArchivePSMapScript
+//
+//==============================================================================
 procedure P_UnArchivePSMapScript;
 var
   fname: string;
@@ -1324,6 +1451,11 @@ begin
   incp(Pointer(save_p), sz);
 end;
 
+//==============================================================================
+//
+// P_ArchiveOverlay
+//
+//==============================================================================
 procedure P_ArchiveOverlay;
 begin
   if savegameversion <= VERSION121 then
@@ -1332,6 +1464,11 @@ begin
   overlay.SaveToBuffer(Pointer(save_p));
 end;
 
+//==============================================================================
+//
+// P_UnArchiveOverlay
+//
+//==============================================================================
 procedure P_UnArchiveOverlay;
 begin
   if savegameversion <= VERSION121 then
@@ -1340,6 +1477,11 @@ begin
   overlay.LoadFromBuffer(Pointer(save_p));
 end;
 
+//==============================================================================
+//
+// P_ArchiveScreenShot
+//
+//==============================================================================
 procedure P_ArchiveScreenShot;
 var
   i: integer;
@@ -1352,6 +1494,11 @@ begin
   incp(pointer(save_p), SizeOf(menuscreenbuffer_t));
 end;
 
+//==============================================================================
+//
+// P_UnArchiveScreenShot
+//
+//==============================================================================
 procedure P_UnArchiveScreenShot;
 begin
   // Nothing to do, just inc the buffer

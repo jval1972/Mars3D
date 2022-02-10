@@ -38,6 +38,11 @@ interface
 uses
   p_mobj_h;
 
+//==============================================================================
+//
+// A_Dialog
+//
+//==============================================================================
 procedure A_Dialog(actor: Pmobj_t);
 
 implementation
@@ -63,6 +68,11 @@ var
   dialog_font: Ppatch_tPArray;
   dialog_shade: Ppatch_tPArray;
 
+//==============================================================================
+//
+// MARS_DialogLoadText
+//
+//==============================================================================
 function MARS_DialogLoadText(const lumpname: string): string;
 var
   lump: integer;
@@ -94,6 +104,11 @@ begin
   strm.Free;
 end;
 
+//==============================================================================
+//
+// M_DialogDimMsg
+//
+//==============================================================================
 function M_DialogDimMsg(x, y: integer; str: string; const fnt: Ppatch_tPArray): string;
 var
   maxwidth: integer;
@@ -165,6 +180,11 @@ var
   numdialogs: Integer;
   currentdialog: Integer;
 
+//==============================================================================
+//
+// Mars_DialogChoice
+//
+//==============================================================================
 procedure Mars_DialogChoice(choice: Integer);
 begin
   Inc(currentdialog);
@@ -174,6 +194,11 @@ begin
     M_SetupNextMenu(@dialogmenus[currentdialog]);
 end;
 
+//==============================================================================
+//
+// MARS_DialogDrawer
+//
+//==============================================================================
 procedure MARS_DialogDrawer;
 var
   str: string;
@@ -183,6 +208,11 @@ begin
   M_WriteText(39, 17, str, _MA_LEFT or _MC_UPPER, dialog_font, dialog_shade);
 end;
 
+//==============================================================================
+//
+// A_Dialog
+//
+//==============================================================================
 procedure A_Dialog(actor: Pmobj_t);
 var
   i, cnt: integer;

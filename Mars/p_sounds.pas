@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -35,22 +35,88 @@ interface
 uses
   p_mobj_h;
 
+//==============================================================================
+//
+// A_SeeSound
+//
+//==============================================================================
 procedure A_SeeSound(actor: Pmobj_t; origin: Pmobj_t);
+
+//==============================================================================
+//
+// A_SeeSound1
+//
+//==============================================================================
 procedure A_SeeSound1(actor: Pmobj_t);
 
+//==============================================================================
+//
+// A_PainSound
+//
+//==============================================================================
 procedure A_PainSound(actor: Pmobj_t; origin: Pmobj_t);
+
+//==============================================================================
+//
+// A_PainSound1
+//
+//==============================================================================
 procedure A_PainSound1(actor: Pmobj_t);
 
+//==============================================================================
+//
+// A_AttackSound
+//
+//==============================================================================
 procedure A_AttackSound(actor: Pmobj_t; origin: Pmobj_t);
+
+//==============================================================================
+//
+// A_AttackSound1
+//
+//==============================================================================
 procedure A_AttackSound1(actor: Pmobj_t);
 
+//==============================================================================
+//
+// A_MeleeSound
+//
+//==============================================================================
 procedure A_MeleeSound(actor: Pmobj_t; origin: Pmobj_t);
+
+//==============================================================================
+//
+// A_MeleeSound1
+//
+//==============================================================================
 procedure A_MeleeSound1(actor: Pmobj_t);
 
+//==============================================================================
+//
+// A_DeathSound
+//
+//==============================================================================
 procedure A_DeathSound(actor: Pmobj_t; origin: Pmobj_t);
+
+//==============================================================================
+//
+// A_DeathSound1
+//
+//==============================================================================
 procedure A_DeathSound1(actor: Pmobj_t);
 
+//==============================================================================
+//
+// A_ActiveSound
+//
+//==============================================================================
 procedure A_ActiveSound(actor: Pmobj_t; origin: Pmobj_t);
+
+//==============================================================================
+//
+// A_ActiveSound1
+//
+//==============================================================================
 procedure A_ActiveSound1(actor: Pmobj_t);
 
 implementation
@@ -60,6 +126,11 @@ uses
   p_common,
   s_sound;
 
+//==============================================================================
+//
+// A_SeeSound
+//
+//==============================================================================
 procedure A_SeeSound(actor: Pmobj_t; origin: Pmobj_t);
 begin
   if actor.info.seesound = 0 then
@@ -78,6 +149,11 @@ begin
     S_UnlinkSound(origin);
 end;
 
+//==============================================================================
+//
+// A_SeeSound1
+//
+//==============================================================================
 procedure A_SeeSound1(actor: Pmobj_t);
 begin
   if actor.flags_ex and MF_EX_BOSS <> 0 then
@@ -86,6 +162,11 @@ begin
     A_SeeSound(actor, actor);
 end;
 
+//==============================================================================
+//
+// A_PainSound
+//
+//==============================================================================
 procedure A_PainSound(actor: Pmobj_t; origin: Pmobj_t);
 begin
   if actor.info.painsound = 0 then
@@ -97,6 +178,11 @@ begin
     S_StartSound(origin, actor.info.painsound);
 end;
 
+//==============================================================================
+//
+// A_PainSound1
+//
+//==============================================================================
 procedure A_PainSound1(actor: Pmobj_t);
 begin
   if (actor.flags_ex and MF_EX_BOSS <> 0) or
@@ -106,6 +192,11 @@ begin
     A_PainSound(actor, actor);
 end;
 
+//==============================================================================
+//
+// A_AttackSound
+//
+//==============================================================================
 procedure A_AttackSound(actor: Pmobj_t; origin: Pmobj_t);
 begin
   if actor.info.attacksound = 0 then
@@ -117,6 +208,11 @@ begin
     S_StartSound(origin, actor.info.attacksound);
 end;
 
+//==============================================================================
+//
+// A_AttackSound1
+//
+//==============================================================================
 procedure A_AttackSound1(actor: Pmobj_t);
 begin
   if (actor.flags_ex and MF_EX_BOSS <> 0) or
@@ -126,6 +222,11 @@ begin
     A_AttackSound(actor, actor);
 end;
 
+//==============================================================================
+//
+// A_MeleeSound
+//
+//==============================================================================
 procedure A_MeleeSound(actor: Pmobj_t; origin: Pmobj_t);
 begin
   if actor.info.meleesound = 0 then
@@ -137,6 +238,11 @@ begin
     S_StartSound(origin, actor.info.meleesound);
 end;
 
+//==============================================================================
+//
+// A_MeleeSound1
+//
+//==============================================================================
 procedure A_MeleeSound1(actor: Pmobj_t);
 begin
   if (actor.flags_ex and MF_EX_BOSS <> 0) or
@@ -146,6 +252,11 @@ begin
     A_MeleeSound(actor, actor);
 end;
 
+//==============================================================================
+//
+// A_DeathSound
+//
+//==============================================================================
 procedure A_DeathSound(actor: Pmobj_t; origin: Pmobj_t);
 begin
   if actor.info.deathsound = 0 then
@@ -157,6 +268,11 @@ begin
     S_StartSound(origin, actor.info.deathsound);
 end;
 
+//==============================================================================
+//
+// A_DeathSound1
+//
+//==============================================================================
 procedure A_DeathSound1(actor: Pmobj_t);
 begin
   if (actor.flags_ex and MF_EX_BOSS <> 0) or
@@ -166,6 +282,11 @@ begin
     A_DeathSound(actor, actor);
 end;
 
+//==============================================================================
+//
+// A_ActiveSound
+//
+//==============================================================================
 procedure A_ActiveSound(actor: Pmobj_t; origin: Pmobj_t);
 begin
   if actor.info.activesound = 0 then
@@ -177,6 +298,11 @@ begin
     S_StartSound(origin, actor.info.activesound);
 end;
 
+//==============================================================================
+//
+// A_ActiveSound1
+//
+//==============================================================================
 procedure A_ActiveSound1(actor: Pmobj_t);
 begin
   if (actor.flags_ex and MF_EX_BOSS <> 0) or

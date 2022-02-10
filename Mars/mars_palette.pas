@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -39,14 +39,29 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// MARS_CreateDoomPalette
+//
+//==============================================================================
 procedure MARS_CreateDoomPalette(const inppal: PByteArray; const outpal: PByteArray; const colormap: PByteArray);
 
+//==============================================================================
+// MARS_CreateTranslation
+//
 // From palette frompal to palette topal create translation table
 // All arrays must be allocated in memory before calling it
+//
+//==============================================================================
 procedure MARS_CreateTranslation(const frompal, topal: PByteArray; const trans: PByteArray);
 
 implementation
 
+//==============================================================================
+//
+// MARS_ColorShiftPalette
+//
+//==============================================================================
 procedure MARS_ColorShiftPalette(const inpal: PByteArray; const outpal: PByteArray;
   const r, g, b: integer; const shift: integer; const steps: integer);
 var
@@ -72,6 +87,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_CopyPalette
+//
+//==============================================================================
 procedure MARS_CopyPalette(const inppal, outpal: PByteArray);
 var
   i: integer;
@@ -80,6 +100,11 @@ begin
     outpal[i] := inppal[i];
 end;
 
+//==============================================================================
+//
+// MARS_BestColor
+//
+//==============================================================================
 function MARS_BestColor(const r, g, b: byte; const palette: PByteArray; const rangel, rangeh: integer): byte;
 var
   i: integer;
@@ -118,6 +143,11 @@ begin
   result := bestcolor;
 end;
 
+//==============================================================================
+//
+// MARS_FullRangePalette
+//
+//==============================================================================
 procedure MARS_FullRangePalette(const inppal: PByteArray);
 var
   i, mx: integer;
@@ -132,6 +162,11 @@ begin
       inppal[i] := 4 * inppal[i];
 end;
 
+//==============================================================================
+//
+// MARS_CreateDoomPalette
+//
+//==============================================================================
 procedure MARS_CreateDoomPalette(const inppal: PByteArray; const outpal: PByteArray; const colormap: PByteArray);
 const
   NUMLIGHTS = 32;
@@ -196,8 +231,13 @@ begin
       colormap[i * 256 + c] := lightpalette[i][c];
 end;
 
+//==============================================================================
+// MARS_CreateTranslation
+//
 // From palette frompal to palette topal create translation table
 // All arrays must be allocated in memory before calling it
+//
+//==============================================================================
 procedure MARS_CreateTranslation(const frompal, topal: PByteArray; const trans: PByteArray);
 var
   i: integer;

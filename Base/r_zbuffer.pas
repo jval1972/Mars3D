@@ -66,35 +66,105 @@ var
   Zspans: array[0..MAXHEIGHT] of zbuffer_t;
   Zcolumns: array[0..MAXWIDTH] of zbuffer_t;
 
+//==============================================================================
+//
+// R_DrawSpanToZBuffer
+//
+//==============================================================================
 procedure R_DrawSpanToZBuffer;
 
+//==============================================================================
+//
+// R_DrawSlopeToZBuffer
+//
+//==============================================================================
 procedure R_DrawSlopeToZBuffer;
 
+//==============================================================================
+//
+// R_DrawColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawColumnToZBuffer;
 
+//==============================================================================
+//
+// R_DrawMaskedColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 
+//==============================================================================
+//
+// R_DrawBatchMaskedColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawBatchMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 
+//==============================================================================
+//
+// R_DrawVoxelPixelToZBuffer
+//
+//==============================================================================
 procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer; const mo: Pmobj_t);
 
+//==============================================================================
+//
+// R_DrawVoxelColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj_t);
 
+//==============================================================================
+//
+// R_DrawBatchVoxelColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj_t);
 
+//==============================================================================
+// R_ZBufferAt
+//
 // Returns the z buffer value at (x, y) or screen
 // Lower value means far away
 // no z-buffer is sky (or render glitch) - we do not write o zbuffer in skycolfunc
+//
+//==============================================================================
 function R_ZBufferAt(const x, y: integer): Pzbufferitem_t;
 
+//==============================================================================
+//
+// R_InitZBuffer
+//
+//==============================================================================
 procedure R_InitZBuffer;
 
+//==============================================================================
+//
+// R_ShutDownZBuffer
+//
+//==============================================================================
 procedure R_ShutDownZBuffer;
 
+//==============================================================================
+//
+// R_StartZBuffer
+//
+//==============================================================================
 procedure R_StartZBuffer;
 
+//==============================================================================
+//
+// R_StopZBuffer
+//
+//==============================================================================
 procedure R_StopZBuffer;
 
+//==============================================================================
+//
+// R_ClearZBuffer
+//
+//==============================================================================
 procedure R_ClearZBuffer;
 
 var
@@ -116,6 +186,11 @@ uses
   r_main,
   t_png;
 
+//==============================================================================
+//
+// R_NewZBufferItem
+//
+//==============================================================================
 function R_NewZBufferItem(const Z: Pzbuffer_t): Pzbufferitem_t;
 const
   GROWSTEP = 4;
@@ -129,6 +204,11 @@ begin
   inc(Z.numitems);
 end;
 
+//==============================================================================
+//
+// R_DrawSpanToZBuffer
+//
+//==============================================================================
 procedure R_DrawSpanToZBuffer;
 var
   item: Pzbufferitem_t;
@@ -160,6 +240,11 @@ begin
   item.planeheightz := planeheightz;
 end;
 
+//==============================================================================
+//
+// R_DrawSlopeToZBuffer
+//
+//==============================================================================
 procedure R_DrawSlopeToZBuffer;
 var
   item: Pzbufferitem_t;
@@ -193,6 +278,11 @@ begin
   item.planeheightz := MAXINT;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawColumnToZBuffer;
 var
   item: Pzbufferitem_t;
@@ -219,6 +309,11 @@ begin
   item.stop := dc_yh;
 end;
 
+//==============================================================================
+//
+// R_DrawMaskedColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 var
   item: Pzbufferitem_t;
@@ -245,6 +340,11 @@ begin
   item.stop := dc_yh;
 end;
 
+//==============================================================================
+//
+// R_DrawBatchMaskedColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawBatchMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 var
   item: Pzbufferitem_t;
@@ -275,6 +375,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawVoxelPixelToZBuffer
+//
+//==============================================================================
 procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer; const mo: Pmobj_t);
 var
   item: Pzbufferitem_t;
@@ -297,6 +402,11 @@ begin
   item.stop := y;
 end;
 
+//==============================================================================
+//
+// R_DrawVoxelColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj_t);
 var
   Z: Pzbuffer_t;
@@ -341,6 +451,11 @@ begin
   item.stop := dc_yh;
 end;
 
+//==============================================================================
+//
+// R_DrawBatchVoxelColumnToZBuffer
+//
+//==============================================================================
 procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj_t);
 var
   Z: Pzbuffer_t;
@@ -400,6 +515,11 @@ var
     planeheightz: 0;
   );
 
+//==============================================================================
+//
+// R_ZBufferAt
+//
+//==============================================================================
 function R_ZBufferAt(const x, y: integer): Pzbufferitem_t;
 var
   Z: Pzbuffer_t;
@@ -448,6 +568,11 @@ var
   export_zbuffer: boolean = false;
   export_zbuffer_path: string;
 
+//==============================================================================
+//
+// CmdExportZBuffer
+//
+//==============================================================================
 procedure CmdExportZBuffer(const fname: string);
 begin
   if fname = '' then
@@ -463,6 +588,11 @@ begin
   export_zbuffer := true;
 end;
 
+//==============================================================================
+//
+// DoExportZBuffer
+//
+//==============================================================================
 procedure DoExportZBuffer;
 var
   png: TPngObject;
@@ -508,6 +638,11 @@ begin
   memfree(pointer(buf), bufsize);
 end;
 
+//==============================================================================
+//
+// R_InitZBuffer
+//
+//==============================================================================
 procedure R_InitZBuffer;
 begin
   ZeroMemory(@Zspans, SizeOf(Zspans));
@@ -515,6 +650,11 @@ begin
   C_AddCmd('ExportZBuffer, ZBufferExport', @CmdExportZBuffer);
 end;
 
+//==============================================================================
+//
+// R_ShutDownZBuffer
+//
+//==============================================================================
 procedure R_ShutDownZBuffer;
 var
   i: integer;
@@ -536,10 +676,20 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// R_StartZBuffer
+//
+//==============================================================================
 procedure R_StartZBuffer;
 begin
 end;
 
+//==============================================================================
+//
+// R_StopZBuffer
+//
+//==============================================================================
 procedure R_StopZBuffer;
 begin
   if export_zbuffer then
@@ -551,6 +701,11 @@ begin
   R_ClearZBuffer;
 end;
 
+//==============================================================================
+//
+// R_ClearZBuffer
+//
+//==============================================================================
 procedure R_ClearZBuffer;
 var
   i: integer;

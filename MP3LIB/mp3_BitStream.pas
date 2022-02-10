@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -122,6 +122,11 @@ implementation
 uses
   mp3_CRC, mp3_Header;
 
+//==============================================================================
+//
+// SwapInt32
+//
+//==============================================================================
 function SwapInt32(Value: Cardinal): Cardinal;
 begin
   result := (Value shl 24) or ((Value shl 8) and $00ff0000) or
@@ -145,6 +150,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TBitStream.FileSize
+//
+//==============================================================================
 function TBitStream.FileSize: Cardinal;
 begin
   result := FStream.Size;
@@ -159,6 +169,11 @@ const
     $00001FFF, $00003FFF, $00007FFF, $0000FFFF,
     $0001FFFF);
 
+//==============================================================================
+//
+// TBitStream.GetBits
+//
+//==============================================================================
 function TBitStream.GetBits(NumberOfBits: Cardinal): Cardinal;
 var
   ReturnValue: Cardinal;
@@ -195,11 +210,21 @@ begin
   FBitIndex := Sum - 32;
 end;
 
+//==============================================================================
+//
+// TBitStream.GetBitsFloat
+//
+//==============================================================================
 function TBitStream.GetBitsFloat(NumberOfBits: Cardinal): Single;
 begin
   PCardinal(@result)^ := GetBits(NumberOfBits);
 end;
 
+//==============================================================================
+//
+// TBitStream.GetHeader
+//
+//==============================================================================
 function TBitStream.GetHeader(HeaderString: PCardinal;
   SyncMode: TSyncMode): Boolean;
 var
@@ -243,6 +268,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TBitStream.ReadFrame
+//
+//==============================================================================
 function TBitStream.ReadFrame(ByteSize: Cardinal): Boolean;
 var NumRead: Integer;
 {$IFDEF DAMN_INTEL_BYTE_ORDER}
@@ -270,6 +300,11 @@ begin
   result := Cardinal(NumRead) = FFrameSize;
 end;
 
+//==============================================================================
+//
+// TBitStream.Restart
+//
+//==============================================================================
 function TBitStream.Restart: Boolean;
 begin
   FStream.Seek(0, sFromBeginning);
@@ -282,6 +317,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TBitStream.Seek
+//
+//==============================================================================
 function TBitStream.Seek(Frame, FrameSize: Integer): Boolean;
 begin
   FCurrentFrameNumber := Frame - 1;
@@ -295,6 +335,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TBitStream.SeekPad
+//
+//==============================================================================
 function TBitStream.SeekPad(Frame, FrameSize: Integer;
   var Header: TObject; Offset: PCardinalArray): Boolean;
 var
@@ -353,6 +398,11 @@ begin
     FreeAndNil(CRC);
 end;
 
+//==============================================================================
+//
+// TBitStream.SetSyncWord
+//
+//==============================================================================
 procedure TBitStream.SetSyncWord(SyncWord: Cardinal);
 begin
 {$IFDEF DAMN_INTEL_BYTE_ORDER}

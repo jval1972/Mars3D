@@ -38,14 +38,39 @@ interface
 uses
   r_defs;
 
+//==============================================================================
+//
+// gld_InitAutomap
+//
+//==============================================================================
 procedure gld_InitAutomap;
 
+//==============================================================================
+//
+// gld_ShutDownAutomap
+//
+//==============================================================================
 procedure gld_ShutDownAutomap;
 
+//==============================================================================
+//
+// gld_ClearAMBuffer
+//
+//==============================================================================
 procedure gld_ClearAMBuffer(const fw, fh: integer; const cc: LongWord);
 
+//==============================================================================
+//
+// gld_AddAutomapLine
+//
+//==============================================================================
 procedure gld_AddAutomapLine(const x1, y1, x2, y2: integer; const cc: LongWord);
 
+//==============================================================================
+//
+// gld_AddAutomapPatch
+//
+//==============================================================================
 procedure gld_AddAutomapPatch(const x, y: integer; const lump: integer);
 
 procedure gld_AddAutomapTriangle(
@@ -54,6 +79,11 @@ procedure gld_AddAutomapTriangle(
   const x3, y3, u3, v3: integer;
   const cc: LongWord; const lump: integer; const sec: Psector_t);
 
+//==============================================================================
+//
+// gld_DrawAutomap
+//
+//==============================================================================
 procedure gld_DrawAutomap;
 
 implementation
@@ -99,6 +129,11 @@ var
   numamitems: integer = 0;
   realnumamitems: integer = 0;
 
+//==============================================================================
+//
+// gld_InitAutomap
+//
+//==============================================================================
 procedure gld_InitAutomap;
 begin
   amrenderitems := nil;
@@ -106,6 +141,11 @@ begin
   realnumamitems := 0;
 end;
 
+//==============================================================================
+//
+// gld_ShutDownAutomap
+//
+//==============================================================================
 procedure gld_ShutDownAutomap;
 begin
   memfree(pointer(amrenderitems), realnumamitems * SizeOf(glamrenderitem_t));
@@ -113,6 +153,11 @@ begin
   realnumamitems := 0;
 end;
 
+//==============================================================================
+//
+// gld_GrowAutomapLines
+//
+//==============================================================================
 procedure gld_GrowAutomapLines;
 const
   GROWSTEP = 64;
@@ -124,6 +169,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// gld_ClearAMBuffer
+//
+//==============================================================================
 procedure gld_ClearAMBuffer(const fw, fh: integer; const cc: LongWord);
 var
   l: Pglamrenderitem_t;
@@ -143,6 +193,11 @@ begin
   inc(numamitems);
 end;
 
+//==============================================================================
+//
+// gld_AddAutomapLine
+//
+//==============================================================================
 procedure gld_AddAutomapLine(const x1, y1, x2, y2: integer; const cc: LongWord);
 var
   l: Pglamrenderitem_t;
@@ -162,6 +217,11 @@ begin
   inc(numamitems);
 end;
 
+//==============================================================================
+//
+// gld_AddAutomapPatch
+//
+//==============================================================================
 procedure gld_AddAutomapPatch(const x, y: integer; const lump: integer);
 var
   l: Pglamrenderitem_t;
@@ -224,6 +284,11 @@ begin
   inc(numamitems);
 end;
 
+//==============================================================================
+//
+// gld_DrawAMQuad
+//
+//==============================================================================
 procedure gld_DrawAMQuad(const l: Pglamrenderitem_t);
 begin
   glColor4f(l.r, l.g, l.b, 1.0);
@@ -236,6 +301,11 @@ begin
   glEnd;
 end;
 
+//==============================================================================
+//
+// gld_DrawAMLine
+//
+//==============================================================================
 procedure gld_DrawAMLine(const l: Pglamrenderitem_t);
 begin
   glColor4f(l.r, l.g, l.b, 1.0);
@@ -246,6 +316,11 @@ begin
   glEnd;
 end;
 
+//==============================================================================
+//
+// gld_DrawAMPatch
+//
+//==============================================================================
 procedure gld_DrawAMPatch(const l: Pglamrenderitem_t);
 begin
   glEnable(GL_TEXTURE_2D);
@@ -257,6 +332,11 @@ begin
   glDisable(GL_TEXTURE_2D);
 end;
 
+//==============================================================================
+//
+// gld_DrawAMTriangle
+//
+//==============================================================================
 procedure gld_DrawAMTriangle(const l: Pglamrenderitem_t);
 var
   tex: PGLTexture;
@@ -333,6 +413,11 @@ begin
   glDisable(GL_TEXTURE_2D);
 end;
 
+//==============================================================================
+//
+// gld_DrawAutomap
+//
+//==============================================================================
 procedure gld_DrawAutomap;
 var
   i: integer;

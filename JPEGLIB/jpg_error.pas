@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -50,63 +50,152 @@ const
   EXIT_FAILURE  = 1;   { define halt() codes if not provided }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_std_error 
+//
+//==============================================================================
 function jpeg_std_error (var err: jpeg_error_mgr): jpeg_error_mgr_ptr;
 
-
-
+//==============================================================================
+//
+// ERREXIT
+//
+//==============================================================================
 procedure ERREXIT(cinfo: j_common_ptr; code: J_MESSAGE_CODE);
 
+//==============================================================================
+//
+// ERREXIT1
+//
+//==============================================================================
 procedure ERREXIT1(cinfo: j_common_ptr; code: J_MESSAGE_CODE; p1: uInt);
 
+//==============================================================================
+//
+// ERREXIT2
+//
+//==============================================================================
 procedure ERREXIT2(cinfo: j_common_ptr; code: J_MESSAGE_CODE; p1: int; p2: int);
 
+//==============================================================================
+//
+// ERREXIT3
+//
+//==============================================================================
 procedure ERREXIT3(cinfo: j_common_ptr; code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int);
 
+//==============================================================================
+//
+// ERREXIT4
+//
+//==============================================================================
 procedure ERREXIT4(cinfo: j_common_ptr; code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int; p4: int);
 
+//==============================================================================
+//
+// ERREXITS
+//
+//==============================================================================
 procedure ERREXITS(cinfo: j_common_ptr;code: J_MESSAGE_CODE;
                    str: string);
 { Nonfatal errors (we can keep going, but the data is probably corrupt) }
 
+//==============================================================================
+//
+// WARNMS
+//
+//==============================================================================
 procedure WARNMS(cinfo: j_common_ptr; code: J_MESSAGE_CODE);
 
+//==============================================================================
+//
+// WARNMS1
+//
+//==============================================================================
 procedure WARNMS1(cinfo: j_common_ptr;code: J_MESSAGE_CODE; p1: int);
 
+//==============================================================================
+//
+// WARNMS2
+//
+//==============================================================================
 procedure WARNMS2(cinfo: j_common_ptr; code: J_MESSAGE_CODE;
                   p1: int; p2: int);
 
 { Informational/debugging messages }
+
+//==============================================================================
+//
+// TRACEMS
+//
+//==============================================================================
 procedure TRACEMS(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE);
 
+//==============================================================================
+//
+// TRACEMS1
+//
+//==============================================================================
 procedure TRACEMS1(cinfo: j_common_ptr; lvl: int;
                    code: J_MESSAGE_CODE; p1: long);
 
+//==============================================================================
+//
+// TRACEMS2
+//
+//==============================================================================
 procedure TRACEMS2(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE;
                    p1: int;
                    p2: int);
 
+//==============================================================================
+//
+// TRACEMS3
+//
+//==============================================================================
 procedure TRACEMS3(cinfo: j_common_ptr;
                    lvl: int;
                    code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int);
 
+//==============================================================================
+//
+// TRACEMS4
+//
+//==============================================================================
 procedure TRACEMS4(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int; p4: int);
 
+//==============================================================================
+//
+// TRACEMS5
+//
+//==============================================================================
 procedure TRACEMS5(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int; p4: int; p5: int);
 
+//==============================================================================
+//
+// TRACEMS8
+//
+//==============================================================================
 procedure TRACEMS8(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE;
                   p1: int; p2: int; p3: int; p4: int;
                   p5: int; p6: int; p7: int; p8: int);
 
+//==============================================================================
+//
+// TRACEMSS
+//
+//==============================================================================
 procedure TRACEMSS(cinfo: j_common_ptr; lvl: int;
                    code: J_MESSAGE_CODE; str: string);
 
 implementation
-
 
 { How to format a message string, in format_message() ? }
 
@@ -138,8 +227,13 @@ uses
   You should make sure that the JPEG object is cleaned up (with jpeg_abort
   or jpeg_destroy) at some point. }
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// error_exit 
+//
+//==============================================================================
 procedure error_exit (cinfo: j_common_ptr); far;
 begin
   { Always display the message }
@@ -151,7 +245,6 @@ begin
   halt(EXIT_FAILURE);
 end;
 
-
 { Actual output of an error or trace message.
   Applications may override this method to send JPEG messages somewhere
   other than stderr. }
@@ -160,12 +253,23 @@ end;
 { The first parameter is either type of cinfo pointer }
 
 { Fatal errors (print message and exit) }
+
+//==============================================================================
+//
+// ERREXIT
+//
+//==============================================================================
 procedure ERREXIT(cinfo: j_common_ptr; code: J_MESSAGE_CODE);
 begin
   cinfo^.err^.msg_code := ord(code);
   cinfo^.err^.error_exit(cinfo);
 end;
 
+//==============================================================================
+//
+// ERREXIT1
+//
+//==============================================================================
 procedure ERREXIT1(cinfo: j_common_ptr; code: J_MESSAGE_CODE; p1: uInt);
 begin
   cinfo^.err^.msg_code := ord(code);
@@ -173,6 +277,11 @@ begin
   cinfo^.err^.error_exit (cinfo);
 end;
 
+//==============================================================================
+//
+// ERREXIT2
+//
+//==============================================================================
 procedure ERREXIT2(cinfo: j_common_ptr; code: J_MESSAGE_CODE;
                    p1: int; p2: int);
 begin
@@ -182,6 +291,11 @@ begin
   cinfo^.err^.error_exit (cinfo);
 end;
 
+//==============================================================================
+//
+// ERREXIT3
+//
+//==============================================================================
 procedure ERREXIT3(cinfo: j_common_ptr; code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int);
 begin
@@ -192,6 +306,11 @@ begin
   cinfo^.err^.error_exit (cinfo);
 end;
 
+//==============================================================================
+//
+// ERREXIT4
+//
+//==============================================================================
 procedure ERREXIT4(cinfo: j_common_ptr; code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int; p4: int);
 begin
@@ -203,6 +322,11 @@ begin
   cinfo^.err^.error_exit (cinfo);
 end;
 
+//==============================================================================
+//
+// ERREXITS
+//
+//==============================================================================
 procedure ERREXITS(cinfo: j_common_ptr;code: J_MESSAGE_CODE;
                    str: string);
 begin
@@ -213,12 +337,22 @@ end;
 
 { Nonfatal errors (we can keep going, but the data is probably corrupt) }
 
+//==============================================================================
+//
+// WARNMS
+//
+//==============================================================================
 procedure WARNMS(cinfo: j_common_ptr; code: J_MESSAGE_CODE);
 begin
   cinfo^.err^.msg_code := ord(code);
   cinfo^.err^.emit_message(cinfo, -1);
 end;
 
+//==============================================================================
+//
+// WARNMS1
+//
+//==============================================================================
 procedure WARNMS1(cinfo: j_common_ptr;code: J_MESSAGE_CODE; p1: int);
 begin
   cinfo^.err^.msg_code := ord(code);
@@ -226,6 +360,11 @@ begin
   cinfo^.err^.emit_message (cinfo, -1);
 end;
 
+//==============================================================================
+//
+// WARNMS2
+//
+//==============================================================================
 procedure WARNMS2(cinfo: j_common_ptr; code: J_MESSAGE_CODE;
                   p1: int; p2: int);
 begin
@@ -236,12 +375,23 @@ begin
 end;
 
 { Informational/debugging messages }
+
+//==============================================================================
+//
+// TRACEMS
+//
+//==============================================================================
 procedure TRACEMS(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE);
 begin
   cinfo^.err^.msg_code := ord(code);
   cinfo^.err^.emit_message(cinfo, lvl);
 end;
 
+//==============================================================================
+//
+// TRACEMS1
+//
+//==============================================================================
 procedure TRACEMS1(cinfo: j_common_ptr; lvl: int;
                    code: J_MESSAGE_CODE; p1: long);
 begin
@@ -250,6 +400,11 @@ begin
   cinfo^.err^.emit_message (cinfo, lvl);
 end;
 
+//==============================================================================
+//
+// TRACEMS2
+//
+//==============================================================================
 procedure TRACEMS2(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE;
                    p1: int;
                    p2: int);
@@ -260,6 +415,11 @@ begin
   cinfo^.err^.emit_message (cinfo, lvl);
 end;
 
+//==============================================================================
+//
+// TRACEMS3
+//
+//==============================================================================
 procedure TRACEMS3(cinfo: j_common_ptr;
                    lvl: int;
                    code: J_MESSAGE_CODE;
@@ -273,7 +433,11 @@ begin
   cinfo^.err^.emit_message (cinfo, lvl);
 end;
 
-
+//==============================================================================
+//
+// TRACEMS4
+//
+//==============================================================================
 procedure TRACEMS4(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int; p4: int);
 var
@@ -285,6 +449,11 @@ begin
   cinfo^.err^.emit_message (cinfo, lvl);
 end;
 
+//==============================================================================
+//
+// TRACEMS5
+//
+//==============================================================================
 procedure TRACEMS5(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE;
                    p1: int; p2: int; p3: int; p4: int; p5: int);
 var
@@ -297,6 +466,11 @@ begin
   cinfo^.err^.emit_message (cinfo, lvl);
 end;
 
+//==============================================================================
+//
+// TRACEMS8
+//
+//==============================================================================
 procedure TRACEMS8(cinfo: j_common_ptr; lvl: int; code: J_MESSAGE_CODE;
                   p1: int; p2: int; p3: int; p4: int;
                   p5: int; p6: int; p7: int; p8: int);
@@ -310,6 +484,11 @@ begin
   cinfo^.err^.emit_message (cinfo, lvl);
 end;
 
+//==============================================================================
+//
+// TRACEMSS
+//
+//==============================================================================
 procedure TRACEMSS(cinfo: j_common_ptr; lvl: int;
                    code: J_MESSAGE_CODE; str: string);
 begin
@@ -319,6 +498,12 @@ begin
 end;
 
 {METHODDEF}
+
+//==============================================================================
+//
+// output_message 
+//
+//==============================================================================
 procedure output_message (cinfo: j_common_ptr); far;
 var
   buffer: string; {[JMSG_LENGTH_MAX];}
@@ -330,8 +515,6 @@ begin
   WriteLn(output, buffer);
 end;
 
-
-
 { Decide whether to emit a trace or warning message.
   msg_level is one of:
     -1: recoverable corrupt-data warning, may want to abort.
@@ -341,8 +524,13 @@ end;
   An application might override this method if it wanted to abort on warnings
   or change the policy about which messages to display. }
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// emit_message 
+//
+//==============================================================================
 procedure emit_message (cinfo: j_common_ptr; msg_level: int); far;
 var
   err: jpeg_error_mgr_ptr;
@@ -367,14 +555,18 @@ begin
   end;
 end;
 
-
 { Format a message string for the most recent JPEG error or message.
   The message is stored into buffer, which should be at least JMSG_LENGTH_MAX
   characters.  Note that no '\n' character is added to the string.
   Few applications should need to override this method. }
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// format_message 
+//
+//==============================================================================
 procedure format_message (cinfo: j_common_ptr; var buffer: string); far;
 var
   err: jpeg_error_mgr_ptr;
@@ -432,23 +624,25 @@ begin
   end;
 end;
 
-
-
 { Reset error state variables at start of a new image.
   This is called during compression startup to reset trace/error
   processing to default state, without losing any application-specific
   method pointers.  An application might possibly want to override
   this method if it has additional error processing state. }
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// reset_error_mgr 
+//
+//==============================================================================
 procedure reset_error_mgr (cinfo: j_common_ptr); far;
 begin
   cinfo^.err^.num_warnings := 0;
   { trace_level is not reset since it is an application-supplied parameter }
   cinfo^.err^.msg_code := 0;      { may be useful as a flag for "no error" }
 end;
-
 
 { Fill in the standard error-handling methods in a jpeg_error_mgr object.
   Typical call is:
@@ -458,8 +652,13 @@ end;
         cinfo.err := jpeg_std_error(@err);
   after which the application may override some of the methods. }
 
-
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_std_error 
+//
+//==============================================================================
 function jpeg_std_error (var err: jpeg_error_mgr): jpeg_error_mgr_ptr;
 begin
   err.error_exit := error_exit;
@@ -482,6 +681,5 @@ begin
 
   jpeg_std_error := @err;
 end;
-
 
 end.

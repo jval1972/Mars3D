@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -75,6 +75,12 @@ uses
 { Perform dequantization and inverse DCT on one block of coefficients. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_float
+//
+//==============================================================================
 procedure jpeg_idct_float(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 
@@ -86,10 +92,14 @@ implementation
   Sorry, this code only copes with 8x8 DCTs. { deliberate syntax err }
 {$endif}
 
-
 { Dequantize a coefficient by multiplying it by the multiplier-table
   entry; produce a float result. }
 
+//==============================================================================
+//
+// DEQUANTIZE
+//
+//==============================================================================
 function DEQUANTIZE(coef: int; quantval: FAST_FLOAT): FAST_FLOAT;
 begin
   Dequantize := ( (coef) * quantval);
@@ -99,6 +109,11 @@ end;
   We assume RIGHT_SHIFT rounds towards minus infinity, so adding
   the fudge factor is correct for either sign of X. }
 
+//==============================================================================
+//
+// DESCALE
+//
+//==============================================================================
 function DESCALE(x: INT32; n: int): INT32;
 var
   shift_temp: INT32;
@@ -114,10 +129,15 @@ begin
 {$endif}
 end;
 
-
 { Perform dequantization and inverse DCT on one block of coefficients. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_float
+//
+//==============================================================================
 procedure jpeg_idct_float(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 type

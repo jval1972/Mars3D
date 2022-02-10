@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -50,6 +50,11 @@ type
     destructor Destroy; virtual;
   end;
 
+//==============================================================================
+//
+// T_IsValidPCXHeader
+//
+//==============================================================================
 function T_IsValidPCXHeader(const p: Pointer): boolean;
 
 implementation
@@ -428,46 +433,76 @@ begin
   // Distroy all the other things
   inherited Destroy;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.SetHeight
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.SetHeight(Value: Integer);
 begin
   if Value >= 0 then
     fBitmap.Height := Value;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.SetWidth
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.SetWidth(Value: Integer);
 begin
   if Value >= 0 then
     fBitmap.Width := Value;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.GetHeight
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 function TPCXImage.GetHeight: Integer;
 begin
   Result := fPCXFile.fHeight;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.GetWidth
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 function TPCXImage.GetWidth: Integer;
 
 begin
   Result := fPCXFile.fWidth;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.fGetBitmap
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 function TPCXImage.fGetBitmap: TBitmap;
 begin
   Result := fBitmap;
 end;
+
+//==============================================================================
+// TPCXImage.LoadFromClipboardFormat
+//
 //-------------------------------------------------------------------//
 // The credits for this procedure go to his work of TGIFImage by     //
 // Reinier P. Sterkenburg                                            //
 // Added 19/08/2001                                                  //
 //-------------------------------------------------------------------//
 // NOT TESTED!
-
+//
+//==============================================================================
 procedure TPCXImage.LoadFromClipboardFormat(AFormat: WORD;
   ADAta: THandle; APalette: HPALETTE);
 var
@@ -509,13 +544,18 @@ begin
   else
     raise Exception.Create(CLIPBOARD_LOAD_ERROR);
 end;
+
+//==============================================================================
+// TPCXImage.SaveToClipboardFormat
+//
 //-------------------------------------------------------------------//
 // The credits for this procedure go to his work of TGIFImage by     //
 // Reinier P. Sterkenburg                                            //
 // Added 19/08/2001                                                  //
 //-------------------------------------------------------------------//
 // NOT TESTED!
-
+//
+//==============================================================================
 procedure TPCXImage.SaveToClipboardFormat(var AFormat: WORD;
   var AData: THandle; var APalette: HPALETTE);
 var
@@ -553,9 +593,14 @@ begin
     Stream.Free;
   end;
 end;
+
+//==============================================================================
+// TPCXImage.GetEmpty
+//
 //-------------------------------------------------------------------//
 // NOT TESTED!
-
+//
+//==============================================================================
 function TPCXImage.GetEmpty: Boolean; // Added 19/08/2002
 begin
   if Assigned(fBitmap) then
@@ -563,8 +608,13 @@ begin
   else
     Result := (fPCXFile.fHeight = 0) or (fPCXFile.fWidth = 0);
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.SaveToFile
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.SaveToFile(const Filename: string);
 var
   fPCX: TFileStream;
@@ -639,8 +689,13 @@ begin
   end; // of finally
   SetLength(fPCXFile.fPCXData.fData, 0);
 end; // of Procedure SaveToFile
-//-------------------------------------------------------------------//
 
+//==============================================================================
+// TPCXImage.AssignTo
+//
+//-------------------------------------------------------------------//
+//
+//==============================================================================
 procedure TPCXImage.AssignTo(Dest: TPersistent);
 var
   bAssignToError: Boolean;
@@ -679,8 +734,13 @@ begin
 
   // You can write other assignments here, if you want...
 end;
-//-------------------------------------------------------------------//
 
+//==============================================================================
+// TPCXImage.Assign
+//
+//-------------------------------------------------------------------//
+//
+//==============================================================================
 procedure TPCXImage.Assign(Source: TPersistent);
 var
   iX, iY: DWORD;
@@ -714,8 +774,13 @@ begin
   if bAssignError then
     raise Exception.Create(ASSIGN_ERROR);
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.Draw
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.Draw(ACanvas: TCanvas; const Rect: TRect);
 begin
   // Faster
@@ -724,8 +789,13 @@ begin
   // Slower
   ACanvas.StretchDraw(Rect, fBitmap);
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.LoadFromFile
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.LoadFromFile(const Filename: string);
 begin
   fPCXFile.LoadFromFile(Filename);
@@ -736,25 +806,40 @@ begin
     24: fConvert24BitPCXDataToImage;
   end;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.SaveToStream
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.SaveToStream(Stream: TStream);
 
 begin
   fPCXFile.SaveToStream(Stream);
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.LoadFromStream
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.LoadFromStream(Stream: TStream);
 begin
   fPCXFile.LoadFromStream(Stream);
 end;
+
+//==============================================================================
+// TPCXImage.fFillDataLines
+//
 ///////////////////////////////////////////////////////////////////////
 //                                                                   //
 //                       Called by RLE compressor                    //
 //                                                                   //
 ///////////////////////////////////////////////////////////////////////
-
+//
+//==============================================================================
 procedure TPCXImage.fFillDataLines(const fLine: array of BYTE);
 var
   By: BYTE;
@@ -834,10 +919,15 @@ begin
   fPCXFile.fPCXData.fData[fPCXFile.fCurrentPos] := By;
   Inc(fPCXFile.fCurrentPos);
 end;
+
+//==============================================================================
+// TPCXImage.fConvertImageTo24BitPCXData
+//
 //-------------------------------------------------------------------//
 //                  RLE Compression algorithm                        //
 //-------------------------------------------------------------------//
-
+//
+//==============================================================================
 procedure TPCXImage.fConvertImageTo24BitPCXData; // Renamed 5/4/2002
 var
   H, W: QWORD;
@@ -951,10 +1041,15 @@ begin
   // Correct the length of fPCXData.fData
   SetLength(fPCXFile.fPCXData.fData, fPCXFile.fCurrentPos);
 end;
+
+//==============================================================================
+// TPCXImage.fConvert24BitPCXDataToImage
+//
 //-------------------------------------------------------------------//
 //                  RLE Decompression algorithm                      //
 //-------------------------------------------------------------------//
-
+//
+//==============================================================================
 procedure TPCXImage.fConvert24BitPCXDataToImage; // Renamed 5/4/2002
 var
   I: QWORD;
@@ -1100,8 +1195,13 @@ begin
 
   SetLength(fPCXFile.fPCXData.fData, 0);
 end;
-//-------------------------------------------------------------------//
 
+//==============================================================================
+// TPCXImage.fConvert1And8BitPCXDataToImage
+//
+//-------------------------------------------------------------------//
+//
+//==============================================================================
 procedure TPCXImage.fConvert1And8BitPCXDataToImage; // added 5/4/2002
 var
   I, J: QWORD;
@@ -1189,8 +1289,13 @@ begin
 
   until Y >= H;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.fCreatePCXHeader
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.fCreatePCXHeader(const byBitsPerPixel: BYTE;
   const byPlanes: BYTE; const wBytesPerLine: DWORD);
 var
@@ -1233,8 +1338,13 @@ begin
     fPCXFile.fPCXHeader.fBitsPerPixel;
   fPCXFile.fColorDepth := 1 shl fPCXFile.fPixelFormat;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.fSetPalette
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.fSetPalette(const wNumColors: WORD);
 var
   pal: TMaxLogPalette;
@@ -1262,8 +1372,13 @@ begin
   if fhPAL <> 0 then
     fBitmap.Palette := fhPAL;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.fGetPixelFormat
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 function TPCXImage.fGetPixelFormat: TPixelFormat;
 
 // Only pf1bit, pf4bit and pf8bit images have a palette.
@@ -1287,8 +1402,13 @@ begin
     // 32 : Result := pf32bit; // Not implemented in PCX format.
   end;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXImage.fGetPalette
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXImage.fGetPalette(const wNumColors: WORD);
 
 var
@@ -1341,8 +1461,13 @@ begin
   SetLength(fPCXData.fData, 0);
   inherited Destroy;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXFile.LoadFromFile
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXFile.LoadFromFile(const Filename: string);
 var
   fPCXStream: TFileStream;
@@ -1355,8 +1480,13 @@ begin
     fPCXStream.Free;
   end;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXFile.SaveToFile
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXFile.SaveToFile(const Filename: string);
 var
   fPCXStream: TFileStream;
@@ -1369,8 +1499,13 @@ begin
     fPCXStream.Free;
   end;
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXFile.LoadFromStream
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXFile.LoadFromStream(Stream: TStream);
 var
   fFileLength: Cardinal;
@@ -1469,8 +1604,13 @@ begin
   end;
 
 end;
-//---------------------------------------------------------------------
 
+//==============================================================================
+// TPCXFile.SaveToStream
+//
+//---------------------------------------------------------------------
+//
+//==============================================================================
 procedure TPCXFile.SaveToStream(Stream: TStream);
 begin
   fHasPalette := False;
@@ -1494,6 +1634,11 @@ begin
   ferrorstring := '';
 end;
 
+//==============================================================================
+//
+// TPCXTextureManager.LoadHeader
+//
+//==============================================================================
 function TPCXTextureManager.LoadHeader(stream: TDStream): boolean;
 var
   buf: PByteArray;
@@ -1602,6 +1747,11 @@ begin
   fdelete(ftmpfilename);
 end;
 
+//==============================================================================
+//
+// TPCXTextureManager.LoadImage
+//
+//==============================================================================
 function TPCXTextureManager.LoadImage(stream: TDStream): boolean;
 begin
   Result := ferrorstring = '';
@@ -1612,6 +1762,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// T_IsValidPCXHeader
+//
+//==============================================================================
 function T_IsValidPCXHeader(const p: Pointer): boolean;
 var
   h: PPCXImageHeader;

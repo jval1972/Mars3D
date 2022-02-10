@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -35,8 +35,18 @@ unit r_flatinfo;
 
 interface
 
+//==============================================================================
+//
+// R_ParseFlatInfoLumps
+//
+//==============================================================================
 procedure R_ParseFlatInfoLumps;
 
+//==============================================================================
+//
+// R_FlatSizeFromSize
+//
+//==============================================================================
 function R_FlatSizeFromSize(const size: integer): integer;
 
 type
@@ -82,6 +92,11 @@ uses
   w_pak,
   w_wad;
 
+//==============================================================================
+//
+// R_ParseFlatInfoText
+//
+//==============================================================================
 procedure R_ParseFlatInfoText(const in_text: string);
 var
   sc: TScriptEngine;
@@ -144,6 +159,11 @@ const
 var
   fl_text: string;
 
+//==============================================================================
+//
+// R_RetrieveFlatInfo
+//
+//==============================================================================
 procedure R_RetrieveFlatInfo(const in_text: string);
 begin
   if fl_text = '' then
@@ -152,6 +172,11 @@ begin
     fl_text := fl_text + #13#10 + in_text;
 end;
 
+//==============================================================================
+//
+// R_ParseFlatInfoLumps
+//
+//==============================================================================
 procedure R_ParseFlatInfoLumps;
 var
   i: integer;
@@ -168,6 +193,11 @@ begin
   fl_text := '';
 end;
 
+//==============================================================================
+//
+// R_FlatSizeFromSize
+//
+//==============================================================================
 function R_FlatSizeFromSize(const size: integer): integer;
 begin
   if size = 128 then

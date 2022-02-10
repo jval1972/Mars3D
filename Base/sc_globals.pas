@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -32,10 +32,25 @@ unit sc_globals;
 
 interface
 
+//==============================================================================
+//
+// SC_InitGlobals
+//
+//==============================================================================
 procedure SC_InitGlobals;
 
+//==============================================================================
+//
+// SC_ShutDownGlobals
+//
+//==============================================================================
 procedure SC_ShutDownGlobals;
 
+//==============================================================================
+//
+// SC_AddGlobalPrecalc
+//
+//==============================================================================
 procedure SC_AddGlobalPrecalc(const name: string);
 
 implementation
@@ -48,6 +63,11 @@ const
 var
   scgloballists: array[0..NUM_SCGLOBALLISTS - 1] of TDStringList;
 
+//==============================================================================
+//
+// SC_InitGlobals
+//
+//==============================================================================
 procedure SC_InitGlobals;
 var
   i: integer;
@@ -55,6 +75,12 @@ begin
   for i := 0 to NUM_SCGLOBALLISTS - 1 do
     scgloballists[i] := TDStringList.Create;
 end;
+
+//==============================================================================
+//
+// SC_ShutDownGlobals
+//
+//==============================================================================
 procedure SC_ShutDownGlobals;
 var
   i: integer;
@@ -63,6 +89,11 @@ begin
     scgloballists[i].Free;
 end;
 
+//==============================================================================
+//
+// SC_AddGlobalPrecalc
+//
+//==============================================================================
 procedure SC_AddGlobalPrecalc(const name: string);
 begin
 end;

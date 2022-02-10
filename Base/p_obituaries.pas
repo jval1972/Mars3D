@@ -35,6 +35,11 @@ interface
 uses
   p_mobj_h;
 
+//==============================================================================
+//
+// P_Obituary
+//
+//==============================================================================
 procedure P_Obituary(const victim, inflictor, attacker: Pmobj_t);
 
 var
@@ -52,6 +57,11 @@ uses
   p_gender,
   w_wad;
 
+//==============================================================================
+//
+// P_Obituary
+//
+//==============================================================================
 procedure P_Obituary(const victim, inflictor, attacker: Pmobj_t);
 var
   pv, pif, pa: Pplayer_t;

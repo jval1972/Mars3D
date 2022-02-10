@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -43,6 +43,11 @@ const
   FLAT32CACHESIZE = 2048;
   CACHEFLATMASK = FLAT32CACHESIZE - 1;
 
+//==============================================================================
+//
+// R_ReadDS32Cache
+//
+//==============================================================================
 procedure R_ReadDS32Cache(const flat: integer);
 
 type
@@ -59,13 +64,46 @@ type
   ds32cacheinfo_tArray = array[0..FLAT32CACHESIZE - 1] of ds32cacheinfo_t;
   ds32cacheinfo_tPArray = array[0..FLAT32CACHESIZE - 1] of Pds32cacheinfo_t;
 
+//==============================================================================
+//
+// R_Get_ds32
+//
+//==============================================================================
 function R_Get_ds32(p: Pds32cacheinfo_t): Pds32_t;
 
+//==============================================================================
+//
+// R_FlatScaleFromSize
+//
+//==============================================================================
 function R_FlatScaleFromSize(const flat, size: integer): dsscale_t;
 
+//==============================================================================
+//
+// R_ClearDS32Cache
+//
+//==============================================================================
 procedure R_ClearDS32Cache;
+
+//==============================================================================
+//
+// R_ResetDS32Cache
+//
+//==============================================================================
 procedure R_ResetDS32Cache;
+
+//==============================================================================
+//
+// R_InitDS32Cache
+//
+//==============================================================================
 procedure R_InitDS32Cache;
+
+//==============================================================================
+//
+// R_ShutDownDS32Cache
+//
+//==============================================================================
 procedure R_ShutDownDS32Cache;
 
 implementation
@@ -94,6 +132,11 @@ uses
 var
   ds32cache: ds32cacheinfo_tPArray;
 
+//==============================================================================
+//
+// R_ReadDS32Cache
+//
+//==============================================================================
 procedure R_ReadDS32Cache(const flat: integer);
 var
   cachemiss: boolean;
@@ -431,6 +474,11 @@ begin
   inc(c_stot);
 end;
 
+//==============================================================================
+//
+// R_Get_ds32
+//
+//==============================================================================
 function R_Get_ds32(p: Pds32cacheinfo_t): Pds32_t;
 begin
   result := p.ds32[MaxI(Ord(p.scale), p.size)];
@@ -441,6 +489,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_ResetDS32Cache
+//
+//==============================================================================
 procedure R_ResetDS32Cache;
 var
   i: integer;
@@ -450,6 +503,11 @@ begin
       ds32cache[i].lump := -1;
 end;
 
+//==============================================================================
+//
+// R_ClearDS32Cache
+//
+//==============================================================================
 procedure R_ClearDS32Cache;
 var
   i, j: integer;
@@ -471,6 +529,11 @@ begin
     end
 end;
 
+//==============================================================================
+//
+// R_FlatScaleFromSize
+//
+//==============================================================================
 function R_FlatScaleFromSize(const flat, size: integer): dsscale_t;
 var
   i: integer;
@@ -488,6 +551,11 @@ begin
   result := ds64x64;
 end;
 
+//==============================================================================
+//
+// R_InitDS32Cache
+//
+//==============================================================================
 procedure R_InitDS32Cache;
 var
   i: integer;
@@ -496,6 +564,11 @@ begin
     ds32cache[i] := nil;
 end;
 
+//==============================================================================
+//
+// R_ShutDownDS32Cache
+//
+//==============================================================================
 procedure R_ShutDownDS32Cache;
 var
   i: integer;

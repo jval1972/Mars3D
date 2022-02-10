@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -43,12 +43,32 @@ type
     next: Pmobjcustomparam_t;
   end;
 
+//==============================================================================
+//
+// P_RemoveMobjCustomParams
+//
+//==============================================================================
 procedure P_RemoveMobjCustomParams(const parm: Pmobjcustomparam_t);
 
+//==============================================================================
+//
+// P_SetMobjCustomParam
+//
+//==============================================================================
 function P_SetMobjCustomParam(const actor1: pointer; const name1: string; const value: integer): Pmobjcustomparam_t;
 
+//==============================================================================
+//
+// P_GetMobjCustomParam
+//
+//==============================================================================
 function P_GetMobjCustomParam(const actor1: pointer; const name1: string): Pmobjcustomparam_t;
 
+//==============================================================================
+//
+// P_GetMobjCustomParamValue
+//
+//==============================================================================
 function P_GetMobjCustomParamValue(const actor1: pointer; const name1: string; const def: integer = 0): integer;
 
 implementation
@@ -58,6 +78,11 @@ uses
   p_mobj_h,
   z_zone;
 
+//==============================================================================
+//
+// P_RemoveMobjCustomParams
+//
+//==============================================================================
 procedure P_RemoveMobjCustomParams(const parm: Pmobjcustomparam_t);
 begin
   if parm <> nil then
@@ -68,6 +93,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_SetMobjCustomParam
+//
+//==============================================================================
 function P_SetMobjCustomParam(const actor1: pointer; const name1: string; const value: integer): Pmobjcustomparam_t;
 var
   check: Pmobjcustomparam_t;
@@ -93,6 +123,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_GetMobjCustomParam
+//
+//==============================================================================
 function P_GetMobjCustomParam(const actor1: pointer; const name1: string): Pmobjcustomparam_t;
 var
   check: string;
@@ -117,6 +152,11 @@ begin
   result := nil; // JVAL: unneeded
 end;
 
+//==============================================================================
+//
+// P_GetMobjCustomParamValue
+//
+//==============================================================================
 function P_GetMobjCustomParamValue(const actor1: pointer; const name1: string; const def: integer = 0): integer;
 var
   parm: Pmobjcustomparam_t;

@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -37,10 +37,27 @@ uses
   m_fixed,
   tables;
 
+//==============================================================================
+// R_DrawSpanLow
+//
 // Span blitting for rows, floor/ceiling.
 // No Sepctre effect needed.
+//
+//==============================================================================
 procedure R_DrawSpanLow;
+
+//==============================================================================
+//
+// R_DrawSpanMedium
+//
+//==============================================================================
 procedure R_DrawSpanMedium;
+
+//==============================================================================
+//
+// R_DrawSpanMedium_Ripple
+//
+//==============================================================================
 procedure R_DrawSpanMedium_Ripple;
 
 var
@@ -73,6 +90,9 @@ uses
   r_draw,
   r_flatinfo,
   r_ripple;
+
+//==============================================================================
+// R_DrawSpanLow
 //
 // R_DrawSpan
 // With DOOM style restrictions on view orientation,
@@ -85,10 +105,9 @@ uses
 // In consequence, flats are not stored by column (like walls),
 //  and the inner loop has to step in texture space u and v.
 //
-
-//
 // Draws the actual span (Low resolution).
 //
+//==============================================================================
 procedure R_DrawSpanLow;
 var
   xfrac: fixed_t;
@@ -255,7 +274,6 @@ begin
       end;
     end;
 
-
     count := (ds_x2 - ds_x1) div 3;
     if count < 0 then
       exit;
@@ -332,9 +350,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// R_DrawSpanMedium
 //
 // Draws the actual span (Medium resolution).
 //
+//==============================================================================
 procedure R_DrawSpanMedium;
 var
   xfrac: fixed_t;
@@ -358,6 +379,11 @@ begin
   {$I R_DrawSpanMedium.inc}
 end;
 
+//==============================================================================
+//
+// R_DrawSpanMedium_Ripple
+//
+//==============================================================================
 procedure R_DrawSpanMedium_Ripple;
 var
   xfrac: fixed_t;

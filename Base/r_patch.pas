@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -38,12 +38,32 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// R_InitFixedColumn
+//
+//==============================================================================
 procedure R_InitFixedColumn;
 
+//==============================================================================
+//
+// R_GetFixedColumn
+//
+//==============================================================================
 function R_GetFixedColumn(const src: PByteArray; const tex, col: integer; const multipatch: boolean): PByteArray;
 
+//==============================================================================
+//
+// R_EnableFixedColumn
+//
+//==============================================================================
 procedure R_EnableFixedColumn;
 
+//==============================================================================
+//
+// R_DisableFixedColumn
+//
+//==============================================================================
 procedure R_DisableFixedColumn;
 
 implementation
@@ -70,12 +90,22 @@ var
   fixedcolumns: array[0..FIXEDCOLUMNSIZE - 1] of Pfixedcolumnitem_t;
   fix_col_enabled: boolean = true;
 
+//==============================================================================
+//
+// R_InitFixedColumn
+//
+//==============================================================================
 procedure R_InitFixedColumn;
 begin
   ZeroMemory(@fixedcolumns, SizeOf(fixedcolumns));
 end;
 
+//==============================================================================
+// R_GetFixedColumnHash
+//
 // JVAL: Cantor pairing function (https://en.wikipedia.org/wiki/Pairing_function#Cantor_pairing_function)
+//
+//==============================================================================
 function R_GetFixedColumnHash(const tex, col: integer): LongWord;
 var
   l: LongWord;
@@ -84,6 +114,11 @@ begin
   result := ((l * (l + 1)) div 2) and FIXEDCOLUMNMASK;
 end;
 
+//==============================================================================
+//
+// R_GetFixedColumn
+//
+//==============================================================================
 function R_GetFixedColumn(const src: PByteArray; const tex, col: integer; const multipatch: boolean): PByteArray;
 var
   hash: LongWord;
@@ -215,11 +250,21 @@ begin
     result := src;
 end;
 
+//==============================================================================
+//
+// R_EnableFixedColumn
+//
+//==============================================================================
 procedure R_EnableFixedColumn;
 begin
   fix_col_enabled := true;
 end;
 
+//==============================================================================
+//
+// R_DisableFixedColumn
+//
+//==============================================================================
 procedure R_DisableFixedColumn;
 begin
   fix_col_enabled := false;

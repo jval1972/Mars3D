@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -35,7 +35,6 @@ unit jpg_memnobs;
 
 { Check jmemnobs.c }
 { Copyright (C) 1996, Jacques Nomssi Nzali }
-
 
 interface
 
@@ -65,6 +64,12 @@ const
 {$ENDIF}
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_open_backing_store 
+//
+//==============================================================================
 procedure jpeg_open_backing_store (cinfo : j_common_ptr;
                                    info : backing_store_ptr;
                                    total_bytes_needed : long);
@@ -73,9 +78,21 @@ procedure jpeg_open_backing_store (cinfo : j_common_ptr;
   cleanup required. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_mem_init 
+//
+//==============================================================================
 function jpeg_mem_init (cinfo : j_common_ptr) : long;
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_mem_term 
+//
+//==============================================================================
 procedure jpeg_mem_term (cinfo : j_common_ptr);
 
 { These two functions are used to allocate and release small chunks of
@@ -87,16 +104,27 @@ procedure jpeg_mem_term (cinfo : j_common_ptr);
   size of the object being freed, just in case it's needed.
   On an 80x86 machine using small-data memory model, these manage near heap. }
 
-
 { Near-memory allocation and freeing are controlled by the regular library
   routines malloc() and free(). }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_get_small 
+//
+//==============================================================================
 function jpeg_get_small (cinfo : j_common_ptr;
                          sizeofobject : size_t) : pointer;
 
 {GLOBAL}
 {object is a reserved word in Borland Pascal }
+
+//==============================================================================
+//
+// jpeg_free_small 
+//
+//==============================================================================
 procedure jpeg_free_small (cinfo : j_common_ptr;
                            an_object : pointer;
                            sizeofobject : size_t);
@@ -108,15 +136,25 @@ procedure jpeg_free_small (cinfo : j_common_ptr;
   the jpeg_get/free_small routines; but we keep them separate anyway,
   in case a different allocation strategy is desirable for large chunks. }
 
-
 { "Large" objects are allocated in far memory, if possible }
 
-
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_get_large 
+//
+//==============================================================================
 function jpeg_get_large (cinfo : j_common_ptr;
                          sizeofobject : size_t) : voidp; {far}
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_free_large 
+//
+//==============================================================================
 procedure jpeg_free_large (cinfo : j_common_ptr;
                           {var?} an_object : voidp; {FAR}
                           sizeofobject : size_t);
@@ -128,11 +166,16 @@ procedure jpeg_free_large (cinfo : j_common_ptr;
   a slop factor of 5% or so. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_mem_available 
+//
+//==============================================================================
 function jpeg_mem_available (cinfo : j_common_ptr;
                              min_bytes_needed : long;
                              max_bytes_needed : long;
                              already_allocated : long) : long;
-
 
 implementation
 
@@ -144,8 +187,6 @@ uses
   by jmemmgr.c to manipulate the backing-store object; all other fields
   are private to the system-dependent backing store routines. }
 
-
-
 { These two functions are used to allocate and release small chunks of
   memory.  (Typically the total amount requested through jpeg_get_small is
   no more than 20K or so; this will be requested in chunks of a few K each.)
@@ -155,11 +196,16 @@ uses
   size of the object being freed, just in case it's needed.
   On an 80x86 machine using small-data memory model, these manage near heap. }
 
-
 { Near-memory allocation and freeing are controlled by the regular library
   routines malloc() and free(). }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_get_small 
+//
+//==============================================================================
 function jpeg_get_small (cinfo : j_common_ptr;
                          sizeofobject : size_t) : pointer;
 var
@@ -171,6 +217,12 @@ end;
 
 {GLOBAL}
 {object is a reserved word in Object Pascal }
+
+//==============================================================================
+//
+// jpeg_free_small 
+//
+//==============================================================================
 procedure jpeg_free_small (cinfo : j_common_ptr;
                            an_object : pointer;
                            sizeofobject : size_t);
@@ -185,9 +237,13 @@ end;
   the jpeg_get/free_small routines; but we keep them separate anyway,
   in case a different allocation strategy is desirable for large chunks. }
 
-
-
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_get_large 
+//
+//==============================================================================
 function jpeg_get_large (cinfo : j_common_ptr;
                          sizeofobject : size_t) : voidp; {far}
 var
@@ -198,6 +254,12 @@ begin
 end;
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_free_large 
+//
+//==============================================================================
 procedure jpeg_free_large (cinfo : j_common_ptr;
                           {var?} an_object : voidp; {FAR}
                           sizeofobject : size_t);
@@ -225,8 +287,6 @@ end;
   On machines with lots of virtual memory, any large constant may be returned.
   Conversely, zero may be returned to always use the minimum amount of memory.}
 
-
-
 { This routine computes the total memory space available for allocation.
   It's impossible to do this in a portable way; our current solution is
   to make the user tell us (with a default value set at compile time).
@@ -237,6 +297,12 @@ const
   DEFAULT_MAX_MEM = long(300000);   { for total usage about 450K }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_mem_available 
+//
+//==============================================================================
 function jpeg_mem_available (cinfo : j_common_ptr;
                              min_bytes_needed : long;
                              max_bytes_needed : long;
@@ -246,18 +312,21 @@ begin
   jpeg_mem_available := max_bytes_needed;
 end;
 
-
 { Initial opening of a backing-store object.  This must fill in the
   read/write/close pointers in the object.  The read/write routines
   may take an error exit if the specified maximum file size is exceeded.
   (If jpeg_mem_available always returns a large value, this routine can
   just take an error exit.) }
 
-
-
 { Initial opening of a backing-store object. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_open_backing_store 
+//
+//==============================================================================
 procedure jpeg_open_backing_store (cinfo : j_common_ptr;
                                    info : backing_store_ptr;
                                    total_bytes_needed : long);
@@ -275,22 +344,31 @@ end;
   jpeg_mem_term may assume that all requested memory has been freed and that
   all opened backing-store objects have been closed. }
 
-
 { These routines take care of any system-dependent initialization and
   cleanup required. }
 
-
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_mem_init 
+//
+//==============================================================================
 function jpeg_mem_init (cinfo : j_common_ptr) : long;
 begin
   jpeg_mem_init := DEFAULT_MAX_MEM;   { default for max_memory_to_use }
 end;
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_mem_term 
+//
+//==============================================================================
 procedure jpeg_mem_term (cinfo : j_common_ptr);
 begin
 
 end;
-
 
 end.

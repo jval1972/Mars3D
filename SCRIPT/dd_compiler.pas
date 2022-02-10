@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -104,6 +104,11 @@ const
   MARS_ACTORDEF =
   {$I mars_actordef.inc}
 
+//==============================================================================
+//
+// DD_InitDoomEngine
+//
+//==============================================================================
 procedure DD_InitDoomEngine;
 begin
   ThousandSeparator := #0;
@@ -121,6 +126,11 @@ begin
   PS_InitProcLists;
 end;
 
+//==============================================================================
+//
+// DD_ShutDownDoomEngine
+//
+//==============================================================================
 procedure DD_ShutDownDoomEngine;
 begin
   SC_ShutDown;
@@ -129,6 +139,11 @@ begin
   PS_ShutDownProcLists;
 end;
 
+//==============================================================================
+//
+// DD_Compile
+//
+//==============================================================================
 function DD_Compile(const _inp: string; var _out: string; var _msgs: string): boolean;
 var
   c: TDoomCompiler;
@@ -181,6 +196,11 @@ begin
   _msgssize := _lmsgssize;
 end;
 
+//==============================================================================
+//
+// DD_CopyStringToPChar
+//
+//==============================================================================
 procedure DD_CopyStringToPChar(const inps: string; var _out: PChar; var _outsize: Integer);
 var
   i: integer;
@@ -199,6 +219,11 @@ begin
     _out[i - 1] := inps[i];
 end;
 
+//==============================================================================
+//
+// DD_CopyPCharToString
+//
+//==============================================================================
 procedure DD_CopyPCharToString(const _inp: PChar; const _inpsize: Integer; var outstr: string);
 var
   i: integer;
@@ -247,6 +272,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// IfRVariantStringValue
+//
+//==============================================================================
 function IfRVariantStringValue(const p: PIfRVariant): string;
 var
   i: integer;
@@ -319,6 +349,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// IfBaseTypeToString
+//
+//==============================================================================
 function IfBaseTypeToString(const b: byte): string;
 begin
   case b of
@@ -402,6 +437,11 @@ var
   ctypes: string;
   cclasses: string;
 
+//==============================================================================
+//
+// PS_ScriptOnUsesEx
+//
+//==============================================================================
 function PS_ScriptOnUsesEx(Sender: TPSPascalCompiler; const Name: string): Boolean;
 var
   i: integer;
@@ -440,6 +480,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// PS_ScriptOnUsesExClasses
+//
+//==============================================================================
 function PS_ScriptOnUsesExClasses(Sender: TPSPascalCompiler; const Name: string): Boolean;
 var
   i, j: integer;

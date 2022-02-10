@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -35,12 +35,32 @@ unit ps_dll;
 
 interface
 
+//==============================================================================
+//
+// PS_InitDLLLoader
+//
+//==============================================================================
 procedure PS_InitDLLLoader;
 
+//==============================================================================
+//
+// PS_PAKLoadDll
+//
+//==============================================================================
 function PS_PAKLoadDll(const dllname: string): LongWord;
 
+//==============================================================================
+//
+// PS_PAKUnLoadDll
+//
+//==============================================================================
 function PS_PAKUnLoadDll(const dllname: string): boolean;
 
+//==============================================================================
+//
+// PS_ShutDownDLLLoader
+//
+//==============================================================================
 procedure PS_ShutDownDLLLoader;
 
 implementation
@@ -78,11 +98,21 @@ begin
   fFilename := '';
 end;
 
+//==============================================================================
+//
+// PS_InitDLLLoader
+//
+//==============================================================================
 procedure PS_InitDLLLoader;
 begin
   dlls := TDStringList.Create;
 end;
 
+//==============================================================================
+//
+// PS_PAKLoadDll
+//
+//==============================================================================
 function PS_PAKLoadDll(const dllname: string): LongWord;
 var
   ps: TPakStream;
@@ -130,6 +160,11 @@ begin
   dlls.AddObject(strupper(fname), hc);
 end;
 
+//==============================================================================
+//
+// PS_PAKUnLoadDll
+//
+//==============================================================================
 function PS_PAKUnLoadDll(const dllname: string): boolean;
 var
   fname: string;
@@ -160,6 +195,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// PS_ShutDownDLLLoader
+//
+//==============================================================================
 procedure PS_ShutDownDLLLoader;
 var
   i: integer;

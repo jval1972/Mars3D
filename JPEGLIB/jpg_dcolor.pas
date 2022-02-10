@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -47,6 +47,12 @@ uses
 { Module initialization routine for output colorspace conversion. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_color_deconverter 
+//
+//==============================================================================
 procedure jinit_color_deconverter (cinfo: j_decompress_ptr);
 
 implementation
@@ -71,9 +77,6 @@ type
     Cr_g_tab: INT32_table_ptr;  { => table for Cr to G conversion }
     Cb_g_tab: INT32_table_ptr;  { => table for Cb to G conversion }
   end;
-
-
-
 
 {*************** YCbCr ^. RGB conversion: most common case *************}
 
@@ -106,10 +109,15 @@ const
   SCALEBITS = 16;      { speediest right-shift on some machines }
   ONE_HALF  = (INT32(1) shl (SCALEBITS-1));
 
-
 { Initialize tables for YCC->RGB colorspace conversion. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// build_ycc_rgb_table 
+//
+//==============================================================================
 procedure build_ycc_rgb_table (cinfo: j_decompress_ptr);
 const
   FIX_1_40200 = INT32(Round( 1.40200  * (1 shl SCALEBITS)));
@@ -126,7 +134,6 @@ var
 begin
   cconvert := my_cconvert_ptr (cinfo^.cconvert);
 
-
   cconvert^.Cr_r_tab := int_table_ptr(
     cinfo^.mem^.alloc_small ( j_common_ptr(cinfo), JPOOL_IMAGE,
         (MAXJSAMPLE+1) * SizeOf(int)) );
@@ -139,7 +146,6 @@ begin
   cconvert^.Cb_g_tab := INT32_table_ptr (
     cinfo^.mem^.alloc_small ( j_common_ptr(cinfo), JPOOL_IMAGE,
         (MAXJSAMPLE+1) * SizeOf(INT32)) );
-
 
   x := -CENTERJSAMPLE;
   for i := 0 to MAXJSAMPLE do
@@ -172,7 +178,6 @@ begin
   end;
 end;
 
-
 { Convert some rows of samples to the output colorspace.
 
   Note that we change from noninterleaved, one-plane-per-component format
@@ -183,6 +188,12 @@ end;
   offset required on that side. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// ycc_rgb_convert 
+//
+//==============================================================================
 procedure ycc_rgb_convert (cinfo: j_decompress_ptr;
                input_buf: JSAMPIMAGE;
                            input_row: JDIMENSION;
@@ -241,14 +252,18 @@ begin
   end;
 end;
 
-
 {*************** Cases other than YCbCr -> RGB *************}
-
 
 { Color conversion for no colorspace change: just copy the data,
   converting from separate-planes to interleaved representation. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// null_convert 
+//
+//==============================================================================
 procedure null_convert (cinfo: j_decompress_ptr;
                   input_buf: JSAMPIMAGE;
                         input_row: JDIMENSION;
@@ -285,12 +300,17 @@ begin
   end;
 end;
 
-
 { Color conversion for grayscale: just copy the data.
   This also works for YCbCr -> grayscale conversion, in which
   we just copy the Y (luminance) component and ignore chrominance. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// grayscale_convert 
+//
+//==============================================================================
 procedure grayscale_convert (cinfo: j_decompress_ptr;
                        input_buf: JSAMPIMAGE;
                              input_row: JDIMENSION;
@@ -306,6 +326,12 @@ end;
   with grayscale as a separate case. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// gray_rgb_convert 
+//
+//==============================================================================
 procedure gray_rgb_convert (cinfo: j_decompress_ptr;
                       input_buf: JSAMPIMAGE;
                             input_row: JDIMENSION;
@@ -336,13 +362,18 @@ begin
   end;
 end;
 
-
 { Adobe-style YCCK -> CMYK conversion.
   We convert YCbCr to R=1-C, G=1-M, and B=1-Y using the same
   conversion as above, while passing K (black) unchanged.
   We assume build_ycc_rgb_table has been called. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// ycck_cmyk_convert 
+//
+//==============================================================================
 procedure ycck_cmyk_convert (cinfo: j_decompress_ptr;
                  input_buf: JSAMPIMAGE;
                              input_row: JDIMENSION;
@@ -406,19 +437,29 @@ begin
   end;
 end;
 
-
 { Empty method for start_pass. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// start_pass_dcolor 
+//
+//==============================================================================
 procedure start_pass_dcolor (cinfo: j_decompress_ptr); far;
 begin
   { no work needed }
 end;
 
-
 { Module initialization routine for output colorspace conversion. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_color_deconverter 
+//
+//==============================================================================
 procedure jinit_color_deconverter (cinfo: j_decompress_ptr);
 var
   cconvert: my_cconvert_ptr;

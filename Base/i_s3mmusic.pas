@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -35,22 +35,67 @@ unit i_s3mmusic;
 
 interface
 
+//==============================================================================
+//
+// I_PlayS3M
+//
+//==============================================================================
 procedure I_PlayS3M(const data: pointer; const size: integer);
 
+//==============================================================================
+//
+// I_PauseS3M
+//
+//==============================================================================
 procedure I_PauseS3M;
 
+//==============================================================================
+//
+// I_ResumeS3M
+//
+//==============================================================================
 procedure I_ResumeS3M;
 
+//==============================================================================
+//
+// I_StopS3M
+//
+//==============================================================================
 procedure I_StopS3M;
 
+//==============================================================================
+//
+// I_InitS3M
+//
+//==============================================================================
 procedure I_InitS3M;
 
+//==============================================================================
+//
+// I_ShutDownS3M
+//
+//==============================================================================
 procedure I_ShutDownS3M;
 
+//==============================================================================
+//
+// I_SetMusicVolumeS3M
+//
+//==============================================================================
 procedure I_SetMusicVolumeS3M(volume: integer);
 
+//==============================================================================
+//
+// I_ProcessS3M
+//
+//==============================================================================
 procedure I_ProcessS3M;
 
+//==============================================================================
+//
+// IsS3MMusicFile
+//
+//==============================================================================
 function IsS3MMusicFile(const buf: pointer; const size: integer): boolean;
 
 implementation
@@ -70,6 +115,11 @@ const
   NUM_BUFFERS    : LongInt = 8;     { 8 buffers. }
   EXIT_FAILURE: integer = 1;
 
+//==============================================================================
+//
+// CheckMMError
+//
+//==============================================================================
 procedure CheckMMError(ReturnCode: MMRESULT);
 var
   ErrorText: array[0..63] of char;
@@ -80,7 +130,6 @@ begin
     I_Error('CheckMMError(): ' + string(ErrorText));
   end;
 end;
-
 
 const
   S3M_MSG_NONE = 0;
@@ -103,6 +152,11 @@ var
 var
   Semaphore: THandle;
 
+//==============================================================================
+//
+// WaveOutProc
+//
+//==============================================================================
 procedure WaveOutProc(hWaveOut: HWAVEOUT; uMsg: UINT;
   dwInstance, dwParam1, dwParam2: DWORD) stdcall;
 begin
@@ -113,6 +167,11 @@ end;
 var
   s3module: s3m_t;
 
+//==============================================================================
+//
+// LoadS3M
+//
+//==============================================================================
 procedure LoadS3M;
 var
   ret: integer;
@@ -140,6 +199,11 @@ var
 var
   s3mbuffer: packed array[0..BUFFER_SAMPLES * NUM_CHANNELS - 1] of smallint;
 
+//==============================================================================
+//
+// PlayS3M
+//
+//==============================================================================
 procedure PlayS3M;
 var
   WaveFormat: TWaveFormatEx;
@@ -220,6 +284,11 @@ begin
   s3m_msg := S3M_MSG_NONE;
 end;
 
+//==============================================================================
+//
+// I_PlayS3M
+//
+//==============================================================================
 procedure I_PlayS3M(const data: pointer; const size: integer);
 begin
   if s3m_status = MOD_STATUS_PLAYING then
@@ -238,12 +307,22 @@ begin
   s3m_thread.Activate(nil);
 end;
 
+//==============================================================================
+//
+// I_PauseS3M
+//
+//==============================================================================
 procedure I_PauseS3M;
 begin
   if s3m_status = MOD_STATUS_PLAYING then
     s3m_msg := S3M_MSG_PAUSE;
 end;
 
+//==============================================================================
+//
+// I_ResumeS3M
+//
+//==============================================================================
 procedure I_ResumeS3M;
 begin
   if s3m_status = MOD_STATUS_PLAYING then
@@ -251,11 +330,21 @@ begin
       s3m_msg := S3M_MSG_RESUME;
 end;
 
+//==============================================================================
+//
+// I_StopS3M
+//
+//==============================================================================
 procedure I_StopS3M;
 begin
   s3m_msg := S3M_MSG_STOP;
 end;
 
+//==============================================================================
+//
+// threadproc
+//
+//==============================================================================
 function threadproc(p: pointer): integer; stdcall;
 begin
   s3m_status := MOD_STATUS_PLAYING;
@@ -265,6 +354,11 @@ begin
   s3m_status := MOD_STATUS_IDLE;
 end;
 
+//==============================================================================
+//
+// I_InitS3M
+//
+//==============================================================================
 procedure I_InitS3M;
 begin
   s3m_msg := S3M_MSG_NONE;
@@ -272,6 +366,11 @@ begin
   s3m_thread := TDThread.Create(@threadproc);
 end;
 
+//==============================================================================
+//
+// I_ShutDownS3M
+//
+//==============================================================================
 procedure I_ShutDownS3M;
 begin
   if s3m_status = MOD_STATUS_PLAYING then
@@ -292,6 +391,11 @@ const
     52428,    56797,    61166,    65535
   );
 
+//==============================================================================
+//
+// I_SetMusicVolumeS3M
+//
+//==============================================================================
 procedure I_SetMusicVolumeS3M(volume: integer);
 var
   vol: integer;
@@ -300,10 +404,20 @@ begin
   s3mvolume := S3M_VOLUME_CONTROL[vol];
 end;
 
+//==============================================================================
+//
+// I_ProcessS3M
+//
+//==============================================================================
 procedure I_ProcessS3M;
 begin
 end;
 
+//==============================================================================
+//
+// IsS3MMusicFile
+//
+//==============================================================================
 function IsS3MMusicFile(const buf: pointer; const size: integer): boolean;
 var
   h: Ps3m_header_t;

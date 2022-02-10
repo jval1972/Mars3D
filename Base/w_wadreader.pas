@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -62,6 +62,11 @@ type
     property Header: wadinfo_t read h;
   end;
 
+//==============================================================================
+//
+// W_WadFastCrc32
+//
+//==============================================================================
 function W_WadFastCrc32(const aname: string): string;
 
 implementation
@@ -87,6 +92,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TWadReader.Clear
+//
+//==============================================================================
 procedure TWadReader.Clear;
 begin
   if h.numlumps > 0 then
@@ -110,6 +120,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TWadReader.OpenWadFile
+//
+//==============================================================================
 procedure TWadReader.OpenWadFile(const aname: string);
 var
   madbuf: packed array[0..19] of byte;
@@ -184,6 +199,11 @@ begin
     I_Warning('TWadReader.OpenWadFile(): Invalid WAD file ' + aname + #13#10);
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryAsString
+//
+//==============================================================================
 function TWadReader.EntryAsString(const id: integer): string;
 begin
   if (fs <> nil) and (id >= 0) and (id < h.numlumps) then
@@ -196,6 +216,11 @@ begin
     Result := '';
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryAsString
+//
+//==============================================================================
 function TWadReader.EntryAsString(const aname: string): string;
 var
   id: integer;
@@ -207,6 +232,11 @@ begin
     Result := '';
 end;
 
+//==============================================================================
+//
+// TWadReader.ReadEntry
+//
+//==============================================================================
 function TWadReader.ReadEntry(const id: integer; var buf: pointer; var bufsize: integer): boolean;
 begin
   if (fs <> nil) and (id >= 0) and (id < h.numlumps) then
@@ -221,6 +251,11 @@ begin
     Result := false;
 end;
 
+//==============================================================================
+//
+// TWadReader.ReadEntry
+//
+//==============================================================================
 function TWadReader.ReadEntry(const aname: string; var buf: pointer; var bufsize: integer): boolean;
 var
   id: integer;
@@ -232,6 +267,11 @@ begin
     Result := false;
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryName
+//
+//==============================================================================
 function TWadReader.EntryName(const id: integer): string;
 begin
   if (id >= 0) and (id < h.numlumps) then
@@ -240,6 +280,11 @@ begin
     Result := '';
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryId
+//
+//==============================================================================
 function TWadReader.EntryId(const aname: string): integer;
 var
   i: integer;
@@ -255,6 +300,11 @@ begin
   Result := -1;
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryInfo
+//
+//==============================================================================
 function TWadReader.EntryInfo(const id: integer): Pfilelump_t;
 begin
   if (id >= 0) and (id < h.numlumps) then
@@ -263,16 +313,31 @@ begin
     Result := nil;
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryInfo
+//
+//==============================================================================
 function TWadReader.EntryInfo(const aname: string): Pfilelump_t;
 begin
   result := EntryInfo(EntryId(aname));
 end;
 
+//==============================================================================
+//
+// TWadReader.NumEntries
+//
+//==============================================================================
 function TWadReader.NumEntries: integer;
 begin
   Result := h.numlumps;
 end;
 
+//==============================================================================
+//
+// TWadReader.FileSize
+//
+//==============================================================================
 function TWadReader.FileSize: integer;
 begin
   if fs <> nil then
@@ -281,6 +346,11 @@ begin
     Result := 0;
 end;
 
+//==============================================================================
+//
+// W_WadFastCrc32
+//
+//==============================================================================
 function W_WadFastCrc32(const aname: string): string;
 var
   w: TWadReader;

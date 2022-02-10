@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -41,8 +41,25 @@ uses
   r_visplanes,
   r_defs;
 
+//==============================================================================
+//
+// R_DebugCheckVisPlane
+//
+//==============================================================================
 procedure R_DebugCheckVisPlane(const pl: Pvisplane_t);
+
+//==============================================================================
+//
+// R_CheckClipTable
+//
+//==============================================================================
 procedure R_CheckClipTable(const tbl: PSmallIntArray; const a1, a2: integer);
+
+//==============================================================================
+//
+// R_CheckClipItem
+//
+//==============================================================================
 procedure R_CheckClipItem(const x: PSmallInt);
 {$ENDIF}
 
@@ -53,6 +70,11 @@ uses
   i_system,
   r_draw;
 
+//==============================================================================
+//
+// R_DebugCheckVisPlane
+//
+//==============================================================================
 procedure R_DebugCheckVisPlane(const pl: Pvisplane_t);
 var
   i: integer;
@@ -74,6 +96,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_CheckClipTable
+//
+//==============================================================================
 procedure R_CheckClipTable(const tbl: PSmallIntArray; const a1, a2: integer);
 var
   i: integer;
@@ -98,6 +125,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// R_CheckClipItem
+//
+//==============================================================================
 procedure R_CheckClipItem(const x: PSmallInt);
 begin
   if x^ > viewheight then

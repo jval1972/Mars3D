@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -45,14 +45,39 @@ uses
 var
   activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;
 
+//==============================================================================
+//
+// T_MoveCeiling
+//
+//==============================================================================
 procedure T_MoveCeiling(ceiling: Pceiling_t);
 
+//==============================================================================
+//
+// EV_DoCeiling
+//
+//==============================================================================
 function EV_DoCeiling(line: Pline_t; _type: ceiling_e): integer;
 
+//==============================================================================
+//
+// P_AddActiveCeiling
+//
+//==============================================================================
 procedure P_AddActiveCeiling(c: Pceiling_t);
 
+//==============================================================================
+//
+// EV_CeilingCrushStop
+//
+//==============================================================================
 function EV_CeilingCrushStop(line: Pline_t): integer;
 
+//==============================================================================
+//
+// P_ActivateInStasisCeiling
+//
+//==============================================================================
 function P_ActivateInStasisCeiling(line: Pline_t): integer;
 
 implementation
@@ -67,9 +92,12 @@ uses
   p_slopes,
   p_floor;
 
+//==============================================================================
+// P_AddActiveCeiling
 //
 // Add an active ceiling
 //
+//==============================================================================
 procedure P_AddActiveCeiling(c: Pceiling_t);
 var
   i: integer;
@@ -83,9 +111,12 @@ begin
   I_Warning('P_AddActiveCeiling(): Can not add ceiling, limit %d reached'#13#10, [MAXCEILINGS]);
 end;
 
+//==============================================================================
+// P_RemoveActiveCeiling
 //
 // Remove a ceiling's thinker
 //
+//==============================================================================
 procedure P_RemoveActiveCeiling(c: Pceiling_t);
 var
   i: integer;
@@ -100,9 +131,12 @@ begin
     end;
 end;
 
+//==============================================================================
+// P_ActivateInStasisCeiling
 //
 // Restart a ceiling that's in-stasis
 //
+//==============================================================================
 function P_ActivateInStasisCeiling(line: Pline_t): integer;
 var
   i: integer;
@@ -119,10 +153,11 @@ begin
     end;
 end;
 
+//==============================================================================
 //
 // T_MoveCeiling
 //
-
+//==============================================================================
 procedure T_MoveCeiling(ceiling: Pceiling_t);
 var
   res: result_e;
@@ -266,10 +301,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
+//==============================================================================
 function EV_DoCeiling(line: Pline_t; _type: ceiling_e): integer;
 var
   initial: boolean;
@@ -369,10 +406,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
+//==============================================================================
 function EV_CeilingCrushStop(line: Pline_t): integer;
 var
   i: integer;

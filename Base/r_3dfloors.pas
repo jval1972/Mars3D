@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -45,10 +45,25 @@ var
   hasExtraFloors: Boolean = False;
   viewsubsector: Psubsector_t;
 
+//==============================================================================
+//
+// R_RenderThickSideRange
+//
+//==============================================================================
 procedure R_RenderThickSideRange(const ds: Pdrawseg_t; const x1, x2: integer);
 
+//==============================================================================
+//
+// R_StoreThickSideRange
+//
+//==============================================================================
 procedure R_StoreThickSideRange(const ds: Pdrawseg_t; const frontsector, backsector: Psector_t);
 
+//==============================================================================
+//
+// R_3dVisplaneFromSubsector
+//
+//==============================================================================
 procedure R_3dVisplaneFromSubsector(const ssector: Psubsector_t; const floorlightlevel: Psmallint);
 
 var
@@ -70,10 +85,25 @@ var
   seglooplightlevel1, seglooplightlevel2: integer;
   segloopcolormap1, segloopcolormap2: PByteArray;
 
+//==============================================================================
+//
+// R_DrawFFloors
+//
+//==============================================================================
 procedure R_DrawFFloors;  // JVAL: 3d Floors
 
+//==============================================================================
+//
+// R_DrawFFloorsMultiThread
+//
+//==============================================================================
 procedure R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
 
+//==============================================================================
+//
+// R_ClearVisPlanes3d
+//
+//==============================================================================
 procedure R_ClearVisPlanes3d;
 
 implementation
@@ -98,6 +128,11 @@ uses
   tables,
   z_zone;
 
+//==============================================================================
+//
+// R_StoreThickSideRange
+//
+//==============================================================================
 procedure R_StoreThickSideRange(const ds: Pdrawseg_t; const frontsector, backsector: Psector_t);
 var
   hicut, lowcut: fixed_t; // JVAL: 3d Floors
@@ -208,9 +243,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// R_DoRenderThickSideRange1_DBL
 //
 // R_RenderThickSideRange
 //
+//==============================================================================
 procedure R_DoRenderThickSideRange1_DBL(const ds: Pdrawseg_t; const x1, x2: integer);
 var
   index: integer;
@@ -391,6 +429,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DoRenderThickSideRange2_DBL
+//
+//==============================================================================
 procedure R_DoRenderThickSideRange2_DBL(const ds: Pdrawseg_t; const x1, x2: integer);
 var
   index: integer;
@@ -629,6 +672,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DoRenderThickSideRange1
+//
+//==============================================================================
 procedure R_DoRenderThickSideRange1(const ds: Pdrawseg_t; const x1, x2: integer);
 var
   index: integer;
@@ -791,6 +839,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DoRenderThickSideRange2
+//
+//==============================================================================
 procedure R_DoRenderThickSideRange2(const ds: Pdrawseg_t; const x1, x2: integer);
 var
   index: integer;
@@ -1014,6 +1067,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_RenderThickSideRange
+//
+//==============================================================================
 procedure R_RenderThickSideRange(const ds: Pdrawseg_t; const x1, x2: integer);
 begin
   if ds.midsec = nil then
@@ -1036,6 +1094,11 @@ type
 var
   ffpoints: ffpoint_tArray;
 
+//==============================================================================
+//
+// R_ClearVisPlanes3d
+//
+//==============================================================================
 procedure R_ClearVisPlanes3d;
 var
   i: integer;
@@ -1051,6 +1114,11 @@ begin
   maxvisplane3d := -1;
 end;
 
+//==============================================================================
+//
+// R_NewVisPlane3d
+//
+//==============================================================================
 function R_NewVisPlane3d: Pvisplane3d_t;
 begin
   if lastvisplane3d = MAXVISPLANES3D then // JVAL: Do not overflow and crash
@@ -1079,6 +1147,11 @@ begin
   inc(lastvisplane3d);
 end;
 
+//==============================================================================
+//
+// R_3dVisplaneFromSubsector
+//
+//==============================================================================
 procedure R_3dVisplaneFromSubsector(const ssector: Psubsector_t; const floorlightlevel: Psmallint);
 var
   i, j: integer;
@@ -1199,7 +1272,6 @@ begin
     ffpoints[numffpoints] := ffpoints[0];
     Inc(numffpoints);
   end;
-
 
   if not ret then
   begin
@@ -1468,6 +1540,11 @@ begin
   curmidvis := plane;
 end;
 
+//==============================================================================
+//
+// R_DrawFFloors
+//
+//==============================================================================
 procedure R_DrawFFloors;  // JVAL: 3d Floors
 var
   i: integer;
@@ -1485,6 +1562,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawFFloorsMultiThread
+//
+//==============================================================================
 procedure R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
 var
   i: integer;

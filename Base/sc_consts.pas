@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //
@@ -36,12 +36,32 @@ unit sc_consts;
 
 interface
 
+//==============================================================================
+//
+// SC_InitConsts
+//
+//==============================================================================
 procedure SC_InitConsts;
 
+//==============================================================================
+//
+// SC_ShutDownConsts
+//
+//==============================================================================
 procedure SC_ShutDownConsts;
 
+//==============================================================================
+//
+// SC_AddConst
+//
+//==============================================================================
 function SC_AddConst(const name: string; const value: integer): boolean;
 
+//==============================================================================
+//
+// SC_GetConst
+//
+//==============================================================================
 function SC_GetConst(const name: string; var value: integer): boolean;
 
 implementation
@@ -59,11 +79,21 @@ const
 var
   constshashtable: array[0..CONSTSHASHSIZE - 1] of TDStringList;
 
+//==============================================================================
+//
+// _hash
+//
+//==============================================================================
 function _hash(const s: string): integer;
 begin
   result := (Ord(s[1]) + Ord(s[Length(s)])) and (CONSTSHASHSIZE - 1);
 end;
 
+//==============================================================================
+//
+// SC_InitConsts
+//
+//==============================================================================
 procedure SC_InitConsts;
 var
   i: integer;
@@ -197,6 +227,11 @@ begin
   SC_AddConst('SK_NIGHTMARE', Ord(sk_nightmare));
 end;
 
+//==============================================================================
+//
+// SC_ShutDownConsts
+//
+//==============================================================================
 procedure SC_ShutDownConsts;
 var
   i, j: integer;
@@ -209,6 +244,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SC_AddConst
+//
+//==============================================================================
 function SC_AddConst(const name: string; const value: integer): boolean;
 var
   uToken: string;
@@ -234,6 +274,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// SC_GetConst
+//
+//==============================================================================
 function SC_GetConst(const name: string; var value: integer): boolean;
 var
   uToken: string;

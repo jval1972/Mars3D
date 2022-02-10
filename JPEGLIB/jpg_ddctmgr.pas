@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -61,20 +61,22 @@ uses
   jpg_idctflt,
   jpg_IDctRed;
 
-
-
 { Initialize IDCT manager. }
 
 {GLOBAL}
-procedure jinit_inverse_dct (cinfo: j_decompress_ptr);
 
+//==============================================================================
+//
+// jinit_inverse_dct 
+//
+//==============================================================================
+procedure jinit_inverse_dct (cinfo: j_decompress_ptr);
 
 implementation
 
 uses
   d_delphi,
   jpg_defErr;
-
 
 { The decompressor input side (jdinput.c) saves away the appropriate
   quantization table for each component at the start of the first scan
@@ -89,7 +91,6 @@ uses
   has been seen for some components, and thus before their Q-tables have
   been saved away.  To handle this case, multiplier tables are preset
   to zeroes; the result of the IDCT will be a neutral gray level. }
-
 
 { Private subobject for this module }
 
@@ -106,7 +107,6 @@ type
     cur_method: array[0..MAX_COMPONENTS-1] of int;
   end; {my_idct_controller;}
 
-
 { Allocated multiplier tables: big enough for any supported variant }
 
 type
@@ -121,7 +121,6 @@ type
   {$endif}
   end;
 
-
 { The current scaled-IDCT routines require ISLOW-style multiplier tables,
   so be sure to compile that code if either ISLOW or SCALING is requested. }
 
@@ -133,12 +132,17 @@ type
   {$endif}
 {$endif}
 
-
 { Prepare for an output pass.
   Here we select the proper IDCT routine for each component and build
   a matching multiplier table. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// start_pass 
+//
+//==============================================================================
 procedure start_pass (cinfo: j_decompress_ptr); far;
 var
   idct: my_idct_ptr;
@@ -332,10 +336,15 @@ begin
   end;
 end;
 
-
 { Initialize IDCT manager. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_inverse_dct 
+//
+//==============================================================================
 procedure jinit_inverse_dct (cinfo: j_decompress_ptr);
 var
   idct: my_idct_ptr;

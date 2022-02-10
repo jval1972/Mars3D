@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -38,9 +38,19 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// Audiolib_SearchSoundPAK
+//
+//==============================================================================
 function Audiolib_SearchSoundPAK(const sndname: string; var streamout: TDStream;
   const normalize: integer): boolean;
 
+//==============================================================================
+//
+// Audiolib_DecodeSoundWAD
+//
+//==============================================================================
 function Audiolib_DecodeSoundWAD(memin: Pointer; meminsize: integer;
   memout: PPointer; var memoutsize: integer; const normalize: integer): boolean;
 
@@ -58,31 +68,61 @@ uses
 const
   BUFFER_LEN = 4096;
 
+//==============================================================================
+//
+// tm_get_filelen_func
+//
+//==============================================================================
 function tm_get_filelen_func(pms: PDStream): Tuos_count_t; cdecl;
 begin
   result := pms.Size;
 end;
 
+//==============================================================================
+//
+// tm_seek_func
+//
+//==============================================================================
 function tm_seek_func(offset: Tuos_count_t; whence: integer; pms: PDStream): Tuos_count_t; cdecl;
 begin
   result := pms.Seek(offset, whence);
 end;
 
+//==============================================================================
+//
+// tm_read_func
+//
+//==============================================================================
 function tm_read_func(const buf: Pointer; count: Tuos_count_t; pms: PDStream): Tuos_count_t; cdecl;
 begin
   result := pms.Read(buf^, count);
 end;
 
+//==============================================================================
+//
+// tm_write_func
+//
+//==============================================================================
 function tm_write_func(const buf: Pointer; count: Tuos_count_t; pms: PDStream): Tuos_count_t; cdecl;
 begin
   result := pms.Write(buf^, count);
 end;
 
+//==============================================================================
+//
+// tm_tell_func
+//
+//==============================================================================
 function tm_tell_func(pms: PDStream): Tuos_count_t; cdecl;
 begin
   result := pms.Position;
 end;
 
+//==============================================================================
+//
+// Audiolib_InitIO
+//
+//==============================================================================
 procedure Audiolib_InitIO(const psfio: PSF_VIRTUAL);
 begin
   psfio.sf_vio_get_filelen := @tm_get_filelen_func;
@@ -92,6 +132,11 @@ begin
   psfio.tell := @tm_tell_func;
 end;
 
+//==============================================================================
+//
+// Audiolib_DoConvert
+//
+//==============================================================================
 function Audiolib_DoConvert(const sfinhandle, sfouthandle: TSNDFILE_HANDLE;
   const sfinfo: PSF_INFO; const infileminor: integer; const normalize: integer): int64;
 var
@@ -170,6 +215,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Audiolib_SearchSoundPAK
+//
+//==============================================================================
 function Audiolib_SearchSoundPAK(const sndname: string; var streamout: TDStream;
   const normalize: integer): boolean;
 var
@@ -277,6 +327,11 @@ begin
   streamin.Free;
 end;
 
+//==============================================================================
+//
+// Audiolib_DecodeSoundWAD
+//
+//==============================================================================
 function Audiolib_DecodeSoundWAD(memin: Pointer; meminsize: integer;
   memout: PPointer; var memoutsize: integer; const normalize: integer): boolean;
 var

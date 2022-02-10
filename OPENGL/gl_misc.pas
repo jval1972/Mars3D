@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -32,13 +32,34 @@ unit gl_misc;
 
 interface
 
+//==============================================================================
+//
+// gl_i_min
+//
+//==============================================================================
 function gl_i_min(const a, b: integer): integer;
+
+//==============================================================================
+//
+// gl_i_max
+//
+//==============================================================================
 function gl_i_max(const a, b: integer): integer;
 
+//==============================================================================
+//
+// gl_f_max
+//
+//==============================================================================
 function gl_f_max(const a, b: single): single;
 
 implementation
 
+//==============================================================================
+//
+// gl_i_min
+//
+//==============================================================================
 function gl_i_min(const a, b: integer): integer;
 begin
   if a > b then
@@ -47,6 +68,11 @@ begin
     result := a;
 end;
 
+//==============================================================================
+//
+// gl_i_max
+//
+//==============================================================================
 function gl_i_max(const a, b: integer): integer;
 begin
   if a > b then
@@ -55,6 +81,11 @@ begin
     result := b;
 end;
 
+//==============================================================================
+//
+// gl_f_max
+//
+//==============================================================================
 function gl_f_max(const a, b: single): single;
 begin
   if a > b then
@@ -62,7 +93,6 @@ begin
   else
     result := b;
 end;
-
 
 end.
 

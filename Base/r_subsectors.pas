@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -39,8 +39,18 @@ uses
   r_defs,
   m_fixed;
 
+//==============================================================================
+//
+// R_PrecalcPointInSubSector
+//
+//==============================================================================
 procedure R_PrecalcPointInSubSector;
 
+//==============================================================================
+//
+// R_PointInSubsectorPrecalc
+//
+//==============================================================================
 function R_PointInSubsectorPrecalc(const x: fixed_t; const y: fixed_t): Psubsector_t;
 
 var
@@ -72,6 +82,11 @@ var
   p_in_ss_minx, p_in_ss_miny, p_in_ss_maxx, p_in_ss_maxy: int64;
   p_in_ss_size: integer = -1;
 
+//==============================================================================
+//
+// R_PrecalcPointInSubSector
+//
+//==============================================================================
 procedure R_PrecalcPointInSubSector;
 var
   i, j: integer;
@@ -133,7 +148,6 @@ begin
   pointinsubsector := Z_Malloc(p_in_ss_size * SizeOf(Psubsector_t), PU_LEVEL, nil);
   ZeroMemory(pointinsubsector, p_in_ss_size * SizeOf(Psubsector_t));
 
-
   hitcnt := 0;
   for i := 0 to p_in_ss_width - 1 do
     for j := 0 to p_in_ss_height - 1 do
@@ -159,6 +173,11 @@ begin
     [hitcnt / (p_in_ss_width * p_in_ss_height) * 100, '%', hitcnt, p_in_ss_width * p_in_ss_height]);
 end;
 
+//==============================================================================
+//
+// R_PointInSubsectorPrecalc
+//
+//==============================================================================
 function R_PointInSubsectorPrecalc(const x: fixed_t; const y: fixed_t): Psubsector_t;
 var
   idx: integer;

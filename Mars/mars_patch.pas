@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -41,15 +41,35 @@ uses
 const
   MARS_PATCH_BLANC = 0;
 
+//==============================================================================
+//
+// MARS_CreateDoomPatch
+//
+//==============================================================================
 procedure MARS_CreateDoomPatch(const img: PByteArray; const width, height: integer;
   const solid: boolean; out p: pointer; out size: integer; const offsx: integer = -255; const offsy: integer = -255);
 
+//==============================================================================
+//
+// MARS_CreateDoomPatchFromLumpData
+//
+//==============================================================================
 procedure MARS_CreateDoomPatchFromLumpData(const img: PByteArray;
   const solid: boolean; out p: pointer; out size: integer);
 
+//==============================================================================
+//
+// MARS_CreateDoomPatchFromLumpDataPal
+//
+//==============================================================================
 procedure MARS_CreateDoomPatchFromLumpDataPal(const img: PByteArray;
   const solid: boolean; const defpal: PLongWordArray; out p: pointer; out size: integer);
 
+//==============================================================================
+//
+// MARS_CreateDoomSkyPatch
+//
+//==============================================================================
 procedure MARS_CreateDoomSkyPatch(const img: PByteArray; out p: pointer; out size: integer);
 
 implementation
@@ -66,6 +86,11 @@ type
     topoffset: smallint;  // pixels below the origin
   end;
 
+//==============================================================================
+//
+// MARS_CreateDoomPatch
+//
+//==============================================================================
 procedure MARS_CreateDoomPatch(const img: PByteArray; const width, height: integer;
   const solid: boolean; out p: pointer; out size: integer; const offsx: integer = -255; const offsy: integer = -255);
 var
@@ -159,6 +184,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_CreateDoomPatchFromLumpData
+//
+//==============================================================================
 procedure MARS_CreateDoomPatchFromLumpData(const img: PByteArray;
   const solid: boolean; out p: pointer; out size: integer);
 var
@@ -249,6 +279,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_CreateDoomPatchFromLumpDataPal
+//
+//==============================================================================
 procedure MARS_CreateDoomPatchFromLumpDataPal(const img: PByteArray;
   const solid: boolean; const defpal: PLongWordArray; out p: pointer; out size: integer);
 var
@@ -280,6 +315,11 @@ begin
   memfree(pointer(newimg), newsize);
 end;
 
+//==============================================================================
+//
+// MARS_CreateDoomSkyPatch
+//
+//==============================================================================
 procedure MARS_CreateDoomSkyPatch(const img: PByteArray; out p: pointer; out size: integer);
 var
   x, y: integer;

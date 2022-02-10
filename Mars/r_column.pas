@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -37,13 +37,47 @@ uses
   m_fixed,
   r_main;
 
+//==============================================================================
+// R_DrawColumnLowest
+//
 // Column drawers
+//
+//==============================================================================
 procedure R_DrawColumnLowest;
+
+//==============================================================================
+//
+// R_DrawColumnLow
+//
+//==============================================================================
 procedure R_DrawColumnLow;
+
+//==============================================================================
+//
+// R_DrawColumnMedium
+//
+//==============================================================================
 procedure R_DrawColumnMedium;
+
+//==============================================================================
+//
+// R_DrawColumnHi
+//
+//==============================================================================
 procedure R_DrawColumnHi;
+
+//==============================================================================
+//
+// R_DrawColumnUltra
+//
+//==============================================================================
 procedure R_DrawColumnUltra;
 
+//==============================================================================
+//
+// R_DrawColumnBase32
+//
+//==============================================================================
 procedure R_DrawColumnBase32;
 
 var
@@ -86,6 +120,8 @@ uses
   r_precalc,
   r_draw;
 
+//==============================================================================
+// R_DrawColumnLowest
 //
 // A column is a vertical slice/span from a wall texture that,
 //  given the DOOM style restrictions on the view orientation,
@@ -93,6 +129,7 @@ uses
 // Thus a special case loop for very fast rendering can
 //  be used. It has also been used with Wolfenstein 3D.
 //
+//==============================================================================
 procedure R_DrawColumnLowest;
 var
   count: integer;
@@ -146,6 +183,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnLow
+//
+//==============================================================================
 procedure R_DrawColumnLow;
 var
   count: integer;
@@ -193,6 +235,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnMedium
+//
+//==============================================================================
 procedure R_DrawColumnMedium;
 var
   count: integer;
@@ -307,6 +354,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnBase32
+//
+//==============================================================================
 procedure R_DrawColumnBase32;
 var
   count: integer;
@@ -335,6 +387,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnHi
+//
+//==============================================================================
 procedure R_DrawColumnHi;
 var
   count: integer;
@@ -444,6 +501,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnUltra
+//
+//==============================================================================
 procedure R_DrawColumnUltra;
 var
   count: integer;

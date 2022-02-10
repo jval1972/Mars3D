@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -37,38 +37,123 @@ uses
   p_mobj_h,
   p_pspr_h;
 
+//==============================================================================
+//
+// A_PunchAndKick
+//
+//==============================================================================
 procedure A_PunchAndKick(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_BulletCartridgeDrop
+//
+//==============================================================================
 procedure A_BulletCartridgeDrop(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_FireShockGun
+//
+//==============================================================================
 procedure A_FireShockGun(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_ShockGunSound
+//
+//==============================================================================
 procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_FriendlyExplode
+//
+//==============================================================================
 procedure A_FriendlyExplode(actor: Pmobj_t);
 
+//==============================================================================
+//
+// A_FireNerveGun
+//
+//==============================================================================
 procedure A_FireNerveGun(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_FireFreezeGun
+//
+//==============================================================================
 procedure A_FireFreezeGun(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_FireFlameGun
+//
+//==============================================================================
 procedure A_FireFlameGun(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_LowerWeapon
+//
+//==============================================================================
 procedure A_LowerWeapon(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_RaiseWeapon
+//
+//==============================================================================
 procedure A_RaiseWeapon(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_ThowGrenade
+//
+//==============================================================================
 procedure A_ThowGrenade(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_BoomerangDisk
+//
+//==============================================================================
 procedure A_BoomerangDisk(actor: Pmobj_t);
 
+//==============================================================================
+//
+// A_ThowBoomerangDisk
+//
+//==============================================================================
 procedure A_ThowBoomerangDisk(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_FireRocketMissile
+//
+//==============================================================================
 procedure A_FireRocketMissile(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_FireTrackingMissile
+//
+//==============================================================================
 procedure A_FireTrackingMissile(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_RestoreReadyWeapon
+//
+//==============================================================================
 procedure A_RestoreReadyWeapon(player: Pplayer_t; psp: Ppspdef_t);
 
+//==============================================================================
+//
+// A_DoPendingDoor
+//
+//==============================================================================
 procedure A_DoPendingDoor(player: Pplayer_t; psp: Ppspdef_t);
 
 implementation
@@ -104,6 +189,11 @@ uses
   r_main,
   s_sound;
 
+//==============================================================================
+//
+// A_PunchAndKick
+//
+//==============================================================================
 procedure A_PunchAndKick(player: Pplayer_t; psp: Ppspdef_t);
 var
   angle: angle_t;
@@ -134,6 +224,11 @@ end;
 var
   MT_BULLETCARTRIDGE: integer = -2;
 
+//==============================================================================
+//
+// A_BulletCartridgeDrop
+//
+//==============================================================================
 procedure A_BulletCartridgeDrop(player: Pplayer_t; psp: Ppspdef_t);
 var
   x, y, z: fixed_t;
@@ -166,6 +261,11 @@ end;
 var
   MT_SHOCKGUNMISSILE: integer = -2;
 
+//==============================================================================
+//
+// A_FireShockGun
+//
+//==============================================================================
 procedure A_FireShockGun(player: Pplayer_t; psp: Ppspdef_t);
 begin
   if MT_SHOCKGUNMISSILE = -2 then
@@ -183,6 +283,11 @@ begin
   P_SpawnPlayerMissile(player.mo, MT_SHOCKGUNMISSILE);
 end;
 
+//==============================================================================
+//
+// A_ShockGunSound
+//
+//==============================================================================
 procedure A_ShockGunSound(player: Pplayer_t; psp: Ppspdef_t);
 begin
   MARS_StartSound(player.mo, snd_GUN2ACT);
@@ -195,6 +300,11 @@ var
   fe_dist: fixed_t;
   fe_tics: integer;
 
+//==============================================================================
+//
+// PIT_FriendlyExplode
+//
+//==============================================================================
 function PIT_FriendlyExplode(thing: Pmobj_t): boolean;
 begin
   Result := True;
@@ -226,6 +336,11 @@ begin
 //    P_SetMobjStateNF(thing, statenum_t(thing.info.seestate));
 end;
 
+//==============================================================================
+//
+// A_FriendlyExplode
+//
+//==============================================================================
 procedure A_FriendlyExplode(actor: Pmobj_t);
 const
   DEF_TICS = 10 * TICRATE;
@@ -281,6 +396,11 @@ end;
 var
   MT_NERVEGUNMISSILE: integer = -2;
 
+//==============================================================================
+//
+// A_FireNerveGun
+//
+//==============================================================================
 procedure A_FireNerveGun(player: Pplayer_t; psp: Ppspdef_t);
 begin
   if MT_NERVEGUNMISSILE = -2 then
@@ -301,6 +421,11 @@ end;
 var
   MT_FREEZEGUNMISSILE: integer = -2;
 
+//==============================================================================
+//
+// A_FireFreezeGun
+//
+//==============================================================================
 procedure A_FireFreezeGun(player: Pplayer_t; psp: Ppspdef_t);
 begin
   if MT_FREEZEGUNMISSILE = -2 then
@@ -321,6 +446,11 @@ end;
 var
   MT_FLAMEGUNMISSILE: integer = -2;
 
+//==============================================================================
+//
+// A_FireFlameGun
+//
+//==============================================================================
 procedure A_FireFlameGun(player: Pplayer_t; psp: Ppspdef_t);
 begin
   if MT_FLAMEGUNMISSILE = -2 then
@@ -338,9 +468,11 @@ begin
   P_SpawnPlayerMissile(player.mo, MT_FLAMEGUNMISSILE);
 end;
 
+//==============================================================================
 //
 // A_LowerWeapon(const speed: float)
 //
+//==============================================================================
 procedure A_LowerWeapon(player: Pplayer_t; psp: Ppspdef_t);
 var
   speed: fixed_t;
@@ -374,6 +506,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// A_RaiseWeapon
+//
+//==============================================================================
 procedure A_RaiseWeapon(player: Pplayer_t; psp: Ppspdef_t);
 var
   speed: fixed_t;
@@ -394,6 +531,11 @@ end;
 var
   MT_GRENADEMISSILE: integer = -2;
 
+//==============================================================================
+//
+// A_ThowGrenade
+//
+//==============================================================================
 procedure A_ThowGrenade(player: Pplayer_t; psp: Ppspdef_t);
 begin
   if MT_GRENADEMISSILE = -2 then
@@ -419,6 +561,11 @@ const
   BOOMERANGDISK_TIMEOUT = TICRATE;
   BOOMERANGDISK_LOWFLOOR = 2 * FRACUNIT;
 
+//==============================================================================
+//
+// PIT_BoomerangDisk
+//
+//==============================================================================
 function PIT_BoomerangDisk(thing: Pmobj_t): boolean;
 var
   p: Pplayer_t;
@@ -507,6 +654,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// P_BoomerangDisk
+//
+//==============================================================================
 procedure P_BoomerangDisk(spot: Pmobj_t);
 var
   x: integer;
@@ -540,6 +692,11 @@ begin
       P_BlockThingsIterator(x, y, PIT_BoomerangDisk);
 end;
 
+//==============================================================================
+//
+// P_BoomerangDiskReturn
+//
+//==============================================================================
 function P_BoomerangDiskReturn(const mo: Pmobj_t; const p: Pplayer_t): boolean;
 var
   targetang, diskang: angle_t;
@@ -617,12 +774,22 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// P_BoomerangFriction
+//
+//==============================================================================
 procedure P_BoomerangFriction(actor: Pmobj_t);
 begin
   actor.momx := actor.momx * 15 div 16;
   actor.momy := actor.momy * 15 div 16;
 end;
 
+//==============================================================================
+//
+// P_BoomerangAccelerate
+//
+//==============================================================================
 procedure P_BoomerangAccelerate(actor: Pmobj_t);
 begin
   if P_AproxDistance(actor.momx, actor.momy) < actor.info.speed * 15 div 16 then
@@ -632,6 +799,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// A_BoomerangDisk
+//
+//==============================================================================
 procedure A_BoomerangDisk(actor: Pmobj_t);
 var
   i: integer;
@@ -667,6 +839,11 @@ end;
 var
   MT_DISKMISSILE: integer = -2;
 
+//==============================================================================
+//
+// A_ThowBoomerangDisk
+//
+//==============================================================================
 procedure A_ThowBoomerangDisk(player: Pplayer_t; psp: Ppspdef_t);
 var
   x, y, z: fixed_t;
@@ -705,10 +882,14 @@ begin
   th.momz := FixedMul(speed, slope);
 end;
 
-
 var
   MT_ROCKETMISSILE: integer = -2;
 
+//==============================================================================
+//
+// A_FireRocketMissile
+//
+//==============================================================================
 procedure A_FireRocketMissile(player: Pplayer_t; psp: Ppspdef_t);
 begin
   if MT_ROCKETMISSILE = -2 then
@@ -726,10 +907,14 @@ begin
   P_SpawnPlayerMissile(player.mo, MT_ROCKETMISSILE);
 end;
 
-
 var
   MT_TRACKINGROCKETMISSILE: integer = -2;
 
+//==============================================================================
+//
+// A_FireTrackingMissile
+//
+//==============================================================================
 procedure A_FireTrackingMissile(player: Pplayer_t; psp: Ppspdef_t);
 begin
   if MT_TRACKINGROCKETMISSILE = -2 then
@@ -747,11 +932,21 @@ begin
   P_SpawnPlayerMissile(player.mo, MT_TRACKINGROCKETMISSILE);
 end;
 
+//==============================================================================
+//
+// A_RestoreReadyWeapon
+//
+//==============================================================================
 procedure A_RestoreReadyWeapon(player: Pplayer_t; psp: Ppspdef_t);
 begin
   player.pendingweapon := player.oldreadyweapon;
 end;
 
+//==============================================================================
+//
+// A_DoPendingDoor
+//
+//==============================================================================
 procedure A_DoPendingDoor(player: Pplayer_t; psp: Ppspdef_t);
 var
   line: Pline_t;

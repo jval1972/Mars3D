@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -37,10 +37,25 @@ interface
 
 { Called by D_DoomMain. }
 
+//==============================================================================
+//
+// I_InitNetwork
+//
+//==============================================================================
 procedure I_InitNetwork;
 
+//==============================================================================
+//
+// I_ShutDownNetwork
+//
+//==============================================================================
 procedure I_ShutDownNetwork;
 
+//==============================================================================
+//
+// I_NetCmd
+//
+//==============================================================================
 procedure I_NetCmd;
 
 implementation
@@ -71,9 +86,11 @@ var
 
   sendaddress: array[0..MAXNETNODES - 1] of TSockAddrIn;
 
+//==============================================================================
 //
 // UDPsocket
 //
+//==============================================================================
 function UDPsocket: integer;
 begin
   // allocate a socket
@@ -82,9 +99,11 @@ begin
     I_Error('UDPsocket(): Can''t create socket: result = %d'#13#10 , [result]);
 end;
 
+//==============================================================================
 //
 // BindToLocalPort
 //
+//==============================================================================
 procedure BindToLocalPort(s: integer; port: integer);
 var
   v: integer;
@@ -100,10 +119,11 @@ begin
     I_Error('BindToLocalPort(): Failed.');
 end;
 
-
+//==============================================================================
 //
 // PacketSend
 //
+//==============================================================================
 procedure PacketSend;
 var
   c: integer;
@@ -115,10 +135,11 @@ begin
     I_Error('PacketSend(): sendto() failed.');
 end;
 
-
+//==============================================================================
 //
 // PacketGet
 //
+//==============================================================================
 procedure PacketGet;
 var
   i: integer;
@@ -157,7 +178,11 @@ begin
   doomcom.datalength := c;
 end;
 
-
+//==============================================================================
+//
+// GetLocalAddress
+//
+//==============================================================================
 function GetLocalAddress: integer;
 var
   hostname: array[0..1023] of char;
@@ -185,6 +210,11 @@ const
   NDF_DEATH2 = $20;
   NDF_SPLITONLY = $40;
 
+//==============================================================================
+//
+// CheckIfDrone
+//
+//==============================================================================
 procedure CheckIfDrone(const flags: integer);
 begin
   if (M_CheckParm('-left') > 0) or (flags and NDF_LEFT <> 0) then
@@ -206,9 +236,11 @@ begin
     doomcom.drone := 1;
 end;
 
+//==============================================================================
 //
 // I_InitNetwork
 //
+//==============================================================================
 procedure I_InitNetwork;
 var
   trueval: integer;
@@ -317,11 +349,21 @@ begin
   sendsocket := UDPsocket;
 end;
 
+//==============================================================================
+//
+// I_ShutDownNetwork
+//
+//==============================================================================
 procedure I_ShutDownNetwork;
 begin
   memfree(pointer(doomcom), SizeOf(doomcom_t));
 end;
 
+//==============================================================================
+//
+// I_NetCmd
+//
+//==============================================================================
 procedure I_NetCmd;
 begin
   if doomcom.command = CMD_SEND then

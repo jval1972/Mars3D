@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -164,6 +164,11 @@ type
     property FrameCount: integer read GetFrameCount;
   end;
 
+//==============================================================================
+//
+// ANM_QueryNumFrames
+//
+//==============================================================================
 function ANM_QueryNumFrames(const anmfile: string): integer;
 
 implementation
@@ -176,6 +181,11 @@ begin
   inherited Create;
 end;
 
+//==============================================================================
+//
+// TANMFile.clearanm
+//
+//==============================================================================
 procedure TANMFile.clearanm;
 begin
   memfree(pointer(thepage), $10000); // deallocate page buffer
@@ -189,11 +199,21 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TANMFile.GetFrameCount
+//
+//==============================================================================
 function TANMFile.GetFrameCount: integer;
 begin
   Result := fframecount;
 end;
 
+//==============================================================================
+//
+// TANMFile.RGBSwap
+//
+//==============================================================================
 function TANMFile.RGBSwap(buffer: LongWord): LongWord;
 type
   RGBA_t = packed array[0..3] of byte;
@@ -208,6 +228,11 @@ begin
   memcpy(@Result, @rgba, 4);
 end;
 
+//==============================================================================
+//
+// TANMFile.GetPalette
+//
+//==============================================================================
 procedure TANMFile.GetPalette(const pl: Panmpalette_t);
 var
   i: integer;
@@ -216,6 +241,11 @@ begin
     pl[i] := fpalette[i];
 end;
 
+//==============================================================================
+//
+// TANMFile.GetFrameImage8
+//
+//==============================================================================
 function TANMFile.GetFrameImage8(const frm: integer; const scn8: Panmscreen8_t): boolean;
 var
   i: integer;
@@ -234,6 +264,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TANMFile.GetFrameImage32
+//
+//==============================================================================
 function TANMFile.GetFrameImage32(const frm: integer; const scn32: Panmscreen32_t): boolean;
 var
   i: Integer;
@@ -253,7 +288,12 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+// TANMFile.findpage
+//
 // given a frame number return the large page number it resides in
+//
+//==============================================================================
 function TANMFile.findpage(framenumber: UWORD): UWORD;
 begin
   result := 0;
@@ -265,7 +305,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// TANMFile.loadpage
+//
 // seek out and load in the large page specified
+//
+//==============================================================================
 procedure TANMFile.loadpage(pagenumber: UWORD; pagepointer: PUWORD);
 begin
   if curlpnum <> pagenumber then
@@ -278,7 +323,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// TANMFile.CPlayRunSkipDump
+//
 // This version of the decompressor is here for portability to non PC's
+//
+//==============================================================================
 procedure TANMFile.CPlayRunSkipDump(srcP, dstP: PSBYTE);
 // srcP points at first sequence in Body
 // dstP points at pixel #0 on screen.
@@ -374,7 +424,12 @@ longRun:
     goto nextOp;
 end;
 
+//==============================================================================
+// TANMFile.renderframe
+//
 // draw the frame sepcified from the large page in the buffer pointed to
+//
+//==============================================================================
 procedure TANMFile.renderframe(framenumber: UWORD; pagepointer: PUWORD);
 var
   ofs: UWORD;
@@ -400,13 +455,23 @@ begin
   CPlayRunSkipDump(PSBYTE(pnt), PSBYTE(screen));
 end;
 
+//==============================================================================
+// TANMFile.drawframe
+//
 // high level frame draw routine
+//
+//==============================================================================
 procedure TANMFile.drawframe(framenumber: UWORD);
 begin
   loadpage(findpage(framenumber), thepage);
   renderframe(framenumber, thepage);
 end;
 
+//==============================================================================
+//
+// TANMFile.initanm
+//
+//==============================================================================
 procedure TANMFile.initanm;
 var
   i: integer;
@@ -432,6 +497,11 @@ begin
   fstream.Read(LpArray, 256 * SizeOf(anmdescriptor_t));
 end;
 
+//==============================================================================
+//
+// ANM_QueryNumFrames
+//
+//==============================================================================
 function ANM_QueryNumFrames(const anmfile: string): integer;
 var
   anm: TANMFile;

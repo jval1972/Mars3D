@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -73,6 +73,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.AddItem
+//
+//==============================================================================
 procedure TSmartPointerList.AddItem(const value: pointer);
 var
   newsize: integer;
@@ -94,6 +99,11 @@ begin
   Inc(fNumItems);
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.DeleteItem
+//
+//==============================================================================
 function TSmartPointerList.DeleteItem(const item: pointer): boolean;
 var
   i: integer;
@@ -110,6 +120,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.ItemExists
+//
+//==============================================================================
 function TSmartPointerList.ItemExists(const value: pointer): boolean;
 var
   i: integer;
@@ -130,6 +145,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.Clear
+//
+//==============================================================================
 procedure TSmartPointerList.Clear;
 begin
   realloc(pointer(fList), fNumItems * SizeOf(pointer), 0);
@@ -138,6 +158,11 @@ begin
   fRealSize := 0;
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.Priority
+//
+//==============================================================================
 procedure TSmartPointerList.Priority(const index: integer);
 var
   newindex: integer;

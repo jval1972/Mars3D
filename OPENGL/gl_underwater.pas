@@ -38,10 +38,25 @@ interface
 uses
   d_player;
 
+//==============================================================================
+//
+// gld_InitUnderwater
+//
+//==============================================================================
 procedure gld_InitUnderwater;
 
+//==============================================================================
+//
+// gld_ShutDownUnderwater
+//
+//==============================================================================
 procedure gld_ShutDownUnderwater;
 
+//==============================================================================
+//
+// gld_UnderwaterExecute
+//
+//==============================================================================
 procedure gld_UnderwaterExecute(const p: Pplayer_t);
 
 const
@@ -68,6 +83,11 @@ uses
 var
   utex: GLUint;
 
+//==============================================================================
+//
+// u_glsize
+//
+//==============================================================================
 function u_glsize(const value: integer): integer;
 begin
   result := 1;
@@ -79,6 +99,11 @@ var
   ut_width, ut_height: integer;
   uBuf: Pointer;
 
+//==============================================================================
+//
+// gld_InitUnderwater
+//
+//==============================================================================
 procedure gld_InitUnderwater;
 begin
   cm_underwater := R_CustomColorMapForName(UNDERWATER_COLORMAP);
@@ -99,6 +124,11 @@ begin
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 end;
 
+//==============================================================================
+//
+// gld_ShutDownUnderwater
+//
+//==============================================================================
 procedure gld_ShutDownUnderwater;
 begin
   memfree(uBuf, ut_width * ut_height * 4);
@@ -117,6 +147,11 @@ type
 var
   umatrix: array[0..UMATRIX_SIZE, 0..UMATRIX_SIZE] of uuv_t;
 
+//==============================================================================
+//
+// gld_UnderwaterExecute
+//
+//==============================================================================
 procedure gld_UnderwaterExecute(const p: Pplayer_t);
 var
   i, j: integer;

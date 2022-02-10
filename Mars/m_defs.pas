@@ -99,7 +99,6 @@ uses
   vx_voxelsprite,
   v_video;
 
-
 const
   DFS_NEVER = 0;
   DFS_SINGLEPLAYER = 1;
@@ -700,7 +699,6 @@ const
      defaultivalue: 200;
      defaultbvalue: true;
      _type: tInteger),
-
 
     (name: 'use_underwater_fog';
      location: @use_underwater_fog;
@@ -1972,7 +1970,6 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tString),
-
 
     (name: 'Files';
      location: nil;

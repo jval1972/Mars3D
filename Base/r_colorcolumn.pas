@@ -33,15 +33,50 @@ unit r_colorcolumn;
 
 interface
 
+//==============================================================================
+//
+// R_DrawColorColumnMedium
+//
+//==============================================================================
 procedure R_DrawColorColumnMedium;
+
+//==============================================================================
+//
+// R_DrawColorColumnHi
+//
+//==============================================================================
 procedure R_DrawColorColumnHi;
 {$IFDEF DOOM}
+
+//==============================================================================
+//
+// R_DrawColorColumnAverageMedium_Batch
+//
+//==============================================================================
 procedure R_DrawColorColumnAverageMedium_Batch;
 {$ENDIF}
+
+//==============================================================================
+//
+// R_DrawColorColumnAverageHi_Batch
+//
+//==============================================================================
 procedure R_DrawColorColumnAverageHi_Batch;
 {$IFDEF DOOM}
+
+//==============================================================================
+//
+// R_DrawColorColumnAlphaMedium_Batch
+//
+//==============================================================================
 procedure R_DrawColorColumnAlphaMedium_Batch;
 {$ENDIF}
+
+//==============================================================================
+//
+// R_DrawColorColumnAlphaHi_Batch
+//
+//==============================================================================
 procedure R_DrawColorColumnAlphaHi_Batch;
 
 var
@@ -54,7 +89,18 @@ type
 var
   putpixelfunc: putpixelfunc_t;
 
+//==============================================================================
+//
+// R_PutPixel8
+//
+//==============================================================================
 procedure R_PutPixel8(const x, y: integer);
+
+//==============================================================================
+//
+// R_PutPixel32
+//
+//==============================================================================
 procedure R_PutPixel32(const x, y: integer);
 
 implementation
@@ -68,11 +114,21 @@ uses
   v_video,
   r_draw;
 
+//==============================================================================
+//
+// R_PutPixel8
+//
+//==============================================================================
 procedure R_PutPixel8(const x, y: integer);
 begin
   PByte(@((ylookup[y]^)[columnofs[x]]))^ := dc_colormap[dc_color];
 end;
 
+//==============================================================================
+//
+// R_PutPixel32
+//
+//==============================================================================
 procedure R_PutPixel32(const x, y: integer);
 var
   c: LongWord;
@@ -105,6 +161,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColorColumnMedium_cnt0
+//
+//==============================================================================
 procedure R_DrawColorColumnMedium_cnt0;
 var
   dest: PByte;
@@ -226,6 +287,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColorColumnMedium_cnt1
+//
+//==============================================================================
 procedure R_DrawColorColumnMedium_cnt1;
 var
   dest: PByte;
@@ -367,6 +433,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColorColumnMedium
+//
+//==============================================================================
 procedure R_DrawColorColumnMedium;
 var
   count: integer;
@@ -881,7 +952,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// R_DrawColorColumnHi_cnt0
+//
+//==============================================================================
 procedure R_DrawColorColumnHi_cnt0;
 var
   destl: PLongWord;
@@ -937,6 +1012,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColorColumnHi_cnt1
+//
+//==============================================================================
 procedure R_DrawColorColumnHi_cnt1;
 var
   destl: PLongWord;
@@ -1010,6 +1090,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColorColumnHi_bc1
+//
+//==============================================================================
 procedure R_DrawColorColumnHi_bc1(const count: integer);
 var
   destl: PLongWord;
@@ -1067,6 +1152,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColorColumnHi_bc2
+//
+//==============================================================================
 procedure R_DrawColorColumnHi_bc2(const count: integer);
 var
   destl: PLongWord;
@@ -1128,6 +1218,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColorColumnHi_bc3
+//
+//==============================================================================
 procedure R_DrawColorColumnHi_bc3(const count: integer);
 var
   destl: PLongWord;
@@ -1193,6 +1288,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColorColumnHi_bc4
+//
+//==============================================================================
 procedure R_DrawColorColumnHi_bc4(const count: integer);
 var
   destl: PLongWord;
@@ -1273,6 +1373,11 @@ const
 var
   R_DrawColorColumnHi_bcTable: array[1..R_DrawColorColumnHi_bc_cnt] of DrawColorColumnHi_bc_proc;
 
+//==============================================================================
+//
+// R_DrawColorColumnHi
+//
+//==============================================================================
 procedure R_DrawColorColumnHi;
 var
   count: integer;
@@ -1528,24 +1633,47 @@ begin
 end;
 
 {$IFDEF DOOM}
+
+//==============================================================================
+//
+// R_DrawColorColumnAverageMedium_Batch
+//
+//==============================================================================
 procedure R_DrawColorColumnAverageMedium_Batch;
 begin
 
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// R_DrawColorColumnAverageHi_Batch
+//
+//==============================================================================
 procedure R_DrawColorColumnAverageHi_Batch;
 begin
 
 end;
 
 {$IFDEF DOOM}
+
+//==============================================================================
+//
+// R_DrawColorColumnAlphaMedium_Batch
+//
+//==============================================================================
 procedure R_DrawColorColumnAlphaMedium_Batch;
 begin
 
 end;
 
 {$ENDIF}
+
+//==============================================================================
+//
+// R_DrawColorColumnAlphaHi_Batch
+//
+//==============================================================================
 procedure R_DrawColorColumnAlphaHi_Batch;
 begin
 

@@ -62,8 +62,18 @@ var
   pDO_mobjinfo: PmobjinfoArray_t = nil;
   nummobjtypes: integer = Ord(DO_NUMMOBJTYPES);
 
+//==============================================================================
+//
+// Info_Init
+//
+//==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 
+//==============================================================================
+//
+// Info_ResolveActordefActors
+//
+//==============================================================================
 procedure Info_ResolveActordefActors;
 
 const
@@ -110,11 +120,21 @@ var
 var
   init_buildin: boolean = false;
 
+//==============================================================================
+//
+// spriteframe
+//
+//==============================================================================
 function spriteframe(const c: Char): integer;
 begin
   result := Ord(toupper(c)) - Ord('A');
 end;
 
+//==============================================================================
+//
+// Info_Init_BuildIn
+//
+//==============================================================================
 procedure Info_Init_BuildIn;
 begin
   if init_buildin then
@@ -2592,6 +2612,11 @@ begin
   init_buildin := true;
 end;
 
+//==============================================================================
+//
+// Info_Init
+//
+//==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 var
   i: integer;
@@ -2680,7 +2705,12 @@ begin
   Info_InitExportCommands;
 end;
 
+//==============================================================================
+// Info_ResolveActordefActors
+//
 // Must be called after parsing ACTORDEF lumps
+//
+//==============================================================================
 procedure Info_ResolveActordefActors;
 begin
   if not Info_ResolveMobjType('Green Blood', @MT_GREENBLOOD) then

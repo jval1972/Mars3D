@@ -5,7 +5,7 @@
 //  Copyright (C) 1997 by Engine Technology CO. LTD
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2018 by Retro Fans of Mars3D
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -38,18 +38,50 @@ interface
 uses
   d_event;
 
+//==============================================================================
+//
+// MARS_Finale_Responder
+//
+//==============================================================================
 function MARS_Finale_Responder(ev: Pevent_t): boolean;
 
 { Called by main loop. }
+
+//==============================================================================
+//
+// MARS_Finale_Ticker
+//
+//==============================================================================
 procedure MARS_Finale_Ticker;
 
 { Called by main loop. }
+
+//==============================================================================
+//
+// MARS_Finale_Drawer
+//
+//==============================================================================
 procedure MARS_Finale_Drawer;
 
+//==============================================================================
+//
+// MARS_StartFinale
+//
+//==============================================================================
 procedure MARS_StartFinale;
 
+//==============================================================================
+//
+// MARS_InitFinale
+//
+//==============================================================================
 procedure MARS_InitFinale;
 
+//==============================================================================
+//
+// MARS_ShutDownFinale
+//
+//==============================================================================
 procedure MARS_ShutDownFinale;
 
 var
@@ -105,6 +137,11 @@ var
   fli_finished: boolean;
   t1, t2: PTexture;
 
+//==============================================================================
+//
+// MARS_Finale_BlancScreen
+//
+//==============================================================================
 procedure MARS_Finale_BlancScreen;
 begin
   {$IFNDEF OPENGL}
@@ -117,6 +154,11 @@ begin
   {$ENDIF}
 end;
 
+//==============================================================================
+//
+// MARS_FinaleAdvance
+//
+//==============================================================================
 procedure MARS_FinaleAdvance;
 begin
   fin_tic := gametic;
@@ -149,6 +191,11 @@ begin
   end
 end;
 
+//==============================================================================
+//
+// MARS_StartFinale
+//
+//==============================================================================
 procedure MARS_StartFinale;
 var
   i: integer;
@@ -180,6 +227,11 @@ begin
     MARS_FinaleAdvance;
 end;
 
+//==============================================================================
+//
+// MARS_Finale_Responder
+//
+//==============================================================================
 function MARS_Finale_Responder(ev: Pevent_t): boolean;
 begin
   if finalestage = FIN_STAGE_BRIEFING then
@@ -214,6 +266,11 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// MARS_Finale_DrawAnim
+//
+//==============================================================================
 procedure MARS_Finale_DrawAnim;
 begin
   if fli_finished then
@@ -227,6 +284,11 @@ begin
   V_FullScreenStretch;
 end;
 
+//==============================================================================
+//
+// MARS_Finale_BriefingDrawer
+//
+//==============================================================================
 procedure MARS_Finale_BriefingDrawer;
 begin
   if fin_lumps.Count > 0 then
@@ -236,6 +298,11 @@ begin
   V_FullScreenStretch;
 end;
 
+//==============================================================================
+//
+// MARS_Finale_Drawer
+//
+//==============================================================================
 procedure MARS_Finale_Drawer;
 begin
   case finalestage of
@@ -246,6 +313,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_Finale_Ticker
+//
+//==============================================================================
 procedure MARS_Finale_Ticker;
 var
   imgdata: Pfliscreen32_t;
@@ -308,6 +380,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MARS_InitFinale
+//
+//==============================================================================
 procedure MARS_InitFinale;
 begin
   fin_lumps := TDNumberList.Create;
@@ -324,6 +401,11 @@ begin
   t2.SetBytesPerPixel(4);
 end;
 
+//==============================================================================
+//
+// MARS_ShutDownFinale
+//
+//==============================================================================
 procedure MARS_ShutDownFinale;
 begin
   fin_lumps.Free;
