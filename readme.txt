@@ -51,6 +51,8 @@ Features:
 
 History
 -------
+Use 64 characters long string for short names in PK3.
+
 Version 1.0.11.748 (20220209)
 -----------------
 "ACTIVE SOUND" alias for "ACTION SOUND" DEHACKED field.
