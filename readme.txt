@@ -53,6 +53,7 @@ History
 -------
 Use 64 characters long string for short names in PK3.
 Added "DROPPED ITEM" alias for "DROPITEM" DEHACKED field.
+Fix wrong coordinates check in sight check.
 
 Version 1.0.11.748 (20220209)
 -----------------
