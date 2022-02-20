@@ -4462,6 +4462,11 @@ end;
 var
   firstglvert: integer;
 
+//==============================================================================
+//
+// TGWAFile.Create
+//
+//==============================================================================
 constructor TGWAFile.Create(const afilename: string);
 var
   f: TFile;
@@ -4650,6 +4655,11 @@ begin
   f.Free;
 end;
 
+//==============================================================================
+//
+// TGWAFile.Destroy
+//
+//==============================================================================
 destructor TGWAFile.Destroy;
 begin
   memfree(pointer(fglvertexes), fnumglvertexes * SizeOf(GLVertex2_t));

@@ -79,6 +79,11 @@ uses
   i_system,
   w_pak;
 
+//==============================================================================
+//
+// TDLLModel.Create
+//
+//==============================================================================
 constructor TDLLModel.Create(const name: string;
   const xoffset, yoffset, zoffset: float;
   const xscale, yscale, zscale: float;
@@ -87,6 +92,11 @@ begin
   CreateWithProc(name, '', xoffset, yoffset, zoffset, xscale, yscale, zscale, additionalframes);
 end;
 
+//==============================================================================
+//
+// TDLLModel.CreateWithProc
+//
+//==============================================================================
 constructor TDLLModel.CreateWithProc(const name, proc: string;
   const xoffset, yoffset, zoffset: float;
   const xscale, yscale, zscale: float;
@@ -149,6 +159,11 @@ begin
   libs.Add(libname);
 end;
 
+//==============================================================================
+//
+// TDLLModel.Destroy
+//
+//==============================================================================
 destructor TDLLModel.Destroy;
 var
   i: integer;

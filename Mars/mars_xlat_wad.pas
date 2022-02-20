@@ -99,12 +99,22 @@ type
     procedure SavetoStream(const strm: TDStream);
   end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.Create
+//
+//==============================================================================
 constructor TMarsToWADConverter.Create;
 begin
   wadwriter := nil;
   Inherited;
 end;
 
+//==============================================================================
+//
+// TMarsToWADConverter.Destroy
+//
+//==============================================================================
 destructor TMarsToWADConverter.Destroy;
 begin
   Clear;

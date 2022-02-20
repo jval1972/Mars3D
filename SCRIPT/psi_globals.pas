@@ -351,6 +351,11 @@ begin
   Result := Result and (HASHSIZE - 1);
 end;
 
+//==============================================================================
+//
+// THashTable.Create
+//
+//==============================================================================
 constructor THashTable.Create;
 begin
   inherited;
@@ -359,6 +364,11 @@ begin
   FillChar(positions, SizeOf(positions), 0);
 end;
 
+//==============================================================================
+//
+// THashTable.Destroy
+//
+//==============================================================================
 destructor THashTable.Destroy;
 var
   i: integer;
@@ -524,6 +534,11 @@ begin
   Result := -1;
 end;
 
+//==============================================================================
+//
+// THashStringList.Create
+//
+//==============================================================================
 constructor THashStringList.Create;
 begin
   fhash := THashTable.Create;
@@ -531,6 +546,11 @@ begin
   fhash.AssignStringList(self);
 end;
 
+//==============================================================================
+//
+// THashStringList.Destroy
+//
+//==============================================================================
 destructor THashStringList.Destroy;
 begin
   Inherited;
@@ -608,8 +628,12 @@ begin
   fhash.AssignStringList(self);
 end;
 
+//==============================================================================
+// TGlobalVariablesList.Create
+//
 ////////////////////////////////////////////////////////////////////////////////
-
+//
+//==============================================================================
 constructor TGlobalVariablesList.Create;
 begin
   inherited Create;
@@ -618,6 +642,11 @@ begin
   fFloatList := THashStringList.Create;
 end;
 
+//==============================================================================
+//
+// TGlobalVariablesList.Destroy
+//
+//==============================================================================
 destructor TGlobalVariablesList.Destroy;
 begin
   FreeHashList(fStringList);
@@ -1355,8 +1384,13 @@ begin
   worldvars.Free;
 end;
 
+//==============================================================================
+// TGlobalStrings.Create
+//
 // Script Runtime Helpers
 // Global strings
+//
+//==============================================================================
 constructor TGlobalStrings.Create(const alist: TGlobalVariablesList);
 begin
   fList := alist;
@@ -1383,18 +1417,33 @@ begin
   flist.PutString(vname, value);
 end;
 
+//==============================================================================
+//
+// TMapStrings.Create
+//
+//==============================================================================
 constructor TMapStrings.Create;
 begin
   inherited Create(mapvars);
 end;
 
+//==============================================================================
+//
+// TWorldStrings.Create
+//
+//==============================================================================
 constructor TWorldStrings.Create;
 begin
   inherited Create(worldvars);
 end;
 
+//==============================================================================
+// TGlobalIntegers.Create
+//
 // Script Runtime Helpers
 // Global integers
+//
+//==============================================================================
 constructor TGlobalIntegers.Create(const alist: TGlobalVariablesList);
 begin
   fList := alist;
@@ -1421,18 +1470,33 @@ begin
   flist.PutInteger(vname, value);
 end;
 
+//==============================================================================
+//
+// TMapIntegers.Create
+//
+//==============================================================================
 constructor TMapIntegers.Create;
 begin
   inherited Create(mapvars);
 end;
 
+//==============================================================================
+//
+// TWorldIntegers.Create
+//
+//==============================================================================
 constructor TWorldIntegers.Create;
 begin
   inherited Create(worldvars);
 end;
 
+//==============================================================================
+// TGlobalFloats.Create
+//
 // Script Runtime Helpers
 // Global floats
+//
+//==============================================================================
 constructor TGlobalFloats.Create(const alist: TGlobalVariablesList);
 begin
   fList := alist;
@@ -1459,11 +1523,21 @@ begin
   flist.PutFloat(vname, value);
 end;
 
+//==============================================================================
+//
+// TMapFloats.Create
+//
+//==============================================================================
 constructor TMapFloats.Create;
 begin
   inherited Create(mapvars);
 end;
 
+//==============================================================================
+//
+// TWorldFloats.Create
+//
+//==============================================================================
 constructor TWorldFloats.Create;
 begin
   inherited Create(worldvars);

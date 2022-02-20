@@ -51,6 +51,11 @@ type
 
 implementation
 
+//==============================================================================
+//
+// TMaterialTextureManager.Create
+//
+//==============================================================================
 constructor TMaterialTextureManager.Create;
 begin
   inherited Create;
@@ -110,6 +115,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TMaterialTextureManager.Destroy
+//
+//==============================================================================
 destructor TMaterialTextureManager.Destroy;
 begin
   Inherited destroy;

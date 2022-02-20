@@ -173,6 +173,11 @@ function ANM_QueryNumFrames(const anmfile: string): integer;
 
 implementation
 
+//==============================================================================
+//
+// TANMFile.Create
+//
+//==============================================================================
 constructor TANMFile.Create(const astream: TDStream);
 begin
   fstream := astream;
@@ -193,6 +198,11 @@ begin
   fstream.Seek(oldstreampos, sFromBeginning);
 end;
 
+//==============================================================================
+//
+// TANMFile.Destroy
+//
+//==============================================================================
 destructor TANMFile.Destroy;
 begin
   clearanm;

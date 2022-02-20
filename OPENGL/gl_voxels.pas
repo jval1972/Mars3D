@@ -171,6 +171,11 @@ type
     procedure RenderVertexGL(const v: voxelvertex_p); override;
   end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.Create
+//
+//==============================================================================
 constructor TVoxelMeshOptimizer.Create;
 begin
   fquads := nil;
@@ -178,6 +183,11 @@ begin
   frealnumquads := 0;
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.Destroy
+//
+//==============================================================================
 destructor TVoxelMeshOptimizer.Destroy;
 begin
   memfree(Pointer(fquads), frealnumquads * SizeOf(voxelquad_t));
@@ -1821,6 +1831,11 @@ begin
   vmx.Free;
 end;
 
+//==============================================================================
+//
+// TVoxelModel.Create
+//
+//==============================================================================
 constructor TVoxelModel.Create(const name: string; const offset, scale: float);
 var
   ext: string;
@@ -1857,6 +1872,11 @@ begin
     I_Error('TVoxelModel.Create(): Can not identify voxel type "%s"', [name]);
 end;
 
+//==============================================================================
+//
+// TVoxelModel.Destroy
+//
+//==============================================================================
 destructor TVoxelModel.Destroy;
 var
   i: integer;
