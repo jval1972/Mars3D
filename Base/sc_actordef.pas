@@ -3448,7 +3448,7 @@ begin
     AddLn('HitObituary ' + '"' + m.hitobituary + '"');
   {$IFDEF DOOM_OR_STRIFE}
   if m.missileheight > 0 then
-    AddLn('Missileheight ' + S_GetSoundNameForNum(m.missileheight));
+    AddLn('Missileheight ' + itoa(m.missileheight));
   {$ENDIF}
   if m.renderstyle <> mrs_normal then
   begin
