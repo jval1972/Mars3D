@@ -499,7 +499,7 @@ begin
 
      //t -> double (delphidoom)
       t := (centeryfrac / FRACUNIT) - (dc_texturemid / FRACUNIT) * (spryscale / FRACUNIT);
-      if (t + (textureheight[texnum] / FRACUNIT) * (spryscale / FRACUNIT) < 0) or (t > SCREENHEIGHT * 2) then
+      if (t + (textureheight[texnum] / FRACUNIT) * (spryscale / FRACUNIT) < 0) or (t > SCREENHEIGHT * 2) or (t < -32000.0) then
       begin
         if ds.use_double then
           spryscale := Trunc(ds.scale_dbl + (dc_x - ds.x1) * rw_scalestep_dbl)
@@ -1455,7 +1455,7 @@ begin
       toptexture := texturetranslation[sidedef.toptexture];
       rw_toptextureheight := texturecolumnheight[toptexture];
       if rw_toptextureheight = 128 then
-        topwallcolfunc  := basewallcolfunc
+        topwallcolfunc := basewallcolfunc
       else
         topwallcolfunc := tallwallcolfunc;
       if linedef.flags and ML_DONTPEGTOP <> 0 then
@@ -1478,7 +1478,7 @@ begin
       bottomtexture := texturetranslation[sidedef.bottomtexture];
       rw_bottomtextureheight := texturecolumnheight[bottomtexture];
       if rw_bottomtextureheight = 128 then
-        bottomwallcolfunc  := basewallcolfunc
+        bottomwallcolfunc := basewallcolfunc
       else
         bottomwallcolfunc := tallwallcolfunc;
       if linedef.flags and ML_DONTPEGBOTTOM <> 0 then
