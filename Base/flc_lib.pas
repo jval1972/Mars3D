@@ -293,7 +293,7 @@ begin
   {$I+}
   if IOResult <> 0 then
   begin
-    I_Warning('TFLIFile.SetFliFile(): Can not open file "%s"', [Value]);
+    I_Warning('TFLIFile.SetFliFile(): Can not open file "%s"'#13#10, [Value]);
     fFliFile := '';
     fSpeed := 0;
     fFrameCount := 0;
