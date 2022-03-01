@@ -58,6 +58,7 @@ Fixed missileheight ACTORDEF export.
 Fix of OPENARRAYOFU16 and OPENARRAYOFS16 declarations (PascalScript).
 Fix ReadParameters not setting parameter parser positions even though ValidateParameters does use them (PascalScript).
 Fixed masked middle texture bleeding when player was exactly placed on the line.
+Small optimization to masked middle textute rendering.
 
 Version 1.0.11.748 (20220209)
 -----------------

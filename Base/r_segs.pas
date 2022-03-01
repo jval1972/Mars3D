@@ -312,6 +312,7 @@ var
   mc2height: integer;
   texturecolumn: integer;
   t: double;
+  texturemid_dbl: double;
 {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t;
 {$ENDIF}
@@ -427,6 +428,7 @@ begin
     dc_texturemid := dc_texturemid - viewz;
   end;
   dc_texturemid := dc_texturemid + curline.sidedef.rowoffset;
+  texturemid_dbl := dc_texturemid / FRACUNIT;
 
   if fixedcolormap <> nil then
     dc_colormap := fixedcolormap;
@@ -498,7 +500,7 @@ begin
       sprtopscreen := FixedInt64(t); }
 
      //t -> double (delphidoom)
-      t := (centeryfrac / FRACUNIT) - (dc_texturemid / FRACUNIT) * (spryscale / FRACUNIT);
+      t := centery - texturemid_dbl * (spryscale / FRACUNIT);
       if (t + (textureheight[texnum] / FRACUNIT) * (spryscale / FRACUNIT) < 0) or (t > SCREENHEIGHT * 2) or (t < -32000.0) then
       begin
         if ds.use_double then
@@ -663,7 +665,7 @@ begin
     midtexture := texturetranslation[sidedef.midtexture];
     rw_midtextureheight := texturecolumnheight[midtexture];
     if rw_midtextureheight = 128 then
-      midwallcolfunc  := basewallcolfunc
+      midwallcolfunc := basewallcolfunc
     else
       midwallcolfunc := tallwallcolfunc;
     // a single sided line is terminal, so it must mark ends
