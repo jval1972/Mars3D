@@ -90,7 +90,7 @@ MaxStackSize=4194304
 ImageBase=8388608
 ExeDescription=
 [Directories]
-OutputDir=..\bin_test
+OutputDir=..\bin
 UnitOutputDir=..\dcu\Soft
 PackageDLLOutputDir=
 PackageDCPOutputDir=
@@ -206,8 +206,8 @@ Item14=..\dcu\Doom\GL
 Item15=..\dcu
 [HistoryLists\hlOutputDirectorry]
 Count=10
-Item0=..\bin_test
-Item1=..\bin
+Item0=..\bin
+Item1=..\bin_test
 Item2=..\test
 Item3=..\bin\Doom
 Item4=D:\DelphiDoom_Release\DD_VOXEL\garbage\test

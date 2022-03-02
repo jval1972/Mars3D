@@ -2131,7 +2131,7 @@ end;
 //==============================================================================
 function _filesize(stream: Integer): Integer; cdecl;
 var
-  p:integer;
+  p: integer;
 begin
   p := _fileseek(stream, 0, 1);
   Result := _fileseek(stream, 0, 2);
@@ -2165,7 +2165,7 @@ end;
 //==============================================================================
 function _fileeof(stream: Integer): Integer; cdecl;
 var
-  p:integer;
+  p: integer;
 begin
   p := _fileseek(stream, 0, 1);
   if p = _fileseek(stream, 0, 2) then

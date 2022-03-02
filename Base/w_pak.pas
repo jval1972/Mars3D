@@ -580,7 +580,7 @@ end;
 function TPakManager.PAddFile(const FileName: string): boolean; // Add A Pak file
 var
   Nr: Integer;
-  N, Id, Ofs:Integer;
+  N, Id, Ofs: Integer;
   sId: string[4];
   F: file;
   P: Pointer;
