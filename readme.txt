@@ -60,6 +60,7 @@ Fix ReadParameters not setting parameter parser positions even though ValidatePa
 Fixed masked middle texture bleeding when player was exactly placed on the line.
 Small optimization to masked middle textute rendering.
 Fixed misspelled of "joystick" in the menus.
+Speed optimizations in R_PointToAngleEx().
 
 Version 1.0.11.748 (20220209)
 -----------------
