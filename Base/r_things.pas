@@ -1170,7 +1170,10 @@ begin
   end;
 
   dc_iscale := FixedDivEx(FRACUNIT, vis.scale);
-  dbscale := trunc((FRACUNIT / dc_iscale) * (FRACUNIT / vis.infoscale) * FRACUNIT);
+  if vis.infoscale = FRACUNIT then
+    dbscale := vis.scale
+  else
+    dbscale := trunc((FRACUNIT / dc_iscale) * (FRACUNIT / vis.infoscale) * FRACUNIT);
 
   dc_fog := vis.fog; // JVAL: Mars fog sectors
 
@@ -1188,7 +1191,7 @@ begin
   xiscale := vis.xiscale;
   dc_x := vis.x1;
 
-  do_mt := (vis.x2 - vis.x1 > MIN_SPRITE_SIZE_MT) and usemultithread;
+  do_mt := usemultithread and (vis.x2 - vis.x1 > MIN_SPRITE_SIZE_MT);
 
   if do_mt and Assigned(spritefunc_mt) then
     dmcproc := @R_DrawMaskedColumnMT
@@ -1336,7 +1339,7 @@ begin
   end;
 
   dc_x := x1;
-  if depthbufferactive or (fracstep > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchlightcolfunc)) then
+  if depthbufferactive or (fracstep > FRACUNIT div 2) or not optimizedthingsrendering or not Assigned(batchlightcolfunc) then
   begin
     while dc_x <= x2 do
     begin
@@ -2250,6 +2253,8 @@ procedure R_DrawSprite(spr: Pvissprite_t);
 var
   ds: Pdrawseg_t;
   x: integer;
+  sx1: integer;
+  sx2: integer;
   r1: integer;
   r2: integer;
   scale: fixed_t;
@@ -2271,9 +2276,11 @@ begin
     exit;
   end;
 
-  size := spr.x2 - spr.x1 + 1;
-  memsetsi(@clipbot[spr.x1], - 2, size);
-  memsetsi(@cliptop[spr.x1], - 2, size);
+  sx1 := spr.x1;
+  sx2 := spr.x2;
+  size := sx2 - sx1 + 1;
+  memsetsi(@clipbot[sx1], - 2, size);
+  memsetsi(@cliptop[sx1], - 2, size);
 
   R_GetDrawsegsForVissprite(spr, fdrawsegs, fds_p);
 
@@ -2284,20 +2291,18 @@ begin
   begin
     ds := fdrawsegs[i];
     // determine if the drawseg obscures the sprite
-    if (ds.x1 > spr.x2) or
-       (ds.x2 < spr.x1) or
-       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil) and (ds.thicksidecol = nil)) then // JVAL: 3d Floors
+    if ds.maskedquery or (ds.x1 > sx2) or (ds.x2 < sx1) then
     begin
       // does not cover sprite
       continue;
     end;
 
-    if ds.x1 < spr.x1 then
-      r1 := spr.x1
+    if ds.x1 < sx1 then
+      r1 := sx1
     else
       r1 := ds.x1;
-    if ds.x2 > spr.x2 then
-      r2 := spr.x2
+    if ds.x2 > sx2 then
+      r2 := sx2
     else
       r2 := ds.x2;
 
@@ -2313,7 +2318,7 @@ begin
     end;
 
     if (scale < spr.scale) or
-       ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy, ds.curline))) then
+       ((lowscale < spr.scale) and not R_PointOnSegSide(spr.gx, spr.gy, ds.curline)) then
     begin
       // masked mid texture?
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors
@@ -2412,7 +2417,7 @@ begin
           end
           else
           begin
-            for x :=spr.x1 to spr.x2 do
+            for x := spr.x1 to spr.x2 do
               if (cliptop[x] = -2) or (h > cliptop[x]) then
                 cliptop[x] := h;
           end;
@@ -2443,8 +2448,11 @@ begin
   mfloorclip := @clipbot;
   mceilingclip := @cliptop;
 
-  spr.scale := FixedMul(spr.scale, spr.infoscale);
-  spr.xiscale := FixedDiv(spr.xiscale, spr.infoscale);
+  if spr.infoscale <> FRACUNIT then
+  begin
+    spr.scale := FixedMul(spr.scale, spr.infoscale);
+    spr.xiscale := FixedDiv(spr.xiscale, spr.infoscale);
+  end;
 
   R_DrawVisSprite(spr);
 end;
@@ -2492,9 +2500,7 @@ begin
   begin
     ds := fdrawsegs[i];
     // determine if the drawseg obscures the sprite
-    if (ds.x1 > x2) or
-       (ds.x2 < x1) or
-       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil) and (ds.thicksidecol = nil)) then // JVAL: 3d Floors
+    if ds.maskedquery or (ds.x1 > x2) or (ds.x2 < x1) then
     begin
       // does not cover sprite
       continue;
@@ -2521,7 +2527,7 @@ begin
     end;
 
     if (scale < spr.scale) or
-       ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy, ds.curline))) then
+       ((lowscale < spr.scale) and not R_PointOnSegSide(spr.gx, spr.gy, ds.curline)) then
     begin
       // masked mid texture?
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors

@@ -61,6 +61,7 @@ Fixed masked middle texture bleeding when player was exactly placed on the line.
 Small optimization to masked middle textute rendering.
 Fixed misspelled of "joystick" in the menus.
 Speed optimizations in R_PointToAngleEx().
+Speed optimizations to sofrware rendering.
 
 Version 1.0.11.748 (20220209)
 -----------------
