@@ -2336,6 +2336,11 @@ procedure R_SetDrawSegToLists(const pds: Pdrawseg_t);
 var
   i: integer;
 begin
+  // JVAL: 20220306 - New field, precalculates (::silhouette = 0) and (::maskedtexturecol = nil) and (::thicksidecol = nil)
+  pds.maskedquery := (pds.silhouette = 0) and (pds.maskedtexturecol = nil) and (pds.thicksidecol = nil);
+  if pds.maskedquery then
+    exit; // JVAL: nothing to do
+
 // Right screen list
   if pds.x2 >= centerx then
   begin
