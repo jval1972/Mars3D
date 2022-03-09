@@ -2280,7 +2280,7 @@ begin
   begin
     ds := fdrawsegs[i];
     // determine if the drawseg obscures the sprite
-    if (ds.x1 > sx2) or (ds.x2 < sx1) then
+    if (ds.x1 > sx2) or (ds.x2 < sx1) or ds.maskedquery then
     begin
       // does not cover sprite
       continue;
@@ -2489,7 +2489,7 @@ begin
   begin
     ds := fdrawsegs[i];
     // determine if the drawseg obscures the sprite
-    if (ds.x1 > x2) or (ds.x2 < x1) then
+    if (ds.x1 > x2) or (ds.x2 < x1) or ds.maskedquery then
     begin
       // does not cover sprite
       continue;
