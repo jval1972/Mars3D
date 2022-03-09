@@ -62,7 +62,7 @@ Small optimization to masked middle textute rendering.
 Fixed misspelled of "joystick" in the menus.
 Speed optimizations in R_PointToAngleEx().
 Speed optimizations to sofrware rendering.
-mproved priority logic for sound channel selection.
+Improved priority logic for sound channel selection.
 Small optimization to sprite rendering.
 
 Version 1.0.11.748 (20220209)
