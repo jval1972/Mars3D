@@ -107,12 +107,22 @@ procedure V_ShutDown;
 //==============================================================================
 function V_ScreensSize(const scrn: integer = -1): integer;
 
+//==============================================================================
+//
+// V_CopyCustomScreen
+//
+//==============================================================================
 procedure V_CopyCustomScreen(
   src: PByteArray;
   width: integer;
   height: integer;
   destscrn: integer);
 
+//==============================================================================
+//
+// V_CopyRect
+//
+//==============================================================================
 procedure V_CopyRect(
   srcx: integer;
   srcy: integer;
@@ -124,6 +134,11 @@ procedure V_CopyRect(
   destscrn: integer;
   preserve: boolean);
 
+//==============================================================================
+//
+// V_CopyAddRect
+//
+//==============================================================================
 procedure V_CopyAddRect(
   srcx: integer;
   srcy: integer;
@@ -136,6 +151,11 @@ procedure V_CopyAddRect(
   preserve: boolean;
   addfactor: fixed_t);
 
+//==============================================================================
+//
+// V_CopyRectTransparent
+//
+//==============================================================================
 procedure V_CopyRectTransparent(
   srcx: integer;
   srcy: integer;
@@ -147,6 +167,11 @@ procedure V_CopyRectTransparent(
   destscrn: integer;
   preserve: boolean);
 
+//==============================================================================
+//
+// V_CopyScreenTransparent
+//
+//==============================================================================
 procedure V_CopyScreenTransparent(
   srcscrn: integer;
   destscrn: integer; srcoffs: integer = 0; destoffs: integer = 0; size: integer = -1);
@@ -2555,6 +2580,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// V_CopyScreenTransparent
+//
+//==============================================================================
 procedure V_CopyScreenTransparent(
   srcscrn: integer;
   destscrn: integer; srcoffs: integer = 0; destoffs: integer = 0; size: integer = -1);
