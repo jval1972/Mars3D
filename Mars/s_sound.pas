@@ -1150,7 +1150,7 @@ var
   // channel number to use
   cnum: integer;
   c: Pchannel_t;
-  listener: pointer;
+  listener, listener2: pointer;
 begin
   // Find an open channel
   cnum := 0;
@@ -1192,12 +1192,13 @@ begin
     if cnum = numChannels then
     begin
       listener := players[consoleplayer].mo;
-      if (origin = listener) or (origin = nil) then
+      listener2 := @players[consoleplayer].jetpacksoundorg;
+      if (origin = listener) or (origin = listener2) or (origin = nil) then
       begin
         cnum := 0;
         while cnum < numChannels do
         begin
-          if (channels[cnum].origin <> nil) and (channels[cnum].origin <> listener) then
+          if (channels[cnum].origin <> nil) and (channels[cnum].origin <> listener) and (channels[cnum].origin <> listener2) then
             break;
           inc(cnum);
         end;
