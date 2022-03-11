@@ -237,10 +237,10 @@ type
     m_snext: Pmsecnode_t; // next msecnode_t for this sector
     visited: boolean;     // killough 4/4/98, 4/7/98: used in search algorithms
   end;
+
 //
 // The SideDef.
 //
-
   side_t = packed record
     // add this to the calculated texture column
     textureoffset: fixed_t;
@@ -281,7 +281,7 @@ type
     dy: fixed_t;
 
     // Animation related.
-    flags: word; //smallint;
+    flags: word;
     special: smallint;
     tag: smallint;
 
@@ -344,7 +344,7 @@ const
 const
   // Vissprite render flags
   VSF_TRANSPARENCY = 1;
-//  VSF_DONTCLIP3DFLOOR = 2; // Caused problems with multiple 3d floors
+  VSF_VOXEL = 2;
 
 //
 // A SubSector.
@@ -530,10 +530,10 @@ type
     {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
     heightsec: integer;   // killough 3/27/98: height sector for underwater/fake ceiling support
-    voxelflag: integer;   // JVAL voxel support (1 for sprites, 0 for skipped spites (only light), 1.... for voxels
-    vx1, vx2: integer;
-    drawn: Boolean;       // JVAL 3d Floors
+    vx1, vx2: integer;    // JVAL voxel support
     ceilingz: fixed_t;    // JVAL 3d Floors
+    cache: Pointer;
+    lightcache: Pointer;
     {$ENDIF}
     patch: integer;
 
@@ -545,7 +545,6 @@ type
 {$ENDIF}
     mobjflags: integer;
     mobjflags_ex: integer;
-    mobjflags2_ex: integer;
     mo: Pmobj_t;
 {$IFDEF OPENGL}
     flip: boolean;

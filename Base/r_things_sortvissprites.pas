@@ -51,13 +51,6 @@ procedure R_SortVisSpritesMT;
 
 //==============================================================================
 //
-// R_WaitSortVisSpritesMT
-//
-//==============================================================================
-procedure R_WaitSortVisSpritesMT;
-
-//==============================================================================
-//
 // R_InitSpriteSort
 //
 //==============================================================================
@@ -93,7 +86,7 @@ function getvissortscale(const vis: Pvissprite_t): integer;
 begin
   result := vis.scale;
   {$IFDEF HEXEN}
-  if vis.mobjflags2 and MF2_DROPPED <> 0 then
+  if vis.mo.flags2 and MF2_DROPPED <> 0 then
   {$ELSE}
   if vis.mobjflags and MF_DROPPED <> 0 then
   {$ENDIF}
@@ -470,19 +463,6 @@ end;
 // Sorting while the engine does other things, using a separate thread (idea by zokum)
 // https://www.doomworld.com/forum/topic/102482-potential-for-improvement-in-vissprites-sorting/?do=findComment&comment=1920806
 //
-var
-  sortthread: TDThread;
-
-//==============================================================================
-//
-// R_SortVisSprites_thr
-//
-//==============================================================================
-function R_SortVisSprites_thr(p: pointer): integer; stdcall;
-begin
-  R_SortVisSprites;
-  Result := 0;
-end;
 
 //==============================================================================
 //
@@ -506,17 +486,6 @@ begin
       vissprite_p) * SizeOf(Pvissprite_t));
     vis_buf_size2 := vissprite_p + 128;
   end;
-  sortthread.Activate(nil);
-end;
-
-//==============================================================================
-//
-// R_WaitSortVisSpritesMT
-//
-//==============================================================================
-procedure R_WaitSortVisSpritesMT;
-begin
-  sortthread.Wait;
 end;
 
 //==============================================================================
@@ -530,7 +499,6 @@ begin
   vis_buf2 := nil;
   vis_buf_size1 := 0;
   vis_buf_size2 := 0;
-  sortthread := TDThread.Create(@R_SortVisSprites_thr);
 end;
 
 //==============================================================================
@@ -550,7 +518,6 @@ begin
     realloc(pointer(vis_buf2), vis_buf_size2 * SizeOf(Pvissprite_t), 0);
     vis_buf_size2 := 0;
   end;
-  sortthread.Free;
 end;
 
 end.

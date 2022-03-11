@@ -1052,10 +1052,10 @@ end;
 
 //==============================================================================
 //
-// R_PointToAngleEx
+// R_PointToAngleEx1
 //
 //==============================================================================
-function R_PointToAngleEx(x: fixed_t; y: fixed_t): angle_t;
+function R_PointToAngleEx1(x: fixed_t; y: fixed_t): angle_t;
 begin
   x := x - viewx;
   y := y - viewy;
@@ -1143,6 +1143,30 @@ begin
   end;
 
   result := 0;
+end;
+
+var
+  pta_x, pta_y: fixed_t;
+  pta_ret: angle_t;
+
+//==============================================================================
+//
+// R_PointToAngleEx
+//
+//==============================================================================
+function R_PointToAngleEx(x: fixed_t; y: fixed_t): angle_t;
+begin
+  if x = pta_x then
+    if y = pta_y then
+    begin
+      Result := pta_ret;
+      Exit;
+    end;
+
+  result := R_PointToAngleEx1(x, y);
+  pta_x := x;
+  pta_y := y;
+  pta_ret := Result;
 end;
 
 //==============================================================================
@@ -2602,7 +2626,10 @@ var
 procedure R_SetupFrame(player: Pplayer_t);
 var
   i: integer;
-  cy{$IFNDEF OPENGL}, dy, dy1{$ENDIF}: fixed_t;
+  cy: fixed_t;
+{$IFNDEF OPENGL}
+  dy, dy1: fixed_t;
+{$ENDIF}
   sblocks: integer;
   sec: Psector_t;
   cm: integer;
@@ -2617,6 +2644,11 @@ begin
   extralight := player.extralight;
 
   viewz := player.viewz;
+
+  // JVAL: 20220309 - Reset R_PointToAngleEx
+  pta_x := 0;
+  pta_y := 0;
+  pta_ret := 0;
 
   R_AdjustTeleportZoom(player);
   R_AdjustChaseCamera;
@@ -2852,7 +2884,14 @@ end;
 var
   task_clearplanes: integer = -1;
   task_8bitlights: integer = -1;
-  task_drawseglists: integer = -1;
+  task_maskedstuff: integer = -1;
+
+procedure R_MaskedStuffMT;
+begin
+  R_SortVisSprites;
+  R_SetUpDrawSegLists;
+  R_PrepareMasked;
+end;
 
 //==============================================================================
 //
@@ -2886,10 +2925,10 @@ begin
 
   R_SortVisSpritesMT;
 
-  R_RenderMultiThreadWalls8;
+  task_maskedstuff := MT_ScheduleTask(@R_MaskedStuffMT);
+  MT_ExecutePendingTask(task_maskedstuff);
 
-  task_drawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
-  MT_ExecutePendingTask(task_drawseglists);
+  R_RenderMultiThreadWalls8;
 
   R_DrawPlanes;
 
@@ -2902,7 +2941,8 @@ begin
   R_RenderMultiThreadFFloors8;
 
   MT_WaitTask(task_8bitlights);
-  MT_WaitTask(task_drawseglists);
+  R_SignalPrepareMasked;
+  MT_WaitTask(task_maskedstuff);
   R_DrawMasked_MultiThread;
 
   // Check for new console commands.
@@ -2952,10 +2992,10 @@ begin
 
   R_SortVisSpritesMT;
 
-  R_RenderMultiThreadWalls32;
+  task_maskedstuff := MT_ScheduleTask(@R_MaskedStuffMT);
+  MT_ExecutePendingTask(task_maskedstuff);
 
-  task_drawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
-  MT_ExecutePendingTask(task_drawseglists);
+  R_RenderMultiThreadWalls32;
 
   R_DrawPlanes;
 
@@ -2967,7 +3007,8 @@ begin
 
   R_RenderMultiThreadFFloors32;
 
-  MT_WaitTask(task_drawseglists);
+  R_SignalPrepareMasked;
+  MT_WaitTask(task_maskedstuff);
   R_DrawMasked_MultiThread;
 
   // Check for new console commands.
