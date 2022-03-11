@@ -1197,7 +1197,7 @@ begin
   else
     dmcproc := @R_DrawMaskedColumn;
 
-  if depthbufferactive or (xiscale > FRACUNIT div 2) or (xiscale < -FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
+  if depthbufferactive or (xiscale > FRACUNIT div 2) or (xiscale < -FRACUNIT div 2) or not optimizedthingsrendering or not Assigned(batchcolfunc) then
   begin
     while dc_x <= vis.x2 do
     begin
