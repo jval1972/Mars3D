@@ -230,7 +230,7 @@ begin
     for j := 0 to RADIX_BASE - 1 do
     begin
       pi := @idx1[j];
-      tot  := pi^ + n1;
+      tot := pi^ + n1;
       pi^ := n1 - 1;
       n1 := tot;
 
@@ -275,7 +275,7 @@ begin
     for j := 0 to RADIX_BASE div 2 - 1 do
     begin
       pi := @idx1[j];
-      tot  := pi^ + n1;
+      tot := pi^ + n1;
       pi^ := n1 - 1;
       n1 := tot;
 
@@ -293,7 +293,7 @@ begin
     for j := RADIX_BASE div 2 to RADIX_BASE - 1 do
     begin
       pi := @idx1[j];
-      tot  := pi^ + n1;
+      tot := pi^ + n1;
       pi^ := n1 - 1;
       n1 := tot;
 
