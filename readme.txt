@@ -65,6 +65,7 @@ Speed optimizations to sofrware rendering.
 Improved priority logic for sound channel selection.
 Small optimization to sprite rendering.
 Added support for tall patches in PNG format.
+Use general purpose threads in 8 bit software rendering blit.
 
 Version 1.0.11.748 (20220209)
 -----------------
