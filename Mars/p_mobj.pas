@@ -1427,7 +1427,7 @@ begin
   p.extralight := 0;
   p.fixedcolormap := 0;
   p.viewheight := PVIEWHEIGHT;
-  // JVAL: 20211117 - Reset extra player fields when spawing player
+  // JVAL: 20211117 - Reset extra player fields when spawning player
   p.lastbreath := 0;
   p.hardbreathtics := 0;
   p.angletargetticks := 0;
