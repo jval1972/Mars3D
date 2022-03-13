@@ -2061,15 +2061,13 @@ begin
   P_CheckMissileSpawn(th);
 end;
 
-//----------------------------------------------------------------------------
+//==============================================================================
 //
 // FUNC P_FaceMobj
 //
 // Returns 1 if 'source' needs to turn clockwise, or 0 if 'source' needs
 // to turn counter clockwise.  'delta' is set to the amount 'source'
 // needs to turn.
-//
-//----------------------------------------------------------------------------
 //
 //==============================================================================
 function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
