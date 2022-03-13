@@ -1741,7 +1741,7 @@ begin
     else
       block := MapBlockInt(sector.bbox[BOXTOP] - bmaporgy + MAXRADIUS);
     if block >= bmapheight then
-      block  := bmapheight - 1;
+      block := bmapheight - 1;
     sector.blockbox[BOXTOP] := block;
 
     if internalblockmapformat then
@@ -1749,7 +1749,7 @@ begin
     else
       block := MapBlockInt(sector.bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
     if block < 0 then
-      block  := 0;
+      block := 0;
     sector.blockbox[BOXBOTTOM] := block;
 
     if internalblockmapformat then
