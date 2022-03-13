@@ -817,7 +817,7 @@ begin
       toptexture := texturetranslation[sidedef.toptexture];
       rw_toptextureheight := texturecolumnheight[toptexture];
       if rw_toptextureheight = 128 then
-        topwallcolfunc  := basewallcolfunc
+        topwallcolfunc := basewallcolfunc
       else
         topwallcolfunc := tallwallcolfunc;
       if linedef.flags and ML_DONTPEGTOP <> 0 then
@@ -840,7 +840,7 @@ begin
       bottomtexture := texturetranslation[sidedef.bottomtexture];
       rw_bottomtextureheight := texturecolumnheight[bottomtexture];
       if rw_bottomtextureheight = 128 then
-        bottomwallcolfunc  := basewallcolfunc
+        bottomwallcolfunc := basewallcolfunc
       else
         bottomwallcolfunc := tallwallcolfunc;
       if linedef.flags and ML_DONTPEGBOTTOM <> 0 then
@@ -1309,7 +1309,7 @@ begin
     midtexture := texturetranslation[sidedef.midtexture];
     rw_midtextureheight := texturecolumnheight[midtexture];
     if rw_midtextureheight = 128 then
-      midwallcolfunc  := basewallcolfunc
+      midwallcolfunc := basewallcolfunc
     else
       midwallcolfunc := tallwallcolfunc;
     // a single sided line is terminal, so it must mark ends
