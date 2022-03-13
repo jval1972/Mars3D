@@ -1710,6 +1710,7 @@ var
   tmp_top, tmp_bottom: fixed_t;
   vprojection, vprojectiony: fixed_t;
   voxelinfscale: fixed_t;
+  dovoxelzbuffer: boolean;
 begin
   info := @voxelstates[vidx];
   voxelinf := @voxelmanager.items[info.voxelidx];
@@ -1803,6 +1804,8 @@ begin
     mipscale := mscale * voxelinf.voxel.fscale;
     mipscale2 := mipscale div 2;
 
+    dovoxelzbuffer := domaskedzbuffer and (renderflags and VSF_TRANSPARENCY = 0);
+
     // For each voxel column
     for i := 0 to mip.numcolumns - 1 do
     begin
@@ -1842,9 +1845,8 @@ begin
                 else
                   putpixelfunc(left, top);
 
-                if domaskedzbuffer then
-                  if renderflags and VSF_TRANSPARENCY = 0 then
-                    R_DrawVoxelPixelToZBuffer(depth, left, top, thing);
+                if dovoxelzbuffer then
+                  R_DrawVoxelPixelToZBuffer(depth, left, top, thing);
               end;
 
           col := col.next;
@@ -2056,9 +2058,8 @@ begin
             else
               batchcolfunc;
 
-            if domaskedzbuffer then
-              if renderflags and VSF_TRANSPARENCY = 0 then
-                R_DrawBatchVoxelColumnToZBuffer(depth, thing);
+            if dovoxelzbuffer then
+              R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
           end;
 
           col := col.next;
@@ -2093,19 +2094,21 @@ begin
             dc_yl := last_top;
             dc_yh := last_bot;
 
-            if depthbufferactive then
+            if dc_yl <= dc_yh then
             begin
-              if renderflags and VSF_TRANSPARENCY <> 0 then
-                R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+              if depthbufferactive then
+              begin
+                if renderflags and VSF_TRANSPARENCY <> 0 then
+                  R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+                else
+                  R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+              end
               else
-                R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
-            end
-            else
-              batchcolfunc;
+                batchcolfunc;
 
-            if domaskedzbuffer then
-              if renderflags and VSF_TRANSPARENCY = 0 then
-                R_DrawBatchVoxelColumnToZBuffer(depth, thing);
+              if dovoxelzbuffer then
+                R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
+            end;
 
             last_top := cur_top;
             last_bot := cur_bot;
@@ -2121,19 +2124,21 @@ begin
           dc_yl := last_top;
           dc_yh := last_bot;
 
-          if depthbufferactive then
+          if dc_yl <= dc_yh then
           begin
-            if renderflags and VSF_TRANSPARENCY <> 0 then
-              R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+            if depthbufferactive then
+            begin
+              if renderflags and VSF_TRANSPARENCY <> 0 then
+                R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+              else
+                R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+            end
             else
-              R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
-          end
-          else
-            batchcolfunc;
+              batchcolfunc;
 
-          if domaskedzbuffer then
-            if renderflags and VSF_TRANSPARENCY = 0 then
-              R_DrawBatchVoxelColumnToZBuffer(depth, thing);
+            if dovoxelzbuffer then
+              R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
+          end;
         end;
 
         col := col.next;
