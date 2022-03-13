@@ -440,7 +440,6 @@ begin
       mo.momy := MAXMOVE
     else if mo.momy < -MAXMOVE then
       mo.momy := -MAXMOVE;
-
   end;
 
   xmove := mo.momx;
@@ -777,7 +776,7 @@ begin
         grav := grav div 2;
 
     if mo.momz = 0 then
-      mo.momz := - grav * 2
+      mo.momz := -grav * 2
     else
       mo.momz := mo.momz - grav;
 
@@ -992,9 +991,7 @@ begin
     mobj.movecount := mobj.movecount + 1;
 
     if mobj.movecount < 12 * TICRATE then
-    begin
       exit;
-    end;
 
     if leveltime and 31 <> 0 then
       exit;
@@ -2097,14 +2094,12 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------------
+//==============================================================================
 //
 // FUNC P_SeekerMissile
 //
 // The missile's tracer field must be the target.  Returns true if
 // target was tracked, false if not.
-//
-//----------------------------------------------------------------------------
 //
 //==============================================================================
 function P_SeekerMissile(actor: Pmobj_t; thresh, turnMax: angle_t): boolean;
@@ -2163,7 +2158,7 @@ begin
   result := true;
 end;
 
-//---------------------------------------------------------------------------
+//==============================================================================
 //
 // FUNC P_GetThingFloorType
 //
