@@ -522,8 +522,7 @@ begin
           floor.direction := -1;
           floor.sector := sec;
           floor.speed := FLOORSPEED * 4;
-          floor.floordestheight :=
-          P_FindHighestFloorSurrounding(sec);
+          floor.floordestheight := P_FindHighestFloorSurrounding(sec);
           if floor.floordestheight <> sec.floorheight then
             floor.floordestheight := floor.floordestheight + 8 * FRACUNIT;
         end;
@@ -816,7 +815,7 @@ end;
 
 //==============================================================================
 //
-// EV_DoDonut()
+// EV_DoDonut
 //
 // Handle donut function: lower pillar, raise surrounding pool, both to height,
 // texture and type of the sector surrounding the pool.
