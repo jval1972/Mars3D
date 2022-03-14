@@ -1188,7 +1188,7 @@ begin
     if space > 48 * FRACUNIT then
     begin
       space := space - 40 * FRACUNIT;
-      mobj.z := FixedMul(space, N_Random * 256) + mobj.floorz + 40 * FRACUNIT
+      mobj.z := FixedMul(space, N_Random * 256) + mobj.floorz + 40 * FRACUNIT;
     end
     else
       mobj.z := mobj.floorz

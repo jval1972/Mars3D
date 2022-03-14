@@ -276,7 +276,7 @@ begin
             floor.crush, 0, floor.direction);
 
   if leveltime and 7 = 0 then
-    S_StartSound(Pmobj_t(@floor.sector.soundorg), Ord(sfx_stnmov));
+    S_StartSound(@floor.sector.soundorg, Ord(sfx_stnmov));
 
   if res = pastdest then
   begin
@@ -428,7 +428,7 @@ begin
 
   // make floor move sound
   if leveltime and 7 = 0 then
-    S_StartSound(Pmobj_t(@elevator.sector.soundorg), Ord(sfx_stnmov));
+    S_StartSound(@elevator.sector.soundorg, Ord(sfx_stnmov));
 
   if res = pastdest then            // if destination height acheived
   begin
