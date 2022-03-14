@@ -68,6 +68,7 @@ Added support for tall patches in PNG format.
 Use general purpose threads in 8 bit software rendering blit.
 Optimizations in voxel software rendering.
 Fixes to 3d colissions of actors moving up or down other actors.
+Default sound channels raised to 32, maximum sound channels raised to 64.
 
 Version 1.0.11.748 (20220209)
 -----------------
