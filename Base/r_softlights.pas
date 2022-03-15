@@ -1410,7 +1410,6 @@ end;
 
 var
   old_lightmapcolorintensity: integer = -1;
-  old_lightwidthfactor: integer = -1;
   old_lightmapfadeoutfunc: integer = -1;
 
 //==============================================================================
