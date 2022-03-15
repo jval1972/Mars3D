@@ -337,7 +337,9 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   fraclimit: fixed_t;
+{$IFNDEF NO_INLINE_LOOPS}
   fraclimit2: fixed_t;
+{$ENDIF}
   swidth: integer;
   dc_local: PByteArray;
   bdest: byte;
@@ -362,7 +364,9 @@ begin
   fracstep := p.dc_iscale;
   frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
   fraclimit := frac + count * fracstep;
+{$IFNDEF NO_INLINE_LOOPS}
   fraclimit2 := frac + (count - 16) * fracstep;
+{$ENDIF}  
   swidth := SCREENWIDTH - p.num_batch_columns;
   dc_local := p.dc_source;
 
@@ -373,6 +377,7 @@ begin
 
     if rest_batch_columns = 0 then
     begin
+{$IFNDEF NO_INLINE_LOOPS}
       while frac <= fraclimit2 do
       begin
       // Re-map color indices from wall texture column
@@ -569,7 +574,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
       end;
-
+{$ENDIF}
       while frac <= fraclimit do
       begin
       // Re-map color indices from wall texture column
@@ -589,6 +594,7 @@ begin
       exit;
     end;
 
+{$IFNDEF NO_INLINE_LOOPS}
     while frac <= fraclimit2 do
     begin
     // Re-map color indices from wall texture column
@@ -897,7 +903,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
     end;
-
+{$ENDIF}
     while frac <= fraclimit do
     begin
     // Re-map color indices from wall texture column
@@ -927,6 +933,7 @@ begin
   // Inner loop that does the actual texture mapping,
   //  e.g. a DDA-lile scaling.
   // This is as fast as it gets.
+{$IFNDEF NO_INLINE_LOOPS}
   while frac <= fraclimit2 do
   begin
   // Re-map color indices from wall texture column
@@ -1107,7 +1114,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
   end;
-
+{$ENDIF}
   while frac <= fraclimit do
   begin
   // Re-map color indices from wall texture column
