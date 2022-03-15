@@ -1330,7 +1330,7 @@ end;
 //==============================================================================
 //
 // R_DrawVisSpriteLight
-// Used for sprites that emits light
+// Used for sprites that emit light
 //
 //==============================================================================
 procedure R_DrawVisSpriteLight(vis: Pvissprite_t; x1: integer; x2: integer);
