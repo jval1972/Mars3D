@@ -1101,6 +1101,8 @@ var
   column: Pcolumn_t;
   texturecolumn: integer;
   checkcolumn: integer;
+  vismo: Pmobj_t;
+  renderflags: LongWord;
   frac: fixed_t;
   patch: Ppatch_t;
   xiscale: integer;
@@ -1115,6 +1117,8 @@ var
   do_mt: boolean;
   dbscale: fixed_t;
 begin
+  vismo := vis.mo;
+  renderflags := vis.renderflags;
   patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 
   dc_colormap := vis.colormap;
@@ -1189,9 +1193,9 @@ begin
     dc_translation := PByteArray(integer(translationtables) - 256 +
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
-  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
+  else if usetransparentsprites and (vismo <> nil) and (vismo.renderstyle = mrs_translucent) then
   begin
-    dc_alpha := vis.mo.alpha;
+    dc_alpha := vismo.alpha;
     {$IFDEF DOOM_OR_STRIFE}
     curtrans8table := R_GetTransparency8table(dc_alpha);
     {$ENDIF}
@@ -1200,18 +1204,18 @@ begin
     batchcolfunc := batchtalphacolfunc;
     batchspritefunc_mt := batchtalphacolfunc_mt;
   end
-  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_add) then
+  else if usetransparentsprites and (vismo <> nil) and (vismo.renderstyle = mrs_add) then
   begin
-    dc_alpha := vis.mo.alpha;
+    dc_alpha := vismo.alpha;
     curadd8table := R_GetAdditive8table(dc_alpha);
     colfunc := addcolfunc;
     spritefunc_mt := addcolfunc_mt;
     batchcolfunc := batchaddcolfunc;
     batchspritefunc_mt := batchaddcolfunc_mt;
   end
-  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_subtract) then
+  else if usetransparentsprites and (vismo <> nil) and (vismo.renderstyle = mrs_subtract) then
   begin
-    dc_alpha := vis.mo.alpha;
+    dc_alpha := vismo.alpha;
     cursubtract8table := R_GetSubtractive8table(dc_alpha);
     colfunc := subtractcolfunc;
     spritefunc_mt := subtractcolfunc_mt;
@@ -1266,7 +1270,7 @@ begin
       texturecolumn := LongWord(frac) shr FRACBITS;
 
       column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
-      dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
+      dmcproc(column, dbscale, vismo, baseclip, renderflags);
       frac := frac + xiscale;
       inc(dc_x);
     end;
@@ -1299,9 +1303,9 @@ begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
         dc_x := save_dc_x;
         if num_batch_columns > 1 then
-          dmcproc_batch(column, vis.mo, dbscale, baseclip, vis.renderflags)
+          dmcproc_batch(column, vismo, dbscale, baseclip, renderflags)
         else
-          dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
+          dmcproc(column, dbscale, vismo, baseclip, renderflags);
         dc_x := last_dc_x;
       end;
       frac := frac + xiscale;
@@ -1313,9 +1317,9 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
       dc_x := last_dc_x;
       if num_batch_columns > 1 then
-        dmcproc_batch(column, vis.mo, dbscale, baseclip, vis.renderflags)
+        dmcproc_batch(column, vismo, dbscale, baseclip, renderflags)
       else
-        dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
+        dmcproc(column, dbscale, vismo, baseclip, renderflags);
     end;
     R_SpriteRenderMT;
   end;
