@@ -69,9 +69,12 @@ const
   THR_ACTIVE = 1;
   THR_IDLE = 2;
 
+procedure TestActiveThreads;
+
 implementation
 
 uses
+  d_delphi,
   Windows,
   i_system;
 
@@ -103,6 +106,9 @@ begin
   end;
 end;
 
+var
+  threadpool: TDPointerList;
+
 //==============================================================================
 //
 // TDThread.Create
@@ -118,6 +124,7 @@ begin
   info.thread := Self;
   fid := I_CreateProcess(@ThreadWorker, @info, true);
   suspended := true;
+  threadpool.Add(self);
 end;
 
 //==============================================================================
@@ -126,12 +133,17 @@ end;
 //
 //==============================================================================
 destructor TDThread.Destroy;
+var
+  id: Integer;
 begin
   while frunning do
     I_Sleep(0);
   fterminated := true;
   fstatus := THR_DEAD;
   I_WaitForProcess(fid, 1);
+  id := threadpool.IndexOf(self);
+  if id >= 0 then
+    threadpool.Delete(id);
   Inherited Destroy;
 end;
 
@@ -209,6 +221,24 @@ function TDThread.IsIdle: Boolean;
 begin
   result := fstatus = THR_IDLE;
 end;
+
+procedure TestActiveThreads;
+var
+  i: integer;
+  th: TDThread;
+begin
+  for i := 0 to threadpool.Count - 1 do
+  begin
+    th := threadpool.Pointers[i];
+    th.CheckJobDone;
+  end;
+end;
+
+initialization
+  threadpool := TDPointerList.Create;
+
+finalization
+  threadpool.Free;
 
 end.
 
