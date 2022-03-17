@@ -1,8 +1,8 @@
 object XMICore: TXMICore
-  Left = 102
-  Top = 115
-  Width = 775
-  Height = 581
+  Left = 1
+  Top = 0
+  Width = 638
+  Height = 350
   Caption = '-'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object XMICore: TXMICore
   object panTop: TPanel
     Left = 0
     Top = 0
-    Width = 759
+    Width = 622
     Height = 186
     Align = alTop
     BevelOuter = bvNone
@@ -28,7 +28,7 @@ object XMICore: TXMICore
     object Log: TMemo
       Left = 0
       Top = 0
-      Width = 759
+      Width = 622
       Height = 129
       Align = alClient
       BorderStyle = bsNone
@@ -48,7 +48,7 @@ object XMICore: TXMICore
     object panMiddle: TPanel
       Left = 0
       Top = 129
-      Width = 759
+      Width = 622
       Height = 57
       Align = alBottom
       BevelOuter = bvNone
@@ -273,8 +273,8 @@ object XMICore: TXMICore
   object Events: TStringGrid
     Left = 0
     Top = 186
-    Width = 759
-    Height = 356
+    Width = 622
+    Height = 125
     Align = alClient
     ColCount = 1
     DefaultColWidth = 40
