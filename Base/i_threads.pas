@@ -69,6 +69,9 @@ const
   THR_ACTIVE = 1;
   THR_IDLE = 2;
 
+var
+  dotestactivethreads: boolean = true;
+
 procedure TestActiveThreads;
 
 implementation
@@ -227,6 +230,9 @@ var
   i: integer;
   th: TDThread;
 begin
+  if not dotestactivethreads then
+    exit;
+
   for i := 0 to threadpool.Count - 1 do
   begin
     th := threadpool.Pointers[i];
