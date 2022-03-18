@@ -71,6 +71,7 @@ Fixes to 3d colissions of actors moving up or down other actors.
 Default sound channels raised to 32, maximum sound channels raised to 64.
 Improved multithreading handling in software rendering mode.
 Added dotestactivethreads console variable, when it's set to true (default) the engine will tweak active threads without workload.
+Small optimizations to plane rendering (software mode).
 
 Version 1.0.11.748 (20220209)
 -----------------
