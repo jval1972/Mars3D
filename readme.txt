@@ -72,6 +72,7 @@ Default sound channels raised to 32, maximum sound channels raised to 64.
 Improved multithreading handling in software rendering mode.
 Added dotestactivethreads console variable, when it's set to true (default) the engine will tweak active threads without workload.
 Small optimizations to plane rendering (software mode).
+Fixed missiles not exploding in lower textures with sky ceiling.
 
 Version 1.0.11.748 (20220209)
 -----------------
