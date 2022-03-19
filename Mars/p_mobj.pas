@@ -503,6 +503,7 @@ begin
           begin
             P_RemoveMobj(mo);
             exit;
+          end;
         end;
         P_ExplodeMissile(mo);
       end
