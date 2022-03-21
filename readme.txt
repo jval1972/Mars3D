@@ -73,6 +73,7 @@ Improved multithreading handling in software rendering mode.
 Added dotestactivethreads console variable, when it's set to true (default) the engine will tweak active threads without workload.
 Small optimizations to plane rendering (software mode).
 Fixed missiles not exploding in lower textures with sky ceiling.
+Added SPIN field in VOXELDEF lumps, it compines DROPPEDSPIN & PLACEDSPIN behavior.
 
 Version 1.0.11.748 (20220209)
 -----------------
