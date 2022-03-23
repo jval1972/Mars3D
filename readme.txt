@@ -74,6 +74,7 @@ Added dotestactivethreads console variable, when it's set to true (default) the 
 Small optimizations to plane rendering (software mode).
 Fixed missiles not exploding in lower textures with sky ceiling.
 Added SPIN field in VOXELDEF lumps, it compines DROPPEDSPIN & PLACEDSPIN behavior.
+If depthbuffer is active will draw sprites from front to back to avoid overdraw.
 
 Version 1.0.11.748 (20220209)
 -----------------
