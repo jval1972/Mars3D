@@ -177,6 +177,9 @@ type
     r, g, b: Byte;
   end;
 
+const
+  MAXMIP = 3;
+
 //==============================================================================
 //
 // JVAL
@@ -190,8 +193,8 @@ var
   rover: voxelcolumn_p;
   r1, parent: voxelcolumn_p;
   pal: palette_p;
-  source: array[0..MAXVOXELSIZE] of byte;
-  source32: array[0..MAXVOXELSIZE] of LongWord;
+  source: array[0..MAXMIP * MAXVOXELSIZE] of byte;
+  source32: array[0..MAXMIP * MAXVOXELSIZE] of LongWord;
   lastc: byte;
   col, last: voxelcolumn_p;
   buf2: voxelbuffer2D_p;
@@ -201,7 +204,7 @@ var
   _lo, _hi: integer;
   _r, _g, _b: LongWord;
   c: LongWord;
-  maxlistsize: byte;
+  maxlistsize: integer;
 begin
   pal := R_DefaultPalette;
 
@@ -299,8 +302,6 @@ begin
         inc(i);
         inc(j);
       end;
-      if j > 128 then
-        j := 128;
       rover.length := j * mip;
       rover.fixedlength := rover.length * FRACUNIT;
       rover.fixedheight := size * FRACUNIT;
@@ -1710,6 +1711,10 @@ var
   tmp_top, tmp_bottom: fixed_t;
   vprojection, vprojectiony: fixed_t;
   voxelinfscale: fixed_t;
+  vx: integer;
+  vx_localsimpleclip: boolean;
+  vx_localceilingclip: fixed_t;
+  vx_localfloorclip: fixed_t;
   dovoxelzbuffer: boolean;
 begin
   info := @voxelstates[vidx];
@@ -1803,6 +1808,10 @@ begin
 
     mipscale := mscale * voxelinf.voxel.fscale;
     mipscale2 := mipscale div 2;
+
+    vx_localsimpleclip := vx_simpleclip;
+    vx_localceilingclip := vx_ceilingclip;
+    vx_localfloorclip := vx_floorclip;
 
     dovoxelzbuffer := domaskedzbuffer and (renderflags and VSF_TRANSPARENCY = 0);
 
@@ -1959,6 +1968,30 @@ begin
       begin
         num_batch_columns := right - left;
         dc_x := left;
+      end
+      else
+      begin
+        vx_localsimpleclip := true;
+        vx_localceilingclip := mceilingclip[left];
+        vx_localfloorclip := mfloorclip[left];
+        for vx := left + 1 to right do
+        begin
+          if mceilingclip[vx] <> vx_localceilingclip then
+          begin
+            vx_localsimpleclip := False;
+            break;
+          end;
+          if mfloorclip[vx] <> vx_localfloorclip then
+          begin
+            vx_localsimpleclip := False;
+            break;
+          end;
+        end;
+        if vx_localsimpleclip then
+        begin
+          num_batch_columns := right - left;
+          dc_x := left;
+        end;
       end;
 
       // Proccess all fractions of the column
@@ -2035,14 +2068,14 @@ begin
         dc_color := col.dc_color;
         dc_source := @dc_color;
 
-        if vx_simpleclip then
+        if vx_localsimpleclip then
         begin
-          if top <= vx_ceilingclip then
-            dc_yl := vx_ceilingclip + 1
+          if top <= vx_localceilingclip then
+            dc_yl := vx_localceilingclip + 1
           else
             dc_yl := top;
-          if bottom >= vx_floorclip then
-            dc_yh := vx_floorclip - 1
+          if bottom >= vx_localfloorclip then
+            dc_yh := vx_localfloorclip - 1
           else
             dc_yh := bottom;
 
