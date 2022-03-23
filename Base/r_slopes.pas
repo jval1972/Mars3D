@@ -323,7 +323,8 @@ var
   Theta, rTheta: integer;
   yidx: integer;
   screenDX: integer;
-  zleft, zright: Double;
+  zleft, zright: float;
+  inv_zleft, inv_zright: float;
   xleft, xright: fixed_t;
 begin
   if y >= viewheight then
@@ -353,7 +354,9 @@ begin
   screenDX := xright - xleft + 1;
 
   zleft := zleft * screenDX;
+  inv_zleft := 1.0 / zleft;
   zright := zright * screenDX;
+  inv_zright := 1.0 / zright;
 
   ds_y := y;
 
@@ -386,7 +389,7 @@ begin
       Theta := x - xleft;
       rTheta := screenDX - Theta;
 
-      distance := Abs(Round(1.0 / (rTheta / zleft + Theta / zright)));
+      distance := Abs(Round(1.0 / (rTheta * inv_zleft + Theta * inv_zright)));
     end;
 
     len := FixedMul(distance, distscale[x]);
@@ -461,7 +464,8 @@ var
   Theta, rTheta: integer;
   yidx: integer;
   screenDX: integer;
-  zleft, zright: Double;
+  zleft, zright: float;
+  inv_zleft, inv_zright: float;
   xleft, xright: fixed_t;
   xfrac1: fixed_t;
   xfrac2: fixed_t;
@@ -496,7 +500,9 @@ begin
   screenDX := xright - xleft + 1;
 
   zleft := zleft * screenDX;
+  inv_zleft := 1.0 / zleft;
   zright := zright * screenDX;
+  inv_zright := 1.0 / zright;
 
   ds_y := y;
 
@@ -535,7 +541,7 @@ begin
         Theta := x - xleft;
         rTheta := screenDX - Theta;
 
-        distance := Abs(Round(1.0 / (rTheta / zleft + Theta / zright)));
+        distance := Abs(Round(1.0 / (rTheta * inv_zleft + Theta * inv_zright)));
       end;
 
       len := FixedMul(distance, distscale[x]);
@@ -635,6 +641,7 @@ var
   yidx: integer;
   screenDX: integer;
   zleft, zright: float;
+  inv_zleft, inv_zright: float;
   xleft, xright: fixed_t;
   xfrac1: fixed_t;
   xfrac2: fixed_t;
@@ -672,7 +679,9 @@ begin
   screenDX := xright - xleft + 1;
 
   zleft := zleft * screenDX;
+  inv_zleft := 1.0 / zleft;
   zright := zright * screenDX;
+  inv_zright := 1.0 / zright;
 
   ds_y := y;
 
@@ -722,7 +731,7 @@ begin
         Theta := x - xleft;
         rTheta := screenDX - Theta;
 
-        distance := Abs(Round(1.0 / (rTheta / zleft + Theta / zright)));
+        distance := Abs(Round(1.0 / (rTheta * inv_zleft + Theta * inv_zright)));
       end;
 
       len := FixedMul(distance, distscale[x]);
