@@ -703,11 +703,6 @@ begin
   ds_x1 := x1;
   cnt := 0;
 
-{  tsin := sin(-ds_angle / ANGLE_MAX * 2 * pi);
-  tcos := cos(-ds_angle / ANGLE_MAX * 2 * pi);
-
-  tviewx := Round(viewx * tcos - viewy * tsin);
-  tviewy := Round(viewx * tsin + viewy * tcos);}
   tsin := ds_sine;
   tcos := ds_cosine;
 
