@@ -29,6 +29,8 @@
 //  Site  : https://sourceforge.net/projects/mars3d/
 //------------------------------------------------------------------------------
 
+{$I Mars3D.inc}
+
 unit r_colorcolumn;
 
 interface
@@ -111,6 +113,9 @@ uses
   r_precalc,
   r_column,
   r_batchcolumn,
+  {$IFDEF DOOM_OR_STRIFE}
+  r_colormaps,
+  {$ENDIF}
   v_video,
   r_draw;
 
