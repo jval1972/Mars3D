@@ -2382,15 +2382,6 @@ begin
     item := @cache.cache[cache.cachesize];
     item.ds := ds;
 
-    if ds.x1 < sx1 then
-      item.r1 := sx1
-    else
-      item.r1 := ds.x1;
-    if ds.x2 > sx2 then
-      item.r2 := sx2
-    else
-      item.r2 := ds.x2;
-
     if ds.scale1 > ds.scale2 then
     begin
       lowscale := ds.scale2;
@@ -2405,6 +2396,15 @@ begin
     if (scale < spr.scale) or
        ((lowscale < spr.scale) and not R_PointOnSegSide(spr.gx, spr.gy, ds.curline)) then
     begin
+      if ds.x1 < sx1 then
+        item.r1 := sx1
+      else
+        item.r1 := ds.x1;
+      if ds.x2 > sx2 then
+        item.r2 := sx2
+      else
+        item.r2 := ds.x2;
+
       if (ds.thicksidecol <> nil) and (ds.maskedtexturecol <> nil) then
       begin
         item.operation := CACHE_OP_THICK_AND_MASKED;
@@ -2425,6 +2425,15 @@ begin
       end;
       continue;
     end;
+
+    if ds.x1 < sx1 then
+      item.r1 := sx1
+    else
+      item.r1 := ds.x1;
+    if ds.x2 > sx2 then
+      item.r2 := sx2
+    else
+      item.r2 := ds.x2;
 
     // clip this piece of the sprite
     silhouette := ds.silhouette;
@@ -2601,15 +2610,6 @@ begin
       continue;
     end;
 
-    if ds.x1 < sx1 then
-      r1 := sx1
-    else
-      r1 := ds.x1;
-    if ds.x2 > sx2 then
-      r2 := sx2
-    else
-      r2 := ds.x2;
-
     if ds.scale1 > ds.scale2 then
     begin
       lowscale := ds.scale2;
@@ -2624,6 +2624,15 @@ begin
     if (scale < spr.scale) or
        ((lowscale < spr.scale) and not R_PointOnSegSide(spr.gx, spr.gy, ds.curline)) then
     begin
+      if ds.x1 < sx1 then
+        r1 := sx1
+      else
+        r1 := ds.x1;
+      if ds.x2 > sx2 then
+        r2 := sx2
+      else
+        r2 := ds.x2;
+
       // masked mid texture?
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors
         R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
@@ -2632,6 +2641,15 @@ begin
       // seg is behind sprite
       continue;
     end;
+
+    if ds.x1 < sx1 then
+      r1 := sx1
+    else
+      r1 := ds.x1;
+    if ds.x2 > sx2 then
+      r2 := sx2
+    else
+      r2 := ds.x2;
 
     // clip this piece of the sprite
     silhouette := ds.silhouette;
@@ -2820,15 +2838,6 @@ begin
       continue;
     end;
 
-    if ds.x1 <= x1 then
-      r1 := x1
-    else
-      r1 := ds.x1;
-    if ds.x2 >= x2 then
-      r2 := x2
-    else
-      r2 := ds.x2;
-
     if ds.scale1 > ds.scale2 then
     begin
       lowscale := ds.scale2;
@@ -2843,6 +2852,15 @@ begin
     if (scale < spr.scale) or
        ((lowscale < spr.scale) and not R_PointOnSegSide(spr.gx, spr.gy, ds.curline)) then
     begin
+      if ds.x1 <= x1 then
+        r1 := x1
+      else
+        r1 := ds.x1;
+      if ds.x2 >= x2 then
+        r2 := x2
+      else
+        r2 := ds.x2;
+
       // masked mid texture?
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors
         R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
@@ -2851,6 +2869,15 @@ begin
       // seg is behind sprite
       continue;
     end;
+
+    if ds.x1 <= x1 then
+      r1 := x1
+    else
+      r1 := ds.x1;
+    if ds.x2 >= x2 then
+      r2 := x2
+    else
+      r2 := ds.x2;
 
     // clip this piece of the sprite
     silhouette := ds.silhouette;
