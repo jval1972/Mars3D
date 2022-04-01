@@ -38,11 +38,17 @@ interface
 
 uses
   d_delphi,
+{$IFNDEF OPENGL}
+  doomdef,
+{$ENDIF}
   m_fixed,
   tables,
   r_defs;
 
 {$IFNDEF OPENGL}
+
+var
+  solidcol: packed array[0..MAXWIDTH - 1] of Byte;
 
 //==============================================================================
 //
@@ -56,7 +62,7 @@ procedure R_RenderMaskedSegRange(const ds: Pdrawseg_t; const x1, x2: integer);
 // R_StoreWallRange
 //
 //==============================================================================
-procedure R_StoreWallRange(const start: integer; const stop: integer);
+procedure R_StoreWallRange(start: integer; stop: integer);
 {$ENDIF}
 
 var
@@ -162,7 +168,6 @@ uses
   g_game,
   r_bsp,
 {$IFNDEF OPENGL}
-  doomdef,
   doomdata,
   doomtype,
   p_setup, // JVAL: 3d floors
@@ -618,6 +623,8 @@ var
   vtop: fixed_t;
   lightnum: integer;
   lightnum2: integer;
+  i: integer;
+  didsolidcol: boolean;
   rw_scale_dbl2: Double;
   worldtop_dbl: Double;
   worldbottom_dbl: Double;
@@ -1173,6 +1180,31 @@ begin
     end;
   end;
 
+  didsolidcol := false;
+  if midtexture = 0 then
+    if markfloor or markceiling then
+      for i := start to stop do
+        if floorclip[i] <= ceilingclip[i] + 1 then
+        begin
+          solidcol[i] := 1;
+          didsolidcol := true;
+        end;
+
+  // cph - if a column was made solid by this wall, we _must_ save full clipping info
+  if (backsector <> nil) and didsolidcol then
+  begin
+    if pds.silhouette and SIL_BOTTOM = 0 then
+    begin
+      pds.silhouette := pds.silhouette or SIL_BOTTOM;
+      pds.bsilheight := backsector.floorheight;
+    end;
+    if pds.silhouette and SIL_TOP = 0 then
+    begin
+      pds.silhouette := pds.silhouette or SIL_TOP;
+      pds.tsilheight := backsector.ceilingheight;
+    end;
+  end;
+
   // save sprite clipping info
   if ((pds.silhouette and SIL_TOP <> 0) or maskedtexture) and
      (pds.sprtopclip = nil) then
@@ -1216,17 +1248,38 @@ end;
 //  between start and stop pixels (inclusive).
 //
 //==============================================================================
-procedure R_StoreWallRange(const start: integer; const stop: integer);
+procedure R_StoreWallRange(start: integer; stop: integer);
 var
   vtop: fixed_t;
   lightnum: integer;
   lightnum2: integer; // JVAL: 3d Floors
+  i: integer;
+  didsolidcol: boolean;
   pds: Pdrawseg_t;
   overflow: boolean;
   sec2: Psector_t;
   high_less_top: boolean;
   low_greater_bottom: boolean;
 begin
+  while start <= stop do
+  begin
+    if solidcol[start] = 1 then
+      inc(start)
+    else
+      break;
+  end;
+
+  while start <= stop do
+  begin
+    if solidcol[stop] = 1 then
+      dec(stop)
+    else
+      break;
+  end;
+
+  if start > stop then
+    Exit;
+
   if curline.linedef.renderflags and LRF_SLOPED <> 0 then
   begin
     R_StoreSlopeRange(start, stop); // JVAL: Slopes
@@ -1784,6 +1837,31 @@ begin
     else
     begin
       f_RenderSegLoop; // version 205
+    end;
+  end;
+
+  didsolidcol := false;
+  if midtexture = 0 then
+    if markfloor or markceiling then
+      for i := start to stop do
+        if floorclip[i] <= ceilingclip[i] + 1 then
+        begin
+          solidcol[i] := 1;
+          didsolidcol := true;
+        end;
+
+  // cph - if a column was made solid by this wall, we _must_ save full clipping info
+  if (backsector <> nil) and didsolidcol then
+  begin
+    if pds.silhouette and SIL_BOTTOM = 0 then
+    begin
+      pds.silhouette := pds.silhouette or SIL_BOTTOM;
+      pds.bsilheight := backsector.floorheight;
+    end;
+    if pds.silhouette and SIL_TOP = 0 then
+    begin
+      pds.silhouette := pds.silhouette or SIL_TOP;
+      pds.tsilheight := backsector.ceilingheight;
     end;
   end;
 
