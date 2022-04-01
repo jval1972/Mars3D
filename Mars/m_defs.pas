@@ -118,6 +118,7 @@ var
   precisescalefromglobalangle: boolean;
   preciseslopedrawing: boolean; // JVAL: Slopes
   r_drawvoxels: boolean;
+  r_voxellightmapaccuracy: integer;
   showfullhdlogo: boolean = false;
   soft_fullscreen: integer = 1;
   r_uselightmaps: boolean = true;
@@ -175,7 +176,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 227;
+  NUMDEFAULTS = 228;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -892,6 +893,14 @@ const
      defaultivalue: 1;
      defaultbvalue: true;
      _type: tBoolean),
+
+    (name: 'r_voxellightmapaccuracy';
+     location: @r_voxellightmapaccuracy;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: true;
+     _type: tInteger),
 
     (name: 'vx_maxoptimizerpasscount';
      location: @vx_maxoptimizerpasscount;
