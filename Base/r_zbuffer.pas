@@ -54,6 +54,8 @@ type
   Pzbufferitem_t = ^zbufferitem_t;
   zbufferitem_tArray = array[0..$FF] of zbufferitem_t;
   Pzbufferitem_tArray = ^zbufferitem_tArray;
+  zbuffercolumncache_t = array[0..MAXHEIGHT] of Pzbufferitem_t;
+  Pzbuffercolumncache_t = ^zbuffercolumncache_t;
 
   zbuffer_t = record
     items: Pzbufferitem_tArray;
@@ -166,6 +168,13 @@ procedure R_StopZBuffer;
 //
 //==============================================================================
 procedure R_ClearZBuffer;
+
+//==============================================================================
+//
+// R_CreateZColumnCache
+//
+//==============================================================================
+procedure R_CreateZColumnCache(const dbmin: LongWord; const x: integer; const yl, yh: integer; const cache: Pzbuffercolumncache_t);
 
 var
   zbufferactive: boolean = true;
@@ -460,7 +469,8 @@ procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj
 var
   Z: Pzbuffer_t;
   item: Pzbufferitem_t;
-  i: integer;
+  i, j: integer;
+  merged: boolean;
 begin
 {$IFDEF DEBUG}
   if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
@@ -476,56 +486,67 @@ begin
   for i := dc_x to dc_x + num_batch_columns do
   begin
     Z := @Zcolumns[i];
-    if Z.numitems > 0 then
+
+    merged := false;
+    for j := Z.numitems - 1 downto Z.numitems - 8 do
     begin
-      item := @Z.items[Z.numitems - 1];
+      if j < 0 then
+        Break;
+      item := @Z.items[j];
       if item.seg = nil then
+      begin
         if item.mo = mo then
+        begin
           if depth = item.depth then
           begin
             if dc_yl <= item.stop + 1 then
               if dc_yl >= item.start then
               begin
-                if dc_yh <= item.stop then
-                  Continue;
-                item.stop := dc_yh;
-                Continue;
+                if dc_yh > item.stop then
+                  item.stop := dc_yh;
+                merged := True;
+                Break;
               end;
             if dc_yh >= item.start - 1 then
               if dc_yh <= item.stop then
               begin
-                if dc_yl >= item.start then
-                  Continue;
-                item.start := dc_yl;
-                Continue;
+                if dc_yl < item.start then
+                  item.start := dc_yl;
+                merged := True;
+                Break;
               end;
           end;
-    end;
-    if Z.numitems > 1 then
-    begin
-      item := @Z.items[Z.numitems - 2];
-      if item.seg = nil then
-        if item.mo = mo then
-          if depth = item.depth then
+          if depth >= item.depth then
           begin
-            if dc_yl <= item.stop + 1 then
-              if dc_yl >= item.start then
+            if dc_yl <= item.start then
+              if dc_yh >= item.stop then
               begin
-                if dc_yh <= item.stop then
-                  Continue;
+                item.start := dc_yl;
                 item.stop := dc_yh;
-                Continue;
+                item.depth := depth;
+                merged := True;
+                Break;
               end;
-            if dc_yh >= item.start - 1 then
+          end
+          else
+          begin
+            if dc_yl >= item.start then
               if dc_yh <= item.stop then
               begin
-                if dc_yl >= item.start then
-                  Continue;
-                item.start := dc_yl;
-                Continue;
+                merged := True;
+                Break;
               end;
-          end;
+          end
+        end
+        else
+          Break;
+      end
+      else
+        Break;
     end;
+
+    if merged then
+      Continue;
 
     item := R_NewZBufferItem(Z);
 
@@ -749,6 +770,52 @@ begin
     Zcolumns[i].numitems := 0;
   for i := 0 to viewheight do
     Zspans[i].numitems := 0;
+end;
+
+//==============================================================================
+//
+// R_CreateZColumnCache
+// JVAL: 20220403:
+//  Precache zbuffer column x from yl to yh
+//  This gives a huge boost when applying lightmap on masked
+//
+//==============================================================================
+procedure R_CreateZColumnCache(const dbmin: LongWord; const x: integer; const yl, yh: integer; const cache: Pzbuffercolumncache_t);
+var
+  Z: Pzbuffer_t;
+  pi, pistop: Pzbufferitem_t;
+  i: integer;
+begin
+  FillDWord(@cache[yl], yh - yl + 1, LongWord(@stubzitem));
+
+  Z := @Zcolumns[x];
+  pi := @Z.items[0];
+  pistop := @Z.items[Z.numitems];
+  while pi <> pistop do
+  begin
+    if pi.depth >= dbmin then
+      if (yl <= pi.stop) and (yh >= pi.start) then
+        for i := MaxI(yl, pi.start) to MinI(yh, pi.stop) do
+          if cache[i].depth < pi.depth then
+            cache[i] := pi;
+    inc(pi);
+  end;
+
+  for i := yh to yl do
+  begin
+    Z := @Zspans[i];
+    pi := @Z.items[0];
+    pistop := @Z.items[Z.numitems];
+    while pi <> pistop do
+    begin
+      if pi.depth >= dbmin then
+        if (x >= pi.start) and (x <= pi.stop) then
+          if cache[i].depth < pi.depth then
+            cache[i] := pi;
+      inc(pi);
+    end;
+  end;
+
 end;
 
 end.

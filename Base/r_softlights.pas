@@ -650,7 +650,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -771,7 +771,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -864,7 +864,7 @@ end;
 procedure R_DrawColumnLightmap8Masked(const parms: Plightparams_t);
 var
   count, x, y: integer;
-  frac: fixed_t;
+  frac, frac2: fixed_t;
   fracstep: fixed_t;
   db: Pzbufferitem_t;
   depth: LongWord;
@@ -873,7 +873,6 @@ var
   factor: fixed_t;
   dfactor: fixed_t;
   scale: fixed_t;
-  dls: fixed_t;
   seg: Pseg_t;
   skip: boolean;
   sameseg: boolean;
@@ -887,13 +886,15 @@ var
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
   okself: Boolean;
+  yl, yh: integer;
+  cache: zbuffercolumncache_t;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -917,6 +918,35 @@ begin
     okself := parms.lightsourcemo.flags4_ex and MF4_EX_SELFAPPLYINGLIGHT <> 0
   else
     okself := False;
+
+  frac2 := frac + (count + 1) * fracstep;
+  yl := parms.dl_yh + 1;
+  for y := parms.dl_yl to parms.dl_yh do
+  begin
+    if source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)] = 0 then
+      inc(frac, fracstep)
+    else
+    begin
+      yl := y;
+      Break;
+    end;
+  end;
+  yh := yl - 1;
+  for y := parms.dl_yh downto yl + 1 do
+  begin
+    if source32[(LongWord(frac2) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)] = 0 then
+      dec(frac2, fracstep)
+    else
+    begin
+      yh := y;
+      Break;
+    end;
+  end;
+
+  if yh < yl then
+    exit;
+
+  R_CreateZColumnCache(dbmin, x, yl, yh, @cache);
 
   tbl_r := precalc32op1A[parms.r];
   tbl_g := precalc32op1A[parms.g];
@@ -1017,7 +1047,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -1131,7 +1161,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -1221,7 +1251,7 @@ end;
 procedure R_DrawColumnLightmap32Masked(const parms: Plightparams_t);
 var
   count, x, y: integer;
-  frac: fixed_t;
+  frac, frac2: fixed_t;
   fracstep: fixed_t;
   db: Pzbufferitem_t;
   depth: LongWord;
@@ -1230,7 +1260,6 @@ var
   factor: fixed_t;
   dfactor: fixed_t;
   scale: fixed_t;
-  dls: fixed_t;
   seg: Pseg_t;
   skip: boolean;
   sameseg: boolean;
@@ -1240,13 +1269,15 @@ var
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
   okself: Boolean;
+  yl, yh: integer;
+  cache: zbuffercolumncache_t;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -1267,6 +1298,37 @@ begin
     okself := parms.lightsourcemo.flags4_ex and MF4_EX_SELFAPPLYINGLIGHT <> 0
   else
     okself := False;
+
+  frac2 := frac + (count + 1) * fracstep;
+
+  yl := parms.dl_yh + 1;
+  for y := parms.dl_yl to parms.dl_yh do
+  begin
+    if source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)] = 0 then
+      inc(frac, fracstep)
+    else
+    begin
+      yl := y;
+      Break;
+    end;
+  end;
+
+  yh := yl - 1;
+  for y := parms.dl_yh downto yl + 1 do
+  begin
+    if source32[(LongWord(frac2) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)] = 0 then
+      dec(frac2, fracstep)
+    else
+    begin
+      yh := y;
+      Break;
+    end;
+  end;
+
+  if yh < yl then
+    exit;
+
+  R_CreateZColumnCache(dbmin, x, yl, yh, @cache);
 
   tbl_r := precalc32op1A[parms.r];
   tbl_g := precalc32op1A[parms.g];
@@ -1393,7 +1455,7 @@ begin
     lcolumn.dl_yl := FixedInt64(topscreen + (FRACUNIT - 1));
     lcolumn.dl_yh := FixedInt64(bottomscreen - 1);
     lcolumn.centery := lcolumn.dl_yl div 2 + lcolumn.dl_yh div 2;
-    lcolumn.dl_texturemid := (centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
+    lcolumn.dl_texturemid := (lcolumn.centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
 
     if lcolumn.dl_yh >= viewheight then
       lcolumn.dl_yh := viewheight - 1;
