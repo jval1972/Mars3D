@@ -2023,7 +2023,9 @@ begin
 
       if dovoxelzbuffer then
       begin
-        if r_voxellightmapaccuracy = 1 then
+        if r_voxellightmapaccuracy = 0 then
+          scaleyz := scaley0 or 4095
+        else if r_voxellightmapaccuracy = 1 then
         begin
           if scaley0 > 4 * FRACUNIT then
             scaleyz := scaley0 or 4095 - 2048
@@ -2032,8 +2034,8 @@ begin
           else
             scaleyz := scaley0 or 255 - 128
         end
-        else if r_voxellightmapaccuracy <> 0 then
-          scaleyz := scaley0;
+        else
+          scaleyz := scaley0 or 63 - 32;
       end;
 
       // Proccess all fractions of the column
