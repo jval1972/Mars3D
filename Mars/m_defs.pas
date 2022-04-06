@@ -898,7 +898,7 @@ const
      location: @r_voxellightmapaccuracy;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 2;
+     defaultivalue: 1;
      defaultbvalue: true;
      _type: tInteger),
 
