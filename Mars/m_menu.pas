@@ -269,6 +269,7 @@ uses
 {$IFNDEF OPENGL}
   r_fake3d,
   r_softlights,
+  r_voxels,
 {$ENDIF}
   r_camera,
   r_draw,
@@ -781,6 +782,7 @@ type
     ol_uselightmaps,
     ol_lightmaponmasked,
     ol_lightmaponemitters,
+    ol_lightmapvoxelaccuracy,
     ol_lightmapfunc,
     ol_colorintensity,
     ol_filler1,
@@ -3334,6 +3336,20 @@ end;
 
 //==============================================================================
 //
+// M_ChangeLightmapVoxelAccuracy
+//
+//==============================================================================
+procedure M_ChangeLightmapVoxelAccuracy(choice: integer);
+begin
+  r_voxellightmapaccuracy := r_voxellightmapaccuracy + 1;
+  if r_voxellightmapaccuracy < 0 then
+    r_voxellightmapaccuracy := 2
+  else if r_voxellightmapaccuracy > 2 then
+    r_voxellightmapaccuracy := 0;
+end;
+
+//==============================================================================
+//
 // M_LightmapDefaults
 //
 //==============================================================================
@@ -3342,9 +3358,14 @@ begin
   lightmapcolorintensity := DEFLMCOLORSENSITIVITY;
   lightwidthfactor := DEFLIGHTWIDTHFACTOR;
   r_lightmaponmasked := true;
+  r_voxellightmapaccuracy := 1;
   r_lightmaponemitters := false;
   r_lightmapfadeoutfunc := 0;
 end;
+
+const
+  strlightmapvoxelaccuracy: array[0..2] of string =
+    ('LOW', 'NORMAL', 'HIGH');
 
 const
   strlightmapfadefunc: array[0..NUMLIGHTMAPFADEOUTFUNCS - 1] of string =
@@ -3361,6 +3382,11 @@ var
 begin
   M_DrawHeadLine(15, 'Display Options');
   M_DrawSubHeadLine(40, 'Lightmap');
+
+  r_voxellightmapaccuracy := ibetween(r_voxellightmapaccuracy, 0, 2);
+
+  ppos := M_WriteTextOption(OptionsLightmapDef.x, OptionsLightmapDef.y + OptionsLightmapDef.itemheight * Ord(ol_lightmapvoxelaccuracy), 'Voxel illumination accuracy: ', _MA_LEFT or _MC_UPPER);
+  M_WriteTextValue(ppos.x, ppos.y, strlightmapvoxelaccuracy[r_voxellightmapaccuracy], _MA_LEFT or _MC_UPPER);
 
   r_lightmapfadeoutfunc := ibetween(r_lightmapfadeoutfunc, 0, NUMLIGHTMAPFADEOUTFUNCS - 1);
   lightmapcolorintensityidx := (lightmapcolorintensity - 32) div 8;
@@ -5948,6 +5974,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @r_lightmaponemitters;
   pmi.alphaKey := 'e';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Voxel illumination accuracy';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeLightmapVoxelAccuracy;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'v';
 
   inc(pmi);
   pmi.status := 1;
