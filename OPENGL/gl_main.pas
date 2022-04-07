@@ -1203,7 +1203,7 @@ begin
     glViewport(0, 0, SCREENWIDTH, SCREENHEIGHT);
 
     gld_InitUnderwater;     // Shut down underwater effect
-    AM_Start;               // Start the aytomap
+    AM_Start;               // Start the automap
     C_AdjustScreenSize;
     R_ExecuteSetViewSize;   // Set-up new SCREENWIDTH & SCREENHEIGHT
     overlay.ReCalcOverlayLookUp;
