@@ -81,6 +81,7 @@ Small optimizations to software depthbuffer.
 Added r_voxellightmapaccuracy console variable. Values are 0, 1 & 2 for low, normal & high accuracy. Default is 1. Can be set from the Lightmap menu.
 Speed optimization to the software rendering lightmap.
 Speed optimizations to voxel software rendering.
+Proper windowed mode (Software & OpenGL).
 
 Version 1.0.11.748 (20220209)
 -----------------
