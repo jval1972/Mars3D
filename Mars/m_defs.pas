@@ -52,6 +52,7 @@ uses
   p_obituaries,
   p_underwater,
   i_system,
+  i_mainwindow,
   i_mp3,
   i_music,
   i_sound,
@@ -176,7 +177,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 228;
+  NUMDEFAULTS = 230;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -236,6 +237,22 @@ const
      defaultivalue: 1;
      defaultbvalue: true;
      _type: tBoolean),
+
+    (name: 'windowxpos';
+     location: @windowxpos;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tInteger),
+
+    (name: 'windowypos';
+     location: @windowypos;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tInteger),
 
     (name: 'interpolate';
      location: @interpolate;
