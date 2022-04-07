@@ -953,7 +953,7 @@ begin
     hbrBackground := GetStockObject(BLACK_BRUSH); // Black background
     hInstance     := h_Instance;
     hCursor       := LoadCursor(0, IDC_ARROW);
-    lpszClassName := 'Doom32';
+    lpszClassName := 'Mars3D';
   end;
 
   if RegisterClass(WindowClass) = 0 then  // Attemp to register the window class
