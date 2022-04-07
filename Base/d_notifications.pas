@@ -42,6 +42,16 @@ interface
 //==============================================================================
 procedure D_NotifyVideoModeChange(const newwidth, newheight: integer);
 
+{$IFDEF OPENGL}
+
+//==============================================================================
+//
+// D_NotifyGLDisplayMode
+//
+//==============================================================================
+procedure D_NotifyGLDisplayMode;
+{$ENDIF}
+
 //==============================================================================
 //
 // D_RunNotifications
@@ -63,6 +73,9 @@ var
   n_changevideomode: boolean = false;
   n_screenwidth: integer;
   n_screenheight: integer;
+  {$IFDEF OPENGL}
+  n_notifyglwindow: boolean = false;
+  {$ENDIF}
 
 //==============================================================================
 //
@@ -75,6 +88,19 @@ begin
   n_screenwidth := newwidth;
   n_screenheight := newheight;
 end;
+
+{$IFDEF OPENGL}
+
+//==============================================================================
+//
+// D_NotifyGLDisplayMode
+//
+//==============================================================================
+procedure D_NotifyGLDisplayMode;
+begin
+  n_notifyglwindow := true;
+end;
+{$ENDIF}
 
 //==============================================================================
 //
@@ -93,6 +119,13 @@ begin
       (n_screenwidth, n_screenheight);
     n_changevideomode := false;
   end;
+  {$IFDEF OPENGL}
+  if n_notifyglwindow then
+  begin
+    GL_NotifyDisplayMode;
+    n_notifyglwindow := false;
+  end;
+  {$ENDIF}
 end;
 
 end.
