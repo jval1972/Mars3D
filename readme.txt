@@ -82,6 +82,7 @@ Added r_voxellightmapaccuracy console variable. Values are 0, 1 & 2 for low, nor
 Speed optimization to the software rendering lightmap.
 Speed optimizations to voxel software rendering.
 Proper windowed mode (Software & OpenGL).
+The player can choose to use CAPS LOCK for autorun.
 
 Version 1.0.11.748 (20220209)
 -----------------

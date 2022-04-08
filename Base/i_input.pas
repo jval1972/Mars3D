@@ -67,6 +67,13 @@ procedure I_SynchronizeInput(active: boolean);
 //==============================================================================
 procedure I_SetMouseClicks(val: integer);
 
+//==============================================================================
+//
+// I_GetCapsLock
+//
+//==============================================================================
+function I_GetCapsLock: boolean;
+
 var
   usedirectinput: boolean = false;
 
@@ -609,6 +616,16 @@ begin
     val := -val;
     mflags := mflags and not val;
   end;
+end;
+
+//==============================================================================
+//
+// I_GetCapsLock
+//
+//==============================================================================
+function I_GetCapsLock: boolean;
+begin
+  result := (GetKeyState(VK_CAPITAL) and 1) <> 0;
 end;
 
 //==============================================================================

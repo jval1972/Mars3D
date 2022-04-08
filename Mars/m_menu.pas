@@ -2439,6 +2439,9 @@ begin
     M_SetKeyboardMode(2);
 end;
 
+const
+  mautorunstrings: array[0..2] of string = ('OFF', 'ON', 'USE CAPS LOCK');
+
 //==============================================================================
 //
 // M_DrawControls
@@ -2450,6 +2453,10 @@ var
 begin
   M_DrawHeadLine(15, 'Options');
   M_DrawSubHeadLine(40, 'Controls');
+
+  autorunmode := GetIntegerInRange(autorunmode, 0, 2);
+  ppos := M_WriteTextOption(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_autorun), 'Always run: ', _MA_LEFT or _MC_UPPER);
+  M_WriteTextValue(ppos.x, ppos.y, mautorunstrings[autorunmode], _MA_LEFT or _MC_UPPER);
 
   ppos := M_WriteTextOption(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmode), 'Keyboard preset: ', _MA_LEFT or _MC_UPPER);
   M_WriteTextValue(ppos.x, ppos.y, mkeyboardmodes[M_GetKeyboardMode], _MA_LEFT or _MC_UPPER);
@@ -2521,6 +2528,19 @@ end;
 procedure M_OptionsSensitivity(choice: integer);
 begin
   M_SetupNextMenu(@SensitivityDef);
+end;
+
+//==============================================================================
+//
+// M_OptionsAutorun
+//
+//==============================================================================
+procedure M_OptionsAutorun(choice: integer);
+begin
+  autorunmode := GetIntegerInRange(autorunmode, 0, 2);
+  inc(autorunmode);
+  if autorunmode = 3 then
+    autorunmode := 0;
 end;
 
 //==============================================================================
@@ -6874,9 +6894,9 @@ begin
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Always run';
-  pmi.cmd := 'autorunmode';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @autorunmode;
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsAutorun;
+  pmi.pBoolVal := nil;
   pmi.alphaKey := 'a';
 
   inc(pmi);
