@@ -51,6 +51,9 @@ Features:
 
 History
 -------
+
+Version 1.0.12.753 (20220410)
+-----------------
 Use 64 characters long string for short names in PK3.
 Added "DROPPED ITEM" alias for "DROPITEM" DEHACKED field.
 Fix wrong coordinates check in sight check.
@@ -85,7 +88,7 @@ Proper windowed mode (Software & OpenGL).
 The player can choose to use CAPS LOCK for autorun.
 
 Version 1.0.11.748 (20220209)
------------------
+------------------
 "ACTIVE SOUND" alias for "ACTION SOUND" DEHACKED field.
 Fog sectors will use lightlevel > 256. Lightlevel 256 is full bright. (https://www.doomworld.com/forum/topic/118126-doom-sector-light-levels/)
 "RADIUS" alias for "WIDTH" DEHACKED field.
