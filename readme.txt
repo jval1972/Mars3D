@@ -51,6 +51,7 @@ Features:
 
 History
 -------
+Fixed glitch in voxel software rendering.
 
 Version 1.0.12.753 (20220410)
 -----------------
