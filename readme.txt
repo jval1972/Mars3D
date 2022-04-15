@@ -52,6 +52,7 @@ Features:
 History
 -------
 Fixed glitch in voxel software rendering.
+Corrections to external textures caching in software rendering mode.
 
 Version 1.0.12.753 (20220410)
 -----------------
