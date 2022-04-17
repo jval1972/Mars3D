@@ -53,6 +53,7 @@ History
 -------
 Fixed glitch in voxel software rendering.
 Corrections to external textures caching in software rendering mode.
+Fixed problem with lump reading when a namespace was required.
 
 Version 1.0.12.753 (20220410)
 -----------------
