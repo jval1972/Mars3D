@@ -54,6 +54,7 @@ History
 Fixed glitch in voxel software rendering.
 Corrections to external textures caching in software rendering mode.
 Fixed problem with lump reading when a namespace was required.
+It will load KVX voxels even if the ".kvx" extension is not defined in VOXELDEF.
 
 Version 1.0.12.753 (20220410)
 -----------------
