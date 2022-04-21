@@ -60,6 +60,7 @@ Speed optimizations to ACTORDEF parsing.
 8bit trasparency LUTs are calculated in multiple threads to speed-up startup.
 Fixed dynamic lights problem with palette changes and gamma changes in 8 bit color mode.
 Speed optimizations to PascalScript initialization.
+Speed optimizations to startup memo text output.
 
 Version 1.0.12.753 (20220410)
 -----------------
