@@ -128,6 +128,8 @@ procedure R_Calc8bitTables;
 implementation
 
 uses
+  i_system,
+  mt_utils,
   r_hires,
   v_video,
   w_wad,
@@ -135,7 +137,8 @@ uses
 
 type
   approxcolorstructitem_t = record
-    hash: LongWord;
+    hash: array[0..GAMMASIZE - 1] of LongWord;
+    palette: array[0..GAMMASIZE - 1] of array[0..255] of LongWord;
     table: array[0..GAMMASIZE - 1] of approxcolorindexarray_t;
   end;
   Papproxcolorstructitem_t = ^approxcolorstructitem_t;
@@ -185,30 +188,18 @@ end;
 
 //==============================================================================
 //
-// R_InitTransparency8Tables
+// R_MakeTrans8_thr
 //
 //==============================================================================
-procedure R_InitTransparency8Tables;
+function R_MakeTrans8_thr(pal: PByteArray): Integer; stdcall;
 var
-  pal: PByteArray; // Palette lump data
   palL: array[0..255] of LongWord; // Longword palette indexes
-  lump: integer;
   i, j, k: integer;
   factor: fixed_t;
-  c: LongWord;
   c1: LongWord;
+  c: LongWord;
   ptrans8: PByte;
-  r, g, b: LongWord;
 begin
-  if trans8tablescalced then
-    exit;
-
-// Expand WAD palette to longword values
-  lump := W_GetNumForName('PLAYPAL');
-  numapproxcolorstructitem := W_LumpLength(lump) div 768;
-  approxcolorstruct := mallocz(numapproxcolorstructitem * SizeOf(approxcolorstructitem_t));
-
-  pal := W_CacheLumpNum(lump, PU_STATIC);
   R_ExpandPalette(pal, @palL, 0);
 
   for i := 0 to NUMTRANS8TABLES do
@@ -230,6 +221,25 @@ begin
 
   averagetrans8table := trans8tables[NUMTRANS8TABLES div 2];
 
+  Result := 0;
+end;
+
+//==============================================================================
+//
+// R_MakeAdd8_thr
+//
+//==============================================================================
+function R_MakeAdd8_thr(pal: PByteArray): Integer; stdcall;
+var
+  palL: array[0..255] of LongWord; // Longword palette indexes
+  i, j, k: integer;
+  c1: LongWord;
+  c: LongWord;
+  ptrans8: PByte;
+  r, g, b: LongWord;
+begin
+  R_ExpandPalette(pal, @palL, 0);
+
   for i := 0 to NUMTRANS8TABLES do
   begin
     additive8tables[i] := malloc(SizeOf(trans8table_t));
@@ -237,13 +247,13 @@ begin
     for j := 0 to 255 do
     begin
       c1 := palL[j];
-      r := ((c1 and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      r := ((c1 and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if r > 255 then
         r := 255;
-      g := (((c1 shr 8) and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      g := (((c1 shr 8) and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if g > 255 then
         g := 255;
-      b := (((c1 shr 16) and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      b := (((c1 shr 16) and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if b > 255 then
         b := 255;
       c1 := r + g shl 8 + b shl 16;
@@ -259,6 +269,25 @@ begin
     end;
   end;
 
+  Result := 0;
+end;
+
+//==============================================================================
+//
+// R_MakeSub8_thr
+//
+//==============================================================================
+function R_MakeSub8_thr(pal: PByteArray): Integer; stdcall;
+var
+  palL: array[0..255] of LongWord; // Longword palette indexes
+  i, j, k: integer;
+  c1: LongWord;
+  c: LongWord;
+  ptrans8: PByte;
+  r, g, b: LongWord;
+begin
+  R_ExpandPalette(pal, @palL, 0);
+
   for i := 0 to NUMTRANS8TABLES do
   begin
     subtractive8tables[i] := malloc(SizeOf(trans8table_t));
@@ -266,13 +295,13 @@ begin
     for j := 0 to 255 do
     begin
       c1 := palL[j];
-      r := ((c1 and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      r := ((c1 and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if r > 255 then
         r := 255;
-      g := (((c1 shr 8) and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      g := (((c1 shr 8) and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if g > 255 then
         g := 255;
-      b := (((c1 shr 16) and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      b := (((c1 shr 16) and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if b > 255 then
         b := 255;
       c1 := r + g shl 8 + b shl 16;
@@ -288,30 +317,109 @@ begin
     end;
   end;
 
+  Result := 0;
+end;
+
+type
+  approxparms_t = record
+    pal: PByteArray;
+    id: integer;
+  end;
+  Papproxparms_t = ^approxparms_t;
+
+//==============================================================================
+//
+// R_MakeApprox_thr
+//
+//==============================================================================
+function R_MakeApprox_thr(parms: Papproxparms_t): Integer; stdcall;
+var
+  pal: PByteArray;
+  i: integer;
+  gamma: integer;
+  ptrans8: PByte;
+  r, g, b: LongWord;
+begin
+  pal := parms.pal;
+  gamma := parms.id;
   for i := 0 to numapproxcolorstructitem - 1 do
-    for j := 0 to GAMMASIZE - 1 do
-    begin
-      R_ExpandPalette(@pal[i * 768], @palL, j);
-      approxcolorstruct[i].hash := R_GetPaletteHash(@palL);
+  begin
+    R_ExpandPalette(@pal[i * 768], @approxcolorstruct[i].palette[gamma], gamma);
+    approxcolorstruct[i].hash[gamma] := R_GetPaletteHash(@approxcolorstruct[i].palette[gamma]);
 
-      approxcolorindexarray := @approxcolorstruct[i].table[j];
+    ptrans8 := @approxcolorstruct[i].table[gamma];
+    for r := 0 to FASTTABLECHANNEL - 1 do
+      for g := 0 to FASTTABLECHANNEL - 1 do
+        for b := 0 to FASTTABLECHANNEL - 1 do
+        begin
+          ptrans8^ := V_FindAproxColorIndex(@approxcolorstruct[i].palette[gamma],
+                          r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT +
+                          // extra parenthesis help the compiler to precalc the whole expresion below
+                          (((1 shl FASTTABLESHIFT) shr 1) shl 16 + ((1 shl FASTTABLESHIFT) shr 1) shl 8 + ((1 shl FASTTABLESHIFT) shr 1))
+                    ) and $FF;
+          inc(ptrans8);
+        end;
+  end;
 
-      ptrans8 := @approxcolorindexarray[0];
-      for r := 0 to FASTTABLECHANNEL - 1 do
-        for g := 0 to FASTTABLECHANNEL - 1 do
-          for b := 0 to FASTTABLECHANNEL - 1 do
-          begin
-            ptrans8^ := V_FindAproxColorIndex(@palL,
-                            r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT +
-                            // extra parenthesis help the compiler to precalc the whole expresion below
-                            (((1 shl FASTTABLESHIFT) shr 1) shl 16 + ((1 shl FASTTABLESHIFT) shr 1) shl 8 + ((1 shl FASTTABLESHIFT) shr 1))
-                      ) and $FF;
-            inc(ptrans8);
-          end;
-    end;
+  Result := 0;
+end;
 
-  approxcolorindexarray := @approxcolorstruct[0].table[usegamma];
-  currpalettehash := approxcolorstruct[0].hash;
+//==============================================================================
+//
+// R_InitTransparency8Tables
+//
+//==============================================================================
+procedure R_InitTransparency8Tables;
+var
+  pal: PByteArray; // Palette lump data
+  lump: integer;
+  r1, r2, r3, r4, r5: approxparms_t;
+begin
+  if trans8tablescalced then
+    exit;
+
+// Expand WAD palette to longword values
+  lump := W_GetNumForName('PLAYPAL');
+  numapproxcolorstructitem := W_LumpLength(lump) div 768;
+  approxcolorstruct := mallocz(numapproxcolorstructitem * SizeOf(approxcolorstructitem_t));
+
+  pal := W_CacheLumpNum(lump, PU_STATIC);
+  r1.pal := pal;
+  r1.id := 0;
+  r2.pal := pal;
+  r2.id := 1;
+  r3.pal := pal;
+  r3.id := 2;
+  r4.pal := pal;
+  r4.id := 3;
+  r5.pal := pal;
+  r5.id := 4;
+
+  if usemultithread then
+    MT_Execute(
+      @R_MakeTrans8_thr, pal,
+      @R_MakeAdd8_thr, pal,
+      @R_MakeSub8_thr, pal,
+      @R_MakeApprox_thr, @r1,
+      @R_MakeApprox_thr, @r2,
+      @R_MakeApprox_thr, @r3,
+      @R_MakeApprox_thr, @r4,
+      @R_MakeApprox_thr, @r5
+    )
+  else
+  begin
+    R_MakeTrans8_thr(pal);
+    R_MakeAdd8_thr(pal);
+    R_MakeSub8_thr(pal);
+    R_MakeApprox_thr(@r1);
+    R_MakeApprox_thr(@r2);
+    R_MakeApprox_thr(@r3);
+    R_MakeApprox_thr(@r4);
+    R_MakeApprox_thr(@r5);
+  end;
+
+  approxcolorindexarray := @approxcolorstruct[0].table[0];
+  currpalettehash := approxcolorstruct[0].hash[0];
 
   Z_ChangeTag(pal, PU_CACHE);
   trans8tablescalced := true;
@@ -428,8 +536,25 @@ end;
 var
   last8pal: array[0..255] of LongWord;
   overflowapproxcolorindexarray: approxcolorindexarray_t;
-  last_pal_index: integer;
-  last_gamma: integer;
+
+//==============================================================================
+//
+// R_PaletteEquals
+//
+//==============================================================================
+function R_PaletteEquals(const p1, p2: PLongWordArray): Boolean;
+var
+  i: integer;
+begin
+  for i := 0 to 255 do
+    if p1[i] <> p2[i] then
+    begin
+      Result := False;
+      Exit;
+    end;
+
+  Result := True;
+end;
 
 //==============================================================================
 //
@@ -447,22 +572,10 @@ begin
   if videomode = vm32bit then
     exit;
 
-  if (last_pal_index = cur_pal_index) and (last_gamma = usegamma) then
-    exit;
-
-  last_pal_index := cur_pal_index;
-  last_gamma := usegamma;
-  if IsIntegerInRange(last_pal_index, 0, numapproxcolorstructitem - 1) then
-    if IsIntegerInRange(last_gamma, 0, GAMMASIZE - 1) then
-    begin
-      approxcolorindexarray := @approxcolorstruct[last_pal_index].table[usegamma];
-      exit;
-    end;
-
   {$IFDEF DOOM_OR_STRIFE}
   pal := @cvideopal;
   {$ELSE}
-  pal := @videopal;
+  pal := @curpal;
   {$ENDIF}
 
   changed := -1;
@@ -482,11 +595,12 @@ begin
   currpalettehash := R_GetPaletteHash(pal);
 
   for i := 0 to numapproxcolorstructitem - 1 do
-    if currpalettehash = approxcolorstruct[i].hash then
-    begin
-      approxcolorindexarray := @approxcolorstruct[i].table;
-      exit;
-    end;
+    if currpalettehash = approxcolorstruct[i].hash[usegamma] then
+      if R_PaletteEquals(pal, @approxcolorstruct[i].palette[usegamma]) then
+      begin
+        approxcolorindexarray := @approxcolorstruct[i].table[usegamma];
+        exit;
+      end;
 
   approxcolorindexarray := @overflowapproxcolorindexarray;
 

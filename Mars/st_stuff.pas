@@ -48,7 +48,9 @@ const
 
 var
   st_palette: integer;
-  lu_palette: integer;  // lump number for PLAYPAL
+  st_gamma: integer = -1;
+// lump number for PLAYPAL
+  lu_palette: integer;
 
 //==============================================================================
 // ST_Responder
@@ -142,6 +144,7 @@ uses
   s_sound,
 // Needs access to LFB.
   v_data,
+  v_video,
 // State.
   doomstat,
 // Data.
@@ -772,9 +775,10 @@ begin
   if Psubsector_t(plyr.mo.subsector).sector.renderflags and SRF_UNDERWATER <> 0 then
     palette := palette + 14;
 
-  if palette <> st_palette then
+  if (palette <> st_palette) or (usegamma <> st_gamma) then
   begin
     st_palette := palette;
+    st_gamma := usegamma;
     {$IFDEF OPENGL}
     gld_SetPalette(palette);
     {$ELSE}
