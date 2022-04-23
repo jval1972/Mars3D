@@ -777,8 +777,8 @@ type
     procedure Insert(Index: Integer; const S: string); virtual; abstract;
     procedure InsertObject(Index: Integer; const S: string;
       AObject: TObject);
-    function  LoadFromFile(const FileName: string): boolean; virtual;
-    function  LoadFromStream(const strm: TDStream): boolean; virtual;
+    function LoadFromFile(const FileName: string): boolean; virtual;
+    function LoadFromStream(const strm: TDStream): boolean; virtual;
     procedure Move(CurIndex, NewIndex: Integer); virtual;
     function SaveToFile(const FileName: string): boolean; virtual;
     procedure SetText(Text: PChar); virtual;
@@ -1456,6 +1456,11 @@ function readablestring(const s: string): string;
 //==============================================================================
 function CharPos(const ch: Char; const s: string): integer;
 
+//==============================================================================
+//
+// FillDWord
+//
+//==============================================================================
 procedure FillDWord(const dest: Pointer; Count: Integer; Value: LongWord); assembler; register;
 
 implementation
@@ -6883,6 +6888,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// FillDWord
+//
+//==============================================================================
 procedure FillDWord(const dest: Pointer; Count: Integer; Value: LongWord); assembler; register;
 asm
   push edi
