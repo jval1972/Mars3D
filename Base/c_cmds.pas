@@ -165,7 +165,7 @@ begin
   end
   else
   begin
-    splitstring(name, name1, name2, CMDSPLITSTR);
+    splitstring_ch(name, name1, name2, CMDSPLITSTR);
     C_AddCmd(name1, proc);
     C_AddCmd(name2, proc);
   end;
@@ -181,7 +181,7 @@ var
   name1,
   parm: string;
 begin
-  splitstring(name, name1, parm);
+  splitstring_ch(name, name1, parm);
   result := C_ExecuteCmd(name1, parm);
 end;
 
@@ -195,7 +195,7 @@ var
   parm1,
   parm2: string;
 begin
-  splitstring(parm, parm1, parm2);
+  splitstring_ch(parm, parm1, parm2);
   result := C_ExecuteCmd(name, parm1, parm2);
 end;
 
