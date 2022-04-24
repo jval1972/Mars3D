@@ -638,7 +638,7 @@ begin
     exit;
   end;
 
-  if Pos('.', fname) = 0 then
+  if CharPos('.', fname) = 0 then
     fname1 := fname + '.txt'
   else
     fname1 := fname;
@@ -674,7 +674,7 @@ begin
     exit;
   end;
 
-  if Pos('.', fname) = 0 then
+  if CharPos('.', fname) = 0 then
     fname1 := fname + '.txt'
   else
     fname1 := fname;
@@ -710,7 +710,7 @@ begin
     exit;
   end;
 
-  if Pos('.', fname) = 0 then
+  if CharPos('.', fname) = 0 then
     fname1 := fname + '.txt'
   else
     fname1 := fname;
@@ -746,7 +746,7 @@ begin
     exit;
   end;
 
-  if Pos('.', fname) = 0 then
+  if CharPos('.', fname) = 0 then
     fname1 := fname + '.txt'
   else
     fname1 := fname;

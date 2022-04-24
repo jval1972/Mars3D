@@ -129,7 +129,7 @@ begin
     exit;
   end;
 
-  if Pos('.', filename) = 0 then
+  if CharPos('.', filename) = 0 then
     fname := filename + '.lmp'
   else
     fname := filename;

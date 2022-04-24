@@ -832,7 +832,7 @@ var
     len1, len2: integer;
   begin
     sgoto1 := strremovespaces(sgoto);
-    Result := Pos(st, sgoto1) = 1;
+    Result := Pos1(st, sgoto1);
     if Result then
     begin
       len1 := Length(sgoto1);

@@ -987,7 +987,7 @@ begin
   if fnames = '' then
     exit;
 
-  if Pos(';', fnames) > 0 then
+  if CharPos(';', fnames) > 0 then
     splitstring_ch(fnames, s1, s2, ';')
   else
     splitstring_ch(fnames, s1, s2, ',');
@@ -1008,7 +1008,7 @@ begin
   if fnames = '' then
     exit;
 
-  if Pos(';', fnames) > 0 then
+  if CharPos(';', fnames) > 0 then
     splitstring_ch(fnames, s1, s2, ';')
   else
     splitstring_ch(fnames, s1, s2, ',');
@@ -1531,8 +1531,8 @@ begin
   for i := wadfiles.Count - 1 downto 0 do
   begin
     wad := strupper(fname(wadfiles[i]));
-    if Pos('.', wad) > 0 then
-      wad := Copy(wad, 1, Pos('.', wad) - 1);
+    if CharPos('.', wad) > 0 then
+      wad := Copy(wad, 1, CharPos('.', wad) - 1);
     if Pos(',' + wad + ',', ',' + gamedirectorystring + ',') = 0 then
       gamedirectorystring := wad + ',' + gamedirectorystring;
   end;
@@ -1746,7 +1746,7 @@ begin
   if (p <> 0) and (p < myargc - 1) then
   begin
     inc(p);
-    if Pos('.', myargv[p]) > 0 then
+    if CharPos('.', myargv[p]) > 0 then
       filename := myargv[p]
     else
       sprintf(filename,'%s.lmp', [myargv[p]]);
