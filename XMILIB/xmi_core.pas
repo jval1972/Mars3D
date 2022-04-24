@@ -269,6 +269,9 @@ implementation
 
 {$R *.dfm}
 
+uses
+  d_delphi;
+
 //==============================================================================
 //
 // SongData_PutInt
@@ -11402,7 +11405,7 @@ begin
   begin
     S := '';
     SongData_GetStr('HERAD_Inst#' + IntToStr(I), S);
-    if Pos('0 ', S) = 1 then
+    if Pos1('0 ', S) then
     begin
       S[1] := '1';
       SongData_PutStr('HERAD_Inst#' + IntToStr(I), S);
