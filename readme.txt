@@ -62,6 +62,7 @@ Fixed dynamic lights problem with palette changes and gamma changes in 8 bit col
 Speed optimizations to PascalScript initialization.
 Speed optimizations to startup memo text output.
 Displays loading time at startup.
+Speed optimizations to ACTORDEF parsing.
 
 Version 1.0.12.753 (20220410)
 -----------------
