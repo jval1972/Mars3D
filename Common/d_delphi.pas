@@ -6915,7 +6915,7 @@ end;
 // Pos1
 //
 //==============================================================================
-function Pos1(const subs, s: ansistring): boolean;
+function Pos1(const subs, s: string): boolean;
 var
   len1, len1b, len2: integer;
   i: integer;
