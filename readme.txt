@@ -29,7 +29,7 @@
 This is a source port of the DOS game 終極戰士 [Mars - The Ultimate Fighter]
 
        In order to run the game you must have the game data.
-     The english translation of the game can be downloaded at:
+     The English translation of the game can be downloaded at:
              https://mars3d-game.wixsite.com/index
 
 
@@ -55,9 +55,9 @@ Fixed glitch in voxel software rendering.
 Corrections to external textures caching in software rendering mode.
 Fixed problem with lump reading when a namespace was required.
 It will load KVX voxels even if the ".kvx" extension is not defined in VOXELDEF.
-Improved ZDoom compatiblility in VOXELDEF lumps.
+Improved ZDoom compatibility in VOXELDEF lumps.
 Speed optimizations to ACTORDEF parsing.
-8bit trasparency LUTs are calculated in multiple threads to speed-up startup.
+8bit transparency LUTs are calculated in multiple threads to speed-up startup.
 Fixed dynamic lights problem with palette changes and gamma changes in 8 bit color mode.
 Speed optimizations to PascalScript initialization.
 Speed optimizations to startup memo text output.
@@ -73,22 +73,22 @@ Fixed missileheight ACTORDEF export.
 Fix of OPENARRAYOFU16 and OPENARRAYOFS16 declarations (PascalScript).
 Fix ReadParameters not setting parameter parser positions even though ValidateParameters does use them (PascalScript).
 Fixed masked middle texture bleeding when player was exactly placed on the line.
-Small optimization to masked middle textute rendering.
+Small optimization to masked middle texture rendering.
 Fixed misspelled of "joystick" in the menus.
 Speed optimizations in R_PointToAngleEx().
-Speed optimizations to sofrware rendering.
+Speed optimizations to software rendering.
 Improved priority logic for sound channel selection.
 Small optimization to sprite rendering.
 Added support for tall patches in PNG format.
 Use general purpose threads in 8 bit software rendering blit.
 Optimizations in voxel software rendering.
-Fixes to 3d colissions of actors moving up or down other actors.
+Fixes to 3d collisions of actors moving up or down other actors.
 Default sound channels raised to 32, maximum sound channels raised to 64.
 Improved multithreading handling in software rendering mode.
 Added dotestactivethreads console variable, when it's set to true (default) the engine will tweak active threads without workload.
 Small optimizations to plane rendering (software mode).
 Fixed missiles not exploding in lower textures with sky ceiling.
-Added SPIN field in VOXELDEF lumps, it compines DROPPEDSPIN & PLACEDSPIN behavior.
+Added SPIN field in VOXELDEF lumps, it combines DROPPEDSPIN & PLACEDSPIN behavior.
 If depthbuffer is active will draw sprites from front to back to avoid overdraw.
 Fixed some glitches in software rendering regarding voxels and 3d floors.
 Speed optimizations to slope software rendering.
@@ -114,7 +114,7 @@ The strength of the underwater effect can be configured from the menu. (Menu/Dis
 Version 1.0.10.747 (20220115)
 -----------------
 Fix gravity field inheritance in ACTORDEF declarations.
-TWadReader() error cheching.
+TWadReader() error checking.
 String evaluation in parameters of ACTORDEF functions.
 Speed optimizations to script library.
 Infinite state cycle error message will display the actor's name.
@@ -141,7 +141,7 @@ Added ACTORDEF functions:
  -A_GoToIfTracerCustomParam(param: string, value: integer, state: state_t)
  -A_GoToIfTracerCustomParamLess(param: string, value: integer, state: state_t)
  -A_GoToIfTracerCustomParamGreater(param: string, value: integer, state: state_t)
-Evalueate actor flags in ACTORDEF functions parameters with the FLAG() function.
+Evaluate actor flags in ACTORDEF functions parameters with the FLAG() function.
 A_JumpXXXX() ACTORDEF functions will recognize the RANDOM & RANDOMPICK keywords for setting offset.
 Actor evaluator can access player's mobj in weapon functions.
 Fixed rocket explode sound.
