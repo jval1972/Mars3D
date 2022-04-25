@@ -91,7 +91,8 @@ type
     function MatchString(const str: string): boolean; overload;
     function MatchPosString(const str: string): boolean;
     function MustMatchString(strs: TDStringList): integer;
-    function Compare(const txt: string): boolean;
+    function Compare(const txt: string): boolean; overload;
+    function Compare(const txt: string; const scmp: string): boolean; overload;
     procedure AddAlias(const src, dest: string);
     procedure ClearAliases;
     property _Integer: integer read sc_Integer;
@@ -403,7 +404,7 @@ begin
     if code <> 0 then
     begin
       for i := 1 to Length(str) do
-        if str[i] in ['.', ','] then
+        if str[i] = ',' then
           str[i] := '.';
       val(str, sc_Float, code);
       if code <> 0 then
@@ -474,10 +475,12 @@ function TScriptEngine.MatchString(const strs: TDStringList): integer;
 // array of strings, or -1 if not found.
 var
   i: integer;
+  scmp: string;
 begin
+  scmp := strupper(fToken);
   for i := 0 to strs.Count - 1 do
   begin
-    if Compare(strs.Strings[i]) then
+    if Compare(strs.Strings[i], scmp) then
     begin
       result := i;
       exit;
@@ -522,6 +525,16 @@ end;
 function TScriptEngine.Compare(const txt: string): boolean;
 begin
   result := strupper(txt) = strupper(fToken);
+end;
+
+//==============================================================================
+//
+// TScriptEngine.Compare
+//
+//==============================================================================
+function TScriptEngine.Compare(const txt: string; const scmp: string): boolean;
+begin
+  result := strupper(txt) = scmp;
 end;
 
 //==============================================================================
@@ -669,7 +682,7 @@ begin
   else
   begin // Normal string
     while (ScriptPtr^ > Chr(32)) and (ScriptPtr < ScriptEndPtr) and
-          (PWord(ScriptPtr)^ <> ASCII_COMMENT) and (not (ScriptPtr^ in ['{', '}', '(', ')', ','])) do
+          (PWord(ScriptPtr)^ <> ASCII_COMMENT) and not (ScriptPtr^ in ['{', '}', '(', ')', ',']) do
     begin
       txt^ := ScriptPtr^;
       inc(txt);
@@ -681,7 +694,9 @@ begin
     end;
   end;
   txt^ := Chr(0);
-  if ignonelist.IndexOf(strupper(StringVal(sc_String))) < 0 then
+  if ignonelist.Count = 0 then
+    result := true
+  else if ignonelist.IndexOf(strupper(StringVal(sc_String))) < 0 then
     result := true
   else
     Result := GetString;
@@ -825,7 +840,7 @@ begin
       p := Pos('//', stmp);
       if p > 0 then
         stmp := Copy(stmp, 1, p - 1);
-      p := Pos(';', stmp);
+      p := CharPos(';', stmp);
       if p > 0 then
         stmp := Copy(stmp, 1, p - 1);
       if stmp <> '' then
@@ -962,7 +977,8 @@ begin
         //I_Warning ....
         parenthesislevel := 0;
       end;
-    end else if inp[i] = '"' then
+    end
+    else if inp[i] = '"' then
       inquotes := not inquotes;
   end;
   trimproc(stmp);
