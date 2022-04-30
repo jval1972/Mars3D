@@ -64,6 +64,7 @@ Speed optimizations to startup memo text output.
 Displays loading time at startup.
 Speed optimizations to ACTORDEF parsing.
 Optimized DEHACKED csv export.
+Fix problem when starting from different folder than the executable. (https://www.doomworld.com/forum/topic/92113-delphidoom-207734-udmf-umapinfo-mbf21-apr-28-2022/?do=findComment&comment=2487932)
 
 Version 1.0.12.753 (20220410)
 -----------------
