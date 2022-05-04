@@ -51,6 +51,8 @@ Features:
 
 History
 -------
+Version 1.0.13.755 (20220504)
+------------------
 Fixed glitch in voxel software rendering.
 Corrections to external textures caching in software rendering mode.
 Fixed problem with lump reading when a namespace was required.
@@ -68,7 +70,7 @@ Fix problem when starting from different folder than the executable. (https://ww
 Fixed potential drawing problem in OpenGL mode when changing screen resolution.
 
 Version 1.0.12.753 (20220410)
------------------
+------------------
 Use 64 characters long string for short names in PK3.
 Added "DROPPED ITEM" alias for "DROPITEM" DEHACKED field.
 Fix wrong coordinates check in sight check.
