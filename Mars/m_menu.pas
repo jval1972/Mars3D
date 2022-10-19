@@ -3234,7 +3234,7 @@ var
   ppos: menupos_t;
 begin
   M_DrawHeadLine(15, 'Display Options');
-  M_DrawSubHeadLine(40, 'Appearence');
+  M_DrawSubHeadLine(40, 'Appearance');
 
   ppos := M_WriteTextOption(OptionsDisplayAppearanceDef.x, OptionsDisplayAppearanceDef.y + OptionsDisplayAppearanceDef.itemheight * Ord(od_shademenubackground), 'Menu background: ', _MA_LEFT or _MC_UPPER);
   M_WriteTextValue(ppos.x, ppos.y, menubackrounds[shademenubackground mod 3], _MA_LEFT or _MC_UPPER);
@@ -5402,7 +5402,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := 'Appearence';
+  pmi.name := 'Appearance';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayAppearance;
   pmi.pBoolVal := nil;
