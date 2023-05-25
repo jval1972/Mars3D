@@ -641,7 +641,7 @@ begin
   if N <> 4 then
   begin
     close(F);
-    I_Warning('TPakManager.PAddFile(): Can read file "%s"'#13#10, [FileName]);
+    I_Warning('TPakManager.PAddFile(): Can not read file "%s"'#13#10, [FileName]);
     exit;
   end;
   sId := Chr(Id and $FF) + Chr((Id shr 8) and $FF) + Chr((Id shr 16) and $FF) + Chr((Id shr 24) and $FF);
