@@ -284,6 +284,7 @@ procedure SUC_SetGameMode(const s: string);
 begin
   StartUpConsoleForm.GameLabel.Caption := s;
   StartUpConsoleForm.GamePanel.Visible := true;
+  StartUpConsoleForm.GamePanel.Repaint;
 end;
 
 //==============================================================================
