@@ -51,6 +51,8 @@ Features:
 
 History
 -------
+Creative Voice File inside WAD
+
 Version 1.0.13.755 (20220504)
 ------------------
 Fixed glitch in voxel software rendering.
